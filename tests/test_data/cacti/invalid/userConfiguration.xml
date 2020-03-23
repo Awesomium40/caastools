@@ -1,0 +1,547 @@
+<userConfiguration name="CAMI_CACTI_1.0">
+    <codes codingPropertyName="MISC">
+        <!-- Therapist codes -->
+        
+        <!--Questions-->
+        <code name="QU" value="1000" description="Question" role="T" mico="NA" isSummary="1" summaryMode="sum"/>
+        
+        <!--Open Questions-->
+        <code name="QUO" value="1100" description="Open Question" role="T" mico="Y" isSummary="1" summaryMode="sum" parent="1000"/>
+        <code name="QUO-CT" value="1110" description="Open Question-CT" role="T" mico="Y" isSummary="1" summaryMode="sum" parent="1100"/>
+        <code name="QUO-CTD" value="1111" description="Open Question-CTD" role="T" mico="Y" isSummary="0" parent="1110"/>
+        <code name="QUO-CTP" value="1112" description="Open Question-CTP" role="T" mico="Y" isSummary="0" parent="1110"/>
+        <!--The line below should cause a failed upload because it is identical to the code above-->
+        <code name="QUO-CTP" value="1112" description="Open Question-CTP" role="T" mico="Y" isSummary="0" parent="1110"/>
+        
+        <code name="QUO-ST" value="1120" description="Open Question-ST" role="T" mico="Y" isSummary="1" summaryMode="sum" parent="1100"/>
+        <code name="QUO-STD" value="1121" description="Open Question-STD" role="T" mico="Y" isSummary="0" parent="1120"/>
+        <code name="QUO-STP" value="1122" description="Open Question-STP" role="T" mico="Y" isSummary="0" parent="1120"/>
+        
+
+        <code name="QUO-MT" value="1130" description="Open Question-MT" role="T" mico="Y" isSummary="1" summaryMode="sum" parent="1100"/>
+        <code name="QUO-N" value="1140" description="Open Question-Neutral" role="T" mico="Y" isSummary="0" parent="1100"/>
+        
+        <!--Closed Questions-->
+        <code name="QUC" value="1200" description="Closed Question" role="T" mico="NA" isSummary="1" summaryMode="sum" parent="1000"/>
+        <code name="QUC-CT" value="1210" description="Closed Question-CT" role="T" mico="NA" isSummary="1" summaryMode="sum" parent="1200"/>
+        <code name="QUC-CTD" value="1211" description="Closed Question-CTD" role="T" mico="NA" isSummary="0" parent="1210"/>
+        <code name="QUC-CTP" value="1212" description="Closed Question-CTP" role="T" mico="NA" isSummary="0" parent="1210"/>
+        
+        <code name="QUC-ST" value="1220" description="Closed Question-ST" role="T" mico="NA" isSummary="1" summaryMode="sum" parent="1200"/>
+        <code name="QUC-STD" value="1221" description="Closed Question-STD" role="T" mico="NA" isSummary="0" parent="1220"/>
+        <code name="QUC-STP" value="1222" description="Closed Question-STP" role="T" mico="NA" isSummary="0" parent="1220"/>
+        
+        <code name="QUC-MT" value="1230" description="Closed Question-MT" role="T" mico="NA" isSummary="0" parent="1200"/>
+        
+        <code name="QUC-N" value="1240" description="Closed Question-Neutral" role="T" mico="NA" isSummary="0" parent="1200"/>
+
+        
+        <!--Reflections-->
+        <code name="RE" value="2000" description="Reflection" role="T" mico="Y" isSummary="1" summaryMode="sum" />
+        
+        <!--Simple Reflections-->
+        <code name="RES" value="2100" description="Simple Reflection" role="T" mico="Y" isSummary="1" summaryMode="sum" parent="2000"/>
+        
+        <code name="RES-CT" value="2110" description="Simple Reflection-CT" role="T" mico="Y" isSummary="1" summaryMode="sum" parent="2100"/>
+        <code name="RES-CTD" value="2111" description="Simple Reflection-CTD" role="T" mico="Y" isSummary="0" parent="2110"/>
+        <code name="RES-CTP" value="2112" description="Simple Reflection-CTP" role="T" mico="Y" isSummary="0" parent="2110"/>
+        
+        <code name="RES-ST" value="2120" description="Simple Reflection-ST" role="T" mico="Y" isSummary="1" summaryMode="sum" parent="2100"/>
+        <code name="RES-STD" value="2121" description="Simple Reflection-STD" role="T" mico="Y" isSummary="0" parent="2120"/>
+        <code name="RES-STP" value="2122" description="Simple Reflection-STP" role="T" mico="Y" isSummary="0" parent="2120"/>
+        
+        <code name="RES-MT" value="2130" description="Simple Reflection-MT" role="T" mico="Y" isSummary="0" parent="2100"/>
+        
+        <code name="RES-N" value="2140" description="Simple Reflection-Neutral/Ambivalence" role="T" mico="Y" isSummary="0" parent="2100"/>
+        
+        <!--Complex Reflections-->
+        <code name="REC" value="2200" description="Complex Reflection" role="T" mico="Y" isSummary="1" summaryMode="sum" parent="2000"/>
+        
+        <code name="REC-CT" value="2210" description="Complex Reflection-CT" role="T" mico="Y" isSummary="1" summaryMode="sum" parent="2200"/>
+        <code name="REC-CTD" value="2211" description="Complex Reflection-CTD" role="T" mico="Y" isSummary="0" parent="2210"/>
+        <code name="REC-CTP" value="2212" description="Complex Reflection-CTP" role="T" mico="Y" isSummary="0" parent="2210"/>
+        
+        <code name="REC-ST" value="2220" description="Complex Reflection-ST" role="T" mico="Y" isSummary="1" summaryMode="sum" parent="2200"/>
+        <code name="REC-STD" value="2221" description="Complex Reflection-STD" role="T" mico="Y" isSummary="0" parent="2220"/>
+        <code name="REC-STP" value="2222" description="Complex Reflection-STP" role="T" mico="Y" isSummary="0" parent="2220"/>
+        
+        <code name="REC-MT" value="2230" description="Complex Reflection-MT" role="T" mico="Y" isSummary="0" parent="2200"/>
+        
+        <code name="REC-N" value="2240" description="Complex Reflection-Neutral/Ambivalent" role="T" mico="Y" isSummary="0" parent="2200"/>
+        
+        <!--Advise-->
+        <code name="ADV" value="3000" description="Advise" role="T" mico="NA" isSummary="1" summaryMode="sum"/>
+        <code name="ADVP" value="3100" description="Advise with Permission" role="T" mico="Y" isSummary="0" parent="3000"/>
+        <code name="ADVW" value="3200" description="Advise without Permission" role="T" mico="N" isSummary="0" parent="3000"/>
+        
+        <!--Other codes-->
+        <code name="RC" value="4000" description="Raise Concern" role="T" mico="NA" isSummary="1" summaryMode="sum"/>
+        <code name="RCP" value="4100" description="Raise Concern with Permission" role="T" mico="Y" isSummary="0" parent="4000"/>
+        <code name="RCW" value="4200" description="Raise Concern without Permission" role="T" mico="N" isSummary="0" parent="4000"/>
+        
+        <code name="Tx-OTHER" value="5000" description="Other" role="T" mico="N" isSummary="1" summaryMode="sum"/>
+        
+        <!--MICO Other-->
+        <code name="NEL-MICO" value="5100" description="MI Consistent: Non-Eliciting" role="T" mico="Y" isSummary="1" summaryMode="sum"/>
+        <code name="AF" value="5110" description="Affirm" role="T" mico="Y" isSummary="0" parent="5100"/>
+        <code name="EC" value="5120" description="Emphasize control" role="T" mico="Y" isSummary="0" parent="5100"/>
+        <!--
+        <code name="RF" value="5130" description="Reframe" role="T" mico="NA" />
+        -->
+        <code name="SU" value="5140" description="Support" role="T" mico="Y" isSummary="0" parent="5100"/>
+        
+        <!--MIIN Other-->
+        <code name="NEL-MIIN" value="5200" description="MI Inconsistent: Non-Eliciting" role="T" mico="Y" isSummary="1" summaryMode="sum"/>
+        <code name="CO" value="5210" description="Confront" role="T" mico="N" isSummary="0" parent="5200"/>
+        <code name="DI" value="5220" description="Direct" role="T" mico="N" isSummary="0" parent="5200"/>
+        <code name="WA" value="5230" description="Warn" role="T" mico="N" isSummary="0" parent="5200"/>
+        
+        <!--miscellany-->
+        <code name="Tx-OTHER-MISC" value="5300" description = "Other Misc Tx codes" role="T" mico="NA" isSummary="1" summaryMode="sum"/>
+        <code name="FA" value="5310" description="Facilitate" role="T" mico="NA" isSummary="0"  parent="5300"/>
+        <code name="FI" value="5320" description="Filler" role="T" mico="NA" isSummary="0"  parent="5300"/>
+        <code name="GI" value="5330" description="Giving Information" role="T" mico="NA" isSummary="0"  parent="5300"/> 
+        <code name="ST" value="5340" description="Structure" role="T" mico="NA" isSummary="0"  parent="5300"/>
+        
+        <!-- Client codes -->
+        <code name="ClientLanguage" value="10000" description="Umbrella code for client language" role="C" isSummary="1" summaryMode="sum"/>
+        <code name="ChangeTalk" value="100000" description="Change talk" role="C" isSummary="1" summaryMode="sum" parent="10000"/>
+        <code name="CTD" value="110000" description="Change talk-Distal" role="C" isSummary="1" summaryMode="sum" parent="100000"/>
+        <code name="CTP" value="120000" description="Change talk-Proximal" role="C" isSummary="1" summaryMode="sum" parent="100000"/>
+        
+        <code name="SustainTalk" value="200000" description="Sustain talk" role="C" isSummary="1" summaryMode="sum" parent="10000"/>
+        <code name="STD" value="210000" description="Sustain talk-Distal" role="C" isSummary="1" summaryMode="sum" parent="200000"/>
+        <code name="STP" value="220000" description="Sustain talk-Proximal" role="C" isSummary="1" summaryMode="sum" parent="200000"/>
+        
+        <!--Reason-->
+        <code name="RD+" value="11110" description="Reason-Distal Positive" role="C" isSummary="1" summaryMode="sum" parent="110000"/>
+        <code name="RD+1" value="11111" description="Reason-Distal+1" role="C" isSummary="0" parent="11110"/>
+        <code name="RD+2" value="11112" description="Reason-Distal+2" role="C" isSummary="0" parent="11110"/>
+        <code name="RD+3" value="11113" description="Reason-Distal+3" role="C" isSummary="0" parent="11110"/>
+        
+        <code name="RD-" value="11120" description="Reason-Distal Negative" role="C" isSummary="1" summaryMode="sum" parent="210000"/>
+        <code name="RD-1" value="11121" description="Reason-Distal-1" role="C" isSummary="0" parent="11120"/>
+        <code name="RD-2" value="11122" description="Reason-Distal-2" role="C" isSummary="0" parent="11120"/>
+        <code name="RD-3" value="11123" description="Reason-Distal-3" role="C" isSummary="0" parent="11120"/>
+        
+        <code name="RP+" value="11210" description="Reason-Proximal Positive" role="C" isSummary="1" summaryMode="sum" parent="120000"/>
+        <code name="RP+1" value="11211" description="Reason-Proximal+1" role="C" isSummary="0" parent="11210"/>
+        <code name="RP+2" value="11212" description="Reason-Proximal+2" role="C" isSummary="0" parent="11210"/>
+        <code name="RP+3" value="11213" description="Reason-Proximal+3" role="C" isSummary="0" parent="11210"/>
+        <code name="RP-" value="11220" description="Reason-Proximal Negative" role="C" isSummary="1" summaryMode="sum" parent="220000"/>
+        <code name="RP-1" value="11221" description="Reason-Proximal-1" role="C" isSummary="0" parent="11220"/>
+        <code name="RP-2" value="11222" description="Reason-Proximal-2" role="C" isSummary="0" parent="11220"/>
+        <code name="RP-3" value="11223" description="Reason-Proximal-3" role="C" isSummary="0" parent="11220"/>
+        
+        <!--Ability-->   
+        <code name="AD+" value="12110" description="Ability-Distal Positive" role="C" isSummary="1" summaryMode="sum" parent="110000"/>
+        <code name="AD+1" value="12111" description="Ability-Distal+1" role="C" isSummary="0" parent="12110"/>
+        <code name="AD+2" value="12112" description="Ability-Distal+2" role="C" isSummary="0" parent="12110"/>
+        <code name="AD+3" value="12113" description="Ability-Distal+3" role="C" isSummary="0" parent="12110"/>
+        
+        <code name="AD-" value="12120" description="Ability-Distal negative" role="C" isSummary="1" summaryMode="sum" parent="210000"/>
+        <code name="AD-1" value="12121" description="Ability-Distal-1" role="C" isSummary="0" parent="12120"/>
+        <code name="AD-2" value="12122" description="Ability-Distal-2" role="C" isSummary="0" parent="12120"/>
+        <code name="AD-3" value="12123" description="Ability-Distal-3" role="C" isSummary="0" parent="12120"/>
+        
+        <code name="AP+" value="12210" description="Ability-Proximal Positive" role="C" isSummary="1" summaryMode="sum" parent="120000"/>
+        <code name="AP+1" value="12211" description="Ability-Proximal+1" role="C" isSummary="0" parent="12210"/>
+        <code name="AP+2" value="12212" description="Ability-Proximal+2" role="C" isSummary="0" parent="12210"/>
+        <code name="AP+3" value="12213" description="Ability-Proximal+3" role="C" isSummary="0" parent="12210"/>
+        
+        <code name="AP-" value="12220" description="Ability-Proximal Negative" role="C" isSummary="1" summaryMode="sum" parent="220000"/>
+        <code name="AP-1" value="12221" description="Ability-Proximal-1" role="C" isSummary="0" parent="12220"/>
+        <code name="AP-2" value="12222" description="Ability-Proximal-2" role="C" isSummary="0" parent="12220"/>
+        <code name="AP-3" value="12223" description="Ability-Proximal-3" role="C" isSummary="0" parent="12220"/>
+        
+        <!--Taking Steps-->        
+        <code name="TSD+" value="13110" description="Taking Steps-Distal Positive" role="C" isSummary="1" summaryMode="sum" parent="110000"/>
+        <code name="TSD+1" value="13111" description="Taking Steps-Distal+1" role="C" isSummary="0" parent="13110"/>
+        <code name="TSD+2" value="13112" description="Taking Steps-Distal+2" role="C" isSummary="0" parent="13110"/>
+        <code name="TSD+3" value="13113" description="Taking Steps-Distal+3" role="C" isSummary="0" parent="13110"/>
+        
+        <code name="TSD-" value="13120" description="Taking Steps-Distal Negative" role="C" isSummary="1" summaryMode="sum" parent="210000"/>
+        <code name="TSD-1" value="13121" description="Taking Steps-Distal-1" role="C" isSummary="0" parent="13120"/>
+        <code name="TSD-2" value="13122" description="Taking Steps-Distal-2" role="C" isSummary="0" parent="13120"/>
+        <code name="TSD-3" value="13123" description="Taking Steps-Distal-3" role="C" isSummary="0" parent="13120"/>
+        
+        <code name="TSP+" value="13210" description="Taking Steps-Proximal Positive" role="C" isSummary="1" summaryMode="sum" parent="120000"/>
+        <code name="TSP+1" value="13211" description="Taking Steps-Proximal+1" role="C" isSummary="0" parent="13210"/>
+        <code name="TSP+2" value="13212" description="Taking Steps-Proximal+2" role="C" isSummary="0" parent="13210"/>
+        <code name="TSP+3" value="13213" description="Taking Steps-Proximal+3" role="C" isSummary="0" parent="13210"/>
+        
+        <code name="TSP-" value="13220" description="Taking Steps-Proximal Negative" role="C" isSummary="1" summaryMode="sum" parent="220000"/>
+        <code name="TSP-1" value="13221" description="Taking Steps-Proximal-1" role="C" isSummary="0" parent="13220"/>
+        <code name="TSP-2" value="13222" description="Taking Steps-Proximal-2" role="C" isSummary="0" parent="13220"/>
+        <code name="TSP-3" value="13223" description="Taking Steps-Proximal-3" role="C" isSummary="0" parent="13220"/>
+        
+        <!--Commitment-->
+        <code name="CD+" value="14110" description="Commitment-Distal Positive" role="C" isSummary="1" summaryMode="sum" parent="110000"/>
+        <code name="CD+1" value="14111" description="Commitment-Distal+1" role="C" isSummary="0" parent="14110"/>
+        <code name="CD+2" value="14112" description="Commitment-Distal+2" role="C" isSummary="0" parent="14110"/>
+        <code name="CD+3" value="14113" description="Commitment-Distal+3" role="C" isSummary="0" parent="14110"/>
+        
+        <code name="CD-" value="14120" description="Commitment-Distal Negative" role="C" isSummary="1" summaryMode="sum" parent="210000"/>
+        <code name="CD-1" value="14121" description="Commitment-Distal-1" role="C" isSummary="0" parent="14120"/>
+        <code name="CD-2" value="14122" description="Commitment-Distal-2" role="C" isSummary="0" parent="14120"/>
+        <code name="CD-3" value="14123" description="Commitment-Distal-3" role="C" isSummary="0" parent="14120"/>
+        
+        <code name="CP+" value="14210" description="Commitment-Proximal Positive" role="C" isSummary="1" summaryMode="sum" parent="120000"/>
+        <code name="CP+1" value="14211" description="Commitment-Proximal+1" role="C" isSummary="0" parent="14210"/>
+        <code name="CP+2" value="14212" description="Commitment-Proximal+2" role="C" isSummary="0" parent="14210"/>
+        <code name="CP+3" value="14213" description="Commitment-Proximal+3" role="C" isSummary="0" parent="14210"/>
+        
+        <code name="CP-" value="14220" description="Commitment-Proximal Negative" role="C" isSummary="1" summaryMode="sum" parent="220000"/>
+        <code name="CP-1" value="14221" description="Commitment-Proximal-1" role="C" isSummary="0" parent="14220"/>
+        <code name="CP-2" value="14222" description="Commitment-Proximal-2" role="C" isSummary="0" parent="14220"/>
+        <code name="CP-3" value="14223" description="Commitment-Proximal-3" role="C" isSummary="0" parent="14220"/>
+        
+        <!--Other-->
+        
+        <code name="OD+" value="15110" description="Other-Distal Positive" role="C" isSummary="1" summaryMode="sum" parent="110000"/>
+        <code name="OD+1" value="15111" description="Other-Distal+1" role="C" isSummary="0" parent="15110"/>
+        <code name="OD+2" value="15112" description="Other-Distal+2" role="C" isSummary="0" parent="15110"/>
+        <code name="OD+3" value="15113" description="Other-Distal+3" role="C" isSummary="0" parent="15110"/>
+        
+        <code name="OD-" value="15120" description="Other-Distal Negative" role="C" isSummary="1" summaryMode="sum" parent="210000"/>
+        <code name="OD-1" value="15121" description="Other-Distal-1" role="C" isSummary="0" parent="15120"/>
+        <code name="OD-2" value="15122" description="Other-Distal-2" role="C" isSummary="0" parent="15120"/>
+        <code name="OD-3" value="15123" description="Other-Distal-3" role="C" isSummary="0" parent="15120"/>
+        
+        <code name="OP+" value="15210" description="Other-Proximal Positive" role="C" isSummary="1" summaryMode="sum" parent="120000"/>
+        <code name="OP+1" value="15211" description="Other-Proximal+1" role="C" isSummary="0" parent="15210"/>
+        <code name="OP+2" value="15212" description="Other-Proximal+2" role="C" isSummary="0" parent="15210"/>
+        <code name="OP+3" value="15213" description="Other-Proximal+3" role="C" isSummary="0" parent="15210"/>
+        
+        <code name="OP-" value="15220" description="Other-Proximal Negative" role="C" isSummary="1" summaryMode="sum" parent="220000"/>
+        <code name="OP-1" value="15221" description="Other-Proximal-1" role="C" isSummary="0" parent="15220"/>
+        <code name="OP-2" value="15222" description="Other-Proximal-2" role="C" isSummary="0" parent="15220"/>
+        <code name="OP-3" value="15223" description="Other-Proximal-3" role="C" isSummary="0" parent="15220"/>
+        
+        <!--Maintain Talk-->
+       
+        <code name="MT" value="16000" description="Maintain Talk" role="C" isSummary="1" summaryMode="sum"/>
+        <code name="MT+1" value="16100" description="Maintain Talk+1" role="C" isSummary="0" parent="16000"/>
+        <code name="MT+2" value="16200" description="Maintain Talk+2" role="C" isSummary="0" parent="16000"/>
+        <code name="MT+3" value="16300" description="Maintain Talk+3" role="C" isSummary="0" parent="16000"/>
+
+        <!--Neutral-->
+        <code name="FN" value="17000" description="Neutral" role="C" isSummary="0"/>
+        <code name="AnyOther" value="0" description="Any Other Code" role="T" isSummary="0" />
+    </codes>
+    
+    <codeControls panel="left" label="Therapist">
+	
+	<row>
+		<group label="QUO">
+			<button code="QUO-CTD"/>
+			<button code="QUO-STD"/>
+			<button code="QUO-CTP"/>
+			<button code="QUO-STP"/>
+			<button code="QUO-MT"/>
+			<button code="QUO-N"/>
+		</group>
+		<group label="QUC">
+			<button code="QUC-CTD"/>
+			<button code="QUC-STD"/>
+			<button code="QUC-CTP"/>
+			<button code="QUC-STP"/>
+			<button code="QUC-MT"/>
+			<button code="QUC-N"/>
+		</group>
+
+
+	</row>
+
+	<row>
+		<group label="RES">
+			<button code="RES-CTD"/>
+			<button code="RES-STD"/>
+			<button code="RES-CTP"/>
+			<button code="RES-STP"/>
+			<button code="RES-MT"/>
+			<button code="RES-N"/>
+		</group>
+		<group label="REC">
+			<button code="REC-CTD"/>
+			<button code="REC-STD"/>
+			<button code="REC-CTP"/>
+			<button code="REC-STP"/>
+			<button code="REC-MT"/>
+			<button code="REC-N"/>
+		</group>
+
+
+	</row>
+
+
+	<row>
+		<group label="Advise">
+			<button code="ADVP"/>
+			<button code="ADVW"/>
+		</group>
+		<group label="RC">
+			<button code="RCP"/>
+			<button code="RCW"/>
+		</group>
+
+
+	</row>
+
+	<row>
+		<group label="Connecting">
+			<button code="AF"/>
+			<button code="EC"/>
+			<button code="SU"/>
+		</group>
+
+		<button code="GI"/>
+
+
+	</row>
+
+	<row>
+		<button code="ST"/>
+
+		<group label="MIIN">
+			<button code="CO"/>
+			<button code="DI"/>
+			<button code="WA"/>
+		</group>
+	</row>
+	<row>
+		<group label="Other">
+			<button code="FA"/>
+			<button code="FI"/>
+		</group>
+	</row>
+
+    </codeControls>
+
+    <codeControls panel="right" label="Client">
+		<row>
+			<group label="RD+">
+
+				<button code="RD+1"/>
+				<button code="RD+2"/>
+				<button code="RD+3"/>
+
+			</group>
+			<group label="RD-">
+
+				<button code="RD-1"/>
+				<button code="RD-2"/>
+				<button code="RD-3"/>
+			</group>
+
+			<group label="RP+">
+
+				<button code="RP+1"/>
+				<button code="RP+2"/>
+				<button code="RP+3"/>
+
+			</group>
+			<group label="RP-">
+
+				<button code="RP-1"/>
+				<button code="RP-2"/>
+				<button code="RP-3"/>
+			</group>	
+		</row>
+
+		<row>
+			<group label="AD+">
+
+				<button code="AD+1"/>
+				<button code="AD+2"/>
+				<button code="AD+3"/>
+
+			</group>
+			<group label="AD-">
+
+				<button code="AD-1"/>
+				<button code="AD-2"/>
+				<button code="AD-3"/>
+			</group>
+
+			<group label="AP+">
+
+				<button code="AP+1"/>
+				<button code="AP+2"/>
+				<button code="AP+3"/>
+
+			</group>
+			<group label="AP-">
+
+				<button code="AP-1"/>
+				<button code="AP-2"/>
+				<button code="AP-3"/>
+			</group>	
+		</row>
+
+		<row>
+			<group label="TSD+">
+
+				<button code="TSD+1"/>
+				<button code="TSD+2"/>
+				<button code="TSD+3"/>
+
+			</group>
+			<group label="TSD-">
+
+				<button code="TSD-1"/>
+				<button code="TSD-2"/>
+				<button code="TSD-3"/>
+			</group>
+
+			<group label="TSP+">
+
+				<button code="TSP+1"/>
+				<button code="TSP+2"/>
+				<button code="TSP+3"/>
+
+			</group>
+			<group label="TSP-">
+
+				<button code="TSP-1"/>
+				<button code="TSP-2"/>
+				<button code="TSP-3"/>
+			</group>	
+		</row>
+
+		<row>
+			<group label="CD+">
+
+				<button code="CD+1"/>
+				<button code="CD+2"/>
+				<button code="CD+3"/>
+
+			</group>
+			<group label="CD-">
+
+				<button code="CD-1"/>
+				<button code="CD-2"/>
+				<button code="CD-3"/>
+			</group>
+
+			<group label="CP+">
+
+				<button code="CP+1"/>
+				<button code="CP+2"/>
+				<button code="CP+3"/>
+
+			</group>
+			<group label="CP-">
+
+				<button code="CP-1"/>
+				<button code="CP-2"/>
+				<button code="CP-3"/>
+			</group>	
+		</row>
+
+		<row>
+			<group label="OD+">
+
+				<button code="OD+1"/>
+				<button code="OD+2"/>
+				<button code="OD+3"/>
+
+			</group>
+			<group label="OD-">
+
+				<button code="OD-1"/>
+				<button code="OD-2"/>
+				<button code="OD-3"/>
+			</group>
+
+			<group label="OP+">
+
+				<button code="OP+1"/>
+				<button code="OP+2"/>
+				<button code="OP+3"/>
+
+			</group>
+			<group label="OP-">
+
+				<button code="OP-1"/>
+				<button code="OP-2"/>
+				<button code="OP-3"/>
+			</group>	
+		</row>
+		<row>
+			<group label="MT">
+				<button code="MT+1"/>
+				<button code="MT+2"/>
+				<button code="MT+3"/>
+			</group>
+
+			<button code="FN"/>
+		</row>
+
+    </codeControls>
+    <globals>
+        <global name="All MISC Globals" isSummary="0" seqUse="0" reverse="0" label="Therapist MISC Globals" type="MISC" value="1000" defaultRating="3" minRating="1" maxRating="5" description="Mean of all MISC Globals"/>
+        <global name="Therapist MISC Globals" isSummary="0" seqUse="0" reverse="0" label="Therapist MISC Globals" type="MISC" value="1100" defaultRating="3" minRating="1" maxRating="5" description="Mean of all Tx Globals" parent="1000"/>       
+        <global name="Spirit" isSummary="1" summaryMode="mean" seqUse="0" reverse="0" label="MI Spirit" type="MISC" value="1110" defaultRating="3" minRating="1" maxRating="5" description="MI Spirit" parent="1100"/>
+        <global name="Collaboration" isSummary="0" seqUse="0" reverse="0" scale="Spirit" label="TherapistCollaboration" description="MISC global: Collaboration" type="MISC" value="1111" defaultRating="3" minRating="1"  maxRating="5" parent="1110"/>
+        <global name="Autonomy" isSummary="0" seqUse="0" reverse="0" scale="Spirit" label="Therapist Autonomy" type="MISC" value="1112" defaultRating="3" minRating="1" maxRating="5" description="MISC global: Autonomy   Support" parent="1110"/>
+        <global name="Evocation" isSummary="0" seqUse="0" reverse="0" scale="Spirit" label="Evocation" description="MISC global: Evocation" type="MISC" value="1113" defaultRating="3" minRating="1" maxRating="5" parent="1110"/>
+               
+        <global name="Acceptance" isSummary="0" seqUse="0" reverse="0" label="Therapist Acceptance" type="MISC" value="1120" defaultRating="3" minRating="1" maxRating="5" description="MISC global: Acceptance"
+                parent="1100"/>
+	    <global name="Empathy" isSummary="0" seqUse="1" reverse="0" label="Therapist Empathy" type="MISC" value="1130" defaultRating="3" minRating="1" maxRating="5" description="MISC global: Empathy"
+                parent="1100"/>
+	    <global name="Direction" isSummary="0" seqUse="0" reverse="0" label="Therapist Direction" type="MISC" value="1140" defaultRating="3" minRating="1" maxRating="5" description="MISC global: Direction"
+                parent="1100"/>
+        
+        <global name="Client MISC Globals" isSummary="0" seqUse="0" reverse="0" label="Client MISC Globals" type="MISC" value="1200" defaultRating="3" minRating="1" maxRating="5" description="Mean of all Client Globals" parent="1000"/>
+	    <global name="ClientSelfExplore" isSummary="0" seqUse="0" reverse="0" label="Client's Self Exploration" description="MISC global: Client Self-Exploration" type="MISC" value="1210" defaultRating="3" minRating="1" maxRating="5" parent="1200"/>
+        
+        <global name="LeeSelfExplore" isSummary="1" summaryMode="mean" seqUse="0" reverse="0" label="Lee Self-Exploration measure" description="Lee Self-Exploration Measure" type="LEE" value="2000" defaultRating="3" minRating="1" maxRating="5"/>
+        <global name="LeeCognitiveExplore" isSummary="0" seqUse="0" reverse="0" label="Lee Self-Exploration measure - Cognitive" description="Lee Self-Exploration measure - Cognitive Subscale" type="LEE" value="2100" defaultRating="3" minRating="1" maxRating="5" parent="2000"/>
+        <global name="LeeEmoExplore" isSummary="0" seqUse="0" reverse="0" label="Lee Self-Exploration measure - Emotional" description="Lee Self-Exploration measure - Emotional Subscale" type="LEE" value="2200" defaultRating="3" minRating="1" maxRating="5" parent="2000"/>
+        <global name="LeeNLExplore" isSummary="0" seqUse="0" reverse="0" label="Lee Self-Exploration measure - New Learning" description="Lee Self-Exploration measure - New Learning Subscale" type="LEE" value="2300" defaultRating="3" minRating="1" maxRating="5" parent="2000"/>
+        <global name="LeePRM_VM" isSummary="0" seqUse="0" reverse = "0" label="Lee Self-Exploration Measure - PRM" description="Lee Self-Exploration Measure - PRM" type="LEE" value="2400" defaultRating="0" minRating="0" maxRating="1" parent="2000"/>
+        
+    </globals>
+    <globalControls panel="left">
+        <slider global="Acceptance"/>
+        <slider global="Empathy"/>
+        <slider global="Direction"/>
+        <slider global="Autonomy"/>
+        <slider global="Collaboration"/>
+        <slider global="Evocation"/>
+        <slider global="ClientSelfExplore"/>
+    </globalControls>
+        
+    <globalControls panel="right">
+        <slider global="LeeCognitiveExplore"/>
+        <slider global="LeeEmoExplore"/>
+        <slider global="LeeNLExplore"/>      
+        <slider global="LeePRM_VM"/>
+    </globalControls>
+
+    <globalsBorder label="Global Ratings"/>
+
+	<components codingPropertyName="Components">
+		<component name="Component1" value="1" description="Session Intro"/>
+        <component name="Component2" value="2" description="Decision Balance Part 1"/>
+        <component name="Component3" value="3" description="Boost Self-Efficacy"/>
+        <component name="Component4" value="4" description="Typical Day"/>
+        <component name="Component5" value="5" description="Reasons for Drinking"/>
+        <component name="Component6" value="6" description="Drinking Feedback"/>
+        <component name="Component6.1" value="6.1" description="DFR - Health"/>
+        <component name="Component6.2" value="6.2" description="DFR - Money"/>
+        <component name="Component6.3" value="6.3" description="DFR - Weight"/>
+        <component name="Component6.4" value="6.4" description="DFR - Injuries"/>
+        <component name="Component6.5" value="6.5" description="DFR - Friends and Family"/>
+        <component name="Component6.6" value="6.6" description="DFR - BAL and Driving Impairment"/>
+        <component name="Component7" value="7" description="Affirm Cultural Values"/>
+        <component name="Component8" value="8" description="Assess Intentions, Motivation, Confidence"/>
+        <component name="Component9" value="9" description="Explore Goals and Values"/>
+        <component name="Component10" value="10" description="Decision Balance Part 2"/>
+        <component name="Component11" value="11" description="Make Change Plan"/>
+        <component name="Component12" value="12" description="Assess Support System"/>
+        <component name="Component13" value="13" description="Summary and Session End"/>
+	</components>
+</userConfiguration>

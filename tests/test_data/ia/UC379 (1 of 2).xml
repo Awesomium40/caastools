@@ -1,0 +1,372 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Interviews">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="InterviewID" type="xs:int" minOccurs="0" />
+                <xs:element name="ID" type="xs:string" minOccurs="0" />
+                <xs:element name="DefaultDemarcationSetID" type="xs:int" minOccurs="0" />
+                <xs:element name="Visit" type="xs:string" minOccurs="0" />
+                <xs:element name="SourceFile" type="xs:string" minOccurs="0" />
+                <xs:element name="AudioFileName" type="xs:string" minOccurs="0" />
+                <xs:element name="AudioFileNameOriginal" type="xs:string" minOccurs="0" />
+                <xs:element name="Site" type="xs:string" minOccurs="0" />
+                <xs:element name="InterviewTimeStamp" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="BeginCodingDate" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="EndCodingDate" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="Deleted" type="xs:boolean" minOccurs="0" />
+                <xs:element name="OriginalKeyID" type="xs:int" minOccurs="0" />
+                <xs:element name="DateCreated" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="CreatedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="LastModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="ModifiedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="DemarcationSetCount" type="xs:int" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="SpeakerSegments">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SpeakerSegmentID" type="xs:int" minOccurs="0" />
+                <xs:element name="InterviewID" type="xs:int" minOccurs="0" />
+                <xs:element name="LineNumber" type="xs:int" minOccurs="0" />
+                <xs:element name="SpeakerRole" type="xs:string" minOccurs="0" />
+                <xs:element name="SpeakerText" type="xs:string" minOccurs="0" />
+                <xs:element name="OriginalKeyID" type="xs:int" minOccurs="0" />
+                <xs:element name="LastModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="ModifiedBy" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="DemarcationSets">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="DemarcationSetID" type="xs:int" minOccurs="0" />
+                <xs:element name="InterviewID" type="xs:int" minOccurs="0" />
+                <xs:element name="SetName" type="xs:string" minOccurs="0" />
+                <xs:element name="DefaultCodingSetID" type="xs:int" minOccurs="0" />
+                <xs:element name="Deleted" type="xs:boolean" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+                <xs:element name="OriginalKeyID" type="xs:int" minOccurs="0" />
+                <xs:element name="DateCreated" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="CreatedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="LastModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="ModifiedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="DisplayName" type="xs:string" minOccurs="0" />
+                <xs:element name="IsDefault" type="xs:boolean" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="CodingSets">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="CodingSetID" type="xs:int" minOccurs="0" />
+                <xs:element name="DemarcationSetID" type="xs:int" minOccurs="0" />
+                <xs:element name="CoderID" type="xs:int" minOccurs="0" />
+                <xs:element name="CodingSystemID" type="xs:int" minOccurs="0" />
+                <xs:element name="SetName" type="xs:string" minOccurs="0" />
+                <xs:element name="Deleted" type="xs:boolean" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+                <xs:element name="OriginalKeyID" type="xs:int" minOccurs="0" />
+                <xs:element name="DateCreated" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="CreatedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="LastModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="ModifiedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="CoderDisplayName" type="xs:string" minOccurs="0" />
+                <xs:element name="CoderLoginName" type="xs:string" minOccurs="0" />
+                <xs:element name="CoderIsActive" type="xs:boolean" minOccurs="0" />
+                <xs:element name="CodingSystemName" type="xs:string" minOccurs="0" />
+                <xs:element name="CodingSystemShortName" type="xs:string" minOccurs="0" />
+                <xs:element name="CodingSystemDescription" type="xs:string" minOccurs="0" />
+                <xs:element name="CodingSystemIsActive" type="xs:boolean" minOccurs="0" />
+                <xs:element name="CodingSystemIsDefault" type="xs:boolean" minOccurs="0" />
+                <xs:element name="DisplayName" type="xs:string" minOccurs="0" />
+                <xs:element name="IsDefault" type="xs:boolean" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Utterances">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="UtteranceID" type="xs:int" minOccurs="0" />
+                <xs:element name="DemarcationSetID" type="xs:int" minOccurs="0" />
+                <xs:element name="UtteranceNumber" type="xs:int" minOccurs="0" />
+                <xs:element name="WordCount" type="xs:int" minOccurs="0" />
+                <xs:element name="OriginalKeyID" type="xs:int" minOccurs="0" />
+                <xs:element name="LastModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="ModifiedBy" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="UtteranceSegments">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="UtteranceSegmentID" type="xs:int" minOccurs="0" />
+                <xs:element name="UtteranceID" type="xs:int" minOccurs="0" />
+                <xs:element name="SpeakerSegmentID" type="xs:int" minOccurs="0" />
+                <xs:element name="UtteranceSegmentIndex" type="xs:int" minOccurs="0" />
+                <xs:element name="StartIndex" type="xs:int" minOccurs="0" />
+                <xs:element name="EndIndex" type="xs:int" minOccurs="0" />
+                <xs:element name="StartTime" type="xs:duration" minOccurs="0" />
+                <xs:element name="OriginalKeyID" type="xs:int" minOccurs="0" />
+                <xs:element name="LastModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="ModifiedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="DemarcationSetID" type="xs:int" minOccurs="0" />
+                <xs:element name="LineNumber" type="xs:int" minOccurs="0" />
+                <xs:element name="UtteranceSegmentCount" type="xs:int" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="UtteranceProperties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="UtterancePropertyID" type="xs:int" minOccurs="0" />
+                <xs:element name="CodingSetID" type="xs:int" minOccurs="0" />
+                <xs:element name="UtteranceID" type="xs:int" minOccurs="0" />
+                <xs:element name="PropertyID" type="xs:int" minOccurs="0" />
+                <xs:element name="PropertyValueID" type="xs:int" minOccurs="0" />
+                <xs:element name="OriginalKeyID" type="xs:int" minOccurs="0" />
+                <xs:element name="LastModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="ModifiedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="PropertyName" type="xs:string" minOccurs="0" />
+                <xs:element name="PropertyValue" type="xs:string" minOccurs="0" />
+                <xs:element name="PropertyValueDescription" type="xs:string" minOccurs="0" />
+                <xs:element name="AutoFillScope" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="PropertyNames">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="CodingSetID" type="xs:int" minOccurs="0" />
+                <xs:element name="PropertyName" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Interviews>
+    <InterviewID>25294</InterviewID>
+    <ID>UC379_i</ID>
+    <DefaultDemarcationSetID>65075</DefaultDemarcationSetID>
+    <SourceFile>H:\U24-Kahler\Project ReACH2, Brown-Fenway-Miami Study\Transcription\Transcript .txt Files\BL (Session 1)\739\739_i.txt</SourceFile>
+    <AudioFileName>RC2_ID739_BL_02072019_AS.MP3</AudioFileName>
+    <AudioFileNameOriginal>RC2_ID739_BL_02072019_AS.MP3</AudioFileNameOriginal>
+    <BeginCodingDate>2019-08-16T00:00:00-04:00</BeginCodingDate>
+    <Deleted>false</Deleted>
+    <DateCreated>2019-08-16T00:00:00-04:00</DateCreated>
+    <CreatedBy>a2d</CreatedBy>
+    <LastModified>2019-08-16T10:52:21.41-04:00</LastModified>
+    <ModifiedBy>a2d</ModifiedBy>
+    <DemarcationSetCount>1</DemarcationSetCount>
+  </Interviews>
+  <SpeakerSegments>
+    <SpeakerSegmentID>7959792</SpeakerSegmentID>
+    <InterviewID>25294</InterviewID>
+    <LineNumber>1</LineNumber>
+    <SpeakerRole>P</SpeakerRole>
+    <SpeakerText>No.</SpeakerText>
+    <LastModified>2019-08-16T10:52:03.753-04:00</LastModified>
+    <ModifiedBy>a2d</ModifiedBy>
+  </SpeakerSegments>
+  <SpeakerSegments>
+    <SpeakerSegmentID>7959793</SpeakerSegmentID>
+    <InterviewID>25294</InterviewID>
+    <LineNumber>2</LineNumber>
+    <SpeakerRole>I</SpeakerRole>
+    <SpeakerText>Okay. All right.</SpeakerText>
+    <LastModified>2019-08-16T10:52:03.753-04:00</LastModified>
+    <ModifiedBy>a2d</ModifiedBy>
+  </SpeakerSegments>
+  <DemarcationSets>
+    <DemarcationSetID>65075</DemarcationSetID>
+    <InterviewID>25294</InterviewID>
+    <SetName>default demarcation set</SetName>
+    <DefaultCodingSetID>65763</DefaultCodingSetID>
+    <Description>default demarcation set created in code</Description>
+    <DateCreated>2019-08-16T10:52:03.74-04:00</DateCreated>
+    <CreatedBy>a2d</CreatedBy>
+    <LastModified>2019-08-16T10:52:03.823-04:00</LastModified>
+    <ModifiedBy>a2d</ModifiedBy>
+    <DisplayName>default demarcation set (65075) *</DisplayName>
+    <IsDefault>true</IsDefault>
+  </DemarcationSets>
+  <CodingSets>
+    <CodingSetID>65763</CodingSetID>
+    <DemarcationSetID>65075</DemarcationSetID>
+    <CoderID>8</CoderID>
+    <CodingSystemID>153</CodingSystemID>
+    <SetName>default coding set</SetName>
+    <Description>default coding set created in code</Description>
+    <DateCreated>2019-08-16T10:52:03.74-04:00</DateCreated>
+    <CreatedBy>a2d</CreatedBy>
+    <LastModified>2020-02-07T14:44:56.87-05:00</LastModified>
+    <ModifiedBy>TBT</ModifiedBy>
+    <CoderDisplayName>Tatiana Taubin</CoderDisplayName>
+    <CoderLoginName>tbt</CoderLoginName>
+    <CoderIsActive>true</CoderIsActive>
+    <CodingSystemName>UCHAT 3.4</CodingSystemName>
+    <CodingSystemShortName>U3.4</CodingSystemShortName>
+    <CodingSystemDescription>UCHATCoding System 3.4</CodingSystemDescription>
+    <CodingSystemIsActive>true</CodingSystemIsActive>
+    <CodingSystemIsDefault>true</CodingSystemIsDefault>
+    <DisplayName>default coding set (65763) *</DisplayName>
+    <IsDefault>true</IsDefault>
+  </CodingSets>
+  <Utterances>
+    <UtteranceID>14050895</UtteranceID>
+    <DemarcationSetID>65075</DemarcationSetID>
+    <UtteranceNumber>1</UtteranceNumber>
+    <WordCount>1</WordCount>
+    <LastModified>2019-08-16T10:52:03.843-04:00</LastModified>
+    <ModifiedBy>a2d</ModifiedBy>
+  </Utterances>
+  <Utterances>
+    <UtteranceID>14050896</UtteranceID>
+    <DemarcationSetID>65075</DemarcationSetID>
+    <UtteranceNumber>2</UtteranceNumber>
+    <WordCount>3</WordCount>
+    <LastModified>2019-08-16T10:52:03.847-04:00</LastModified>
+    <ModifiedBy>a2d</ModifiedBy>
+  </Utterances>
+  <UtteranceSegments>
+    <UtteranceSegmentID>14117406</UtteranceSegmentID>
+    <UtteranceID>14050895</UtteranceID>
+    <SpeakerSegmentID>7959792</SpeakerSegmentID>
+    <UtteranceSegmentIndex>0</UtteranceSegmentIndex>
+    <StartIndex>0</StartIndex>
+    <EndIndex>2</EndIndex>
+    <StartTime>PT0S</StartTime>
+    <LastModified>2019-08-16T12:32:45.41-04:00</LastModified>
+    <ModifiedBy>a2d</ModifiedBy>
+    <DemarcationSetID>65075</DemarcationSetID>
+    <LineNumber>1</LineNumber>
+    <UtteranceSegmentCount>1</UtteranceSegmentCount>
+  </UtteranceSegments>
+  <UtteranceSegments>
+    <UtteranceSegmentID>14117407</UtteranceSegmentID>
+    <UtteranceID>14050896</UtteranceID>
+    <SpeakerSegmentID>7959793</SpeakerSegmentID>
+    <UtteranceSegmentIndex>0</UtteranceSegmentIndex>
+    <StartIndex>0</StartIndex>
+    <EndIndex>15</EndIndex>
+    <StartTime>PT0.853S</StartTime>
+    <LastModified>2019-08-16T12:32:48.11-04:00</LastModified>
+    <ModifiedBy>a2d</ModifiedBy>
+    <DemarcationSetID>65075</DemarcationSetID>
+    <LineNumber>2</LineNumber>
+    <UtteranceSegmentCount>2</UtteranceSegmentCount>
+  </UtteranceSegments>
+  <UtteranceProperties>
+    <UtterancePropertyID>20780302</UtterancePropertyID>
+    <CodingSetID>65763</CodingSetID>
+    <UtteranceID>14050895</UtteranceID>
+    <PropertyID>426</PropertyID>
+    <PropertyValueID>15085</PropertyValueID>
+    <LastModified>2020-02-07T14:59:14.18-05:00</LastModified>
+    <ModifiedBy>TBT</ModifiedBy>
+    <PropertyName>MISC</PropertyName>
+    <PropertyValue>fn</PropertyValue>
+    <PropertyValueDescription>follow/neutral/ask</PropertyValueDescription>
+    <AutoFillScope>None</AutoFillScope>
+  </UtteranceProperties>
+  <UtteranceProperties>
+    <UtterancePropertyID>20779783</UtterancePropertyID>
+    <CodingSetID>65763</CodingSetID>
+    <UtteranceID>14050895</UtteranceID>
+    <PropertyID>427</PropertyID>
+    <PropertyValueID>15092</PropertyValueID>
+    <LastModified>2020-02-07T14:45:42.017-05:00</LastModified>
+    <ModifiedBy>TBT</ModifiedBy>
+    <PropertyName>Treatment Components</PropertyName>
+    <PropertyValue>1.000</PropertyValue>
+    <PropertyValueDescription>Open with structuring statement</PropertyValueDescription>
+    <AutoFillScope>ToEnd</AutoFillScope>
+  </UtteranceProperties>
+  <UtteranceProperties>
+    <UtterancePropertyID>20781252</UtterancePropertyID>
+    <CodingSetID>65763</CodingSetID>
+    <UtteranceID>14050895</UtteranceID>
+    <PropertyID>429</PropertyID>
+    <PropertyValueID>15293</PropertyValueID>
+    <LastModified>2020-02-07T16:21:47.557-05:00</LastModified>
+    <ModifiedBy>TBT</ModifiedBy>
+    <PropertyName>Globals</PropertyName>
+    <PropertyValue>1.3</PropertyValue>
+    <PropertyValueDescription>Acceptance 3</PropertyValueDescription>
+    <AutoFillScope>None</AutoFillScope>
+  </UtteranceProperties>
+  <UtteranceProperties>
+    <UtterancePropertyID>20780303</UtterancePropertyID>
+    <CodingSetID>65763</CodingSetID>
+    <UtteranceID>14050896</UtteranceID>
+    <PropertyID>426</PropertyID>
+    <PropertyValueID>15069</PropertyValueID>
+    <LastModified>2020-02-07T14:59:18.163-05:00</LastModified>
+    <ModifiedBy>TBT</ModifiedBy>
+    <PropertyName>MISC</PropertyName>
+    <PropertyValue>fa</PropertyValue>
+    <PropertyValueDescription>OTHER: facilitate</PropertyValueDescription>
+    <AutoFillScope>None</AutoFillScope>
+  </UtteranceProperties>
+  <UtteranceProperties>
+    <UtterancePropertyID>20779784</UtterancePropertyID>
+    <CodingSetID>65763</CodingSetID>
+    <UtteranceID>14050896</UtteranceID>
+    <PropertyID>427</PropertyID>
+    <PropertyValueID>15092</PropertyValueID>
+    <LastModified>2020-02-07T14:45:42.257-05:00</LastModified>
+    <ModifiedBy>TBT</ModifiedBy>
+    <PropertyName>Treatment Components</PropertyName>
+    <PropertyValue>1.000</PropertyValue>
+    <PropertyValueDescription>Open with structuring statement</PropertyValueDescription>
+    <AutoFillScope>ToEnd</AutoFillScope>
+  </UtteranceProperties>
+  <UtteranceProperties>
+    <UtterancePropertyID>20781253</UtterancePropertyID>
+    <CodingSetID>65763</CodingSetID>
+    <UtteranceID>14050896</UtteranceID>
+    <PropertyID>429</PropertyID>
+    <PropertyValueID>15303</PropertyValueID>
+    <LastModified>2020-02-07T16:21:51.293-05:00</LastModified>
+    <ModifiedBy>TBT</ModifiedBy>
+    <PropertyName>Globals</PropertyName>
+    <PropertyValue>2.3</PropertyValue>
+    <PropertyValueDescription>Empathy 3</PropertyValueDescription>
+    <AutoFillScope>None</AutoFillScope>
+  </UtteranceProperties>
+  <PropertyNames>
+    <CodingSetID>65763</CodingSetID>
+    <PropertyName>TBO</PropertyName>
+  </PropertyNames>
+  <PropertyNames>
+    <CodingSetID>65763</CodingSetID>
+    <PropertyName>Topic Codes</PropertyName>
+  </PropertyNames>
+  <PropertyNames>
+    <CodingSetID>65763</CodingSetID>
+    <PropertyName>Speech Act</PropertyName>
+  </PropertyNames>
+  <PropertyNames>
+    <CodingSetID>65763</CodingSetID>
+    <PropertyName>Treatment Components</PropertyName>
+  </PropertyNames>
+  <PropertyNames>
+    <CodingSetID>65763</CodingSetID>
+    <PropertyName>MISC</PropertyName>
+  </PropertyNames>
+  <PropertyNames>
+    <CodingSetID>65763</CodingSetID>
+    <PropertyName>Strength Rating</PropertyName>
+  </PropertyNames>
+  <PropertyNames>
+    <CodingSetID>65763</CodingSetID>
+    <PropertyName>Globals</PropertyName>
+  </PropertyNames>
+</NewDataSet>

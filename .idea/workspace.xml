@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/bulkinsert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/models.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_bulkops_TestBulkImports.coverage" NAME="Unittests for test_bulkops.TestBulkImports Coverage Results" MODIFIED="1584456632402" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$database.coverage" NAME="database Coverage Results" MODIFIED="1582968559540" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_tests_test_parsing_TestParsing.coverage" NAME="Unittests for tests.test_parsing.TestParsing Coverage Results" MODIFIED="1584378225778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_bulkops_TestBulkImports_test_import_ia_interview.coverage" NAME="Unittests for test_bulkops.TestBulkImports.test_import_ia_interview Coverage Results" MODIFIED="1584988320489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$qsf2codebook.coverage" NAME="qsf2codebook Coverage Results" MODIFIED="1584716355986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:/" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_in_test_parsing_py.coverage" NAME="Unittests in test_parsing.py Coverage Results" MODIFIED="1584450918357" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_parsing_TestParsing_test_make_globals.coverage" NAME="Unittests for test_parsing.TestParsing.test_make_globals Coverage Results" MODIFIED="1584400741093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_bulkops_TestBulkImports_test_import_cacti_interview.coverage" NAME="Unittests for test_bulkops.TestBulkImports.test_import_cacti_interview Coverage Results" MODIFIED="1584469277272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_in_test_dbio_py.coverage" NAME="Unittests in test_bulkops.py Coverage Results" MODIFIED="1584452330316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_in_test_datasets_py.coverage" NAME="Unittests in test_datasets.py Coverage Results" MODIFIED="1584499130868" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert.coverage" NAME="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert Coverage Results" MODIFIED="1584990426258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_parsing_TestParsing_test_reconstruct_ia.coverage" NAME="Unittests for test_parsing.TestParsing.test_reconstruct_ia Coverage Results" MODIFIED="1584452343946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_models_TestCodingSystem_test_import_cacti_cs.coverage" NAME="Unittests for test_models.TestCodingSystem.test_import_cacti_cs Coverage Results" MODIFIED="1583299027979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_models_TestCodingSystem_test_invalid_cacti_imports.coverage" NAME="Unittests for test_models.TestCodingSystem.test_invalid_cacti_imports Coverage Results" MODIFIED="1583814929424" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_models_TestCodingSystem.coverage" NAME="Unittests for test_models.TestCodingSystem Coverage Results" MODIFIED="1583212102839" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_datasets_TestDatasets_test_build_sl_dataset.coverage" NAME="Unittests for test_datasets.TestDatasets.test_build_sl_dataset Coverage Results" MODIFIED="1584553266491" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_parsing_TestParsing.coverage" NAME="Unittests for test_parsing.TestParsing Coverage Results" MODIFIED="1584455826538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_datasets_TestDatasets_test_save_as_spss.coverage" NAME="Unittests for test_datasets.TestDatasets.test_save_as_spss Coverage Results" MODIFIED="1584581538036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/caastools/datasets.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="918">
+              <caret line="122" column="10" selection-start-line="122" selection-start-column="10" selection-end-line="122" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/test_bulkops.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="954">
+              <caret line="414" selection-start-line="414" selection-end-line="414" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://C:/python37/Lib/unittest/case.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="239">
+              <caret line="614" selection-start-line="614" selection-end-line="614" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/caastools/database/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1235">
+              <caret line="236" column="111" selection-start-line="236" selection-start-column="111" selection-end-line="236" selection-end-column="111" />
+              <folding>
+                <element signature="e#0#65#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>xsl:text</find>
+      <find>and</find>
+      <find>concat</find>
+      <find>&amp;lt</find>
+      <find>&lt;</find>
+      <find>os.</find>
+      <find>real</find>
+      <find>.value</find>
+      <find>interview_transform</find>
+      <find>15092</find>
+      <find>translate_</find>
+      <find>+</find>
+      <find>numpy</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/caastools" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/common/constraint.py" />
+        <option value="$PROJECT_DIR$/common/field.py" />
+        <option value="$PROJECT_DIR$/common/cacti_schema.xsd" />
+        <option value="$PROJECT_DIR$/common/dataset.py" />
+        <option value="$PROJECT_DIR$/common/interview_translate.xslt" />
+        <option value="D:/test_combo.xslt" />
+        <option value="$PROJECT_DIR$/uchat/interview.py" />
+        <option value="$PROJECT_DIR$/test_models.py" />
+        <option value="$PROJECT_DIR$/common/__init__.py" />
+        <option value="$PROJECT_DIR$/common/exceptions.py" />
+        <option value="$PROJECT_DIR$/common/translate_interview.xslt" />
+        <option value="$PROJECT_DIR$/common/test_parsing.py" />
+        <option value="$PROJECT_DIR$/test_parsing.py" />
+        <option value="$PROJECT_DIR$/common/interview_transform.xslt" />
+        <option value="$PROJECT_DIR$/tests/test_models.py" />
+        <option value="$PROJECT_DIR$/common/parsing.py" />
+        <option value="$PROJECT_DIR$/common/database.py" />
+        <option value="$PROJECT_DIR$/common/dbio.py" />
+        <option value="$PROJECT_DIR$/parsing/__init__.py" />
+        <option value="$PROJECT_DIR$/database/db.py" />
+        <option value="$PROJECT_DIR$/tests/test_dbio.py" />
+        <option value="$PROJECT_DIR$/common/stats.py" />
+        <option value="$PROJECT_DIR$/common/constants.py" />
+        <option value="$PROJECT_DIR$/plots.py" />
+        <option value="$PROJECT_DIR$/stats.py" />
+        <option value="$PROJECT_DIR$/database/__init__.py" />
+        <option value="$PROJECT_DIR$/parsing/cs_transform.xslt" />
+        <option value="$PROJECT_DIR$/constants.py" />
+        <option value="$PROJECT_DIR$/database/interview_transform.xslt" />
+        <option value="$PROJECT_DIR$/parsing/cacti.py" />
+        <option value="$PROJECT_DIR$/parsing/ia.py" />
+        <option value="$PROJECT_DIR$/database/bulkops.py" />
+        <option value="$PROJECT_DIR$/__init__.py" />
+        <option value="$PROJECT_DIR$/database/models.py" />
+        <option value="$PROJECT_DIR$/database/datasets.py" />
+        <option value="$PROJECT_DIR$/tests/test_parsing.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/tests/test_datasets.py" />
+        <option value="$PROJECT_DIR$/caastools/__init__.py" />
+        <option value="$PROJECT_DIR$/caastools/utils.py" />
+        <option value="$PROJECT_DIR$/caastools/datasets.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="D:/qsf2codebook.py" />
+        <option value="$PROJECT_DIR$/caastools/database/bulkinsert.py" />
+        <option value="$PROJECT_DIR$/tests/test_data/cacti/userConfiguration.xml" />
+        <option value="$PROJECT_DIR$/tests/test_data/cacti/invalid/userConfiguration.xml" />
+        <option value="$PROJECT_DIR$/caastools/database/models.py" />
+        <option value="$PROJECT_DIR$/tests/test_bulkops.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1083" />
+    <option name="width" value="2035" />
+    <option name="height" value="1407" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="caastools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="caastools" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="XML" />
+    <property name="last_opened_file_path" value="D:/qsf2codebook.py" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\SyncThing\caastools\tests\test_data\cacti\invalid" />
+      <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\SyncThing\caastools\parsing" />
+      <recent name="D:\SyncThing\caastools\database" />
+      <recent name="D:\SyncThing\caastools" />
+      <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
+      <recent name="D:\SyncThing\caastools\tests" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python tests.Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert">
+    <configuration name="qsf2codebook" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="caastools" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="D:/" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="D:/qsf2codebook.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="caastools" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_bulkops.TestBulkImports.test_duplicate_bulk_insert&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_bulkops.TestBulkImports.test_import_ia_interview" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="caastools" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_bulkops.TestBulkImports.test_import_ia_interview&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_datasets.TestDatasets.test_build_sl_dataset" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="caastools" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_datasets.TestDatasets.test_build_sl_dataset&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_datasets.TestDatasets.test_save_as_spss" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="caastools" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_datasets.TestDatasets.test_save_as_spss&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" />
+        <item itemvalue="Python tests.Unittests for test_bulkops.TestBulkImports.test_import_ia_interview" />
+        <item itemvalue="Python.qsf2codebook" />
+        <item itemvalue="Python tests.Unittests for test_datasets.TestDatasets.test_save_as_spss" />
+        <item itemvalue="Python tests.Unittests for test_datasets.TestDatasets.test_build_sl_dataset" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="" />
+      <created>1582962105768</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582962105768</updated>
+      <workItem from="1582962107956" duration="20230000" />
+      <workItem from="1583087823774" duration="17196000" />
+      <workItem from="1583136159225" duration="219000" />
+      <workItem from="1583209844526" duration="2500000" />
+      <workItem from="1583288336709" duration="9423000" />
+      <workItem from="1583468493540" duration="4316000" />
+      <workItem from="1583538960744" duration="5294000" />
+      <workItem from="1583554701364" duration="1297000" />
+      <workItem from="1583596111010" duration="5303000" />
+      <workItem from="1583617483540" duration="239000" />
+      <workItem from="1583659330965" duration="833000" />
+      <workItem from="1583809464315" duration="5712000" />
+      <workItem from="1583886310888" duration="5207000" />
+      <workItem from="1583908185692" duration="2168000" />
+      <workItem from="1583952940446" duration="2952000" />
+      <workItem from="1584244652567" duration="4105000" />
+      <workItem from="1584289240881" duration="11068000" />
+      <workItem from="1584370891261" duration="14391000" />
+      <workItem from="1584447417791" duration="42819000" />
+      <workItem from="1584538536405" duration="447000" />
+      <workItem from="1584539622279" duration="2000" />
+      <workItem from="1584552297736" duration="1670000" />
+      <workItem from="1584559953553" duration="599000" />
+      <workItem from="1584572684080" duration="9290000" />
+      <workItem from="1584586745971" duration="907000" />
+      <workItem from="1584696639805" duration="19365000" />
+      <workItem from="1584801548186" duration="78000" />
+      <workItem from="1584986843038" duration="3906000" />
+    </task>
+    <task id="LOCAL-00001" summary="Update setuptools script">
+      <created>1584500480550</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1584500480550</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Update setuptools script">
+      <created>1584538968339</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1584538968339</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Fix relative imports&#10;Fix bug that sometimes caused CACTI interviews not to upload">
+      <created>1584553317898</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1584553317898</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Change directory structure&#10;add new functions to utils module">
+      <created>1584575197321</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1584575197321</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Move functions from utils to datasets">
+      <created>1584587116221</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1584587116221</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert - 2020.03.23 at 14h 56m 44s.xml">
+      <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert - 2020.03.23 at 14h 57m 28s.xml">
+      <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert - 2020.03.23 at 14h 59m 16s.xml">
+      <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert - 2020.03.23 at 15h 00m 18s.xml">
+      <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert - 2020.03.23 at 15h 02m 04s.xml">
+      <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert - 2020.03.23 at 15h 02m 07s.xml">
+      <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert - 2020.03.23 at 15h 04m 43s.xml">
+      <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert - 2020.03.23 at 15h 05m 13s.xml">
+      <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert - 2020.03.23 at 15h 05m 59s.xml">
+      <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert - 2020.03.23 at 15h 07m 14s.xml">
+      <configuration name="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="191536000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1083" y="0" width="2035" height="1407" extended-state="0" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25518987" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3288854" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49819493" weight="0.32810047" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49931693" weight="0.3987441" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50180507" side_tool="true" weight="0.3288854" />
+      <window_info anchor="bottom" id="Terminal" order="11" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32967034" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.3295513" />
+      <window_info anchor="right" id="Database" order="4" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <MESSAGE value="Update setuptools script" />
+    <MESSAGE value="Fix relative imports&#10;Fix bug that sometimes caused CACTI interviews not to upload" />
+    <MESSAGE value="Change directory structure&#10;add new functions to utils module" />
+    <MESSAGE value="Move functions from utils to datasets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Move functions from utils to datasets" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/database/bulkinsert.py</url>
+          <line>313</line>
+          <option name="timeStamp" value="73" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/database/bulkinsert.py</url>
+          <line>306</line>
+          <option name="timeStamp" value="74" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://D:/qsf2codebook.py</url>
+          <line>159</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_bulkops.py</url>
+          <line>414</line>
+          <option name="timeStamp" value="91" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://C:/python37/Lib/types.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="170" selection-start-line="170" selection-end-line="170" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_data/ia/UC379 (1 of 2).xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5610">
+          <caret line="330" column="4" selection-start-line="330" selection-start-column="4" selection-end-line="330" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python37/Lib/enum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="348" selection-start-line="348" selection-end-line="348" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/parsing.py" />
+    <entry file="file://$PROJECT_DIR$/common/dbio.py" />
+    <entry file="file://$PROJECT_DIR$/parsing/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/database/db.py" />
+    <entry file="file://$PROJECT_DIR$/cami/UserConfigXform.xml" />
+    <entry file="file://$PROJECT_DIR$/cami/stats.py" />
+    <entry file="file://$PROJECT_DIR$/common/database.py" />
+    <entry file="file://$PROJECT_DIR$/common/table.py" />
+    <entry file="file://$PROJECT_DIR$/common/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/database/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/tests/test_data/ia/UCHAT3.4_CodingSystem.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parsing/translate_u331_interview_to_u34.xslt" />
+    <entry file="file://$PROJECT_DIR$/parsing/cs_transform.xslt" />
+    <entry file="file://$PROJECT_DIR$/parsing/interview_transform.xslt" />
+    <entry file="file://C:/python37/Lib/ntpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parsing/cacti.py" />
+    <entry file="file://$PROJECT_DIR$/parsing/ia.py" />
+    <entry file="file://$PROJECT_DIR$/exceptions.py" />
+    <entry file="file://$PROJECT_DIR$/plots.py" />
+    <entry file="file://$PROJECT_DIR$/stats.py" />
+    <entry file="file://$PROJECT_DIR$/tests/test_data/cacti/R31531.globals">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" selection-start-line="15" selection-end-line="18" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/constants.py" />
+    <entry file="file://$PROJECT_DIR$/database/models.py" />
+    <entry file="file://$PROJECT_DIR$/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/database/datasets.py" />
+    <entry file="file://$PROJECT_DIR$/database/bulkinsert.py" />
+    <entry file="file://$PROJECT_DIR$/tests/test_parsing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="79" selection-start-line="79" selection-end-line="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="54" column="16" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_datasets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="49" column="59" selection-start-line="49" selection-start-column="59" selection-end-line="49" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools/constants.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://D:/qsf2codebook.py" />
+    <entry file="file://$PROJECT_DIR$/caastools/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_data/cacti/R31531.casaa">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="46" lean-forward="true" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_data/cacti/R31531.parse">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python37/Lib/unittest/runner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="175" selection-start-line="175" selection-end-line="175" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_data/cacti/invalid/R31531.casaa">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_data/cacti/userConfiguration.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="121" selection-start-line="11" selection-start-column="121" selection-end-line="11" selection-end-column="121" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools/database/bulkinsert.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="243" selection-start-line="243" selection-end-line="243" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python37/Lib/logging/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="1369" selection-start-line="1369" selection-end-line="1369" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_data/cacti/invalid/userConfiguration.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="100" selection-start-line="12" selection-start-column="100" selection-end-line="12" selection-end-column="100" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools/datasets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="122" column="10" selection-start-line="122" selection-start-column="10" selection-end-line="122" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python37/Lib/unittest/suite.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="83" selection-start-line="83" selection-end-line="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python37/Lib/site-packages/peewee.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="3056" selection-start-line="3056" selection-end-line="3056" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools/database/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1235">
+          <caret line="236" column="111" selection-start-line="236" selection-start-column="111" selection-end-line="236" selection-end-column="111" />
+          <folding>
+            <element signature="e#0#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python37/Lib/unittest/case.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="614" selection-start-line="614" selection-end-line="614" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret selection-end-line="3" selection-end-column="78" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_bulkops.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="954">
+          <caret line="414" selection-start-line="414" selection-end-line="414" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
