@@ -1,9 +1,7 @@
 import re
-import pandas
-import pandas.api.types as ptypes
-from savReaderWriter.savWriter import SavWriter
 
-__all__ = ['multi_replace', 'sanitize_for_spss', 'save_as_spss']
+
+__all__ = ['multi_replace', 'sanitize_for_spss']
 
 
 def _static_vars_(**kwargs):
@@ -47,20 +45,21 @@ def multi_replace(txt, repl, ignore_case=False, whole_word_only=False):
 
 
 @_static_vars_(counter=0)
-def sanitize_for_spss(dirty_str, subs={}):
+def sanitize_for_spss(dirty_str, sub=None):
     """
     sanitize_for_spss(str, subs={}) -> str
     Sanitizes the provided string into an SPSS-Compatible identifier
     :param dirty_str: the string to be sanitized
-    :param subs: A dictionary of substitutions to use in the santization process. Keys will be replaced with values
+    :param sub: A dictionary of substitutions to use in the santization process. Keys will be replaced with values
     in the sanitized string. Note that using unsanitary values will cause custom substitutions to themselves be sanitized.
-    Default {}
+    Default None
     :return: str
     """
-    # SPSS has speicifications on variable names. These will help ensure they are met
+    # SPSS has specifications on variable names. These will help ensure they are met
     max_length = 32
     invalid_chars = re.compile(r"[^a-zA-Z0-9_.]")
     invalid_starts = re.compile(r"[^a-zA-Z]+")
+    subs = {} if sub is None else sub
 
     # Remove invalid starting characters
     start_invalid = invalid_starts.match(dirty_str)
@@ -86,45 +85,7 @@ def sanitize_for_spss(dirty_str, subs={}):
     return new_var
 
 
-def save_as_spss(data_frame: pandas.DataFrame, out_path: str, var_labels={}) -> None:
-    """
-    caastools.utils.save_as_spss(data_frame: pandas.DataFrame, out_path: str) -> None
-    saves data_frame as an SPSS dataset at out_path
-    :param data_frame: the pandas DataFrame to save
-    :param out_path: the path at which to save the file
-    :param var_labels: a dictionary mapping column labels in the data frame to a variable label in the SPSS dataset
-    :return: None
-    """
 
-    cols = data_frame.columns  # type: pandas.Index
-    is_multi_index = isinstance(cols, pandas.MultiIndex)
-    var_names = []
-    var_types = {}
-    var_formats = {}
-
-    # Construct the various information that the SPSS dictionary will contain about each variable
-    for col in cols:
-        var_name = sanitize_for_spss(".".join(str(i) for i in col) if is_multi_index else str(col),
-                                     subs={"+": "Pos", "-": "Neg"})
-        var_names.append(var_name)
-
-        # Need to know the data type and format of each column so that the SPSS file can be written properly
-        # 0 is a numeric type, any positive integer is a string type where the number represents the number
-        # of bytes the string can hold.
-        # TODO: Add in checks for additional dtypes
-        if pandas.api.types.is_string_dtype(data_frame[col]):
-            var_types[var_name] = max(data_frame[col].str.len()) * 2
-        else:
-            var_types[var_name] = 0
-            var_formats[var_name] = "F10.2" if ptypes.is_float(data_frame[col]) else \
-                "ADATE8" if ptypes.is_datetime64_any_dtype(data_frame[col]) else \
-                "F12.0"
-
-    # Sometimes savReaderWriter has trouble writing a whole dataframe in at once,
-    # Writing row by row seems to work without issue
-    with SavWriter(out_path, var_names, var_types, formats=var_formats, varLabels=var_labels, ioUtf8=True) as writer:
-        for row in data_frame.index:
-            writer.writerow(data_frame.loc[row, :].values)
 
 
 

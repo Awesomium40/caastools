@@ -262,53 +262,54 @@ def upload_cacti_interview(interview_name, study_id, rater_id, client_id, therap
     pv_dict = {(row[2], row[1]): row[0] for row in property_value_query.tuples().execute()}
     gv_dict = {(row[2], row[1]): row[0] for row in global_value_query.tuples().execute()}
 
-    interview = Interview.create(interview_name=interview_name, coding_system=cs,
-                                 study_id=study_id, client_id=client_id,
-                                 rater_id=rater_id, therapist_id=therapist_id,
-                                 language_id=language_id, treatment_condition_id=condition_id)
+    interview, is_new = Interview.get_or_create(interview_name=interview_name, coding_system=cs,
+                                                study_id=study_id, client_id=client_id,
+                                                rater_id=rater_id, therapist_id=therapist_id,
+                                                language_id=language_id, treatment_condition_id=condition_id)
 
-    # The first step is to insert the utterances into the data
-    casaa_data = read_casaa(path_to_casaa)
-    comp_data = read_casaa(path_to_components) if path_to_components is not None else None
+    if is_new:
+        # The first step is to insert the utterances into the data
+        casaa_data = read_casaa(path_to_casaa)
+        comp_data = read_casaa(path_to_components) if path_to_components is not None else None
 
-    utt_rows = [{Utterance.interview.name: interview,
-                 Utterance.utt_enum.name: row[0],
-                 Utterance.utt_start_time.name: row[1],
-                 Utterance.utt_end_time.name: row[2]} for row in casaa_data]
+        utt_rows = [{Utterance.interview.name: interview,
+                     Utterance.utt_enum.name: row[0],
+                     Utterance.utt_start_time.name: row[1],
+                     Utterance.utt_end_time.name: row[2]} for row in casaa_data]
 
-    # Slow to insert the rows one by one, so do a bulk insert, and query for the inserted data
-    # Need a dict mapping enumeration to utterance_id in order to properly insert utterance-level data
-    Utterance.bulk_insert(utt_rows)
-    utt_dict = {tpl[0]: tpl[1] for tpl in Utterance.select(Utterance.utt_enum, Utterance.utterance_id)
-                .where(Utterance.interview == interview).tuples().execute()}
+        # Slow to insert the rows one by one, so do a bulk insert, and query for the inserted data
+        # Need a dict mapping enumeration to utterance_id in order to properly insert utterance-level data
+        Utterance.bulk_insert(utt_rows)
+        utt_dict = {tpl[0]: tpl[1] for tpl in Utterance.select(Utterance.utt_enum, Utterance.utterance_id)
+                    .where(Utterance.interview == interview).tuples().execute()}
 
-    # Once the utterance-level data is inserted, can then insert the UtteranceCode data
-    code_data = [{UtteranceCode.utterance.name: utt_dict.get(row[0]),
-                  UtteranceCode.property_value.name: pv_dict.get((codes_name, row[4])),
-                  UtteranceCode.source_id.name: int(row[3])} for row in casaa_data
-                 if len(row) > 3 and row[3].strip() != '']
+        # Once the utterance-level data is inserted, can then insert the UtteranceCode data
+        code_data = [{UtteranceCode.utterance.name: utt_dict.get(row[0]),
+                      UtteranceCode.property_value.name: pv_dict.get((codes_name, row[4])),
+                      UtteranceCode.source_id.name: int(row[3])} for row in casaa_data
+                     if len(row) > 3 and row[3].strip() != '']
 
-    UtteranceCode.bulk_insert(code_data)
+        UtteranceCode.bulk_insert(code_data)
 
-    # Need to do another bulk insert for the components
-    if comp_data is not None:
-        comp_rows = [{UtteranceCode.utterance_id.name: utt_dict.get(row[0]),
-                      UtteranceCode.property_value_id.name: pv_dict[(components_name, row[3])]} for row in
-                     comp_data if len(row) > 3 and row[3].strip() != '']
-        UtteranceCode.bulk_insert(comp_rows)
+        # Need to do another bulk insert for the components
+        if comp_data is not None:
+            comp_rows = [{UtteranceCode.utterance_id.name: utt_dict.get(row[0]),
+                          UtteranceCode.property_value_id.name: pv_dict[(components_name, row[3])]} for row in
+                         comp_data if len(row) > 3 and row[3].strip() != '']
+            UtteranceCode.bulk_insert(comp_rows)
 
-    # Finally, can perform an insert on the globals
-    if path_to_globals is not None:
-        global_lst.extend(read_globals(path_to_globals, (THERAPIST_GLOBALS_SLICE, CLIENT_GLOBALS_SLICE)))
+        # Finally, can perform an insert on the globals
+        if path_to_globals is not None:
+            global_lst.extend(read_globals(path_to_globals, (THERAPIST_GLOBALS_SLICE, CLIENT_GLOBALS_SLICE)))
 
-    if path_to_self_explore is not None:
-        global_lst.extend(read_globals(path_to_self_explore, (SE_GLOBALS_SLICE,)))
+        if path_to_self_explore is not None:
+            global_lst.extend(read_globals(path_to_self_explore, (SE_GLOBALS_SLICE,)))
 
-    if len(global_lst) > 0:
-        global_rows = [{GlobalRating.interview.name: interview,
-                        GlobalRating.global_value.name: gv_dict[tpl]} for tpl in global_lst]
+        if len(global_lst) > 0:
+            global_rows = [{GlobalRating.interview.name: interview,
+                            GlobalRating.global_value.name: gv_dict[tpl]} for tpl in global_lst]
 
-        GlobalRating.bulk_insert(global_rows)
+            GlobalRating.bulk_insert(global_rows)
 
     return interview
 
@@ -357,47 +358,48 @@ def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist
     if cs_entity is None:
         raise RecordNotFoundException("CodingSystem.source_id == {0}".format(cs_id))
 
-    iv = Interview.create(interview_name=interview_name, coding_system=cs_entity, study_id=study_id,
-                          client_id=client_id, rater_id=rater_id, therapist_id=therapist_id,
-                          treatment_condition_id=condition_id)
+    iv, is_new = Interview.get_or_create(interview_name=interview_name, coding_system=cs_entity, study_id=study_id,
+                                         client_id=client_id, rater_id=rater_id, therapist_id=therapist_id,
+                                         treatment_condition_id=condition_id)
     rows_inserted += 1
 
-    # Once the interview has been inserted, the utterances can be inserted next
-    # start by gathering up all the utterance data to perform a bulk insertion
-    utt_nodes = root.iterfind(IaNodes.UTTERANCES)
-    utt_rows = [{Utterance.interview.name: iv,
-                 Utterance.source_id.name: int(node.find(IaProperties.UTTERANCE_ID).text),
-                 Utterance.utt_line: int(node.find(IaProperties.LINE_NO).text),
-                 Utterance.utt_enum: int(node.find(IaProperties.UTT_NUMBER).text),
-                 Utterance.utt_role: node.find(IaProperties.SPEAKER_ROLE).text,
-                 Utterance.utt_text: node.find(IaProperties.TEXT).text,
-                 Utterance.utt_word_count: int(node.find(IaProperties.WORD_COUNT).text),
-                 Utterance.utt_start_time: float(node.find(IaProperties.START_TIME).text)}
-                for node in utt_nodes]
+    if is_new:
+        # Once the interview has been inserted, the utterances can be inserted next
+        # start by gathering up all the utterance data to perform a bulk insertion
+        utt_nodes = root.iterfind(IaNodes.UTTERANCES)
+        utt_rows = [{Utterance.interview.name: iv,
+                     Utterance.source_id.name: int(node.find(IaProperties.UTTERANCE_ID).text),
+                     Utterance.utt_line: int(node.find(IaProperties.LINE_NO).text),
+                     Utterance.utt_enum: int(node.find(IaProperties.UTT_NUMBER).text),
+                     Utterance.utt_role: node.find(IaProperties.SPEAKER_ROLE).text,
+                     Utterance.utt_text: node.find(IaProperties.TEXT).text,
+                     Utterance.utt_word_count: int(node.find(IaProperties.WORD_COUNT).text),
+                     Utterance.utt_start_time: float(node.find(IaProperties.START_TIME).text)}
+                    for node in utt_nodes]
 
-    rows_inserted += Utterance.bulk_insert(utt_rows)
+        rows_inserted += Utterance.bulk_insert(utt_rows)
 
-    # Once the utterances have been inserted, need to query for them
-    # in order to properly insert UtteranceProperty entities
-    utt_dict = {row[0]: row[1] for row in Utterance.select(Utterance.source_id, Utterance.utterance_id)
-        .where(Utterance.interview == iv).tuples().execute()}
+        # Once the utterances have been inserted, need to query for them
+        # in order to properly insert UtteranceProperty entities
+        utt_dict = {row[0]: row[1] for row in Utterance.select(Utterance.source_id, Utterance.utterance_id)
+            .where(Utterance.interview == iv).tuples().execute()}
 
-    # With the dictionary of utterances mapping source_id to utterance_id in hand,
-    # can use to insert UtteranceCode entities
-    up_nodes = root.iterfind(IaNodes.UTT_PROPERTIES)
-    up_rows = [{UtteranceCode.utterance.name: utt_dict[int(node.find(IaProperties.UTTERANCE_ID).text)],
-                UtteranceCode.property_value.name: pv_dict[
-                    int(node.find(IaProperties.PROP_VALUE_ID).text)]}
-               for node in up_nodes]
+        # With the dictionary of utterances mapping source_id to utterance_id in hand,
+        # can use to insert UtteranceCode entities
+        up_nodes = root.iterfind(IaNodes.UTT_PROPERTIES)
+        up_rows = [{UtteranceCode.utterance.name: utt_dict[int(node.find(IaProperties.UTTERANCE_ID).text)],
+                    UtteranceCode.property_value.name: pv_dict[
+                        int(node.find(IaProperties.PROP_VALUE_ID).text)]}
+                   for node in up_nodes]
 
-    rows_inserted += UtteranceCode.bulk_insert(up_rows)
+        rows_inserted += UtteranceCode.bulk_insert(up_rows)
 
-    # Finally, the global ratings can be inserted
-    global_nodes = root.iterfind(IaNodes.GLOBALS)
-    gv_rows = [{GlobalRating.global_value.name: gv_dict[int(node.find(IaProperties.PROP_VALUE_ID).text)],
-                GlobalRating.interview.name: iv}
-               for node in global_nodes]
+        # Finally, the global ratings can be inserted
+        global_nodes = root.iterfind(IaNodes.GLOBALS)
+        gv_rows = [{GlobalRating.global_value.name: gv_dict[int(node.find(IaProperties.PROP_VALUE_ID).text)],
+                    GlobalRating.interview.name: iv}
+                   for node in global_nodes]
 
-    rows_inserted += GlobalRating.bulk_insert(gv_rows)
+        rows_inserted += GlobalRating.bulk_insert(gv_rows)
 
     return iv

@@ -32,14 +32,8 @@ class BaseModel(Model):
         """
         rows_inserted = 0
         with cls._meta.database.atomic() as transaction:
-            try:
-                for batch in chunked(row_dicts, 100):
-                    rows_inserted += cls.insert_many(batch).execute()
-            except:
-                transaction.rollback()
-                raise
-            else:
-                transaction.commit()
+            for batch in chunked(row_dicts, 100):
+                rows_inserted += cls.insert_many(batch).execute()
 
         return rows_inserted
 
@@ -240,7 +234,7 @@ class GlobalValue(BaseModel):
 class PropertyValue(BaseModel):
     property_value_id = AutoField()
     coding_property = ForeignKeyField(CodingProperty, backref="property_values", null=False, index=True,
-                                      column_name="coding_property_id")
+                                      column_name="coding_property_id", on_delete="CASCADE", on_update="CASCADE")
     pv_value = TextField(null=False, index=True, unique=False, column_name="pv_value")
     pv_description = TextField(null=False, index=False, unique=False)
     pv_summary_mode = TextField(null=True)

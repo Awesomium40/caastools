@@ -31,54 +31,46 @@ def _insert_cacti_cs_(document: et._ElementTree, path: str = None):
     global_property_node = root.find(CactiNodes.GLOBALS)
     global_nodes = global_property_node.findall(CactiNodes.GLOBAL)
 
-    with CodingSystem._meta.database.atomic() as txn:
-        try:
-            # Inserts must be performed in the correct order to ensure relational integrity
-            # CodingSystem first, then CodingProperty, then PropertyValue
-            if path is None:
-                coding_system_entity = CodingSystem.create(cs_name=root.get(CactiAttributes.NAME))
-            else:
-                coding_system_entity = CodingSystem.create(cs_name=root.get(CactiAttributes.NAME), cs_path=path)
+    # Inserts must be performed in the correct order to ensure relational integrity
+    # CodingSystem first, then CodingProperty, then PropertyValue
+    if path is None:
+        coding_system_entity = CodingSystem.create(cs_name=root.get(CactiAttributes.NAME))
+    else:
+        coding_system_entity = CodingSystem.create(cs_name=root.get(CactiAttributes.NAME), cs_path=path)
 
-            # CS inserted, can now insert the CodingProperty entities
-            code_property_entity = CodingProperty.insert_from_cacti_xml(code_property_node, coding_system_entity)
-            component_property_entity = CodingProperty.insert_from_cacti_xml(component_property_node,
-                                                                             coding_system_entity)
+    # CS inserted, can now insert the CodingProperty entities
+    code_property_entity = CodingProperty.insert_from_cacti_xml(code_property_node, coding_system_entity)
+    component_property_entity = CodingProperty.insert_from_cacti_xml(component_property_node,
+                                                                     coding_system_entity)
 
-            # Properties inserted, can now insert the Code and Component entities
-            # First, extract the required data from each XML element
-            PropertyValue.bulk_insert_from_cacti_xml(code_property_node, code_property_entity)
-            PropertyValue.bulk_insert_from_cacti_xml(component_property_node, component_property_entity)
+    # Properties inserted, can now insert the Code and Component entities
+    # First, extract the required data from each XML element
+    PropertyValue.bulk_insert_from_cacti_xml(code_property_node, code_property_entity)
+    PropertyValue.bulk_insert_from_cacti_xml(component_property_node, component_property_entity)
 
-            # Globals need to be handled a bit differently, as they are not scored per-utterance, but per-interview
-            # GlobalProperties can have a parent-child relationship,
-            # so ensure that parents get inserted before children
-            GlobalProperty.bulk_insert_from_cacti_xml(global_nodes, coding_system_entity)
-            gp_dict = {itm[0]: itm[1] for itm in
-                       GlobalProperty.select(GlobalProperty.source_id, GlobalProperty.global_property_id)
-                                     .where(GlobalProperty.coding_system == coding_system_entity)
-                                     .tuples()
-                                     .execute()}
+    # Globals need to be handled a bit differently, as they are not scored per-utterance, but per-interview
+    # GlobalProperties can have a parent-child relationship,
+    # so ensure that parents get inserted before children
+    GlobalProperty.bulk_insert_from_cacti_xml(global_nodes, coding_system_entity)
+    gp_dict = {itm[0]: itm[1] for itm in
+               GlobalProperty.select(GlobalProperty.source_id, GlobalProperty.global_property_id)
+                             .where(GlobalProperty.coding_system == coding_system_entity)
+                             .tuples()
+                             .execute()}
 
-            # Now, need to insert GlobalValues corresponding to each GlobalProperty
-            gv_data = []
-            for node in global_nodes:
-                source_id = int(node.get(CactiAttributes.VALUE))
-                desc = node.get(CactiAttributes.DESCRIPTION)
-                value_range = range(int(node.get(CactiAttributes.MIN_RATING)),
-                                    int(node.get(CactiAttributes.MAX_RATING)) + 1)
-                for v in value_range:
-                    gv_data.append({GlobalValue.global_property.name: gp_dict[source_id],
-                                    GlobalValue.gv_value.name: v,
-                                    GlobalValue.gv_description.name: "{0} {1}".format(desc, v)})
+    # Now, need to insert GlobalValues corresponding to each GlobalProperty
+    gv_data = []
+    for node in global_nodes:
+        source_id = int(node.get(CactiAttributes.VALUE))
+        desc = node.get(CactiAttributes.DESCRIPTION)
+        value_range = range(int(node.get(CactiAttributes.MIN_RATING)),
+                            int(node.get(CactiAttributes.MAX_RATING)) + 1)
+        for v in value_range:
+            gv_data.append({GlobalValue.global_property.name: gp_dict[source_id],
+                            GlobalValue.gv_value.name: v,
+                            GlobalValue.gv_description.name: "{0} {1}".format(desc, v)})
 
-            GlobalValue.bulk_insert(gv_data)
-
-        except Exception as err:
-            txn.rollback()
-            raise err
-        else:
-            txn.commit()
+    GlobalValue.bulk_insert(gv_data)
 
     return CodingSystem.select(CodingSystem, CodingProperty, PropertyValue, GlobalProperty, GlobalValue) \
         .join(CodingProperty, JOIN.LEFT_OUTER) \
@@ -114,62 +106,54 @@ def _insert_ia_cs_(doc: et._ElementTree, path: str = None):
     global_nodes = root.findall(IaNodes.GLOBAL_PROPERTY)
     system_name = root.get(IaProperties.SYSTEM_NAME)
 
-    with CodingSystem._meta.database.atomic() as transaction:
 
-        try:
-            # Need to insert the CodingSystem entity first to ensure ref integrity
-            if path is None:
-                coding_system_entity = CodingSystem.create(cs_name=system_name,
-                                                           source_id=int(root.get(IaProperties.CODING_SYSTEM_ID)))
-            else:
-                coding_system_entity = CodingSystem.create(cs_name=system_name, cs_path=path,
-                                                           source_id=int(root.get(IaProperties.CODING_SYSTEM_ID)))
+    # Need to insert the CodingSystem entity first to ensure ref integrity
+    if path is None:
+        coding_system_entity = CodingSystem.create(cs_name=system_name,
+                                                   source_id=int(root.get(IaProperties.CODING_SYSTEM_ID)))
+    else:
+        coding_system_entity = CodingSystem.create(cs_name=system_name, cs_path=path,
+                                                   source_id=int(root.get(IaProperties.CODING_SYSTEM_ID)))
 
-            rows_inserted = 1
+    rows_inserted = 1
 
-            # Once the CS entity is inserted, can begin to insert property nodes and their associated values
-            # Create a list of dictionaries for bulk insertion
-            for node in property_nodes:
-                cp_entity = CodingProperty.create(coding_system=coding_system_entity,
-                                                  cp_name=node.get(IaProperties.PROPERTY_NAME),
-                                                  cp_display_name=node.get(IaProperties.DISPLAY_NAME),
-                                                  cp_abbreviation=node.get(IaProperties.ABBREVIATION),
-                                                  cp_sort_order=node.get(IaProperties.SORT_ORDER),
-                                                  cp_data_type=node.get(IaProperties.PROPERTY_TYPE),
-                                                  cp_decimal_digits=node.get(IaProperties.DECIMAL_DIGITS),
-                                                  cp_zero_pad=node.get(IaProperties.ZERO_PAD),
-                                                  cp_description=node.get(IaProperties.DESCRIPTION),
-                                                  source_id=node.get(IaProperties.PROPERTY_ID))
-                rows_inserted += 1
+    # Once the CS entity is inserted, can begin to insert property nodes and their associated values
+    # Create a list of dictionaries for bulk insertion
+    for node in property_nodes:
+        cp_entity = CodingProperty.create(coding_system=coding_system_entity,
+                                          cp_name=node.get(IaProperties.PROPERTY_NAME),
+                                          cp_display_name=node.get(IaProperties.DISPLAY_NAME),
+                                          cp_abbreviation=node.get(IaProperties.ABBREVIATION),
+                                          cp_sort_order=node.get(IaProperties.SORT_ORDER),
+                                          cp_data_type=node.get(IaProperties.PROPERTY_TYPE),
+                                          cp_decimal_digits=node.get(IaProperties.DECIMAL_DIGITS),
+                                          cp_zero_pad=node.get(IaProperties.ZERO_PAD),
+                                          cp_description=node.get(IaProperties.DESCRIPTION),
+                                          source_id=node.get(IaProperties.PROPERTY_ID))
+        rows_inserted += 1
 
-                # After the CodingProperty is inserted, can insert the associated PropertyValue entities
-                pv_nodes = node.iterfind("./PropertyValue[@PropertyID = '{0}']".format(cp_entity.source_id))
-                PropertyValue.bulk_insert_from_ia_xml(pv_nodes, cp_entity)
+        # After the CodingProperty is inserted, can insert the associated PropertyValue entities
+        pv_nodes = node.iterfind("./PropertyValue[@PropertyID = '{0}']".format(cp_entity.source_id))
+        PropertyValue.bulk_insert_from_ia_xml(pv_nodes, cp_entity)
 
-            # Now Global entities can be inserted
-            gv_data = []
-            for node in global_nodes:
-                gp_entity = GlobalProperty.create(coding_system=coding_system_entity,
-                                                  gp_name=node.get(IaProperties.PROPERTY_NAME),
-                                                  gp_description=node.get(IaProperties.DESCRIPTION),
-                                                  source_id=node.get(IaProperties.PROPERTY_ID))
+    # Now Global entities can be inserted
+    gv_data = []
+    for node in global_nodes:
+        gp_entity = GlobalProperty.create(coding_system=coding_system_entity,
+                                          gp_name=node.get(IaProperties.PROPERTY_NAME),
+                                          gp_description=node.get(IaProperties.DESCRIPTION),
+                                          source_id=node.get(IaProperties.PROPERTY_ID))
 
-                rows_inserted += 1
+        rows_inserted += 1
 
-                gv_data.extend([{GlobalValue.global_property.name: gp_entity,
-                            GlobalValue.source_id.name: int(gvn.get(IaProperties.PROP_VALUE_ID)),
-                            GlobalValue.gv_value.name: gvn.get(IaProperties.VALUE),
-                            GlobalValue.gv_description.name: gvn.get(IaProperties.DESCRIPTION)}
-                           for gvn in node.iterfind(IaNodes.PROPERTY_VALUE)])
+        gv_data.extend([{GlobalValue.global_property.name: gp_entity,
+                    GlobalValue.source_id.name: int(gvn.get(IaProperties.PROP_VALUE_ID)),
+                    GlobalValue.gv_value.name: gvn.get(IaProperties.VALUE),
+                    GlobalValue.gv_description.name: gvn.get(IaProperties.DESCRIPTION)}
+                   for gvn in node.iterfind(IaNodes.PROPERTY_VALUE)])
 
-            if len(gv_data) > 0:
-                rows_inserted += GlobalValue.bulk_insert(gv_data)
-
-        except Exception as err:
-            transaction.rollback()
-            raise err
-        else:
-            transaction.commit()
+    if len(gv_data) > 0:
+        rows_inserted += GlobalValue.bulk_insert(gv_data)
 
     return CodingSystem.select(CodingSystem, CodingProperty, PropertyValue, GlobalProperty, GlobalValue) \
         .join(CodingProperty, JOIN.LEFT_OUTER) \
@@ -180,6 +164,7 @@ def _insert_ia_cs_(doc: et._ElementTree, path: str = None):
         .where(CodingSystem.coding_system_id == coding_system_entity.coding_system_id).get()
 
 
+@db.atomic()
 def upload_coding_system(coding_system_type, file_path=None, file_obj=None):
     """
     upload_coding_system(coding_system_type: CodingSytemType, file_path:str = None, file_obj: str = None)
@@ -226,6 +211,7 @@ def upload_coding_system(coding_system_type, file_path=None, file_obj=None):
     return cs_entity
 
 
+@db.atomic()
 def upload_cacti_interview(interview_name, study_id, rater_id, client_id, therapist_id,
                            language_id, condition_id, cacti_name, codes_name,
                            components_name, path_to_casaa, path_to_globals=None,
@@ -276,66 +262,58 @@ def upload_cacti_interview(interview_name, study_id, rater_id, client_id, therap
     pv_dict = {(row[2], row[1]): row[0] for row in property_value_query.tuples().execute()}
     gv_dict = {(row[2], row[1]): row[0] for row in global_value_query.tuples().execute()}
 
-    # The entire operation of inserting an interview needs to be atomic
-    with db.atomic() as transaction:
-        try:
-            interview = Interview.create(interview_name=interview_name, coding_system=cs,
-                                         study_id=study_id, client_id=client_id,
-                                         rater_id=rater_id, therapist_id=therapist_id,
-                                         language_id=language_id, treatment_condition_id=condition_id)
+    interview = Interview.create(interview_name=interview_name, coding_system=cs,
+                                 study_id=study_id, client_id=client_id,
+                                 rater_id=rater_id, therapist_id=therapist_id,
+                                 language_id=language_id, treatment_condition_id=condition_id)
 
-            # The first step is to insert the utterances into the data
-            casaa_data = read_casaa(path_to_casaa)
-            comp_data = read_casaa(path_to_components) if path_to_components is not None else None
+    # The first step is to insert the utterances into the data
+    casaa_data = read_casaa(path_to_casaa)
+    comp_data = read_casaa(path_to_components) if path_to_components is not None else None
 
-            utt_rows = [{Utterance.interview.name: interview,
-                         Utterance.utt_enum.name: row[0],
-                         Utterance.utt_start_time.name: row[1],
-                         Utterance.utt_end_time.name: row[2]} for row in casaa_data]
+    utt_rows = [{Utterance.interview.name: interview,
+                 Utterance.utt_enum.name: row[0],
+                 Utterance.utt_start_time.name: row[1],
+                 Utterance.utt_end_time.name: row[2]} for row in casaa_data]
 
-            # Slow to insert the rows one by one, so do a bulk insert, and query for the inserted data
-            # Need a dict mapping enumeration to utterance_id in order to properly insert utterance-level data
-            Utterance.bulk_insert(utt_rows)
-            utt_dict = {tpl[0]: tpl[1] for tpl in Utterance.select(Utterance.utt_enum, Utterance.utterance_id)
-                        .where(Utterance.interview == interview).tuples().execute()}
+    # Slow to insert the rows one by one, so do a bulk insert, and query for the inserted data
+    # Need a dict mapping enumeration to utterance_id in order to properly insert utterance-level data
+    Utterance.bulk_insert(utt_rows)
+    utt_dict = {tpl[0]: tpl[1] for tpl in Utterance.select(Utterance.utt_enum, Utterance.utterance_id)
+                .where(Utterance.interview == interview).tuples().execute()}
 
-            # Once the utterance-level data is inserted, can then insert the UtteranceCode data
-            code_data = [{UtteranceCode.utterance.name: utt_dict.get(row[0]),
-                          UtteranceCode.property_value.name: pv_dict.get((codes_name, row[4])),
-                          UtteranceCode.source_id.name: int(row[3])} for row in casaa_data
-                         if len(row) > 3 and row[3].strip() != '']
+    # Once the utterance-level data is inserted, can then insert the UtteranceCode data
+    code_data = [{UtteranceCode.utterance.name: utt_dict.get(row[0]),
+                  UtteranceCode.property_value.name: pv_dict.get((codes_name, row[4])),
+                  UtteranceCode.source_id.name: int(row[3])} for row in casaa_data
+                 if len(row) > 3 and row[3].strip() != '']
 
-            UtteranceCode.bulk_insert(code_data)
+    UtteranceCode.bulk_insert(code_data)
 
-            # Need to do another bulk insert for the components
-            if comp_data is not None:
-                comp_rows = [{UtteranceCode.utterance_id.name: utt_dict.get(row[0]),
-                              UtteranceCode.property_value_id.name: pv_dict[(components_name, row[3])]} for row in
-                             comp_data if len(row) > 3 and row[3].strip() != '']
-                UtteranceCode.bulk_insert(comp_rows)
+    # Need to do another bulk insert for the components
+    if comp_data is not None:
+        comp_rows = [{UtteranceCode.utterance_id.name: utt_dict.get(row[0]),
+                      UtteranceCode.property_value_id.name: pv_dict[(components_name, row[3])]} for row in
+                     comp_data if len(row) > 3 and row[3].strip() != '']
+        UtteranceCode.bulk_insert(comp_rows)
 
-            # Finally, can perform an insert on the globals
-            if path_to_globals is not None:
-                global_lst.extend(read_globals(path_to_globals, (THERAPIST_GLOBALS_SLICE, CLIENT_GLOBALS_SLICE)))
+    # Finally, can perform an insert on the globals
+    if path_to_globals is not None:
+        global_lst.extend(read_globals(path_to_globals, (THERAPIST_GLOBALS_SLICE, CLIENT_GLOBALS_SLICE)))
 
-            if path_to_self_explore is not None:
-                global_lst.extend(read_globals(path_to_self_explore, (SE_GLOBALS_SLICE,)))
+    if path_to_self_explore is not None:
+        global_lst.extend(read_globals(path_to_self_explore, (SE_GLOBALS_SLICE,)))
 
-            if len(global_lst) > 0:
-                global_rows = [{GlobalRating.interview.name: interview,
-                                GlobalRating.global_value.name: gv_dict[tpl]} for tpl in global_lst]
+    if len(global_lst) > 0:
+        global_rows = [{GlobalRating.interview.name: interview,
+                        GlobalRating.global_value.name: gv_dict[tpl]} for tpl in global_lst]
 
-                GlobalRating.bulk_insert(global_rows)
-
-        except:
-            transaction.rollback()
-            raise
-        else:
-            transaction.commit()
+        GlobalRating.bulk_insert(global_rows)
 
     return interview
 
 
+@db.atomic()
 def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist_id,
                         condition_id, *interview_files):
     """
@@ -379,56 +357,47 @@ def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist
     if cs_entity is None:
         raise RecordNotFoundException("CodingSystem.source_id == {0}".format(cs_id))
 
-    # Once the coding system is in hand, all the information to construct the Interview entry is complete.
-    with Interview._meta.database.atomic() as transaction:
-        try:
-            iv = Interview.create(interview_name=interview_name, coding_system=cs_entity, study_id=study_id,
-                                  client_id=client_id, rater_id=rater_id, therapist_id=therapist_id,
-                                  treatment_condition_id=condition_id)
-            rows_inserted += 1
+    iv = Interview.create(interview_name=interview_name, coding_system=cs_entity, study_id=study_id,
+                          client_id=client_id, rater_id=rater_id, therapist_id=therapist_id,
+                          treatment_condition_id=condition_id)
+    rows_inserted += 1
 
-            # Once the interview has been inserted, the utterances can be inserted next
-            # start by gathering up all the utterance data to perform a bulk insertion
-            utt_nodes = root.iterfind(IaNodes.UTTERANCES)
-            utt_rows = [{Utterance.interview.name: iv,
-                         Utterance.source_id.name: int(node.find(IaProperties.UTTERANCE_ID).text),
-                         Utterance.utt_line: int(node.find(IaProperties.LINE_NO).text),
-                         Utterance.utt_enum: int(node.find(IaProperties.UTT_NUMBER).text),
-                         Utterance.utt_role: node.find(IaProperties.SPEAKER_ROLE).text,
-                         Utterance.utt_text: node.find(IaProperties.TEXT).text,
-                         Utterance.utt_word_count: int(node.find(IaProperties.WORD_COUNT).text),
-                         Utterance.utt_start_time: float(node.find(IaProperties.START_TIME).text)}
-                        for node in utt_nodes]
+    # Once the interview has been inserted, the utterances can be inserted next
+    # start by gathering up all the utterance data to perform a bulk insertion
+    utt_nodes = root.iterfind(IaNodes.UTTERANCES)
+    utt_rows = [{Utterance.interview.name: iv,
+                 Utterance.source_id.name: int(node.find(IaProperties.UTTERANCE_ID).text),
+                 Utterance.utt_line: int(node.find(IaProperties.LINE_NO).text),
+                 Utterance.utt_enum: int(node.find(IaProperties.UTT_NUMBER).text),
+                 Utterance.utt_role: node.find(IaProperties.SPEAKER_ROLE).text,
+                 Utterance.utt_text: node.find(IaProperties.TEXT).text,
+                 Utterance.utt_word_count: int(node.find(IaProperties.WORD_COUNT).text),
+                 Utterance.utt_start_time: float(node.find(IaProperties.START_TIME).text)}
+                for node in utt_nodes]
 
-            rows_inserted += Utterance.bulk_insert(utt_rows)
+    rows_inserted += Utterance.bulk_insert(utt_rows)
 
-            # Once the utterances have been inserted, need to query for them
-            # in order to properly insert UtteranceProperty entities
-            utt_dict = {row[0]: row[1] for row in Utterance.select(Utterance.source_id, Utterance.utterance_id)
-                .where(Utterance.interview == iv).tuples().execute()}
+    # Once the utterances have been inserted, need to query for them
+    # in order to properly insert UtteranceProperty entities
+    utt_dict = {row[0]: row[1] for row in Utterance.select(Utterance.source_id, Utterance.utterance_id)
+        .where(Utterance.interview == iv).tuples().execute()}
 
-            # With the dictionary of utterances mapping source_id to utterance_id in hand,
-            # can use to insert UtteranceCode entities
-            up_nodes = root.iterfind(IaNodes.UTT_PROPERTIES)
-            up_rows = [{UtteranceCode.utterance.name: utt_dict[int(node.find(IaProperties.UTTERANCE_ID).text)],
-                        UtteranceCode.property_value.name: pv_dict[
-                            int(node.find(IaProperties.PROP_VALUE_ID).text)]}
-                       for node in up_nodes]
+    # With the dictionary of utterances mapping source_id to utterance_id in hand,
+    # can use to insert UtteranceCode entities
+    up_nodes = root.iterfind(IaNodes.UTT_PROPERTIES)
+    up_rows = [{UtteranceCode.utterance.name: utt_dict[int(node.find(IaProperties.UTTERANCE_ID).text)],
+                UtteranceCode.property_value.name: pv_dict[
+                    int(node.find(IaProperties.PROP_VALUE_ID).text)]}
+               for node in up_nodes]
 
-            rows_inserted += UtteranceCode.bulk_insert(up_rows)
+    rows_inserted += UtteranceCode.bulk_insert(up_rows)
 
-            # Finally, the global ratings can be inserted
-            global_nodes = root.iterfind(IaNodes.GLOBALS)
-            gv_rows = [{GlobalRating.global_value.name: gv_dict[int(node.find(IaProperties.PROP_VALUE_ID).text)],
-                        GlobalRating.interview.name: iv}
-                       for node in global_nodes]
+    # Finally, the global ratings can be inserted
+    global_nodes = root.iterfind(IaNodes.GLOBALS)
+    gv_rows = [{GlobalRating.global_value.name: gv_dict[int(node.find(IaProperties.PROP_VALUE_ID).text)],
+                GlobalRating.interview.name: iv}
+               for node in global_nodes]
 
-            rows_inserted += GlobalRating.bulk_insert(gv_rows)
-
-        except PeeweeException as err:
-            transaction.rollback()
-            raise err
-        else:
-            transaction.commit()
+    rows_inserted += GlobalRating.bulk_insert(gv_rows)
 
     return iv

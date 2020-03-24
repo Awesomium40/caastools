@@ -1,9 +1,10 @@
-from database.models import *
-from database.bulkinsert import *
-from constants import CodingSystemType
+from caastools.database.models import *
+from caastools.database.bulkinsert import *
+from caastools.constants import CodingSystemType
 import io
 import os
 import peewee
+import sqlite3
 import unittest
 
 
@@ -320,8 +321,8 @@ class TestBulkImports(unittest.TestCase):
         upload_coding_system(CodingSystemType.CACTI, file_path=ptcs)
 
         # now try to upload the interview from the CACTI files
-        interview = upload_cacti_interview('R31531', 27, 5, 'HAEL002', 1, 9, 0, "CAMI_CACTI_1.0", "MISC2.5",
-                                           "CAMI_Components", r'./test_data/cacti/R31531.casaa',
+        interview = upload_cacti_interview('R31531', 27, 5, 'HAEL002', 1, 9, 0, "CAMI_CACTI_1.0", "MISC",
+                                           "Components", r'./test_data/cacti/R31531.casaa',
                                            r'./test_data/cacti/R31531.globals', r'./test_data/cacti/R31531.parse',
                                            r'./test_data/cacti/R31531.globals')
 
@@ -385,6 +386,38 @@ class TestBulkImports(unittest.TestCase):
         # interview should have a total of 2 globals
         global_ratings = GlobalRating.select().execute()
         self.assertEqual(len(global_ratings), 2)
+
+    def test_duplicate_bulk_insert(self):
+
+        script_dir = os.path.dirname(__file__)
+        test_folder = os.path.join(script_dir, 'test_data', 'cacti')
+        invalid_folder = os.path.join(test_folder, 'invalid')
+        pt_invalid = os.path.join(invalid_folder, 'userConfiguration.xml')
+        ptcs = os.path.join(test_folder, 'userConfiguration.xml')
+
+        cs = upload_coding_system(CodingSystemType.CACTI, file_path=ptcs)
+        iv = Interview.create(interview_name="R31531", coding_system=cs, study_id=1,
+                              client_id="C255", rater_id=1, therapist_id=1, language_id=1,
+                              treatment_condition_id=0)
+
+        # Inserting 2 utterances for the same interview with the same enumeration should fail integrity checks
+        utterance_data = {'utt_enum': 1, 'interview': iv}
+        with self.assertRaises(peewee.PeeweeException):
+            Utterance.bulk_insert((utterance_data for i in range(0, 2)))
+
+        # Inserting a CACTI coding system with 2 identical codes should fail integrity checks
+        iv.delete_instance()
+        cs.delete_instance()
+        with self.assertRaises(peewee.IntegrityError):
+            upload_coding_system(CodingSystemType.CACTI, file_path=pt_invalid)
+
+        # failure to upload the CS should have caused a failure to upload anything
+        systems = list(CodingSystem.select().execute())
+        properties = list(CodingProperty.select().execute())
+        values = list(PropertyValue.select().execute())
+        self.assertEqual(len(systems), 0)
+        self.assertEqual(len(properties), 0)
+        self.assertEqual(len(values), 0)
 
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestBulkImports)
