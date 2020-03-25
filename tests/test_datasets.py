@@ -2,7 +2,7 @@ from caastools import datasets
 from caastools.constants import CodingSystemType
 from caastools.database.models import *
 from caastools.database.bulkinsert import *
-from caastools.utils import save_as_spss
+from caastools.datasets import save_as_spss
 import os
 import unittest
 
@@ -55,7 +55,6 @@ class TestDatasets(unittest.TestCase):
 
     def test_save_as_spss(self):
         data = datasets.build_session_level_dataframe([IV]).reset_index(drop=False)
-        print(data.columns)
         save_as_spss(data, r'd:\test_out.sav')
 
 
