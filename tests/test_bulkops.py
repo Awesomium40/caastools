@@ -373,7 +373,7 @@ class TestBulkImports(unittest.TestCase):
 
         upload_coding_system(CodingSystemType.IA, file_path=ptcs)
 
-        interview = upload_ia_interview('UC379', 27, 5, 'HAEL002', 1, 9,
+        interview = upload_ia_interview('UC379', 27, 5, 'HAEL002', 1, 9, 1,
                                         *[os.path.join(test_folder, itm) for itm in iv_files])
 
         # Interview should have a total of 4 utterances
@@ -398,7 +398,7 @@ class TestBulkImports(unittest.TestCase):
         cs = upload_coding_system(CodingSystemType.CACTI, file_path=ptcs)
         iv = Interview.create(interview_name="R31531", coding_system=cs, study_id=1,
                               client_id="C255", rater_id=1, therapist_id=1, language_id=1,
-                              treatment_condition_id=0)
+                              treatment_condition_id=0, session_number=1)
 
         # Inserting 2 utterances for the same interview with the same enumeration should fail integrity checks
         utterance_data = {'utt_enum': 1, 'interview': iv}

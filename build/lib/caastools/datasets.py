@@ -162,9 +162,9 @@ def _get_global_data_(interviews):
 def _get_utterance_data_(interviews):
 
     return m.UtteranceCode.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
-                                  m.Interview.client_id, m.Interview.therapist_id, m.Interview.language_id,
-                                  m.Interview.treatment_condition_id, m.Utterance.utt_enum, m.Utterance.utt_start_time,
-                                  m.Utterance.utt_end_time,
+                                  m.Interview.client_id, m.Interview.session_number, m.Interview.therapist_id,
+                                  m.Interview.language_id, m.Interview.treatment_condition_id, m.Utterance.utt_enum,
+                                  m.Utterance.utt_start_time, m.Utterance.utt_end_time,
                                   m.CodingProperty.cp_name, m.CodingProperty.cp_data_type,
                                   m.PropertyValue.pv_value, m.Utterance.utt_text) \
                             .join(m.Utterance) \

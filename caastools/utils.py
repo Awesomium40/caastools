@@ -74,7 +74,7 @@ def sanitize_for_spss(dirty_str, find=None, repl=None):
 
     if (find is None) ^ (repl is None):
         raise ValueError("if one of parameters (find, repl) are specified, both must be specified")
-    if not callable(repl) and len(find) != len(repl):
+    if not callable(repl) and (find is not None and repl is not None) and (len(find) != len(repl)):
         raise ValueError("parameters find and repl must be of same length")
 
     # SPSS has specifications on variable names. These will help ensure they are met
@@ -93,7 +93,7 @@ def sanitize_for_spss(dirty_str, find=None, repl=None):
         new_var = "VAR_{0}".format(sanitize_for_spss.counter)
 
     # If any custom substitutions are required, perform prior to final sanitization
-    if len(find) > 0:
+    if find is not None and len(find) > 0:
         new_var = multi_replace(new_var, find, repl)
 
     # locate invalid characters and replace with underscores

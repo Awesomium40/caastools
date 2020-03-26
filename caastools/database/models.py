@@ -52,6 +52,7 @@ class Interview(BaseModel):
     interview_id = AutoField()
     interview_name = TextField(null=False, index=True, unique=True)
     coding_system = ForeignKeyField(CodingSystem, backref="interviews", null=False, index=True)
+    session_number = IntegerField(null=False, index=True, unique=False)
     study_id = IntegerField(null=True, unique=False, index=True)
     client_id = TextField(null=False, unique=False, index=True)
     rater_id = IntegerField(null=False, unique=False, index=True)
@@ -110,6 +111,7 @@ class PropertyValue(BaseModel):
     pv_value = TextField(null=False, index=True, unique=False, column_name="pv_value")
     pv_description = TextField(null=False, index=False, unique=False)
     pv_summary_mode = TextField(null=True)
+    pv_parent = ForeignKeyField('self', null=True, backref='children', on_update="CASCADE", on_delete="SET NULL")
 
     class Meta:
         constraints = [SQL('CONSTRAINT pv_value_cp_id_unique UNIQUE (coding_property_id, pv_value)'),
