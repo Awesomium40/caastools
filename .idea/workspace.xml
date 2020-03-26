@@ -3,16 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database/bulkinsert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/tests/test_bulkops.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/tests/test_bulkops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/bulkinsert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_bulkops.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_bulkops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -70,18 +61,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/caastools/utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1615">
-              <caret line="95" column="27" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="27" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://C:/python37/Lib/unittest/case.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="240">
@@ -117,7 +96,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/caastools/database/bulkinsert.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
@@ -126,22 +105,21 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://C:/python37/Lib/site-packages/peewee.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="403" selection-start-line="403" selection-end-line="403" />
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="442">
+                <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_data/cacti/userConfiguration.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="121" selection-start-line="11" selection-start-column="121" selection-end-line="11" selection-end-column="121" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/caastools_Awesomium40.egg-info/PKG-INFO">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -213,7 +191,6 @@
         <option value="$PROJECT_DIR$/tests/test_parsing.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/caastools/__init__.py" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="D:/qsf2codebook.py" />
         <option value="$PROJECT_DIR$/tests/test_data/cacti/userConfiguration.xml" />
         <option value="$PROJECT_DIR$/tests/test_data/cacti/invalid/userConfiguration.xml" />
@@ -228,6 +205,7 @@
         <option value="$PROJECT_DIR$/tests/test_bulkops.py" />
         <option value="$PROJECT_DIR$/caastools/datasets.py" />
         <option value="$PROJECT_DIR$/caastools/database/bulkinsert.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -248,16 +226,6 @@
             <path>
               <item name="caastools" type="b2602c69:ProjectViewProjectNode" />
               <item name="caastools" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="caastools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="caastools" type="462c0819:PsiDirectoryNode" />
-              <item name="caastools" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="caastools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="caastools" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -430,7 +398,7 @@
       <workItem from="1585008363869" duration="11256000" />
       <workItem from="1585145775317" duration="7647000" />
       <workItem from="1585161529997" duration="5917000" />
-      <workItem from="1585231782157" duration="13847000" />
+      <workItem from="1585231782157" duration="14768000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -488,7 +456,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585232615438</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Refactor functions in database.bulkinsert">
+      <created>1585250415987</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1585250415987</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -524,18 +499,17 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="232633000" />
+    <option name="totallyTimeSpent" value="233554000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="896" y="0" width="2035" height="1407" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2729114" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2729114" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3288854" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49819493" visible="true" weight="0.32810047" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49819493" visible="true" weight="0.32810047" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49931693" weight="0.39717427" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -568,7 +542,8 @@
     <MESSAGE value="change top-level insertions of bulk operations to get_or_create" />
     <MESSAGE value="move some functions from database.models to database.bulkinsert&#10;streamline bulk_insert methods" />
     <MESSAGE value="Update functions that sanitize identifiers for SPSS variable names" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update functions that sanitize identifiers for SPSS variable names" />
+    <MESSAGE value="Refactor functions in database.bulkinsert" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor functions in database.bulkinsert" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -607,12 +582,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/test_data/ia/UCHAT3.4_CodingSystem.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parsing/translate_u331_interview_to_u34.xslt" />
-    <entry file="file://$PROJECT_DIR$/parsing/cs_transform.xslt" />
-    <entry file="file://$PROJECT_DIR$/parsing/interview_transform.xslt" />
     <entry file="file://$PROJECT_DIR$/parsing/cacti.py" />
     <entry file="file://$PROJECT_DIR$/parsing/ia.py" />
     <entry file="file://$PROJECT_DIR$/exceptions.py" />
@@ -659,16 +628,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="100" selection-start-line="12" selection-start-column="100" selection-end-line="12" selection-end-column="100" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor>
-            <caret selection-end-line="3" selection-end-column="78" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
@@ -876,6 +835,32 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools.egg-info/dependency_links.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools_Awesomium40.egg-info/dependency_links.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools_Awesomium40.egg-info/PKG-INFO">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="7" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="442">
+            <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
