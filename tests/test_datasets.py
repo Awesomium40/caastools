@@ -11,6 +11,23 @@ COMP = 'Components'
 IV = 'R31531'
 
 
+def repl_func(match_obj):
+    def is_numeric(string):
+        try:
+            float(string)
+        except:
+            result = False
+        else:
+            result = True
+        return result
+
+    repl_dict = {"+": "Pos", "-": "Neg"}
+    sl = slice(*match_obj.span())
+    matched_str = match_obj.string[sl]
+    tail = match_obj.string[match_obj.span()[0] + 1:]
+    return repl_dict[matched_str] if len(tail) == 0 or is_numeric(tail) else "_"
+
+
 class TestDatasets(unittest.TestCase):
 
     def setUp(self):
@@ -55,7 +72,7 @@ class TestDatasets(unittest.TestCase):
 
     def test_save_as_spss(self):
         data = datasets.build_session_level_dataframe([IV]).reset_index(drop=False)
-        save_as_spss(data, r'd:\test_out.sav')
+        save_as_spss(data, r'd:\test_out.sav', find=['+', '-'], repl=repl_func)
 
 
 

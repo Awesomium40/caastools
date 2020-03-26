@@ -55,7 +55,7 @@ def cohens_kappa(rows, columns, weight=None):
     return kappa, kmax
 
 
-def icc(frame: pandas.DataFrame, icc_type=2, measures='single'):
+def icc(frame: pandas.DataFrame, icc_type=2):
     """
     Compute Intraclass Correllation Coefficient
     Based on Bakeman, R., & Quera, V. (2011). Sequential Analysis and Observational
@@ -65,7 +65,6 @@ def icc(frame: pandas.DataFrame, icc_type=2, measures='single'):
 
     :param frame: The pandas.DataFrame from which to compute the ICC
     :param icc_type: The type of ICC to run (only 2 and 3 currently supported). Default 2
-    :param measures: whether to compute a single or average measures icc: Currently computes only single measures
     :return: tuple[float, float, float] The intraclass correlation coefficient, F and associated p-value
     :raises ValueError: If frame has fewer than 2 rows or columns
     """
@@ -75,6 +74,13 @@ def icc(frame: pandas.DataFrame, icc_type=2, measures='single'):
         raise ValueError("Unable to compute an ICC because fewer than 2 rows with non-missing data were found")
     if k < 2:
         raise ValueError("Unable to compute an ICC because fewer than 2 raters were found")
+
+    icc_types = {1: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n: (ms_sub - ms_within) /
+                                                                        (ms_sub + df_r * ms_within),
+                 2: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n: (ms_sub - ms_err) /
+                                                                        (ms_sub + df_r * ms_err + k * (ms_r - ms_err) / n),
+                 3: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n: (ms_sub - ms_err) /
+                                                                        (ms_sub + df_r * ms_err)}
 
     # Degrees of Freedom
     df_raters = k - 1  # dfc
@@ -104,6 +110,12 @@ def icc(frame: pandas.DataFrame, icc_type=2, measures='single'):
     ss_within_subjects = ss_raters + ss_error
     ms_within_subjects = ss_within_subjects / df_within_rows
 
+    formula = icc_types.get(icc_type)
+    if formula is None:
+        raise ValueError("Invalid specification for icc_type. Expected (1, 2, 3)")
+
+    ICC = formula(ms_subjects, ms_error, ms_within_subjects, ms_raters, df_raters, k, n)
+    """
     if icc_type == 1:
         # ICC(1,1) = (mean square subject - mean square within rows) /
         # (mean square subject + (k-1)*mean square within rows)
@@ -122,10 +134,11 @@ def icc(frame: pandas.DataFrame, icc_type=2, measures='single'):
             
     else:
         raise ValueError("Invalid specification for icc_type. Expected (1, 2, 3)")
+    """
 
-    F = ms_subjects / ms_error
+    f = ms_subjects / ms_error
 
-    return ICC, F, stats.f.sf(F, df_subjects, df_error)
+    return ICC, f, stats.f.sf(f, df_subjects, df_error)
 
 
 def kalpha(data, data_type, missing):

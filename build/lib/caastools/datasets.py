@@ -3,8 +3,9 @@ from .utils import sanitize_for_spss
 from savReaderWriter.savWriter import SavWriter
 import pandas
 import pandas.api.types as ptypes
+import numpy
 
-__all__ = ['build_sequential_dataframe', 'build_session_level_dataframe']
+__all__ = ['build_sequential_dataframe', 'build_session_level_dataframe', 'save_as_spss']
 
 
 def build_sequential_dataframe(interviews):
@@ -54,7 +55,8 @@ def build_sequential_dataframe(interviews):
     pivot.index = new_index
 
     # Finally, recombine the result of the pivot with the descriptive information to yield a complete dataframe
-    df = df.join(pivot).drop(labels=['interview_name', 'utt_enum'], axis=1)
+    df = df.join(pivot).drop(labels=['interview_name', 'utt_enum'], axis=1).applymap(lambda x: x if x is not None
+                                                                                     else numpy.NaN)
     for col in numeric_cols:
         df[col] = pandas.to_numeric(df[col])
 
@@ -94,14 +96,19 @@ def build_session_level_dataframe(interviews):
     return data
 
 
-def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None) -> None:
+def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None, find=None, repl=None) -> None:
     """
     caastools.utils.save_as_spss(data_frame: pandas.DataFrame, out_path: str) -> None
     saves data_frame as an SPSS dataset at out_path
     :param data_frame: the pandas DataFrame to save
     :param out_path: the path at which to save the file
     :param labels: a dictionary mapping column labels in the data frame to a variable label in the SPSS dataset
+    :param find: a sequence of characters within variable names to be replaced with other values. Default None
+    :param repl: a sequence of characters with which to replace corresponding entries in find, or a function
+    which yields their replacements. Default None
     :return: None
+    :raise ValueError: if either find/repl is None and the other is not
+    :raise ValueError: if find and repl are sequences of unequal length
     """
 
     cols = data_frame.columns  # type: pandas.Index
@@ -110,11 +117,12 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None) -> No
     var_types = {}
     var_formats = {}
     var_labels = {} if labels is None else labels
+    #subs = {"+": "Pos", "-": "Neg"} if sub is None else sub
 
     # Construct the various information that the SPSS dictionary will contain about each variable
     for col in cols:
         var_name = sanitize_for_spss(".".join(str(i) for i in col) if is_multi_index else str(col),
-                                     subs={"+": "Pos", "-": "Neg"})
+                                     find=find, repl=repl)
         var_names.append(var_name)
 
         # Need to know the data type and format of each column so that the SPSS file can be written properly
@@ -122,7 +130,8 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None) -> No
         # of bytes the string can hold.
         # TODO: Add in checks for additional dtypes
         if pandas.api.types.is_string_dtype(data_frame[col]):
-            var_types[var_name] = max(data_frame[col].str.len()) * 2
+            lens = list(filter(lambda x: x is not None, set(data_frame[col].str.len())))
+            var_types[var_name] = max(lens) * 2 if len(lens) > 0 else 255
         else:
             var_types[var_name] = 0
             var_formats[var_name] = "F10.2" if ptypes.is_float(data_frame[col]) else \
@@ -154,9 +163,10 @@ def _get_utterance_data_(interviews):
 
     return m.UtteranceCode.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
                                   m.Interview.client_id, m.Interview.therapist_id, m.Interview.language_id,
-                                  m.Interview.treatment_condition_id, m.Utterance.utt_enum,
+                                  m.Interview.treatment_condition_id, m.Utterance.utt_enum, m.Utterance.utt_start_time,
+                                  m.Utterance.utt_end_time,
                                   m.CodingProperty.cp_name, m.CodingProperty.cp_data_type,
-                                  m.PropertyValue.pv_value) \
+                                  m.PropertyValue.pv_value, m.Utterance.utt_text) \
                             .join(m.Utterance) \
                             .join(m.Interview) \
                             .switch(m.UtteranceCode) \

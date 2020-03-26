@@ -12,7 +12,7 @@ import os
 
 __all__ = ['upload_coding_system', 'upload_cacti_interview', 'upload_ia_interview']
 
-logging.getLogger('database.bulkops').addHandler(logging.NullHandler())
+logging.getLogger('database.bulkinsert').addHandler(logging.NullHandler())
 
 
 def _insert_cacti_cs_(document: et._ElementTree, path: str = None):

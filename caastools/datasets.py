@@ -96,14 +96,19 @@ def build_session_level_dataframe(interviews):
     return data
 
 
-def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None) -> None:
+def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None, find=None, repl=None) -> None:
     """
     caastools.utils.save_as_spss(data_frame: pandas.DataFrame, out_path: str) -> None
     saves data_frame as an SPSS dataset at out_path
     :param data_frame: the pandas DataFrame to save
     :param out_path: the path at which to save the file
     :param labels: a dictionary mapping column labels in the data frame to a variable label in the SPSS dataset
+    :param find: a sequence of characters within variable names to be replaced with other values. Default None
+    :param repl: a sequence of characters with which to replace corresponding entries in find, or a function
+    which yields their replacements. Default None
     :return: None
+    :raise ValueError: if either find/repl is None and the other is not
+    :raise ValueError: if find and repl are sequences of unequal length
     """
 
     cols = data_frame.columns  # type: pandas.Index
@@ -112,11 +117,12 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None) -> No
     var_types = {}
     var_formats = {}
     var_labels = {} if labels is None else labels
+    #subs = {"+": "Pos", "-": "Neg"} if sub is None else sub
 
     # Construct the various information that the SPSS dictionary will contain about each variable
     for col in cols:
         var_name = sanitize_for_spss(".".join(str(i) for i in col) if is_multi_index else str(col),
-                                     sub={"+": "Pos", "-": "Neg"})
+                                     find=find, repl=repl)
         var_names.append(var_name)
 
         # Need to know the data type and format of each column so that the SPSS file can be written properly

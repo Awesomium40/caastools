@@ -5,7 +5,7 @@ with open(os.path.join(os.path.dirname(__file__), "README.md"), "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="caastools-Awesomium40",
+    name="caastools",
     version="0.2.0",
     author="Jay Walthers",
     author_email="justin_walthers@brown.edu",
