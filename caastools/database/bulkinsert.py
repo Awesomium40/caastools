@@ -359,7 +359,8 @@ def __cacti_gp_map_func__(node, cp_entity):
             CactiAttributes.DESCRIPTION),
             GlobalProperty.coding_system.name: cp_entity,
             GlobalProperty.source_id.name: node.get(CactiAttributes.VALUE),
-            GlobalProperty.gp_data_type.name: 'numeric'}
+            GlobalProperty.gp_data_type.name: 'numeric',
+            GlobalProperty.gp_parent.name: node.get(CactiAttributes.SUM_MODE)}
 
 
 def __cacti_pv_map_func__(node, pv_tag, cp_entity):
