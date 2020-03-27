@@ -484,7 +484,7 @@
     </codeControls>
     <globals>
         <global name="All MISC Globals" isSummary="0" seqUse="0" reverse="0" label="Therapist MISC Globals" type="MISC" value="1000" defaultRating="3" minRating="1" maxRating="5" description="Mean of all MISC Globals"/>
-        <global name="Therapist MISC Globals" isSummary="0" seqUse="0" reverse="0" label="Therapist MISC Globals" type="MISC" value="1100" defaultRating="3" minRating="1" maxRating="5" description="Mean of all Tx Globals" parent="1000"/>       
+        <global name="Therapist MISC Globals" isSummary="0" seqUse="0" reverse="0" label="Therapist MISC Globals" type="MISC" value="1100" defaultRating="3" minRating="1" maxRating="5" description="Mean of all Tx Globals" parent="1000"/>
         <global name="Spirit" isSummary="1" summaryMode="mean" seqUse="0" reverse="0" label="MI Spirit" type="MISC" value="1110" defaultRating="3" minRating="1" maxRating="5" description="MI Spirit" parent="1100"/>
         <global name="Collaboration" isSummary="0" seqUse="0" reverse="0" scale="Spirit" label="TherapistCollaboration" description="MISC global: Collaboration" type="MISC" value="1111" defaultRating="3" minRating="1"  maxRating="5" parent="1110"/>
         <global name="Autonomy" isSummary="0" seqUse="0" reverse="0" scale="Spirit" label="Therapist Autonomy" type="MISC" value="1112" defaultRating="3" minRating="1" maxRating="5" description="MISC global: Autonomy   Support" parent="1110"/>

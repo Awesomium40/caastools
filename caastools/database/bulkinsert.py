@@ -257,21 +257,31 @@ def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist
     return iv
 
 
-def __parent_sort__(code_dicts):
+def __parent_sort__(code_dicts, model_type=PropertyValue):
     """
     sorts the sequence of <code> elements such that parent codes always come before their children
     :param code_dicts: sequence of dictionaries mapping PropertyValue field names to their values
     :return:
     """
+    parent_name, source_id_name, value_name = {PropertyValue: (PropertyValue.pv_parent.name,
+                                                               PropertyValue.source_id.name,
+                                                               PropertyValue.pv_value.name),
+                                               GlobalProperty: (GlobalProperty.gp_parent.name,
+                                                                GlobalProperty.source_id.name,
+                                                                GlobalProperty.gp_name.name)}\
+        .get(model_type)
 
-    sorted_nodes = [sorted(filter(lambda node: node.get(PropertyValue.pv_parent.name) is None, code_dicts),
-                          key=lambda x: x.get(PropertyValue.source_id.name))]
+    if parent_name is None or source_id_name is None:
+        raise ValueError("model_type must be one of (PropertyValue, GlobalProperty)")
+
+    sorted_nodes = [sorted(filter(lambda node: node.get(parent_name) is None, code_dicts),
+                           key=lambda x: x.get(source_id_name))]
 
     for lst in sorted_nodes:
         for node in lst:
-            value = node.get(PropertyValue.source_id.name)
-            children = sorted(filter(lambda d: d.get(PropertyValue.pv_parent.name) == value, code_dicts),
-                              key=lambda x: x.get(PropertyValue.pv_value.name))
+            value = node.get(source_id_name)
+            children = sorted(filter(lambda d: d.get(parent_name) == value, code_dicts),
+                              key=lambda x: x.get(value_name))
             if len(children) > 0:
                 sorted_nodes.append(children)
 
@@ -328,13 +338,35 @@ def __bulk_insert_cacti_cs_globals__(global_nodes, coding_system_entity):
     :return: Total number of rows inserted
     """
 
+    rows_inserted = 0
+    parent_dict = {}
     gp_data = [__cacti_gp_map_func__(node, coding_system_entity) for node in global_nodes]
-    GlobalProperty.bulk_insert(gp_data)
-    gp_dict = {itm[0]: itm[1] for itm in
-               GlobalProperty.select(GlobalProperty.source_id, GlobalProperty.global_property_id)
-                   .where(GlobalProperty.coding_system == coding_system_entity)
-                   .tuples()
-                   .execute()}
+    sorted_data = __parent_sort__(gp_data, model_type=GlobalProperty)
+
+    for global_list in sorted_data:
+        source_ids = []
+        for d in global_list:
+            source_id = d.get(GlobalProperty.source_id.name)
+            parent_source_id = d.get(GlobalProperty.gp_parent.name)
+
+            # Need the source_ids to lookup any parents after insertion
+            # Need the parent source_ids to lookup the ID of the parent for ref integrity
+            if source_id is not None:
+                source_ids.append(source_id)
+            if parent_source_id is not None:
+                parent_id = parent_dict.get(int(parent_source_id))
+                if parent_id is None:
+                    raise ValueError("Code {0} specified a parent of {1}, but no such parent was found"
+                                     .format(d[GlobalProperty.gp_name], parent_source_id))
+                d[GlobalProperty.gp_parent.name] = parent_id
+
+        rows_inserted += GlobalProperty.bulk_insert(global_list)
+
+        # This will lookup the new insertions and place them into a dictionary for children to lookup
+        insertions = (GlobalProperty.select(GlobalProperty.source_id, GlobalProperty.global_property_id)
+                      .where((GlobalProperty.coding_system == coding_system_entity) &
+                             (GlobalProperty.source_id.in_(source_ids)))).tuples().execute()
+        parent_dict.update({row[0]: row[1] for row in insertions})
 
     # Now, need to insert GlobalValues corresponding to each GlobalProperty
     gv_data = []
@@ -344,7 +376,7 @@ def __bulk_insert_cacti_cs_globals__(global_nodes, coding_system_entity):
         value_range = range(int(node.get(CactiAttributes.MIN_RATING)),
                             int(node.get(CactiAttributes.MAX_RATING)) + 1)
 
-        gv_data.extend({GlobalValue.global_property.name: gp_dict[source_id],
+        gv_data.extend({GlobalValue.global_property.name: parent_dict[source_id],
                         GlobalValue.gv_value.name: v,
                         GlobalValue.gv_description.name: "{0} {1}".format(desc, v)}
                        for v in value_range)
@@ -360,7 +392,8 @@ def __cacti_gp_map_func__(node, cp_entity):
             GlobalProperty.coding_system.name: cp_entity,
             GlobalProperty.source_id.name: node.get(CactiAttributes.VALUE),
             GlobalProperty.gp_data_type.name: 'numeric',
-            GlobalProperty.gp_parent.name: node.get(CactiAttributes.SUM_MODE)}
+            GlobalProperty.gp_parent.name: node.get(CactiAttributes.PARENT),
+            GlobalProperty.gp_summary_mode.name: node.get(CactiAttributes.SUM_MODE)}
 
 
 def __cacti_pv_map_func__(node, pv_tag, cp_entity):
