@@ -87,9 +87,15 @@ class GlobalProperty(BaseModel):
     gp_name = TextField(null=False, unique=False)
     gp_description = TextField(null=False, unique=False)
     gp_data_type = TextField(null=False, index=False, unique=False, default="string")
+    gp_parent = ForeignKeyField('self', null=True, backref='children', on_update='CASCADE', on_delete="SET NULL",
+                                index=True, unique=False)
+    gp_summary_mode = TextField(null=True, unique=False, index=False)
 
     class Meta:
         constraints = [SQL('CONSTRAINT gp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id)')]
+
+    def __repr__(self):
+        return "<GlobalProperty: {0} | {1}>".format(self.global_property_id, self.gp_name)
 
 
 class GlobalValue(BaseModel):
@@ -116,6 +122,9 @@ class PropertyValue(BaseModel):
     class Meta:
         constraints = [SQL('CONSTRAINT pv_value_cp_id_unique UNIQUE (coding_property_id, pv_value)'),
                        SQL('CONSTRAINT source_id_cp_id_unique UNIQUE (source_id, coding_property_id)')]
+
+    def __repr__(self):
+        return "<PropertyValue: {0} | {1}>".format(self.property_value_id, self.pv_value)
 
 
 class Utterance(BaseModel):

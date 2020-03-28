@@ -87,11 +87,11 @@ def build_session_level_dataframe(interviews):
     mask = (types['gp_data_type'] == 'numeric')
     numeric_cols = set(types.loc[mask, 'gp_name'])
 
-    pivot = global_df.pivot(index='interview_name', columns='gp_name', values='gv_value')
+    pivot = global_df.pivot(index='interview_name', columns='gp_name', values='gv_value').astype(numpy.int_)
 
     data = descriptives.join([agg, pivot]).fillna(0)
     for col in numeric_cols:
-        data[col] = pandas.to_numeric(data[col])
+        data[col] = pandas.to_numeric(data[col], downcast='integer')
 
     return data
 
@@ -125,6 +125,7 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None, find=
                                      find=find, repl=repl)
         var_names.append(var_name)
 
+        df_col = data_frame[col].dtype
         # Need to know the data type and format of each column so that the SPSS file can be written properly
         # 0 is a numeric type, any positive integer is a string type where the number represents the number
         # of bytes the string can hold.
@@ -134,7 +135,7 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None, find=
             var_types[var_name] = max(lens) * 2 if len(lens) > 0 else 255
         else:
             var_types[var_name] = 0
-            var_formats[var_name] = "F10.2" if ptypes.is_float(data_frame[col]) else \
+            var_formats[var_name] = "F10.2" if ptypes.is_float(data_frame[col].dtype) else \
                 "ADATE8" if ptypes.is_datetime64_any_dtype(data_frame[col]) else \
                 "F12.0"
 
