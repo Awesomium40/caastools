@@ -131,8 +131,8 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None, find=
         # of bytes the string can hold.
         # TODO: Add in checks for additional dtypes
         if pandas.api.types.is_string_dtype(data_frame[col]):
-            lens = list(filter(lambda x: x is not None, set(data_frame[col].str.len())))
-            var_types[var_name] = max(lens) * 2 if len(lens) > 0 else 255
+            lens = list(filter(lambda x: pandas.notna(x), set(data_frame[col].str.len())))
+            var_types[var_name] = int(max(lens)) * 2 if len(lens) > 0 else 255
         else:
             var_types[var_name] = 0
             var_formats[var_name] = "F10.2" if ptypes.is_float(data_frame[col].dtype) else \

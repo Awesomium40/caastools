@@ -1,11 +1,12 @@
 from .database import models as m
+from peewee import JOIN
 from .utils import sanitize_for_spss
 from savReaderWriter.savWriter import SavWriter
 import pandas
 import pandas.api.types as ptypes
 import numpy
 
-__all__ = ['build_sequential_dataframe', 'build_session_level_dataframe', 'save_as_spss']
+__all__ = ['build_sequential_dataframe', 'build_session_level_dataframe', 'create_sl_variable_labels', 'save_as_spss']
 
 
 def build_sequential_dataframe(interviews):
@@ -96,7 +97,47 @@ def build_session_level_dataframe(interviews):
     return data
 
 
-def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None, find=None, repl=None) -> None:
+def create_sl_variable_labels(coding_system_id, find, replace):
+    """
+    datasets.create_variable_labels(coding_system_id) -> dict
+    creates a dictionary of variable labels suitable for building an SPSS session-level dataset
+    :param coding_system_id: the coding system for which to create variable labels
+    :param find: sequence of strings to be replaced in the variable names
+    :param replace: sequence of strings with which to replace corresponding entries in find. May also be a
+    function which determines the appropriate replacement characters
+    :return: dict
+    """
+
+    # In the SL dataset, each PropertyValue and each GlobalProperty become its own variable,
+    # so need to query those tables for the right entities
+    GpParent = m.GlobalProperty.alias()
+    gp_query = (m.GlobalProperty.select(m.GlobalProperty, GpParent)
+                .join(GpParent, JOIN.LEFT_OUTER)
+                .where(m.GlobalProperty.coding_system == coding_system_id))
+
+    Parent = m.PropertyValue.alias()  # type: m.PropertyValue
+    pv_query = (m.PropertyValue.select(m.PropertyValue, m.CodingProperty, Parent)
+                .join(Parent, JOIN.LEFT_OUTER)
+                .switch(m.PropertyValue)
+                .join(m.CodingProperty)
+                .join(m.CodingSystem)
+                .where(m.CodingSystem.coding_system == coding_system_id)
+                .order_by(m.CodingProperty.coding_property_id, m.PropertyValue.pv_parent,
+                          m.PropertyValue.property_value_id))
+
+    property_values = pv_query.execute()
+
+    global_properties = gp_query.execute()
+
+    sl_labels = {sanitize_for_spss("{0}_{1}".format(pv.coding_property.cp_name, pv.pv_value),
+                                   find=find, repl=replace):
+                 pv.pv_description for pv in property_values}
+    sl_labels.update({sanitize_for_spss(gp.gp_name): gp.gp_description for gp in global_properties})
+
+    return sl_labels
+
+
+def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels: dict = None, find=None, repl=None) -> None:
     """
     caastools.utils.save_as_spss(data_frame: pandas.DataFrame, out_path: str) -> None
     saves data_frame as an SPSS dataset at out_path
@@ -117,7 +158,6 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None, find=
     var_types = {}
     var_formats = {}
     var_labels = {} if labels is None else labels
-    #subs = {"+": "Pos", "-": "Neg"} if sub is None else sub
 
     # Construct the various information that the SPSS dictionary will contain about each variable
     for col in cols:
@@ -125,13 +165,12 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels=None, find=
                                      find=find, repl=repl)
         var_names.append(var_name)
 
-        df_col = data_frame[col].dtype
         # Need to know the data type and format of each column so that the SPSS file can be written properly
         # 0 is a numeric type, any positive integer is a string type where the number represents the number
         # of bytes the string can hold.
         # TODO: Add in checks for additional dtypes
         if pandas.api.types.is_string_dtype(data_frame[col]):
-            lens = list(filter(lambda x: pandas.notna(x), set(data_frame[col].str.len())))
+            lens = list(filter(lambda x: pandas.notna(x) and x is not None, set(data_frame[col].str.len())))
             var_types[var_name] = int(max(lens)) * 2 if len(lens) > 0 else 255
         else:
             var_types[var_name] = 0

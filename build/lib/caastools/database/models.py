@@ -109,6 +109,9 @@ class GlobalValue(BaseModel):
         constraints = [SQL('CONSTRAINT gv_value_gp_id_unique UNIQUE(gv_value, global_property_id)'),
                        SQL('CONSTRAINT gv_source_id_gp_id_unique UNIQUE(source_id, global_property_id)')]
 
+    def __repr__(self):
+        return "<GlobalValue: {0} | {1}>".format(self.global_value_id, self.gv_value)
+
 
 class PropertyValue(BaseModel):
     property_value_id = AutoField()
