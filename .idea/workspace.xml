@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/caastools/stats.py" line="54" />
+    <bookmark url="file://$PROJECT_DIR$/caastools/stats.py" line="50" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/lib/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/plots.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,24 +46,21 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/caastools/datasets.py">
+        <entry file="file://$PROJECT_DIR$/caastools/stats.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2822">
-              <caret line="172" column="74" selection-start-line="172" selection-start-column="74" selection-end-line="172" selection-end-column="74" />
-              <folding>
-                <element signature="e#0#33#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="3366">
+              <caret line="203" selection-start-line="203" selection-end-line="203" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/caastools/stats.py">
+        <entry file="file://$PROJECT_DIR$/caastools/plots.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-44">
-              <caret line="54" column="75" selection-start-line="54" selection-start-column="75" selection-end-line="54" selection-end-column="75" />
+            <state relative-caret-position="731">
+              <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
               <folding>
-                <element signature="e#0#16#0" expanded="true" />
+                <element signature="e#0#23#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -98,7 +94,7 @@
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+              <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -187,7 +183,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/common/cacti_schema.xsd" />
         <option value="$PROJECT_DIR$/common/dataset.py" />
         <option value="$PROJECT_DIR$/common/interview_translate.xslt" />
         <option value="D:/test_combo.xslt" />
@@ -232,12 +227,13 @@
         <option value="$PROJECT_DIR$/caastools/utils.py" />
         <option value="$PROJECT_DIR$/tests/test_bulkops.py" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/tests/test_data/cacti/userConfiguration.xml" />
         <option value="$PROJECT_DIR$/caastools/database/bulkinsert.py" />
         <option value="$PROJECT_DIR$/caastools/database/models.py" />
         <option value="$PROJECT_DIR$/caastools/datasets.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/caastools/stats.py" />
+        <option value="$PROJECT_DIR$/caastools/plots.py" />
       </list>
     </option>
   </component>
@@ -252,6 +248,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -270,29 +267,10 @@
               <item name="caastools" type="462c0819:PsiDirectoryNode" />
               <item name="parsing" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="caastools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="caastools" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="caastools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="caastools" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="test_data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="caastools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="caastools" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="test_data" type="462c0819:PsiDirectoryNode" />
-              <item name="cacti" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -465,7 +443,10 @@
       <workItem from="1585390219857" duration="6188000" />
       <workItem from="1585564311767" duration="7319000" />
       <workItem from="1585602065020" duration="955000" />
-      <workItem from="1585666311571" duration="5395000" />
+      <workItem from="1585666311571" duration="6109000" />
+      <workItem from="1585699715729" duration="1921000" />
+      <workItem from="1585734548136" duration="2795000" />
+      <workItem from="1585777341032" duration="1678000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -572,7 +553,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585412120505</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Fix bug in stats.cohens_kappa that occasionally caused incorrect results&#10;Speed up computations in stats.cohens_kappa">
+      <created>1585676554533</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1585676554533</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -608,13 +596,13 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="268544000" />
+    <option name="totallyTimeSpent" value="275652000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="896" y="0" width="2035" height="1407" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.29113925" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30025315" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -625,7 +613,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" visible="true" weight="0.32967034" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="8" visible="true" weight="0.32967034" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5022785" side_tool="true" weight="0.32810047" />
       <window_info anchor="bottom" id="Terminal" order="11" />
@@ -657,7 +645,8 @@
     <MESSAGE value="Update GlobalProperty to have self-referential relationship&#10;Update PropertyValue and GlobalProperty models to include summary_mode fields&#10;Update bulkinsert functions to reflect model changes" />
     <MESSAGE value="Update methods in datasets to correctly set types of columns in&#10;session-level dataframes" />
     <MESSAGE value="Fix a bug that sometimes caused Dataframes having object columns with&#10;missing values to fail to save as SPSS datasets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug that sometimes caused Dataframes having object columns with&#10;missing values to fail to save as SPSS datasets" />
+    <MESSAGE value="Fix bug in stats.cohens_kappa that occasionally caused incorrect results&#10;Speed up computations in stats.cohens_kappa" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix bug in stats.cohens_kappa that occasionally caused incorrect results&#10;Speed up computations in stats.cohens_kappa" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -738,15 +727,6 @@
         <state>
           <folding>
             <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/caastools/plots.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -902,6 +882,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/caastools/stats.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3366">
+          <caret line="203" selection-start-line="203" selection-end-line="203" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_datasets.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1020">
@@ -925,7 +912,7 @@
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -969,12 +956,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/caastools/stats.py">
+    <entry file="file://$PROJECT_DIR$/caastools/plots.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-44">
-          <caret line="54" column="75" selection-start-line="54" selection-start-column="75" selection-end-line="54" selection-end-column="75" />
+        <state relative-caret-position="731">
+          <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
           <folding>
-            <element signature="e#0#16#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>

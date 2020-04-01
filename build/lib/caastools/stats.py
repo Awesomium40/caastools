@@ -1,6 +1,11 @@
 import itertools
+import logging
+import numpy
 import pandas
 from scipy import stats
+
+
+logging.getLogger('caastools.stats').addHandler(logging.NullHandler())
 
 
 def cohens_kappa(rows, columns, weight=None):
@@ -14,34 +19,42 @@ def cohens_kappa(rows, columns, weight=None):
     if weight not in (None, 'linear', 'quadratic'):
         raise ValueError("Invalid weight specification")
 
-    all_values = sorted(set(list(rows) + list(columns)))
+    weight_funcs = {None: lambda x, y: 0 if x == y else 1,
+                    'linear': lambda x, y: abs(x - y),
+                    'quadratic': lambda x, y: (x - y) ** 2}
+
+    diff_func = weight_funcs.get(weight)
+    if diff_func is None:
+        raise ValueError("Invalid weight specification")
+
+    all_values = sorted(set(filter(lambda x: pandas.notna(x), itertools.chain(rows, columns))))
+    if len(all_values) == 0:
+        logging.warning("Unable to compute cohen's kappa because no non-missing values were found")
+        return numpy.NaN, numpy.NaN
+
     index = pandas.Categorical(rows, categories=all_values)
     cols = pandas.Categorical(columns, categories=all_values)
 
-    ct = pandas.crosstab(index, cols, normalize=True)
+    ct = pandas.crosstab(index, cols, normalize=True, dropna=False)
 
     # Get the marginal totals to compute expected agreement matrix later
     col_totals = ct.sum(axis=0, skipna=True)
     row_totals = ct.sum(axis=1, skipna=True)
 
     # Compute the weighting matrix
-    wm = pandas.DataFrame(0.0, index=ct.index, columns=ct.columns)
-    wm_iter = itertools.product(range(len(ct.index)), range(len(ct.columns)))
-    for i, j in wm_iter:
-        diff = abs(i - j)
-        wm.iat[i, j] = (0 if i == j else 1) if weight is None else \
-            diff if weight == 'linear' else \
-            diff ** 2
+    row_cats = index.categories
+    col_cats = cols.categories
+    row_idx = range(len(row_cats))
+    col_idx = range(len(col_cats))
+    wm_arry = numpy.array([[diff_func(r, c) for c in col_idx] for r in row_idx])
+    wm = pandas.DataFrame(data=wm_arry, index=ct.index, columns=ct.columns)
 
     # Compute the weighted matrix of observations
     wobs = ct * wm
 
-    # Compute the weighted expectancy matrix
-    exp = pandas.DataFrame(0.0, index=row_totals.index, columns=col_totals.index)
-    iterator = itertools.product(enumerate(row_totals), enumerate(col_totals))
-    for itm in iterator:
-        exp.iat[itm[0][0], itm[1][0]] = itm[0][1] * itm[1][1]
-
+    # Compute weighted expectancy matrix
+    exp_arry = numpy.array([[rt * ct for ct in col_totals] for rt in row_totals])
+    exp = pandas.DataFrame(exp_arry, index=row_totals.index, columns=col_totals.index)
     wexp = exp * wm
 
     # Compute kappa via the weighted matrices
@@ -75,12 +88,16 @@ def icc(frame: pandas.DataFrame, icc_type=2):
     if k < 2:
         raise ValueError("Unable to compute an ICC because fewer than 2 raters were found")
 
-    icc_types = {1: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n: (ms_sub - ms_within) /
-                                                                        (ms_sub + df_r * ms_within),
-                 2: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n: (ms_sub - ms_err) /
-                                                                        (ms_sub + df_r * ms_err + k * (ms_r - ms_err) / n),
-                 3: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n: (ms_sub - ms_err) /
-                                                                        (ms_sub + df_r * ms_err)}
+    icc_types = {1: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n:
+                 (ms_sub - ms_within) / (ms_sub + df_r * ms_within),
+                 2: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n:
+                 (ms_sub - ms_err) / (ms_sub + df_r * ms_err + k * (ms_r - ms_err) / n),
+                 3: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n:
+                 (ms_sub - ms_err) / (ms_sub + df_r * ms_err)}
+
+    formula = icc_types.get(icc_type)
+    if formula is None:
+        raise ValueError("Invalid specification for icc_type. Expected (1, 2, 3)")
 
     # Degrees of Freedom
     df_raters = k - 1  # dfc
@@ -110,35 +127,11 @@ def icc(frame: pandas.DataFrame, icc_type=2):
     ss_within_subjects = ss_raters + ss_error
     ms_within_subjects = ss_within_subjects / df_within_rows
 
-    formula = icc_types.get(icc_type)
-    if formula is None:
-        raise ValueError("Invalid specification for icc_type. Expected (1, 2, 3)")
-
-    ICC = formula(ms_subjects, ms_error, ms_within_subjects, ms_raters, df_raters, k, n)
-    """
-    if icc_type == 1:
-        # ICC(1,1) = (mean square subject - mean square within rows) /
-        # (mean square subject + (k-1)*mean square within rows)
-        ICC = (ms_subjects - ms_within_subjects) / (ms_subjects + df_raters * ms_within_subjects)
-
-    elif icc_type == 2:
-        # ICC(2,1) = (mean square subject - mean square error) /
-        # (mean square subject + (k-1)*mean square error +
-        # k*(mean square columns - mean square error)/n)
-        ICC = (ms_subjects - ms_error) / (ms_subjects + df_raters * ms_error + k * (ms_raters - ms_error) / n)
-
-    elif icc_type == 3:
-        # ICC(3,1) = (mean square subject - mean square error) /
-        # (mean square subject + (k-1)*mean square error)
-        ICC = (ms_subjects - ms_error) / (ms_subjects + df_raters * ms_error)
-            
-    else:
-        raise ValueError("Invalid specification for icc_type. Expected (1, 2, 3)")
-    """
+    coeff = formula(ms_subjects, ms_error, ms_within_subjects, ms_raters, df_raters, k, n)
 
     f = ms_subjects / ms_error
 
-    return ICC, f, stats.f.sf(f, df_subjects, df_error)
+    return coeff, f, stats.f.sf(f, df_subjects, df_error)
 
 
 def kalpha(data, data_type, missing):
