@@ -1,5 +1,6 @@
 from . import constants
 from matplotlib import pyplot as plt
+import numpy
 import os
 import pandas
 import seaborn
@@ -40,7 +41,8 @@ def create_disagreement_heatmaps(dataframe, column_label, out_folder, by_conditi
             hm.figure.savefig(out_path)
 
 
-def reliability_line_plot(frame: pandas.DataFrame, **kwargs):
+def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-axis", ylabel="y-axis",
+                          rater_labels=None, width=11, height=8.5, yticks=None, **kwargs):
     """
     plots.reliability_line_plot(frame, **kwargs) --> matplotlib.Figure
     produces a reliability line plot from the specified
@@ -54,25 +56,20 @@ def reliability_line_plot(frame: pandas.DataFrame, **kwargs):
     :return: matplotlib.Figure
     """
 
-    title = kwargs.get('title', "LinePlot")
-    x_label = kwargs.get('xlabel', 'x-axis')
-    y_label = kwargs.get('ylabel', 'y-axis')
-    rater_labels = kwargs.get('rater_labels', {})
-    width = kwargs.get('width', 11)
-    height = kwargs.get('height', 8.5)
-    y_ticks = kwargs.get('yticks')
+    rater_labels = {} if rater_labels is None else rater_labels
 
-    fig, axes = plt.subplots()
+    fig, axes = plt.subplots()  # type: plt.Figure, plt.Axes
     fig.set_size_inches(width, height)
-    axes.set_xlabel(x_label)
-    axes.set_ylabel(y_label)
-    if y_ticks is not None:
-        plt.yticks(y_ticks)
+    axes.set_xlabel(xlabel)
+    axes.set_ylabel(ylabel)
+    if yticks is not None:
+        plt.yticks(yticks)
     axes.set_title(title)
 
     for col in frame.columns:
         label = rater_labels.get(col, col)
-        axes.plot(frame.index, frame[col], label=label)
+        mask = numpy.isfinite(numpy.array(frame[col]).astype(numpy.float_))
+        plt.plot(frame.index[mask], frame[col][mask], label=label, linestyle="-", marker="o")
 
     axes.legend()
     return fig
