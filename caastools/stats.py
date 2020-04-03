@@ -101,7 +101,7 @@ def fleiss(frame: pandas.DataFrame, subject_column, rater_column, category_colum
     # pobs = proportion of observed agreement
     pobs = pi.sum() / N
 
-    # pe = proportion of agreement expected by change
+    # pe = proportion of agreement expected by chance
     pe = (pj ** 2).sum()
 
     k = (pobs - pe) / (1 - pe)

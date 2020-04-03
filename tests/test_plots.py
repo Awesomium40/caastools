@@ -23,11 +23,10 @@ class TestPlots(unittest.TestCase):
                   12: [numpy.NaN, 3, numpy.NaN, numpy.NaN]}
 
         cls._test_data = pandas.DataFrame(data=data_c, index=['a', 'b', 'c', 'd'], columns=range(1, 13)).transpose()
-        print(cls._test_data)
 
     def test_line_plot(self):
 
-        fig: plt.Figure = plots.reliability_line_plot(self._test_data, )
+        fig: plt.Figure = plots.reliability_line_plot(self._test_data)
         fig.show()
 
 
