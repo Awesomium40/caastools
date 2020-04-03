@@ -198,7 +198,7 @@ def kalpha(data, metric='nominal'):
         raise ValueError(
             "Parameter metric expected one of ('nominal', 'ordinal', 'interval', 'ratio'), got {0}".format(metric))
 
-    # comptue the coincidence matrix
+    # compute the coincidence matrix
     idx = sorted(set(filter(lambda x: pandas.notna(x), data.values.ravel())))
     cmx = pandas.DataFrame(0, index=idx, columns=idx)
 

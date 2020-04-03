@@ -65,6 +65,7 @@ def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-a
     if yticks is not None:
         plt.yticks(yticks)
     axes.set_title(title)
+    plt.xticks(rotation=90)
 
     for col in frame.columns:
         label = rater_labels.get(col, col)

@@ -1,8 +1,9 @@
+from collections import Counter
+from scipy import stats
 import itertools
 import logging
 import numpy
 import pandas
-from scipy import stats
 
 
 logging.getLogger('caastools.stats').addHandler(logging.NullHandler())
@@ -66,6 +67,46 @@ def cohens_kappa(rows, columns, weight=None):
     kmax = (pmax - pe) / (1 - pe)
 
     return kappa, kmax
+
+
+def fleiss(frame: pandas.DataFrame, subject_column, rater_column, category_column):
+    """
+    stats.fleiss(frame: pandas.DataFrame) -> float
+    Computes the fleiss multirater kappa from the provided count data
+    :param frame: The DataFrame object containing all the raw observations
+    :param subject_column: the name of the column that designates the subject being rated
+    :param rater_column: the name of the column that specifies the rater
+    :param category_column: the name of the column that specifies the category assigned to subject by rater
+    :return: float
+    """
+
+    # First thing for a fleiss coefficient is to extract the necessary count data
+    input_data = frame[[subject_column, rater_column, category_column]].copy()
+    counts = input_data.pivot_table(values=rater_column, index=subject_column, columns=category_column,
+                                    aggfunc=numpy.count_nonzero, fill_value=0)
+
+    # Get number of subjects and categories
+    N, k = counts.shape
+    obs_count = counts.sum().sum()
+
+    # number of raters
+    n = obs_count // N
+
+    # pj = proportion of agreement for a given category
+    pj = counts.sum() / obs_count
+
+    # pi = proportion of agreement for a given subject
+    pi = (1 / (n * (n - 1))) * ((counts ** 2).sum(axis=1) - n)
+
+    # pobs = proportion of observed agreement
+    pobs = pi.sum() / N
+
+    # pe = proportion of agreement expected by chance
+    pe = (pj ** 2).sum()
+
+    k = (pobs - pe) / (1 - pe)
+
+    return k
 
 
 def icc(frame: pandas.DataFrame, icc_type=2):
@@ -134,5 +175,62 @@ def icc(frame: pandas.DataFrame, icc_type=2):
     return coeff, f, stats.f.sf(f, df_subjects, df_error)
 
 
-def kalpha(data, data_type, missing):
-    pass
+def kalpha(data, metric='nominal'):
+    """
+    stats.kalpha(data, metric='nominal') -> float
+    Computes Krippendorf's alpha-reliability for the provided DataFrame
+    Data should be structured S.T. raters are the index,
+    subjects are the columns, and observations are the cell values
+    :param data: pandas.DataFrame holding the observational data
+    :param metric: string specifying the type of data/metric. Default 'nominal'
+    Acceptable values are 'nominal', 'ordinal', 'interval', 'ratio'
+    """
+
+    metrics = {'nominal': lambda x, y: int(x != y),
+               'ordinal': lambda row, lower, upper:
+               (sum(row.loc[lower: upper]) -
+                ((row.loc[lower] + row.loc[upper]) / 2)) ** 2,
+               'interval': lambda x, y: (x - y) ** 2,
+               'ratio': lambda x, y: ((x - y) / (x + y)) ** 2}
+
+    diff_func = metrics.get(metric)
+    if diff_func is None:
+        raise ValueError(
+            "Parameter metric expected one of ('nominal', 'ordinal', 'interval', 'ratio'), got {0}".format(metric))
+
+    # comptue the coincidence matrix
+    idx = sorted(set(filter(lambda x: pandas.notna(x), data.values.ravel())))
+    cmx = pandas.DataFrame(0, index=idx, columns=idx)
+
+    for col in data.columns:
+        mu = len(data[col].dropna())
+        pairings = itertools.permutations(data[col].dropna(), 2)
+        counts = Counter(tuple(itm) for itm in pairings)
+        for key, value in counts.items():
+            cmx.loc[key] += value / (mu - 1)
+
+    marginals = cmx.sum()
+    n = marginals.sum()
+
+    # Compute the difference matrix
+    dmx = pandas.DataFrame(0, index=idx, columns=idx)
+    for r, c in itertools.product(idx, idx):
+        lower = c if c < r else r
+        upper = r if c < r else c
+        dmx.loc[r, c] = diff_func(lower, upper) if metric != 'ordinal' else diff_func(marginals, lower, upper)
+
+    # combine the coincidence and difference matrices
+    alpha_matrix = cmx * dmx
+
+    # compute alpha
+    do = 0
+    de = 0
+    for i, r in enumerate(marginals.index[:-1]):
+        for c in marginals.index[i + 1:]:
+            do += alpha_matrix.loc[r, c]
+            de += marginals[r] * marginals[c] * dmx.loc[r, c]
+
+    do *= (n - 1)
+    alpha = 1 - (do / de)
+
+    return alpha

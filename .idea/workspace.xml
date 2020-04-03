@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/test_data/test_plots.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_stats.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/plots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/stats.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/plots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,13 +30,15 @@
     <SUITE FILE_PATH="coverage/caastools$Unittests_in_test_dbio_py.coverage" NAME="Unittests in test_bulkops.py Coverage Results" MODIFIED="1584452330316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_bulkops_TestBulkImports_test_duplicate_bulk_insert.coverage" NAME="Unittests for test_bulkops.TestBulkImports.test_duplicate_bulk_insert Coverage Results" MODIFIED="1584991183301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_in_test_datasets_py.coverage" NAME="Unittests in test_datasets.py Coverage Results" MODIFIED="1585334512199" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$test_stats.coverage" NAME="test_stats Coverage Results" MODIFIED="1585924565999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/test_data" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_utils_TestUtils_test_sanitize_for_spss.coverage" NAME="Unittests for test_utils.TestUtils.test_sanitize_for_spss Coverage Results" MODIFIED="1585232149374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$cami_data_manager.coverage" NAME="cami_data_manager Coverage Results" MODIFIED="1585062179427" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="H:/Lee Magill MOBC/Data Management/Syntax" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_parsing_TestParsing.coverage" NAME="Unittests for test_parsing.TestParsing Coverage Results" MODIFIED="1584455826538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_datasets_TestDatasets_test_save_as_spss.coverage" NAME="Unittests for test_datasets.TestDatasets.test_save_as_spss Coverage Results" MODIFIED="1585167624916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_bulkops_TestBulkImports.coverage" NAME="Unittests for test_bulkops.TestBulkImports Coverage Results" MODIFIED="1584456632402" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_in_test_plots_py.coverage" NAME="Unittests in test_plots.py Coverage Results" MODIFIED="1585924559496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$qsf2codebook.coverage" NAME="qsf2codebook Coverage Results" MODIFIED="1584716355986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:/" />
-    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_plots_TestPlots.coverage" NAME="Unittests for test_plots.TestPlots Coverage Results" MODIFIED="1585830973228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/test_data" />
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_plots_TestPlots.coverage" NAME="Unittests for test_plots.TestPlots Coverage Results" MODIFIED="1585921435295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/test_data" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_in_test_parsing_py.coverage" NAME="Unittests in test_parsing.py Coverage Results" MODIFIED="1584450918357" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_parsing_TestParsing_test_reconstruct_ia.coverage" NAME="Unittests for test_parsing.TestParsing.test_reconstruct_ia Coverage Results" MODIFIED="1584452343946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_models_TestCodingSystem_test_import_cacti_cs.coverage" NAME="Unittests for test_models.TestCodingSystem.test_import_cacti_cs Coverage Results" MODIFIED="1583299027979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -40,15 +46,16 @@
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_datasets_TestDatasets.coverage" NAME="Unittests for test_datasets.TestDatasets Coverage Results" MODIFIED="1585166484821" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_models_TestCodingSystem.coverage" NAME="Unittests for test_models.TestCodingSystem Coverage Results" MODIFIED="1583212102839" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_datasets_TestDatasets_test_build_sl_dataset.coverage" NAME="Unittests for test_datasets.TestDatasets.test_build_sl_dataset Coverage Results" MODIFIED="1585167506755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$test_stats__1_.coverage" NAME="test_stats (1) Coverage Results" MODIFIED="1585928504677" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_bulkops_TestBulkImports_test_import_ia_cs.coverage" NAME="Unittests for test_bulkops.TestBulkImports.test_import_ia_cs Coverage Results" MODIFIED="1585250282285" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/caastools/plots.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="655">
-              <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+            <state relative-caret-position="989">
+              <caret line="67" column="4" lean-forward="true" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="27" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -56,96 +63,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/test_data/test_plots.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-              <folding>
-                <element signature="e#1#28#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_datasets.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1020">
-              <caret line="66" selection-start-line="66" selection-end-line="66" />
-              <folding>
-                <element signature="e#0#30#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/caastools/database/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="8" selection-start-line="8" selection-end-line="8" selection-end-column="70" />
-              <folding>
-                <element signature="e#0#53#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/setup.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://C:/python37/Lib/unittest/case.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10217">
-              <caret line="614" selection-start-line="614" selection-end-line="614" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://C:/python37/Lib/unittest/runner.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2890">
-              <caret line="175" selection-start-line="175" selection-end-line="175" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_bulkops.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="422" selection-start-line="422" selection-end-line="423" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/caastools/database/bulkinsert.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6018">
+            <state relative-caret-position="-887">
               <caret line="362" selection-start-line="362" selection-end-line="362" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/caastools/parsing/cacti.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#16#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -189,10 +113,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/common/interview_translate.xslt" />
-        <option value="D:/test_combo.xslt" />
-        <option value="$PROJECT_DIR$/uchat/interview.py" />
-        <option value="$PROJECT_DIR$/test_models.py" />
         <option value="$PROJECT_DIR$/common/__init__.py" />
         <option value="$PROJECT_DIR$/common/exceptions.py" />
         <option value="$PROJECT_DIR$/common/translate_interview.xslt" />
@@ -236,17 +156,21 @@
         <option value="$PROJECT_DIR$/caastools/database/bulkinsert.py" />
         <option value="$PROJECT_DIR$/caastools/database/models.py" />
         <option value="$PROJECT_DIR$/caastools/datasets.py" />
-        <option value="$PROJECT_DIR$/setup.py" />
-        <option value="$PROJECT_DIR$/caastools/stats.py" />
-        <option value="$PROJECT_DIR$/caastools/plots.py" />
         <option value="$PROJECT_DIR$/tests/test_data/test_plots.py" />
+        <option value="$PROJECT_DIR$/tests/test_plots.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/tests/test_data/test_stats.py" />
+        <option value="$PROJECT_DIR$/caastools/stats.py" />
+        <option value="$PROJECT_DIR$/tests/test_stats.py" />
+        <option value="$PROJECT_DIR$/caastools/plots.py" />
+        <option value="C:/python37/Lib/site-packages/caastools/plots.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1042" />
     <option name="width" value="2035" />
-    <option name="height" value="1407" />
+    <option name="height" value="1408" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -254,8 +178,29 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="caastools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="caastools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="caastools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="caastools" type="462c0819:PsiDirectoryNode" />
+              <item name="caastools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="caastools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="caastools" type="462c0819:PsiDirectoryNode" />
+              <item name="caastools" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -267,16 +212,16 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\SyncThing\caastools\parsing" />
-      <recent name="D:\SyncThing\caastools\database" />
-      <recent name="D:\SyncThing\caastools" />
-      <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
-      <recent name="D:\SyncThing\caastools\tests" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="H:\Lee Magill MOBC\Data Management\Syntax" />
       <recent name="D:\SyncThing\caastools\tests\test_data\cacti\invalid" />
+      <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\SyncThing\caastools\tests" />
+      <recent name="D:\SyncThing\caastools\parsing" />
+      <recent name="D:\SyncThing\caastools\database" />
+      <recent name="D:\SyncThing\caastools" />
       <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
     </key>
   </component>
@@ -292,35 +237,49 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for test_plots.TestPlots">
-    <configuration name="Unittests for test_bulkops.TestBulkImports.test_import_ia_cs" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.test_stats (1)">
+    <configuration name="test_stats (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="caastools" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_bulkops.TestBulkImports.test_import_ia_cs&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/test_stats.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_bulkops.TestBulkImports.test_import_ia_interview" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="test_stats" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="caastools" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_data" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_bulkops.TestBulkImports.test_import_ia_interview&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="D:\SyncThing\caastools\tests\test_stats.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <configuration name="Unittests for test_plots.TestPlots" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
@@ -335,21 +294,6 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_plots.TestPlots&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for test_utils.TestUtils.test_sanitize_for_spss" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="caastools" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_utils.TestUtils.test_sanitize_for_spss&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -368,13 +312,28 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests in test_plots.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="caastools" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_plots.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_stats (1)" />
+        <item itemvalue="Python.test_stats" />
+        <item itemvalue="Python tests.Unittests in test_plots.py" />
         <item itemvalue="Python tests.Unittests for test_plots.TestPlots" />
         <item itemvalue="Python tests.Unittests in test_datasets.py" />
-        <item itemvalue="Python tests.Unittests for test_bulkops.TestBulkImports.test_import_ia_interview" />
-        <item itemvalue="Python tests.Unittests for test_bulkops.TestBulkImports.test_import_ia_cs" />
-        <item itemvalue="Python tests.Unittests for test_utils.TestUtils.test_sanitize_for_spss" />
       </list>
     </recent_temporary>
   </component>
@@ -433,6 +392,8 @@
       <workItem from="1585734548136" duration="2795000" />
       <workItem from="1585777341032" duration="1754000" />
       <workItem from="1585829169888" duration="3880000" />
+      <workItem from="1585921369754" duration="7539000" />
+      <workItem from="1585933563850" duration="2245000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -553,25 +514,17 @@
       <option name="project" value="LOCAL" />
       <updated>1585780127702</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Minor updates to stats module">
+      <created>1585923935083</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1585923935083</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 25m 05s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 28m 18s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 29m 57s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 31m 12s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 31m 58s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 32m 25s.xml">
       <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
     </history-entry>
@@ -587,20 +540,36 @@
     <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 36m 14s.xml">
       <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
     </history-entry>
+    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.03 at 09h 43m 18s.xml">
+      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.03 at 09h 43m 55s.xml">
+      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_plots_py - 2020.04.03 at 09h 44m 28s.xml">
+      <configuration name="Unittests in test_plots.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_plots_py - 2020.04.03 at 09h 44m 35s.xml">
+      <configuration name="Unittests in test_plots.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_plots_py - 2020.04.03 at 10h 36m 00s.xml">
+      <configuration name="Unittests in test_plots.py" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="279608000" />
+    <option name="totallyTimeSpent" value="289392000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1042" y="0" width="2035" height="1407" extended-state="0" />
+    <frame x="1042" y="0" width="2035" height="1408" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30329114" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3093671" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3288854" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49772152" weight="0.32810047" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49931693" weight="0.39717427" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49772152" weight="0.32784313" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49931693" weight="0.39686275" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -639,7 +608,8 @@
     <MESSAGE value="Fix a bug that sometimes caused Dataframes having object columns with&#10;missing values to fail to save as SPSS datasets" />
     <MESSAGE value="Fix bug in stats.cohens_kappa that occasionally caused incorrect results&#10;Speed up computations in stats.cohens_kappa" />
     <MESSAGE value="Add function to compute Krippendorf's alpha to stats&#10;add function to create line plots for reliability" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add function to compute Krippendorf's alpha to stats&#10;add function to create line plots for reliability" />
+    <MESSAGE value="Minor updates to stats module" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor updates to stats module" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -669,14 +639,34 @@
           <line>66</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_stats.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="107" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_stats.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="110" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_stats.py</url>
+          <line>17</line>
+          <option name="timeStamp" value="112" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>len(seq_alpha.columns)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/parsing/ia.py" />
-    <entry file="file://$PROJECT_DIR$/exceptions.py" />
-    <entry file="file://$PROJECT_DIR$/plots.py" />
-    <entry file="file://$PROJECT_DIR$/stats.py" />
     <entry file="file://$PROJECT_DIR$/tests/test_data/cacti/R31531.globals">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -874,16 +864,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/caastools/stats.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_data/test_plots.py" />
+    <entry file="file://$PROJECT_DIR$/tests/test_plots.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3366">
-          <caret line="203" selection-start-line="203" selection-end-line="203" />
+        <state relative-caret-position="425">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_datasets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
+        <state relative-caret-position="1122">
           <caret line="66" selection-start-line="66" selection-end-line="66" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
@@ -891,20 +885,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/caastools/database/models.py">
+    <entry file="file://C:/python37/Lib/site-packages/pandas/core/indexes/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="8" selection-start-line="8" selection-end-line="8" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+        <state relative-caret-position="22644">
+          <caret line="1415" selection-start-line="1415" selection-end-line="1415" />
         </state>
       </provider>
     </entry>
@@ -922,13 +906,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/caastools/database/bulkinsert.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_bulkops.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6018">
-          <caret line="362" selection-start-line="362" selection-end-line="362" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="5202">
+          <caret line="313" column="8" selection-start-line="313" selection-start-column="8" selection-end-line="313" selection-end-column="46" />
         </state>
       </provider>
     </entry>
@@ -941,29 +922,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_bulkops.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_stats.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="422" selection-start-line="422" selection-end-line="423" selection-end-column="47" />
+        <state relative-caret-position="289">
+          <caret line="17" selection-start-line="17" selection-end-line="18" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/caastools/plots.py">
+    <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+        <state relative-caret-position="119">
+          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools/stats.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="887">
+          <caret line="222" selection-start-line="222" selection-end-line="222" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools/database/bulkinsert.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-887">
+          <caret line="362" selection-start-line="362" selection-end-line="362" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/caastools/database/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-663">
+          <caret line="8" selection-start-line="8" selection-end-line="8" selection-end-column="70" />
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python37/Lib/site-packages/caastools/plots.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="989">
+          <caret line="67" column="27" selection-start-line="67" selection-start-column="27" selection-end-line="67" selection-end-column="27" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_data/test_plots.py">
+    <entry file="file://$PROJECT_DIR$/caastools/plots.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        <state relative-caret-position="989">
+          <caret line="67" column="4" lean-forward="true" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="27" />
           <folding>
-            <element signature="e#1#28#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
