@@ -1,5 +1,7 @@
+from bisect import bisect_left
 from collections import Counter
 from scipy import stats
+import io
 import itertools
 import logging
 import numpy
@@ -7,6 +9,33 @@ import pandas
 
 
 logging.getLogger('caastools.stats').addHandler(logging.NullHandler())
+
+
+def __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilities):
+
+    sep = "===================================================\n\n"
+    try:
+        out.write("Coincidence matrix:\n")
+    except io.UnsupportedOperation as uo_err:
+        logging.error(str(uo_err))
+    except AttributeError:
+        try:
+            with open(out, 'w') as out:
+                out.write("Coincidence matrix:\n")
+                out.write(cmx.to_string() + "\n")
+                out.write(sep)
+                out.write("Difference Matrix:\n")
+                out.write(dmx.to_string() + "\n")
+                out.write(sep)
+                if lower != numpy.NaN and upper != numpy.NaN:
+                    out.write("alpha, 95% CI:\n")
+                    out.write("{0:.3f}, {{{1:.3f}, {2:.3f}}}\n".format(alpha, lower, upper))
+                    out.write(sep)
+                    out.write("Probability of failing to atttain selected values of alpha:\n")
+                    for i, level in enumerate(alpha_levels):
+                        out.write("{0:<.2f}: {1:<.3f}\n".format(level, probabilities[i]))
+        except OSError as os_error:
+            logging.error("Unable to create output because 'out' was an invalid file handle")
 
 
 def cohens_kappa(rows, columns, weight=None):
@@ -69,6 +98,19 @@ def cohens_kappa(rows, columns, weight=None):
     return kappa, kmax
 
 
+def pabak(rater1, rater2):
+    """
+    stats.pabak(rows, colums) -> tuple[float, float, float]
+    Computes the prevalance-adjusted, bias-adjusted kappa as described in:
+    Byrt, T., Bishop, J., & Carlin, J. B. (1993). Prevalence, Bias, and Kappa.
+    Journal of Clinical Epidemiology, 46(5), 423-429.
+    :param rater1: The data from the first observer
+    :param rater2: The data from the second observer
+    :return: the PABAK statistic, prevalence index, and bias index
+    """
+    raise NotImplementedError()
+
+
 def fleiss(frame: pandas.DataFrame, subject_column, rater_column, category_column):
     """
     stats.fleiss(frame: pandas.DataFrame) -> float
@@ -81,9 +123,10 @@ def fleiss(frame: pandas.DataFrame, subject_column, rater_column, category_colum
     """
 
     # First thing for a fleiss coefficient is to extract the necessary count data
-    input_data = frame[[subject_column, rater_column, category_column]].copy()
-    counts = input_data.pivot_table(values=rater_column, index=subject_column, columns=category_column,
-                                    aggfunc=numpy.count_nonzero, fill_value=0)
+    counts = frame[[subject_column,
+                    rater_column,
+                    category_column]].pivot_table(values=rater_column, index=subject_column, columns=category_column,
+                                                  aggfunc=numpy.count_nonzero, fill_value=0)
 
     # Get number of subjects and categories
     N, k = counts.shape
@@ -175,15 +218,19 @@ def icc(frame: pandas.DataFrame, icc_type=2):
     return coeff, f, stats.f.sf(f, df_subjects, df_error)
 
 
-def kalpha(data, metric='nominal'):
+def kalpha(data, metric='nominal', boot=None, out=None):
     """
-    stats.kalpha(data, metric='nominal') -> float
+    stats.k_alpha(data, metric='nominal') -> float
     Computes Krippendorf's alpha-reliability for the provided DataFrame
     Data should be structured S.T. raters are the index,
     subjects are the columns, and observations are the cell values
     :param data: pandas.DataFrame holding the observational data
     :param metric: string specifying the type of data/metric. Default 'nominal'
     Acceptable values are 'nominal', 'ordinal', 'interval', 'ratio'
+    :param boot: number of samples to take for bootstrapping the CI, or None if no bootstrapping desired
+    :param out: file-like object or path to file to which to write output. Default None. Output includes
+    coincidence matrix, delta matrix, and if bootstrapping, 95% CI and probabilities to attain various levels of alpha.
+    :return tuple[float, float, float]: alpha and the lower/upper bounds of the 95% CI
     """
 
     metrics = {'nominal': lambda x, y: int(x != y),
@@ -193,14 +240,17 @@ def kalpha(data, metric='nominal'):
                'interval': lambda x, y: (x - y) ** 2,
                'ratio': lambda x, y: ((x - y) / (x + y)) ** 2}
 
+    er = []
+
     diff_func = metrics.get(metric)
     if diff_func is None:
         raise ValueError(
             "Parameter metric expected one of ('nominal', 'ordinal', 'interval', 'ratio'), got {0}".format(metric))
 
-    # compute the coincidence matrix
+    # comptue the coincidence matrix
     idx = sorted(set(filter(lambda x: pandas.notna(x), data.values.ravel())))
     cmx = pandas.DataFrame(0, index=idx, columns=idx)
+    expect = cmx.copy()
 
     for col in data.columns:
         mu = len(data[col].dropna())
@@ -212,6 +262,14 @@ def kalpha(data, metric='nominal'):
     marginals = cmx.sum()
     n = marginals.sum()
 
+    # compute the matrix of expected coincidences
+    for row in idx:
+        for col in idx:
+            if row == col:
+                expect.loc[row, col] = marginals[row] * (marginals[col] - 1) / (n - 1)
+            else:
+                expect.loc[row, col] = marginals[row] * marginals[col] / (n - 1)
+
     # Compute the difference matrix
     dmx = pandas.DataFrame(0, index=idx, columns=idx)
     for r, c in itertools.product(idx, idx):
@@ -219,18 +277,62 @@ def kalpha(data, metric='nominal'):
         upper = r if c < r else c
         dmx.loc[r, c] = diff_func(lower, upper) if metric != 'ordinal' else diff_func(marginals, lower, upper)
 
-    # combine the coincidence and difference matrices
-    alpha_matrix = cmx * dmx
+    # compute the matrix of observed disagreement
+    dobs = cmx * dmx
+
+    # compute the matrix of expected disagreement
+    dexp = dmx * expect
 
     # compute alpha
-    do = 0
-    de = 0
-    for i, r in enumerate(marginals.index[:-1]):
-        for c in marginals.index[i + 1:]:
-            do += alpha_matrix.loc[r, c]
-            de += marginals[r] * marginals[c] * dmx.loc[r, c]
-
-    do *= (n - 1)
+    do = dobs.sum().sum()
+    de = dexp.sum().sum()
     alpha = 1 - (do / de)
 
-    return alpha
+    # Perform the bootstrapping via the Hayes algorithm
+    if boot is None:
+        lower, upper = (numpy.NaN, numpy.NaN)
+    else:
+        n_boot = (boot // 1000) * 1000
+        if n_boot < 1000:
+            logging.warning("Minimum number of bootstraps is 1000. Setting boot to 1000 samples")
+            n_boot = 1000
+
+        boot_samples = []
+        # First, compute the E(r) term for each pair of values
+        bs_data = data.dropna(axis=1, thresh=2)
+        for col in bs_data:
+            column_data = bs_data[col].dropna()
+            mu = len(column_data)
+            for i, v1 in enumerate(column_data[:-1]):
+                for v2 in column_data[i + 1:]:
+                    diff = diff_func(v1, v2) if metric != 'ordinal' else diff_func(marginals, v1, v2)
+                    e = 2 * (diff / de)
+                    delta = e / (mu - 1)
+                    er.append(delta)
+
+        # Then perform the sampling and compute the estimated bootstrapped alpha for each sample
+        for i in range(n_boot):
+            boot_alpha = 1
+            last_choice = -1
+            for col in bs_data:
+                mu = len(bs_data[col].dropna())
+                for j in range((mu * mu - 1) // 2):
+                    choice = numpy.random.randint(0, len(er))
+                    while j == 2 and choice == last_choice:
+                        choice = numpy.random.randint(0, len(er))
+                    last_choice = choice
+                    delta = er[choice]
+                    boot_alpha -= delta
+
+            boot_samples.append(boot_alpha)
+
+        # Determine the probability of failing to attain specific values of alpha
+        alpha_levels = [0.5, 0.6, 0.67, 0.7, 0.8, 0.9]
+        boot_samples.sort()
+        probabilities = [bisect_left(boot_samples, l) / n_boot for l in alpha_levels]
+        lower, upper = numpy.quantile(boot_samples, q=(.025, .975))
+
+    if out is not None:
+        __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilities)
+
+    return alpha, lower, upper
