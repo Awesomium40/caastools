@@ -1,4 +1,3 @@
-from ..constants import CactiAttributes, IaProperties
 from peewee import AutoField, BooleanField, chunked, FloatField, ForeignKeyField, IntegerField, Model, SQL, TextField
 from playhouse.sqlite_ext import SqliteExtDatabase
 from typing import Sequence

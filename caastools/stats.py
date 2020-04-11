@@ -1,18 +1,42 @@
 from bisect import bisect_left
 from collections import Counter
 from scipy import stats
+import functools
 import io
 import itertools
 import logging
 import numpy
 import pandas
 
-
 logging.getLogger('caastools.stats').addHandler(logging.NullHandler())
+
+__all__ = ['cohens_kappa', 'fleiss', 'icc', 'kalpha', 'pabak']
+
+
+def _progress_bar_(iteration, total, prefix='', suffix='', decimals=1, length=50, fill='█', printEnd="\r"):
+    """
+    prints progress bar to the console window. Use inside of a loop to get the proper effect
+    :param iteration: current iteration
+    :param total: total iterations
+    :param prefix: string to appear to the left of the progress bar
+    :param suffix: string to appear to the right of the progress bar
+    :param decimals: number of decimals to show in the pct complete
+    :param length: length of the progress bar
+    :param fill: character to fill in completed portion of progres bar
+    :param printEnd: EOL character
+    :return:
+    """
+
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end=printEnd)
+    # Print New Line on Complete
+    if iteration == total:
+        print()
 
 
 def __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilities):
-
     sep = "===================================================\n\n"
     try:
         out.write("Coincidence matrix:\n")
@@ -36,6 +60,61 @@ def __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilitie
                         out.write("{0:<.2f}: {1:<.3f}\n".format(level, probabilities[i]))
         except OSError as os_error:
             logging.error("Unable to create output because 'out' was an invalid file handle")
+
+
+def _alpha_boot_(data, boot, diff_func, de):
+    """
+    _alpha_boot_(data, boot) -> list[float]
+    Performs the Hayes bootstrapping algoritm for Krippendorf's alpha
+    :param data: The dataframe on which alpha was to be computed
+    :param boot: The number of bootstrapped samples from which to draw
+    :return: list of bootstrapped alpha estimates
+    """
+
+    boot_samples = []
+    n_boot = (boot // 1000) * 1000
+    er = []  # list of error terms for the unique pairs in the dataset
+
+    if n_boot < 1000:
+        logging.warning("Minimum number of bootstraps is 1000. Setting boot to 1000 samples")
+        n_boot = 1000
+
+    # For bootstrapping, need to draw number of samples equivalent to the number of unique pairs in the sample
+    bs_data: pandas.DataFrame = data.dropna(axis=1, thresh=2)
+    mus = bs_data.notnull()
+    n_pairs = ((mus.sum() * (mus.sum() - 1)).astype("Int64") // 2).sum()
+
+    if n_pairs < 2:
+        logging.info("Unable to perform bootstrapping because fewer than 2 pairable values were found" +
+                     " from which to draw samples")
+    else:
+
+        # First, compute the error term for each unique pair of values
+        for col in bs_data:
+            column_data = bs_data[col].dropna()
+            mu = len(column_data)
+            for i, v1 in enumerate(column_data[:-1]):
+                for v2 in column_data[i + 1:]:
+                    diff = diff_func(v1, v2)
+                    e = 2 * (diff / de)
+                    delta = e / (mu - 1)
+                    er.append(delta)
+
+        for i in range(n_boot):
+            boot_alpha = 1
+            bsd_nn = bs_data.notnull()
+            # pair_count = int(((mus.sum() * (mus.sum() - 1)) // 2).sum())
+
+            # For each pair randomly selected to be part of the sample (via a uniform distribution),
+            # get its associated erorr term
+            errors: numpy.ndarray = numpy.random.choice(er, size=n_pairs, replace=True)
+
+            # according to the Hayes algorithm, alpha = 1 - (sum of all error terms for the sample drawn)
+            total_error = errors.sum()
+            boot_alpha -= total_error
+            boot_samples.append(boot_alpha)
+
+    return boot_samples
 
 
 def cohens_kappa(rows, columns, weight=None):
@@ -173,7 +252,7 @@ def icc(frame: pandas.DataFrame, icc_type=2):
         raise ValueError("Unable to compute an ICC because fewer than 2 raters were found")
 
     icc_types = {1: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n:
-                 (ms_sub - ms_within) / (ms_sub + df_r * ms_within),
+    (ms_sub - ms_within) / (ms_sub + df_r * ms_within),
                  2: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n:
                  (ms_sub - ms_err) / (ms_sub + df_r * ms_err + k * (ms_r - ms_err) / n),
                  3: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n:
@@ -218,7 +297,7 @@ def icc(frame: pandas.DataFrame, icc_type=2):
     return coeff, f, stats.f.sf(f, df_subjects, df_error)
 
 
-def kalpha(data, metric='nominal', boot=None, out=None):
+def kalpha(data, metric='nominal', boot=None, out=None, try_new=False):
     """
     stats.k_alpha(data, metric='nominal') -> float
     Computes Krippendorf's alpha-reliability for the provided DataFrame
@@ -233,6 +312,21 @@ def kalpha(data, metric='nominal', boot=None, out=None):
     :return tuple[float, float, float]: alpha and the lower/upper bounds of the 95% CI
     """
 
+    def _exp_func_(marg, num, r, c):
+        if r == c:
+            result = marg[r] * (marg[c] - 1) / (num - 1)
+        else:
+            result = marg[r] * marg[c] / (num - 1)
+
+        return result
+
+    def _cmx_func_(column: pandas.Series):
+        c = column.dropna()
+        mu = len(c)
+        pairs = itertools.permutations(c, 2)
+        for itm in pairs:
+            yield tuple(itm)
+
     metrics = {'nominal': lambda x, y: int(x != y),
                'ordinal': lambda row, lower, upper:
                (sum(row.loc[lower: upper]) -
@@ -240,6 +334,7 @@ def kalpha(data, metric='nominal', boot=None, out=None):
                'interval': lambda x, y: (x - y) ** 2,
                'ratio': lambda x, y: ((x - y) / (x + y)) ** 2}
 
+    alpha_levels = [0.5, 0.6, 0.67, 0.7, 0.8, 0.9]
     er = []
 
     diff_func = metrics.get(metric)
@@ -247,92 +342,64 @@ def kalpha(data, metric='nominal', boot=None, out=None):
         raise ValueError(
             "Parameter metric expected one of ('nominal', 'ordinal', 'interval', 'ratio'), got {0}".format(metric))
 
-    # comptue the coincidence matrix
     idx = sorted(set(filter(lambda x: pandas.notna(x), data.values.ravel())))
-    cmx = pandas.DataFrame(0, index=idx, columns=idx)
-    expect = cmx.copy()
-
-    for col in data.columns:
-        mu = len(data[col].dropna())
-        pairings = itertools.permutations(data[col].dropna(), 2)
-        counts = Counter(tuple(itm) for itm in pairings)
-        for key, value in counts.items():
-            cmx.loc[key] += value / (mu - 1)
-
-    marginals = cmx.sum()
-    n = marginals.sum()
-
-    # compute the matrix of expected coincidences
-    for row in idx:
-        for col in idx:
-            if row == col:
-                expect.loc[row, col] = marginals[row] * (marginals[col] - 1) / (n - 1)
-            else:
-                expect.loc[row, col] = marginals[row] * marginals[col] / (n - 1)
-
-    # Compute the difference matrix
-    dmx = pandas.DataFrame(0, index=idx, columns=idx)
-    for r, c in itertools.product(idx, idx):
-        lower = c if c < r else r
-        upper = r if c < r else c
-        dmx.loc[r, c] = diff_func(lower, upper) if metric != 'ordinal' else diff_func(marginals, lower, upper)
-
-    # compute the matrix of observed disagreement
-    dobs = cmx * dmx
-
-    # compute the matrix of expected disagreement
-    dexp = dmx * expect
-
-    # compute alpha
-    do = dobs.sum().sum()
-    de = dexp.sum().sum()
-    alpha = 1 - (do / de)
-
-    # Perform the bootstrapping via the Hayes algorithm
-    if boot is None:
-        lower, upper = (numpy.NaN, numpy.NaN)
+    if len(idx) == 0:
+        alpha, lower, upper = (numpy.NaN, numpy.NaN, numpy.NaN)
     else:
-        n_boot = (boot // 1000) * 1000
-        if n_boot < 1000:
-            logging.warning("Minimum number of bootstraps is 1000. Setting boot to 1000 samples")
-            n_boot = 1000
+        cmx = pandas.DataFrame(0, index=idx, columns=idx)
+        # expect = cmx.copy()
 
-        boot_samples = []
-        # First, compute the E(r) term for each pair of values
-        bs_data = data.dropna(axis=1, thresh=2)
-        for col in bs_data:
-            column_data = bs_data[col].dropna()
-            mu = len(column_data)
-            for i, v1 in enumerate(column_data[:-1]):
-                for v2 in column_data[i + 1:]:
-                    diff = diff_func(v1, v2) if metric != 'ordinal' else diff_func(marginals, v1, v2)
-                    e = 2 * (diff / de)
-                    delta = e / (mu - 1)
-                    er.append(delta)
+        # compute the coincidence matrix
+        counts = sum((Counter(_cmx_func_(data[col])) for col in data.columns), Counter())
+        for key, value in counts.items():
+            cmx.loc[key] = value
 
-        # Then perform the sampling and compute the estimated bootstrapped alpha for each sample
-        for i in range(n_boot):
-            boot_alpha = 1
-            last_choice = -1
-            for col in bs_data:
-                mu = len(bs_data[col].dropna())
-                for j in range((mu * mu - 1) // 2):
-                    choice = numpy.random.randint(0, len(er))
-                    while j == 2 and choice == last_choice:
-                        choice = numpy.random.randint(0, len(er))
-                    last_choice = choice
-                    delta = er[choice]
-                    boot_alpha -= delta
+        marginals = cmx.sum()
+        n = marginals.sum()
 
-            boot_samples.append(boot_alpha)
+        # Functions for computing the difference and expected coincidence matrices
+        diff_func = functools.partial(diff_func, marginals) if metric == 'ordinal' else diff_func
+        exp_func = functools.partial(_exp_func_, marginals, n)
 
-        # Determine the probability of failing to attain specific values of alpha
-        alpha_levels = [0.5, 0.6, 0.67, 0.7, 0.8, 0.9]
-        boot_samples.sort()
-        probabilities = [bisect_left(boot_samples, l) / n_boot for l in alpha_levels]
-        lower, upper = numpy.quantile(boot_samples, q=(.025, .975))
+        # compute the matrix of expected coincidences
+        expect = pandas.DataFrame(numpy.array([[exp_func(row, col) for col in idx] for row in idx]),
+                                  columns=idx, index=idx)
 
-    if out is not None:
-        __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilities)
+        # Compute the difference matrix
+        dmx = pandas.DataFrame(
+            data=numpy.array([[diff_func(*((c, r) if c < r else (r, c))) for c in idx] for r in idx]),
+            index=idx, columns=idx)
+
+        # compute the matrix of observed disagreement
+        dobs = cmx * dmx
+
+        # compute the matrix of expected disagreement
+        dexp = dmx * expect
+
+        # compute alpha
+        do = dobs.sum().sum()
+        de = dexp.sum().sum()
+        alpha = 1 - (do / de)
+
+        # Perform the bootstrapping via the Hayes algorithm
+        if boot is None:
+            lower, upper = (numpy.NaN, numpy.NaN)
+        else:
+            n_boot = (boot // 1000) * 1000
+            if n_boot < 1000: n_boot = 1000
+
+            boot_samples = _alpha_boot_(data, boot, diff_func, de)
+
+            if len(boot_samples) > 0:
+                # Determine the probability of failing to attain specific values of alpha
+                boot_samples.sort()
+                probabilities = [bisect_left(boot_samples, l) / n_boot for l in alpha_levels]
+                lower, upper = numpy.quantile(boot_samples, q=(.025, .975))
+            else:
+                upper, lower = (numpy.NaN, numpy.NaN)
+                probabilities = [numpy.NaN for i in range(len(alpha_levels))]
+
+        if out is not None:
+            __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilities)
 
     return alpha, lower, upper

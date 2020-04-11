@@ -188,10 +188,10 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels: dict = Non
 def _get_global_data_(interviews):
 
     return m.GlobalRating.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
-                                  m.Interview.client_id, m.Interview.therapist_id, m.Interview.language_id,
-                                  m.Interview.treatment_condition_id,
-                                  m.GlobalProperty.gp_name, m.GlobalProperty.gp_data_type,
-                                  m.GlobalValue.gv_value)\
+                                 m.Interview.client_id, m.Interview.therapist_id, m.Interview.language_id,
+                                 m.Interview.treatment_condition_id,
+                                 m.GlobalProperty.gp_name, m.GlobalProperty.gp_data_type,
+                                 m.GlobalValue.gv_value)\
                          .join(m.Interview)\
                          .switch(m.GlobalRating)\
                          .join(m.GlobalValue)\
