@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/stats.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,7 +277,7 @@
       <workItem from="1586531072765" duration="2441000" />
       <workItem from="1586538954031" duration="2439000" />
       <workItem from="1586602367911" duration="1652000" />
-      <workItem from="1586768915168" duration="15275000" />
+      <workItem from="1586768915168" duration="17500000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -424,7 +426,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586783371667</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Update stats.fleiss to accept 3 Series as input rather than DataFrame and 3 column labels">
+      <created>1586791495913</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1586791495913</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -485,25 +494,26 @@
     <MESSAGE value="update kalpha function to include bootstrapping 95% CI&#10;update kalpha function to support output additional info to file_like object" />
     <MESSAGE value="Update kalpha function to improve performance" />
     <MESSAGE value="Update stats.icc to compute more versions of ICC as described in McGraw &amp; Wong" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update stats.icc to compute more versions of ICC as described in McGraw &amp; Wong" />
+    <MESSAGE value="Update stats.fleiss to accept 3 Series as input rather than DataFrame and 3 column labels" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update stats.fleiss to accept 3 Series as input rather than DataFrame and 3 column labels" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1553" y="294" key="CommitChangelistDialog2" timestamp="1586783371344">
+    <state x="1553" y="294" key="CommitChangelistDialog2" timestamp="1586791495623">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1553" y="294" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1586783371344" />
+    <state x="1553" y="294" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1586791495623" />
     <state x="1707" y="454" key="FileChooserDialogImpl" timestamp="1586198833992">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1707" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1586198833992" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1586783373475">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1586791497591">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1586783373475" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586791439856">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1586791497591" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586794711050">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1586791439856" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1586794711050" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
