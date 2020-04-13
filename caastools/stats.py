@@ -482,7 +482,6 @@ def kalpha(data, metric='nominal', boot=None, out=None, try_new=False):
         alpha, lower, upper = (numpy.NaN, numpy.NaN, numpy.NaN)
     else:
         cmx = pandas.DataFrame(0, index=idx, columns=idx)
-        # expect = cmx.copy()
 
         # compute the coincidence matrix
         counts = sum((Counter(_cmx_func_(data[col])) for col in data.columns), Counter())
