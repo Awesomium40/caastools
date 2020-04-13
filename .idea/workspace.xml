@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="update kalpha function to include bootstrapping 95% CI&#10;update kalpha function to support output additional info to file_like object">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/plots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/datasets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/lib/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -278,7 +278,8 @@
       <workItem from="1586524271386" duration="4171000" />
       <workItem from="1586531072765" duration="2441000" />
       <workItem from="1586538954031" duration="2439000" />
-      <workItem from="1586602367911" duration="1216000" />
+      <workItem from="1586602367911" duration="1652000" />
+      <workItem from="1586768915168" duration="11471000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -413,7 +414,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586527674681</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Update kalpha function to improve performance">
+      <created>1586624378190</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1586624378190</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -472,21 +480,26 @@
     <MESSAGE value="Add function to compute Krippendorf's alpha to stats&#10;add function to create line plots for reliability" />
     <MESSAGE value="Minor updates to stats module" />
     <MESSAGE value="update kalpha function to include bootstrapping 95% CI&#10;update kalpha function to support output additional info to file_like object" />
-    <option name="LAST_COMMIT_MESSAGE" value="update kalpha function to include bootstrapping 95% CI&#10;update kalpha function to support output additional info to file_like object" />
+    <MESSAGE value="Update kalpha function to improve performance" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update kalpha function to improve performance" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1553" y="294" key="CommitChangelistDialog2" timestamp="1586527753645">
+    <state x="1553" y="294" key="CommitChangelistDialog2" timestamp="1586624377739">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1553" y="294" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1586527753645" />
+    <state x="1553" y="294" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1586624377739" />
     <state x="1707" y="454" key="FileChooserDialogImpl" timestamp="1586198833992">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1707" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1586198833992" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586624347965">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1586624381164">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1586624347965" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1586624381164" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1586783327979">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1586783327979" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

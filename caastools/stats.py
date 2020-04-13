@@ -8,6 +8,7 @@ import logging
 import numpy
 import pandas
 
+
 logging.getLogger('caastools.stats').addHandler(logging.NullHandler())
 
 __all__ = ['cohens_kappa', 'fleiss', 'icc', 'kalpha', 'pabak']
@@ -37,6 +38,7 @@ def _progress_bar_(iteration, total, prefix='', suffix='', decimals=1, length=50
 
 
 def __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilities):
+
     sep = "===================================================\n\n"
     try:
         out.write("Coincidence matrix:\n")
@@ -190,22 +192,26 @@ def pabak(rater1, rater2):
     raise NotImplementedError()
 
 
-def fleiss(frame: pandas.DataFrame, subject_column, rater_column, category_column):
+def fleiss(subjects, raters, categories):
     """
     stats.fleiss(frame: pandas.DataFrame) -> float
     Computes the fleiss multirater kappa from the provided count data
-    :param frame: The DataFrame object containing all the raw observations
-    :param subject_column: the name of the column that designates the subject being rated
-    :param rater_column: the name of the column that specifies the rater
-    :param category_column: the name of the column that specifies the category assigned to subject by rater
+    :param subjects: pandas Series or numpy array-like containing the subject of each observation
+    :param raters: pandas Series or numpy array-like containing the rater for each observation
+    :param categories: pandas Series or numpy array-like containing category assigned to each observation
     :return: float
     """
 
     # First thing for a fleiss coefficient is to extract the necessary count data
-    counts = frame[[subject_column,
-                    rater_column,
-                    category_column]].pivot_table(values=rater_column, index=subject_column, columns=category_column,
-                                                  aggfunc=numpy.count_nonzero, fill_value=0)
+    subject_column = 'subject'
+    rater_column = 'rater'
+    category_column = 'category'
+    frame = pandas.DataFrame({subject_column: subjects,
+                              rater_column: raters,
+                              category_column: categories})
+
+    counts = frame.pivot_table(values=rater_column, index=subject_column, columns=category_column,
+                               aggfunc=numpy.count_nonzero, fill_value=0)
 
     # Get number of subjects and categories
     N, k = counts.shape
@@ -214,10 +220,10 @@ def fleiss(frame: pandas.DataFrame, subject_column, rater_column, category_colum
     # number of raters
     n = obs_count // N
 
-    # pj = proportion of agreement for a given category
+    # pj = proportion of agreement for the jth category
     pj = counts.sum() / obs_count
 
-    # pi = proportion of agreement for a given subject
+    # pi = proportion of agreement for the ith subject
     pi = (1 / (n * (n - 1))) * ((counts ** 2).sum(axis=1) - n)
 
     # pobs = proportion of observed agreement
@@ -231,7 +237,135 @@ def fleiss(frame: pandas.DataFrame, subject_column, rater_column, category_colum
     return k
 
 
-def icc(frame: pandas.DataFrame, icc_type=2):
+def icc(frame: pandas.DataFrame, model=2, measures='single', effects='mixed', agreement='A'):
+    """
+    Compute Intraclass Correllation Coefficient
+    Based on Bakeman, R., & Quera, V. (2011). Sequential Analysis and Observational
+    Methods for the Behavioral Sciences.
+    Formulas drawn from: McGraw, K. O. & Wong, S.P. (1996). Forming inferences about some intraclass
+    correlation coefficients. Psychological Methods, 1(1), 30-46.
+    :param frame: The pandas.DataFrame from which to compute the ICC. Frame should be structured S.T.
+    raters are represented by columns, subjects are represented by rows, and observations are cells
+    :param model: ICC model to use (From McGraw & Wong): 1, 2, or 3. Default 2
+    :param measures: to compute single measures ('single') or average measures ('average') icc. Default 'single'
+    :param effects: compute random effects ('random') or mixed effects ('mixed') icc. Default 'mixed'
+    :param agreement: compute consistency ('C') or absolute agreement ('A') icc. Default 'A'
+    :return: tuple[float, float, float] The intraclass correlation coefficient, F and associated p-value
+    :raises ValueError: If frame has fewer than 2 rows or columns
+    """
+    n, k = frame.shape
+
+    if n < 2:
+        raise ValueError("Unable to compute an ICC because fewer than 2 rows with non-missing data were found")
+    if k < 2:
+        raise ValueError("Unable to compute an ICC because fewer than 2 raters were found")
+
+    """
+    Degrees of Freedom (From McGraw & Wong) & their corresponding values here
+    Case1: One-way random effects:
+        df Between rows (n - 1): df_subjects (n - 1)
+        df Within rows n(k - 1): df_within_rows n * (k - 1)
+
+    Case2: Two-way random with/without interaction:
+        df Between rows (n - 1): df_subjects (n - 1)
+        df Within rows n(k - 1): df_within_rows n * (k - 1)
+            Between Columns k - 1: df_raters (k - 1)
+            Error (n - 1)(k - 1): df_error (n - 1) * (k - 1)
+
+    Case 3: Two-way mixed model, with/without interaction
+        df Between Rows (n - 1): df_subjects (n - 1)
+        df Within Rows n(k - 1): df_within_rows: n * (k - 1)
+            Between columns (k - 1): df_raters (k - 1)
+            Error (n - 1)(k -1): df_error (n - 1) * (k - 1)
+
+    Mean Squares (From McGraw & Wong) & their corresponding values here
+    Case1: One-way random effects:
+        ms Between rows MSr: ms_subjects
+        ms Within rows MSw: ms_within_subjects
+
+    Case2: Two-way random with/without interaction:
+        ms Between rows MSr: ms_subjects
+        ms Within rows MSw: ms_within_subjects 
+            Between Columns MSc: ms_raters
+            Error MSe: ms_error
+
+    Case 3: Two-way mixed model, with/without interaction
+        ms Between rows MSr: ms_subjects
+        ms Within rows MSw: ms_within_subjects 
+            Between Columns MSc: ms_raters
+            Error MSe: ms_error
+    """
+    formulae = {[1, 'single', 'random']: lambda msr, msw, k: (msr - msw) / (msr + (k - 1) * msw),
+                [2, 'single', 'random', 'C']: lambda msr, mse, k: (msr - mse) / (msr + (k - 1) * mse),
+                [2, 'single', 'random', 'A']: lambda msr, mse, msc, k, n: (msr - mse) / (msr + ((k - 1) * mse) + ((k/n) * (msc - mse))),
+                [3, 'single', 'random', 'C']: lambda msr, mse, k: (msr - mse) / (msr + (k - 1) * mse),
+                [3, 'single', 'random', 'A']: lambda msr, mse, msc, k, n: (msr - mse) / (msr + ((k - 1) * mse) + ((k/n) * (msc - mse))),
+                [1, 'average', 'random']: lambda msr, msw: (msr - msw) / msw,
+                [2, 'average', 'random', 'C']: lambda msr, mse: (msr - mse) / msr,
+                [2, 'average', 'random', 'A']: lambda msr, mse, msc, n: (msr - mse) / (msr + ((msc - mse) /n)),
+                [3, 'average', 'random', 'C']: lambda msr, mse: (msr - mse) / msr,
+                [3, 'average', 'random', 'A']: lambda msr, mse, msc, n: (msr - mse) / (msr + ((msc - mse) /n))
+                }
+
+    key = [model, measures, effects] if model == 1 else [model, measures, effects, agreement.upper()]
+    formula = formulae.get(key)
+
+    if formula is None:
+        raise ValueError("Invalid specification for ICC.\n" +
+                         "model expected (1, 2, 3)\n" +
+                         "measures expected ('single', 'random')\n" +
+                         "effects expected ('random', 'mixed')\n" +
+                         "agreement expected ('A', 'C')")
+
+    # Degrees of Freedom
+    df_raters = k - 1  # dfc
+    df_subjects = n - 1  # dfr
+    df_error = df_subjects * df_raters  # dfe
+    df_within_rows = n * (k - 1)
+
+    # Sum of squares Total
+    grand_mean = frame.mean().mean()
+    ss_total = ((frame - grand_mean) ** 2).sum().sum()
+
+    # Sum of squares between raters (columns)
+    ss_raters = n * ((frame.mean(0) - grand_mean) ** 2).sum()
+    ms_raters = ss_raters / df_raters
+
+    # Sum of Squares for the error term
+    ss_within_cols = ss_total - ss_raters
+    ss_rows = k * ((frame.mean(1) - grand_mean) ** 2).sum().sum()
+    ss_error = ss_within_cols - ss_rows
+    ms_error = ss_error / df_error
+
+    # Sum of Squares between subjects (rows)
+    ss_subjects = ss_within_cols - ss_error
+    ms_subjects = ss_subjects / df_subjects
+
+    # Sum of squares within subjects (rows)
+    ss_within_subjects = ss_raters + ss_error
+    ms_within_subjects = ss_within_subjects / df_within_rows
+
+    # arguments for the ICC function, determined by the model and parameters specified
+    args = {[1, 'single', 'random']: (ms_subjects, ms_within_subjects, k),
+            [2, 'single', 'random', 'C']: (ms_subjects, ms_error, k),
+            [2, 'single', 'random', 'A']: (ms_subjects, ms_error, ms_raters, k, n),
+            [3, 'single', 'random', 'C']: (ms_subjects, ms_error, k),
+            [3, 'single', 'random', 'A']: (ms_subjects, ms_error, ms_raters, k, n),
+            [1, 'average', 'random']: (ms_subjects, ms_within_subjects),
+            [2, 'average', 'random', 'C']: (ms_subjects, ms_error),
+            [2, 'average', 'random', 'A']: (ms_subjects, ms_error, ms_raters, n),
+            [3, 'average', 'random', 'C']: (ms_subjects, ms_error),
+            [3, 'average', 'random', 'A']: (ms_subjects, ms_error, ms_raters, n)
+            }
+
+    coeff = formula(*args[key])
+
+    f = ms_subjects / ms_error
+
+    return coeff, f, stats.f.sf(f, df_subjects, df_error)
+
+
+def icc_old(frame: pandas.DataFrame, icc_type=2):
     """
     Compute Intraclass Correllation Coefficient
     Based on Bakeman, R., & Quera, V. (2011). Sequential Analysis and Observational
@@ -239,7 +373,8 @@ def icc(frame: pandas.DataFrame, icc_type=2):
     Formulas drawn from: McGraw, K. O. & Wong, S.P. (1996). Forming inferences about some intraclass
     correlation coefficients. Psychological Methods, 1(1), 30-46.
 
-    :param frame: The pandas.DataFrame from which to compute the ICC
+    :param frame: The pandas.DataFrame from which to compute the ICC. Frame should be structured S.T.
+    raters are represented by columns, subjects are represented by rows, and observations are cells
     :param icc_type: The type of ICC to run (only 2 and 3 currently supported). Default 2
     :return: tuple[float, float, float] The intraclass correlation coefficient, F and associated p-value
     :raises ValueError: If frame has fewer than 2 rows or columns
@@ -339,8 +474,8 @@ def kalpha(data, metric='nominal', boot=None, out=None, try_new=False):
 
     diff_func = metrics.get(metric)
     if diff_func is None:
-        raise ValueError(
-            "Parameter metric expected one of ('nominal', 'ordinal', 'interval', 'ratio'), got {0}".format(metric))
+        raise ValueError("Parameter metric expected one of ('nominal', 'ordinal', 'interval', 'ratio'), " +
+                         "got {0}".format(metric))
 
     idx = sorted(set(filter(lambda x: pandas.notna(x), data.values.ravel())))
     if len(idx) == 0:
