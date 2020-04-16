@@ -321,22 +321,7 @@ def icc(frame: pandas.DataFrame, model=2, measures='single', agreement='A'):
                   }
              }
     }
-    """
-    formulae = {[1, 'single', 'random']: lambda msr, msw, k: (msr - msw) / (msr + (k - 1) * msw),
-                [2, 'single', 'random', 'C']: lambda msr, mse, k: (msr - mse) / (msr + (k - 1) * mse),
-                [2, 'single', 'random', 'A']: lambda msr, mse, msc, k, n: (msr - mse) / (msr + ((k - 1) * mse) + ((k/n) * (msc - mse))),
-                [3, 'single', 'random', 'C']: lambda msr, mse, k: (msr - mse) / (msr + (k - 1) * mse),
-                [3, 'single', 'random', 'A']: lambda msr, mse, msc, k, n: (msr - mse) / (msr + ((k - 1) * mse) + ((k/n) * (msc - mse))),
-                [1, 'average', 'random']: lambda msr, msw: (msr - msw) / msw,
-                [2, 'average', 'random', 'C']: lambda msr, mse: (msr - mse) / msr,
-                [2, 'average', 'random', 'A']: lambda msr, mse, msc, n: (msr - mse) / (msr + ((msc - mse) /n)),
-                [3, 'average', 'random', 'C']: lambda msr, mse: (msr - mse) / msr,
-                [3, 'average', 'random', 'A']: lambda msr, mse, msc, n: (msr - mse) / (msr + ((msc - mse) /n))
-                }
 
-    key = [model, measures, effects] if model == 1 else [model, measures, effects, agreement.upper()]
-    formula = formulae.get(key)
-    """
     formula = forms.get(model).get(measures) if model == 1 else forms.get(model).get(measures).get(agreement)
 
     if formula is None:
@@ -401,19 +386,7 @@ def icc(frame: pandas.DataFrame, model=2, measures='single', agreement='A'):
                       }
                  }
     }
-    """
-    args = {[1, 'single', 'random']: (ms_subjects, ms_within_subjects, k),
-            [2, 'single', 'random', 'C']: (ms_subjects, ms_error, k),
-            [2, 'single', 'random', 'A']: (ms_subjects, ms_error, ms_raters, k, n),
-            [3, 'single', 'random', 'C']: (ms_subjects, ms_error, k),
-            [3, 'single', 'random', 'A']: (ms_subjects, ms_error, ms_raters, k, n),
-            [1, 'average', 'random']: (ms_subjects, ms_within_subjects),
-            [2, 'average', 'random', 'C']: (ms_subjects, ms_error),
-            [2, 'average', 'random', 'A']: (ms_subjects, ms_error, ms_raters, n),
-            [3, 'average', 'random', 'C']: (ms_subjects, ms_error),
-            [3, 'average', 'random', 'A']: (ms_subjects, ms_error, ms_raters, n)
-            }
-    """
+
     args = formula_args[model][measures] if model == 1 else formula_args[model][measures][agreement]
     coeff = formula(*args)
 
@@ -422,74 +395,7 @@ def icc(frame: pandas.DataFrame, model=2, measures='single', agreement='A'):
     return coeff, f, stats.f.sf(f, df_subjects, df_error)
 
 
-def icc_old(frame: pandas.DataFrame, icc_type=2):
-    """
-    Compute Intraclass Correllation Coefficient
-    Based on Bakeman, R., & Quera, V. (2011). Sequential Analysis and Observational
-    Methods for the Behavioral Sciences.
-    Formulas drawn from: McGraw, K. O. & Wong, S.P. (1996). Forming inferences about some intraclass
-    correlation coefficients. Psychological Methods, 1(1), 30-46.
-
-    :param frame: The pandas.DataFrame from which to compute the ICC. Frame should be structured S.T.
-    raters are represented by columns, subjects are represented by rows, and observations are cells
-    :param icc_type: The type of ICC to run (only 2 and 3 currently supported). Default 2
-    :return: tuple[float, float, float] The intraclass correlation coefficient, F and associated p-value
-    :raises ValueError: If frame has fewer than 2 rows or columns
-    """
-    n, k = frame.shape
-
-    if n < 2:
-        raise ValueError("Unable to compute an ICC because fewer than 2 rows with non-missing data were found")
-    if k < 2:
-        raise ValueError("Unable to compute an ICC because fewer than 2 raters were found")
-
-    icc_types = {1: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n:
-    (ms_sub - ms_within) / (ms_sub + df_r * ms_within),
-                 2: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n:
-                 (ms_sub - ms_err) / (ms_sub + df_r * ms_err + k * (ms_r - ms_err) / n),
-                 3: lambda ms_sub, ms_err, ms_within, ms_r, df_r, k, n:
-                 (ms_sub - ms_err) / (ms_sub + df_r * ms_err)}
-
-    formula = icc_types.get(icc_type)
-    if formula is None:
-        raise ValueError("Invalid specification for icc_type. Expected (1, 2, 3)")
-
-    # Degrees of Freedom
-    df_raters = k - 1  # dfc
-    df_subjects = n - 1  # dfr
-    df_error = df_subjects * df_raters  # dfe
-    df_within_rows = n * (k - 1)
-
-    # Sum of squares Total
-    grand_mean = frame.mean().mean()
-    ss_total = ((frame - grand_mean) ** 2).sum().sum()
-
-    # Sum of squares between raters (columns)
-    ss_raters = n * ((frame.mean(0) - grand_mean) ** 2).sum()
-    ms_raters = ss_raters / df_raters
-
-    # Sum of Squares for the error term
-    ss_within_cols = ss_total - ss_raters
-    ss_rows = k * ((frame.mean(1) - grand_mean) ** 2).sum().sum()
-    ss_error = ss_within_cols - ss_rows
-    ms_error = ss_error / df_error
-
-    # Sum of Squares between subjects (rows)
-    ss_subjects = ss_within_cols - ss_error
-    ms_subjects = ss_subjects / df_subjects
-
-    # Sum of squares within subjects (rows)
-    ss_within_subjects = ss_raters + ss_error
-    ms_within_subjects = ss_within_subjects / df_within_rows
-
-    coeff = formula(ms_subjects, ms_error, ms_within_subjects, ms_raters, df_raters, k, n)
-
-    f = ms_subjects / ms_error
-
-    return coeff, f, stats.f.sf(f, df_subjects, df_error)
-
-
-def kalpha(data, metric='nominal', boot=None, out=None, try_new=False):
+def kalpha(data, metric='nominal', boot=None, out=None):
     """
     stats.k_alpha(data, metric='nominal') -> float
     Computes Krippendorf's alpha-reliability for the provided DataFrame

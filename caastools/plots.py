@@ -5,44 +5,45 @@ import os
 import pandas
 import seaborn
 
-__all__ = ['create_disagreement_heatmaps']
+__all__ = ['disagreement_heatmap', 'reliability_line_plot']
 
 
-def create_disagreement_heatmaps(dataframe, column_label, out_folder, by_condition=False):
+def disagreement_heatmap(dataframe, title, fig_size=(10, 10), font_size=10):
     """
     create_disagreement_heatmaps(dataframe, by_session=False) -> None
     Generates a seaborn.heatmap of disagreements between raters on the specified coding property
-    :param dataframe: the pandas sequential DataFrame from which to draw disagreement data
-    :param column_label: The label of the column index whose data is to be used
-    :param out_folder: the path at which to save the heatmap figures
-    :param by_condition: Whether to generate heatmaps by condition (MI vs BA) or not. Default False. Not currently used
+    :param dataframe: The pandas.DataFrame from which to draw the heatmap. Index should be subjects, columns should be
+    :param fig_size: tuple of two integers that specifies the size of the plot in inches. Default (10, 10)
+    :param font_size: integer that specifies the font size of text on the plot
     """
 
-    # Need to get the raters involved in the reliability
-    # so that heatmaps can be made for each comparison
-    raters = list(set(dataframe.index.get_level_values(constants.RID).values))
-    
-    # Need to filter the data to provide a simplified heatmap.
-    # Involves removing the NaN values and also filtering out any place
-    # where raters actually agree
-    raw_data = dataframe[column_label].unstack(constants.RID).dropna()
+    filtered = dataframe.dropna()
+    filtered = filtered.loc[filtered.iloc[:, 0] != filtered.iloc[:, 1]]
+    xtab = pandas.crosstab(index=filtered.iloc[:, 0], columns=filtered.iloc[:, 1])
+    fig, ax = plt.subplots()
+    im = ax.imshow(xtab)
 
-    for i, rater1 in enumerate(raters[0:-1]):
-        for rater2 in raters[i + 1:]:
-            
-            out_path = os.path.join(out_folder, "dm_heatmap({0}_{1}vs{2}).png".format(column_label, rater1, rater2))
-            filtered = raw_data.loc[raw_data[rater1] != raw_data[rater2]]
+    # Make sure that all the tick labels are displayed
+    ax.set_xticks(numpy.arange(len(xtab.columns)))
+    ax.set_yticks(numpy.arange(len(xtab.index)))
+    ax.set_xticklabels(xtab.columns)
+    ax.set_yticklabels(xtab.index)
+    plt.setp(ax.get_xticklabels(), rotation=90, ha="right", rotation_mode="anchor")
 
-            # Once all the disagreements are isolated, can create a crosstab
-            # and use the resulting frame as input to a heatmap
-            xtab = pandas.crosstab(index=filtered[rater1], columns=filtered[rater2])
-            hm = seaborn.heatmap(xtab, annot=True, xticklabels=True, yticklabels=True)
-            hm.figure.set_size_inches(10, 10, forward=False)
-            hm.figure.savefig(out_path)
+    # Draw the text in the heatmap
+    for i in range(len(xtab.index)):
+        for j in range(len(xtab.columns)):
+            text = ax.text(j, i, xtab.iloc[i, j], ha="center", va="center", color="w", fontsize=font_size)
+
+    if title is not None:
+        ax.set_title(title)
+    fig.set_size_inches(*fig_size)
+    fig.tight_layout()
+    return fig
 
 
 def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-axis", ylabel="y-axis",
-                          rater_labels=None, width=11, height=8.5, yticks=None, **kwargs):
+                          rater_labels=None, width=11, height=8.5, xticks=None, yticks=None, **kwargs):
     """
     plots.reliability_line_plot(frame, **kwargs) --> matplotlib.Figure
     produces a reliability line plot from the specified
@@ -61,6 +62,7 @@ def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-a
     fig, axes = plt.subplots()  # type: plt.Figure, plt.Axes
     fig.set_size_inches(width, height)
     axes.set_xlabel(xlabel)
+    axes.set_xticklabels(xticks if xticks is not None else frame.index.astype(str))
     axes.set_ylabel(ylabel)
     if yticks is not None:
         plt.yticks(yticks)
