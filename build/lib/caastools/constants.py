@@ -37,6 +37,7 @@ class CactiNodes(object):
     USER_CONFIG = 'userConfiguration'
 
 
+"""
 class IaAttributes(object):
     ABBREVIATION = "Abbreviation"
     CLIENT_ID = "ClientID"
@@ -67,9 +68,10 @@ class IaAttributes(object):
     VALUE = "Value"
     WORD_COUNT = "Words"
     ZERO_PAD = "ZeroPad"
+"""
 
 
-class IaProperties(object):
+class IaAttributes(object):
     ABBREVIATION = "Abbreviation"
     CODING_SET_ID = "CodingSetID"
     CODING_SYSTEM_ID = "CodingSystemID"
@@ -124,89 +126,3 @@ class IaNodes(object):
 THERAPIST_GLOBALS_SLICE = slice(6, 12, 1)
 CLIENT_GLOBALS_SLICE = slice(13, 14, 1)
 SE_GLOBALS_SLICE = slice(15, 19, 1)
-    
-    
-#SQL constants
-CASCADE = "CASCADE"
-ON_UPDATE = "ON UPDATE"
-ON_DELETE = "ON DELETE"
-REFERENCES = "REFERENCES"
-SET_NULL = "SET NULL"
-
-
-CODE = 'Code'
-CODING_SYSTEM = "CodingSystem"
-COMPONENT = 'Component'
-END_TIME = "EndTime"
-GLOBAL = "Global"
-GLOBALS = "Globals"
-
-LANGUAGE = "Language"
-
-START_TIME = "StartTime"
-
-TX_CONDITION = "TxCondition"
-
-CS = "CodingSystem"
-DESC = "Description"
-DIGITS = "DecimalDigits"
-
-DSN = "DisplayName"
-DTYPE = "DataType"
-GLOBAL_ID = 340
-GLOBALS_SHORT = 'Globals'
-
-
-IVID = "InterviewID"
-LINE = "Line"
-MISC_ID = 337
-MISC_NAME = "MISC"
-ODESC = 'OriginalDescription'
-ODSN = 'OriginalDisplayName'
-OID = 'OriginalID'
-ONM = 'OriginalName'
-ORDER = "SortOrder"
-OVAL = 'OriginalValue'
-PID = "PropertyID"
-PNM = "PropertyName"
-PROP = "Property"
-PV = "PropertyValue"
-PVID = "PropertyValueID"
-
-ROLE = "ROLE"
-RID = "RaterID"
-SESSION = "Session"
-START = "StartTime"
-STRENGTH_NAME = "Strength Rating"
-STRENGTH_SHORT = "Strength"
-SYS_NAME = "SystemName"
-TC_ID = 339
-
-TXT = "Text"
-TYPES = {'numeric': float, 'string': str}
-UTT = "Utt"
-U331 = "UCHAT3.31"
-U34 = "UCHAT 3.4"
-WORDS = "Words"
-VAL = "Value"
-CT_PREFIX = 'CT_NOS'
-ST_PREFIX = 'ST_NOS'
-OTHER_PREFIX = "OTHER"
-NS_PREFIX = "NS"
-MICO_PREFIX = "MICO"
-MIIN_PREFIX = "MIIN"
-VALENCED_PREFIX = "VALENCED"
-VALENCE_NAME = "Valence"
-SR_NAME = "Strength Rating"
-VALENCE_ID = 335
-VALENCED_MISC_CODES = ['r', 'ra', 'rd', 'rn', 'ts', 'c', 'o']
-MICO_CODES = ['af', 'adp', 'ec', 'rcp', 'su', 'quo', 'res', 'rec', 'rf']
-MIIN_CODES = ['adw', 'co', 'di', 'wa', 'rcw']
-OTHER_CODES = ['st', 'gi', 'quc', 'fa', 'fi', 'nrs', 'nrc', ]
-NS_CODES = ['ack', 'int', 'cont', 'unf']
-ZPAD = "ZeroPad"
-K = "Kappa"
-MK = "kMax"
-ICC = 'ICC'
-OB = 'omnibus'
-__TE_MSG__ = "Parameter {0} expected type {1}, got {2}"

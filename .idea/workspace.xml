@@ -3,9 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database/bulkinsert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/ia.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/ia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/lib/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/plots.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/lib/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/plots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/bulkinsert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,29 +58,6 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>xsl:text</find>
-      <find>and</find>
-      <find>concat</find>
-      <find>&amp;lt</find>
-      <find>&lt;</find>
-      <find>os.</find>
-      <find>real</find>
-      <find>.value</find>
-      <find>interview_transform</find>
-      <find>15092</find>
-      <find>translate_</find>
-      <find>+</find>
-      <find>numpy</find>
-      <find>map_func</find>
-      <find>int_</find>
-      <find>pandas.NA</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>numpy.NaN</replace>
-    </replaceStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="MERGE" />
@@ -101,16 +86,16 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="H:\Lee Magill MOBC\Data Management\Syntax" />
-      <recent name="D:\SyncThing\caastools\tests\test_data\cacti\invalid" />
-      <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\SyncThing\caastools\tests" />
       <recent name="D:\SyncThing\caastools\parsing" />
       <recent name="D:\SyncThing\caastools\database" />
       <recent name="D:\SyncThing\caastools" />
+      <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\Lee Magill MOBC\Data Management\Syntax" />
+      <recent name="D:\SyncThing\caastools\tests\test_data\cacti\invalid" />
       <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
     </key>
   </component>
@@ -283,6 +268,9 @@
       <workItem from="1586830625165" duration="1256000" />
       <workItem from="1586883502144" duration="3202000" />
       <workItem from="1586963849671" duration="609000" />
+      <workItem from="1587049482972" duration="5958000" />
+      <workItem from="1587121696627" duration="5961000" />
+      <workItem from="1587134645409" duration="2306000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -445,7 +433,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586794752326</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing">
+      <created>1587049541535</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1587049541535</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -508,25 +503,26 @@
     <MESSAGE value="Update stats.icc to compute more versions of ICC as described in McGraw &amp; Wong" />
     <MESSAGE value="Update stats.fleiss to accept 3 Series as input rather than DataFrame and 3 column labels" />
     <MESSAGE value="Update stats.icc to fix bug in formula selection process" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update stats.icc to fix bug in formula selection process" />
+    <MESSAGE value="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1553" y="294" key="CommitChangelistDialog2" timestamp="1586794752047">
+    <state x="1553" y="294" key="CommitChangelistDialog2" timestamp="1587049541151">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1553" y="294" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1586794752047" />
+    <state x="1553" y="294" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1587049541151" />
     <state x="1707" y="454" key="FileChooserDialogImpl" timestamp="1586198833992">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1707" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1586198833992" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1586794754647">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1587049543058">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1586794754647" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587049500149">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1587049543058" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587140152469">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1587049500149" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1587140152469" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

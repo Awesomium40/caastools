@@ -1,4 +1,4 @@
-from ..constants import CONVERT_XFORM, CS_XFORM, IaNodes, IaProperties, IV_XFORM
+from ..constants import CONVERT_XFORM, CS_XFORM, IaNodes, IaAttributes, IV_XFORM
 import logging
 import lxml.etree as et
 import os
@@ -190,7 +190,7 @@ def reconstruct_ia(interview_name, fragments, parser=None):
         document = et.parse(file, parser=parser)
         root = document.getroot()
         version = int(root.find("./{0}/{1}".format(IaNodes.CODING_SETS,
-                                                   IaProperties.CODING_SYSTEM_ID)).text)
+                                                   IaAttributes.CODING_SYSTEM_ID)).text)
         element_names = [node.get('name') for node in root.findall(schema_element_path)]
 
         if version < 138:
@@ -208,10 +208,10 @@ def reconstruct_ia(interview_name, fragments, parser=None):
             output_dict[IaNodes.CODING_SETS] = root.find(IaNodes.CODING_SETS)
             output_dict[IaNodes.PROPERTY_NAMES] = root.find(IaNodes.PROPERTY_NAMES)
             interview_id = root.find("./{0}/{1}".format(IaNodes.INTERVIEWS,
-                                                        IaProperties.INTERVIEW_ID)).text
-            dem_set_id = root.find("./{0}/{1}".format(IaNodes.DEMARC_SET, IaProperties.DEM_SET_ID)).text
+                                                        IaAttributes.INTERVIEW_ID)).text
+            dem_set_id = root.find("./{0}/{1}".format(IaNodes.DEMARC_SET, IaAttributes.DEM_SET_ID)).text
             coding_set_id = root.find("./{0}/{1}".format(IaNodes.CODING_SETS,
-                                                         IaProperties.CODING_SET_ID)).text
+                                                         IaAttributes.CODING_SET_ID)).text
 
         ss_nodes = root.findall(IaNodes.SPEAKER_SEGMENTS)
         u_nodes = root.findall(IaNodes.UTTERANCES)
@@ -226,21 +226,21 @@ def reconstruct_ia(interview_name, fragments, parser=None):
         # Because interviews that have been fragmented have their LineNumber, UtteranceNumber,
         # and UtteranceSegmentCount reset in each fragment, need to change these enumerations.
         if i > 0:
-            _renumber_(ss_nodes, IaProperties.LINE_NO, line_start)
-            _renumber_(u_nodes, IaProperties.UTT_NUMBER, utt_start)
-            _renumber_(us_nodes, IaProperties.UTT_SEGMENT_COUNT, seg_start)
-            _renumber_(us_nodes, IaProperties.LINE_NO, line_start)
+            _renumber_(ss_nodes, IaAttributes.LINE_NO, line_start)
+            _renumber_(u_nodes, IaAttributes.UTT_NUMBER, utt_start)
+            _renumber_(us_nodes, IaAttributes.UTT_SEGMENT_COUNT, seg_start)
+            _renumber_(us_nodes, IaAttributes.LINE_NO, line_start)
 
         # Update the counters that assist in renumbering line, utterance, etc.
-        line_start = int(ss_nodes[-1].find(IaProperties.LINE_NO).text)
-        utt_start = int(u_nodes[-1].find(IaProperties.UTT_NUMBER).text)
-        seg_start = int(us_nodes[-1].find(IaProperties.UTT_SEGMENT_COUNT).text)
+        line_start = int(ss_nodes[-1].find(IaAttributes.LINE_NO).text)
+        utt_start = int(u_nodes[-1].find(IaAttributes.UTT_NUMBER).text)
+        seg_start = int(us_nodes[-1].find(IaAttributes.UTT_SEGMENT_COUNT).text)
 
     # Ensure that all nodes are in the proper order
-    speaker_segment_nodes.sort(key=lambda e: int(e.find(IaProperties.LINE_NO).text))
-    utt_nodes.sort(key=lambda e: int(e.find(IaProperties.UTT_NUMBER).text))
-    utt_seg_nodes.sort(key=lambda e: int(e.find(IaProperties.UTT_SEGMENT_COUNT).text))
-    utterance_prop_nodes.sort(key=lambda e: int(e.find(IaProperties.UTT_PROP_ID).text))
+    speaker_segment_nodes.sort(key=lambda e: int(e.find(IaAttributes.LINE_NO).text))
+    utt_nodes.sort(key=lambda e: int(e.find(IaAttributes.UTT_NUMBER).text))
+    utt_seg_nodes.sort(key=lambda e: int(e.find(IaAttributes.UTT_SEGMENT_COUNT).text))
+    utterance_prop_nodes.sort(key=lambda e: int(e.find(IaAttributes.UTT_PROP_ID).text))
 
     # Append all the elements to the new root of the reconstructed document
     for tag in element_names:
@@ -249,10 +249,10 @@ def reconstruct_ia(interview_name, fragments, parser=None):
         func(node_set)
 
     # ensure that CodingSetID, DemarcationSetID, and InterviewID are all set properly
-    _set_all_text_(root_element, IaProperties.CODING_SET_ID, coding_set_id)
-    _set_all_text_(root_element, IaProperties.DEM_SET_ID, dem_set_id)
-    _set_all_text_(root_element, IaProperties.INTERVIEW_ID, interview_id)
+    _set_all_text_(root_element, IaAttributes.CODING_SET_ID, coding_set_id)
+    _set_all_text_(root_element, IaAttributes.DEM_SET_ID, dem_set_id)
+    _set_all_text_(root_element, IaAttributes.INTERVIEW_ID, interview_id)
 
-    output_dict[IaNodes.INTERVIEWS].find(IaProperties.ID).text = interview_name
+    output_dict[IaNodes.INTERVIEWS].find(IaAttributes.ID).text = interview_name
 
     return final_transform(root_element.getroottree()).getroot().getroottree()

@@ -14,6 +14,62 @@ logging.getLogger('caastools.stats').addHandler(logging.NullHandler())
 __all__ = ['cohens_kappa', 'fleiss', 'icc', 'kalpha', 'pabak']
 
 
+def __crosstab__(rows, columns):
+
+    all_values = sorted(set(filter(lambda x: pandas.notna(x), itertools.chain(rows, columns))))
+
+    if len(all_values) == 0:
+        logging.warning("Unable to compute cohen's kappa because no non-missing values were found")
+        return numpy.NaN, numpy.NaN, numpy.NaN
+
+    index = pandas.Categorical(rows, categories=all_values)
+    cols = pandas.Categorical(columns, categories=all_values)
+
+    ct = pandas.crosstab(index, cols, normalize=True, dropna=False)
+
+    return ct, index, cols
+
+
+def __k__(ct: pandas.DataFrame, row_cats, col_cats, weight=None):
+
+    weight_funcs = {None: lambda x, y: 0 if x == y else 1,
+                    'linear': lambda x, y: abs(x - y),
+                    'quadratic': lambda x, y: (x - y) ** 2,
+                    }
+
+    diff_func = weight_funcs.get(weight)
+    if diff_func is None:
+        raise ValueError("Invalid weight specification")
+
+    # Get the marginal totals to compute expected agreement matrix later
+    col_totals = ct.sum(axis=0, skipna=True)
+    row_totals = ct.sum(axis=1, skipna=True)
+
+    # Compute the weighting matrix
+    row_idx = range(len(row_cats))
+    col_idx = range(len(col_cats))
+    wm = pandas.DataFrame(data=numpy.array([[diff_func(r, c) for c in col_idx] for r in row_idx]),
+                          index=ct.index, columns=ct.columns)
+
+    # Compute the weighted matrix of observations
+    wobs = ct * wm
+
+    # Compute weighted expectancy matrix
+    exp_arry = numpy.array([[rt * ct for ct in col_totals] for rt in row_totals])
+    exp = pandas.DataFrame(exp_arry, index=row_totals.index, columns=col_totals.index)
+    wexp = exp * wm
+
+    # Compute kappa via the weighted matrices
+    kappa = 1 - (wobs.sum().sum() / wexp.sum().sum())
+
+    # compute the maximum attainable kappa
+    pe = 1 - wexp.sum().sum()
+    pmax = sum([min(a, b) for a, b in zip(row_totals, col_totals)])
+    kmax = (pmax - pe) / (1 - pe)
+
+    return kappa, kmax
+
+
 def _progress_bar_(iteration, total, prefix='', suffix='', decimals=1, length=50, fill='█', printEnd="\r"):
     """
     prints progress bar to the console window. Use inside of a loop to get the proper effect
@@ -28,10 +84,12 @@ def _progress_bar_(iteration, total, prefix='', suffix='', decimals=1, length=50
     :return:
     """
 
-    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    percent = (iteration / float(total))
+    #percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
     filledLength = int(length * iteration // total)
     bar = fill * filledLength + '-' * (length - filledLength)
-    print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end=printEnd)
+    print(f"\r{prefix} |{bar}| {percent:.2%} {suffix} ", end=printEnd)
+    #print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end=printEnd)
     # Print New Line on Complete
     if iteration == total:
         print()
@@ -55,11 +113,11 @@ def __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilitie
                 out.write(sep)
                 if lower != numpy.NaN and upper != numpy.NaN:
                     out.write("alpha, 95% CI:\n")
-                    out.write("{0:.3f}, {{{1:.3f}, {2:.3f}}}\n".format(alpha, lower, upper))
+                    out.write(f"{alpha:.3f}, {{{lower:.3f}, {upper:.3f}}}\n")
                     out.write(sep)
                     out.write("Probability of failing to atttain selected values of alpha:\n")
                     for i, level in enumerate(alpha_levels):
-                        out.write("{0:<.2f}: {1:<.3f}\n".format(level, probabilities[i]))
+                        out.write(f"{level:<.2f}: {probabilities[i]:<.3f}\n")
         except OSError as os_error:
             logging.error("Unable to create output because 'out' was an invalid file handle")
 
@@ -115,6 +173,7 @@ def _alpha_boot_(data, boot, diff_func, de):
             total_error = errors.sum()
             boot_alpha -= total_error
             boot_samples.append(boot_alpha)
+            _progress_bar_(i + 1, n_boot, "Bootstrapping progress:")
 
     return boot_samples
 
@@ -127,6 +186,7 @@ def cohens_kappa(rows, columns, weight=None):
     :param weight the weighting scheme to apply (None, 'linear', 'quadratic') Default None
     :return tuple[float, float]: Cohen's kappa, maximum attainable kappa
     """
+
     if weight not in (None, 'linear', 'quadratic'):
         raise ValueError("Invalid weight specification")
 
@@ -138,58 +198,15 @@ def cohens_kappa(rows, columns, weight=None):
     if diff_func is None:
         raise ValueError("Invalid weight specification")
 
-    all_values = sorted(set(filter(lambda x: pandas.notna(x), itertools.chain(rows, columns))))
-    if len(all_values) == 0:
-        logging.warning("Unable to compute cohen's kappa because no non-missing values were found")
-        return numpy.NaN, numpy.NaN
+    ct, index, cols = __crosstab__(rows, columns)
+    if ct is not numpy.NaN:
+        row_cats = index.categories
+        col_cats = cols.categories
+        k, kmax = __k__(ct, row_cats, col_cats, weight=weight)
+    else:
+        k, kmax = (numpy.NaN, numpy.NaN)
 
-    index = pandas.Categorical(rows, categories=all_values)
-    cols = pandas.Categorical(columns, categories=all_values)
-
-    ct = pandas.crosstab(index, cols, normalize=True, dropna=False)
-
-    # Get the marginal totals to compute expected agreement matrix later
-    col_totals = ct.sum(axis=0, skipna=True)
-    row_totals = ct.sum(axis=1, skipna=True)
-
-    # Compute the weighting matrix
-    row_cats = index.categories
-    col_cats = cols.categories
-    row_idx = range(len(row_cats))
-    col_idx = range(len(col_cats))
-    wm_arry = numpy.array([[diff_func(r, c) for c in col_idx] for r in row_idx])
-    wm = pandas.DataFrame(data=wm_arry, index=ct.index, columns=ct.columns)
-
-    # Compute the weighted matrix of observations
-    wobs = ct * wm
-
-    # Compute weighted expectancy matrix
-    exp_arry = numpy.array([[rt * ct for ct in col_totals] for rt in row_totals])
-    exp = pandas.DataFrame(exp_arry, index=row_totals.index, columns=col_totals.index)
-    wexp = exp * wm
-
-    # Compute kappa via the weighted matrices
-    kappa = 1 - (wobs.sum().sum() / wexp.sum().sum())
-
-    # compute the maximum attainable kappa
-    pe = 1 - wexp.sum().sum()
-    pmax = sum([min(a, b) for a, b in zip(row_totals, col_totals)])
-    kmax = (pmax - pe) / (1 - pe)
-
-    return kappa, kmax
-
-
-def pabak(rater1, rater2):
-    """
-    stats.pabak(rows, colums) -> tuple[float, float, float]
-    Computes the prevalance-adjusted, bias-adjusted kappa as described in:
-    Byrt, T., Bishop, J., & Carlin, J. B. (1993). Prevalence, Bias, and Kappa.
-    Journal of Clinical Epidemiology, 46(5), 423-429.
-    :param rater1: The data from the first observer
-    :param rater2: The data from the second observer
-    :return: the PABAK statistic, prevalence index, and bias index
-    """
-    raise NotImplementedError()
+    return k, kmax
 
 
 def fleiss(subjects, raters, categories):
@@ -240,13 +257,12 @@ def fleiss(subjects, raters, categories):
 def icc(frame: pandas.DataFrame, model=2, measures='single', agreement='A'):
     """
     Compute Intraclass Correllation Coefficient
-    Based on Bakeman, R., & Quera, V. (2011). Sequential Analysis and Observational
-    Methods for the Behavioral Sciences.
     Formulas drawn from: McGraw, K. O. & Wong, S.P. (1996). Forming inferences about some intraclass
     correlation coefficients. Psychological Methods, 1(1), 30-46.
     :param frame: The pandas.DataFrame from which to compute the ICC. Frame should be structured S.T.
     raters are represented by columns, subjects are represented by rows, and observations are cells
-    :param model: ICC model to use (From McGraw & Wong): 1, 2, or 3. Default 2
+    :param model: ICC model to use (From McGraw & Wong): 1 (One-way random effects), 2 (two-way random effects),
+    or 3 (two-way mixed effects). Default 2
     :param measures: to compute single measures ('single') or average measures ('average') icc. Default 'single'
     :param effects: compute random effects ('random') or mixed effects ('mixed') icc. Default 'mixed'
     :param agreement: compute consistency ('C') or absolute agreement ('A') icc. Default 'A'
@@ -317,7 +333,7 @@ def icc(frame: pandas.DataFrame, model=2, measures='single', agreement='A'):
                   },
              'average':
                  {'C': lambda msr, mse: (msr - mse) / msr,
-                  'A': lambda msr, mse, msc, n: (msr - mse) / (msr + ((msc - mse) /n))
+                  'A': lambda msr, mse, msc, n: (msr - mse) / (msr + ((msc - mse) / n))
                   }
              }
     }
@@ -404,7 +420,8 @@ def kalpha(data, metric='nominal', boot=None, out=None):
     :param data: pandas.DataFrame holding the observational data
     :param metric: string specifying the type of data/metric. Default 'nominal'
     Acceptable values are 'nominal', 'ordinal', 'interval', 'ratio'
-    :param boot: number of samples to take for bootstrapping the CI, or None if no bootstrapping desired
+    :param boot: number of samples to take for bootstrapping the CI, or None if no bootstrapping desired.
+    Specifying fewer than 1000 for boot causes it to be set to 1000. Values are rounded down to the nearest 1000
     :param out: file-like object or path to file to which to write output. Default None. Output includes
     coincidence matrix, delta matrix, and if bootstrapping, 95% CI and probabilities to attain various levels of alpha.
     :return tuple[float, float, float]: alpha and the lower/upper bounds of the 95% CI
@@ -420,7 +437,6 @@ def kalpha(data, metric='nominal', boot=None, out=None):
 
     def _cmx_func_(column: pandas.Series):
         c = column.dropna()
-        mu = len(c)
         pairs = itertools.permutations(c, 2)
         for itm in pairs:
             yield tuple(itm)
@@ -432,13 +448,13 @@ def kalpha(data, metric='nominal', boot=None, out=None):
                'interval': lambda x, y: (x - y) ** 2,
                'ratio': lambda x, y: ((x - y) / (x + y)) ** 2}
 
-    alpha_levels = [0.5, 0.6, 0.67, 0.7, 0.8, 0.9]
-    er = []
+    alpha_levels = [0.5, 0.6, 0.67, 0.7, 0.8, 0.9]  # used in bootstrapping to determine p of getting alpha levels
+    upper, lower = (numpy.NaN, numpy.NaN)  # upper & lower confidence intervals of alpha when bootstrapping
+    probabilities = [numpy.NaN for i in range(len(alpha_levels))]  # p of attaining values in alpha_levels
 
     diff_func = metrics.get(metric)
     if diff_func is None:
-        raise ValueError("Parameter metric expected one of ('nominal', 'ordinal', 'interval', 'ratio'), " +
-                         "got {0}".format(metric))
+        raise ValueError(f"Parameter metric expected one of ('nominal', 'ordinal', 'interval', 'ratio'), got {metric}")
 
     idx = sorted(set(filter(lambda x: pandas.notna(x), data.values.ravel())))
     if len(idx) == 0:
@@ -483,7 +499,8 @@ def kalpha(data, metric='nominal', boot=None, out=None):
             lower, upper = (numpy.NaN, numpy.NaN)
         else:
             n_boot = (boot // 1000) * 1000
-            if n_boot < 1000: n_boot = 1000
+            if n_boot < 1000:
+                n_boot = 1000
 
             boot_samples = _alpha_boot_(data, boot, diff_func, de)
 
@@ -492,11 +509,40 @@ def kalpha(data, metric='nominal', boot=None, out=None):
                 boot_samples.sort()
                 probabilities = [bisect_left(boot_samples, l) / n_boot for l in alpha_levels]
                 lower, upper = numpy.quantile(boot_samples, q=(.025, .975))
-            else:
-                upper, lower = (numpy.NaN, numpy.NaN)
-                probabilities = [numpy.NaN for i in range(len(alpha_levels))]
 
         if out is not None:
             __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilities)
 
     return alpha, lower, upper
+
+
+def pabak(rater1, rater2):
+    """
+    stats.pabak(rows, colums) -> tuple[float, float, float]
+    Computes the prevalance-adjusted, bias-adjusted kappa as described in:
+    Byrt, T., Bishop, J., & Carlin, J. B. (1993). Prevalence, Bias, and Kappa.
+    Journal of Clinical Epidemiology, 46(5), 423-429.
+    :param rater1: The data from the first observer
+    :param rater2: The data from the second observer
+    :return: the PABAK statistic
+    """
+
+    ct, index, cols = __crosstab__(rater1, rater2)
+    row_cats = index.categories
+    col_cats = cols.categories
+
+    # PABAK requires that values on the diagonal be replaced by their average
+    # and that values off the diagonal be replaced with their average
+    diag = numpy.diag(ct)
+    diag_sum = diag.sum()
+    grand_sum = ct.sum().sum()
+    off_diag_sum = grand_sum - diag_sum
+    diag_average = diag_sum / len(diag)
+    off_diag_average = off_diag_sum / ((len(ct.index) * len(ct.columns)) - len(diag))
+
+    adj_func = lambda row, col: diag_average if row == col else off_diag_average
+
+    adjusted_xtab = pandas.DataFrame(numpy.array([[adj_func(row, col) for col in ct.columns] for row in ct.index]),
+                                     columns=ct.columns, index=ct.columns)
+
+    return __k__(adjusted_xtab, row_cats, col_cats, weight=None)

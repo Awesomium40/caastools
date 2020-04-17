@@ -57,6 +57,29 @@ def multi_replace(txt, find, repl, ignore_case=False, whole_word_only=False):
     return result
 
 
+def _progress_bar_(iteration, total, prefix='', suffix='', decimals=1, length=50, fill='█', printEnd="\r"):
+    """
+    prints progress bar to the console window. Use inside of a loop to get the proper effect
+    :param iteration: current iteration
+    :param total: total iterations
+    :param prefix: string to appear to the left of the progress bar
+    :param suffix: string to appear to the right of the progress bar
+    :param decimals: number of decimals to show in the pct complete
+    :param length: length of the progress bar
+    :param fill: character to fill in completed portion of progres bar
+    :param printEnd: EOL character
+    :return:
+    """
+
+    percent = (iteration / float(total))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print(f"\r{prefix} |{bar}| {percent:.2%} {suffix} ", end=printEnd)
+    # Print New Line on Complete
+    if iteration == total:
+        print()
+
+
 @_static_vars_(counter=0)
 def sanitize_for_spss(dirty_str, find=None, repl=None):
     """

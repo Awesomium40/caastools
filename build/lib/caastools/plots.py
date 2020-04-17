@@ -38,7 +38,7 @@ def disagreement_heatmap(dataframe, title, fig_size=(10, 10), font_size=10):
     if title is not None:
         ax.set_title(title)
     fig.set_size_inches(*fig_size)
-    fig.tight_layout
+    fig.tight_layout()
     return fig
 
 

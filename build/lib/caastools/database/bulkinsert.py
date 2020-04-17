@@ -1,7 +1,7 @@
 from .models import *
 from .models import db
 from ..constants import CactiAttributes, CactiNodes, CLIENT_GLOBALS_SLICE, CodingSystemType, CS_XFORM, \
-    IaNodes, IaProperties, SE_GLOBALS_SLICE, THERAPIST_GLOBALS_SLICE
+    IaNodes, IaAttributes, SE_GLOBALS_SLICE, THERAPIST_GLOBALS_SLICE
 from ..exceptions import *
 from ..parsing import *
 import logging
@@ -185,9 +185,9 @@ def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist
 
     document = reconstruct_ia(interview_name, interview_files, parser=None)
     cs_id = int(document.xpath("/NewDataSet/{0}/{1}".format(IaNodes.CODING_SETS,
-                                                            IaProperties.CODING_SYSTEM_ID))[0].text)
+                                                            IaAttributes.CODING_SYSTEM_ID))[0].text)
     cs_name = document.xpath("/NewDataSet/{0}/{1}".format(IaNodes.CODING_SETS,
-                                                          IaProperties.CODING_SYSTEM_NAME))[0].text
+                                                          IaAttributes.CODING_SYSTEM_NAME))[0].text
 
     rows_inserted = 0
 
@@ -220,13 +220,13 @@ def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist
         # start by gathering up all the utterance data to perform a bulk insertion
         utt_nodes = root.iterfind(IaNodes.UTTERANCES)
         utt_rows = [{Utterance.interview.name: iv,
-                     Utterance.source_id.name: int(node.find(IaProperties.UTTERANCE_ID).text),
-                     Utterance.utt_line: int(node.find(IaProperties.LINE_NO).text),
-                     Utterance.utt_enum: int(node.find(IaProperties.UTT_NUMBER).text),
-                     Utterance.utt_role: node.find(IaProperties.SPEAKER_ROLE).text,
-                     Utterance.utt_text: node.find(IaProperties.TEXT).text,
-                     Utterance.utt_word_count: int(node.find(IaProperties.WORD_COUNT).text),
-                     Utterance.utt_start_time: float(node.find(IaProperties.START_TIME).text)}
+                     Utterance.source_id.name: int(node.find(IaAttributes.UTTERANCE_ID).text),
+                     Utterance.utt_line: int(node.find(IaAttributes.LINE_NO).text),
+                     Utterance.utt_enum: int(node.find(IaAttributes.UTT_NUMBER).text),
+                     Utterance.utt_role: node.find(IaAttributes.SPEAKER_ROLE).text,
+                     Utterance.utt_text: node.find(IaAttributes.TEXT).text,
+                     Utterance.utt_word_count: int(node.find(IaAttributes.WORD_COUNT).text),
+                     Utterance.utt_start_time: float(node.find(IaAttributes.START_TIME).text)}
                     for node in utt_nodes]
 
         rows_inserted += Utterance.bulk_insert(utt_rows)
@@ -239,16 +239,16 @@ def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist
         # With the dictionary of utterances mapping source_id to utterance_id in hand,
         # can use to insert UtteranceCode entities
         up_nodes = root.iterfind(IaNodes.UTT_PROPERTIES)
-        up_rows = [{UtteranceCode.utterance.name: utt_dict[int(node.find(IaProperties.UTTERANCE_ID).text)],
+        up_rows = [{UtteranceCode.utterance.name: utt_dict[int(node.find(IaAttributes.UTTERANCE_ID).text)],
                     UtteranceCode.property_value.name: pv_dict[
-                        int(node.find(IaProperties.PROP_VALUE_ID).text)]}
+                        int(node.find(IaAttributes.PROP_VALUE_ID).text)]}
                    for node in up_nodes]
 
         rows_inserted += UtteranceCode.bulk_insert(up_rows)
 
         # Finally, the global ratings can be inserted
         global_nodes = root.iterfind(IaNodes.GLOBALS)
-        gv_rows = [{GlobalRating.global_value.name: gv_dict[int(node.find(IaProperties.PROP_VALUE_ID).text)],
+        gv_rows = [{GlobalRating.global_value.name: gv_dict[int(node.find(IaAttributes.PROP_VALUE_ID).text)],
                     GlobalRating.interview.name: iv}
                    for node in global_nodes]
 
@@ -408,25 +408,25 @@ def __cacti_pv_map_func__(node, pv_tag, cp_entity):
 
 
 def __ia_gp_map_func__(node, cp_entity):
-    return {GlobalProperty.gp_name.name: node.get(IaProperties.PROPERTY_NAME),
-            GlobalProperty.gp_description.name: node.get(IaProperties.DESCRIPTION),
-            GlobalProperty.source_id.name: int(node.get(IaProperties.PROPERTY_ID)),
+    return {GlobalProperty.gp_name.name: node.get(IaAttributes.PROPERTY_NAME),
+            GlobalProperty.gp_description.name: node.get(IaAttributes.DESCRIPTION),
+            GlobalProperty.source_id.name: int(node.get(IaAttributes.PROPERTY_ID)),
             GlobalProperty.coding_system.name: cp_entity,
-            GlobalProperty.gp_data_type.name: node.get(IaProperties.PROPERTY_TYPE)}
+            GlobalProperty.gp_data_type.name: node.get(IaAttributes.PROPERTY_TYPE)}
 
 
 def __ia_gv_map_func__(node, gp_entity):
     return {GlobalValue.global_property.name: gp_entity,
-            GlobalValue.source_id.name: int(node.get(IaProperties.PROP_VALUE_ID)),
-            GlobalValue.gv_value.name: node.get(IaProperties.VALUE),
-            GlobalValue.gv_description.name: node.get(IaProperties.DESCRIPTION)}
+            GlobalValue.source_id.name: int(node.get(IaAttributes.PROP_VALUE_ID)),
+            GlobalValue.gv_value.name: node.get(IaAttributes.VALUE),
+            GlobalValue.gv_description.name: node.get(IaAttributes.DESCRIPTION)}
 
 
 def __ia_pv_map_func__(node, cp_entity):
     return {PropertyValue.coding_property.name: cp_entity,
-            PropertyValue.pv_value.name: node.get(IaProperties.VALUE),
-            PropertyValue.pv_description.name: node.get(IaProperties.DESCRIPTION),
-            PropertyValue.source_id.name: int(node.get(IaProperties.PROP_VALUE_ID))}
+            PropertyValue.pv_value.name: node.get(IaAttributes.VALUE),
+            PropertyValue.pv_description.name: node.get(IaAttributes.DESCRIPTION),
+            PropertyValue.source_id.name: int(node.get(IaAttributes.PROP_VALUE_ID))}
 
 
 def _insert_cacti_cs_(document: et._ElementTree, path: str = None):
@@ -515,7 +515,7 @@ def _insert_ia_cs_(doc: et._ElementTree, path: str = None):
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     version = int(doc.getroot().find(IaNodes.CODING_SYSTEM)
-                  .find(IaProperties.CODING_SYSTEM_ID).text)
+                  .find(IaAttributes.CODING_SYSTEM_ID).text)
     if version < 153:
         raise ValueError("Unable to insert coding system because version {0}".format(version) +
                          " is not compatible. Coding system must be UCHAT version 153 (3.4) or later")
@@ -526,15 +526,15 @@ def _insert_ia_cs_(doc: et._ElementTree, path: str = None):
 
     property_nodes = root.findall(IaNodes.PROPERTY)
     global_nodes = root.findall(IaNodes.GLOBAL_PROPERTY)
-    system_name = root.get(IaProperties.SYSTEM_NAME)
+    system_name = root.get(IaAttributes.SYSTEM_NAME)
 
     # Need to insert the CodingSystem entity first to ensure ref integrity
     if path is None:
         coding_system_entity, is_new = CodingSystem.get_or_create(cs_name=system_name,
-                                                                  source_id=int(root.get(IaProperties.CODING_SYSTEM_ID)))
+                                                                  source_id=int(root.get(IaAttributes.CODING_SYSTEM_ID)))
     else:
         coding_system_entity, is_new = CodingSystem.get_or_create(cs_name=system_name, cs_path=path,
-                                                                  source_id=int(root.get(IaProperties.CODING_SYSTEM_ID)))
+                                                                  source_id=int(root.get(IaAttributes.CODING_SYSTEM_ID)))
 
     rows_inserted = 1
 
@@ -544,15 +544,15 @@ def _insert_ia_cs_(doc: et._ElementTree, path: str = None):
         pv_data = []
         for node in property_nodes:
             cp_entity = CodingProperty.create(coding_system=coding_system_entity,
-                                              cp_name=node.get(IaProperties.PROPERTY_NAME),
-                                              cp_display_name=node.get(IaProperties.DISPLAY_NAME),
-                                              cp_abbreviation=node.get(IaProperties.ABBREVIATION),
-                                              cp_sort_order=node.get(IaProperties.SORT_ORDER),
-                                              cp_data_type=node.get(IaProperties.PROPERTY_TYPE),
-                                              cp_decimal_digits=node.get(IaProperties.DECIMAL_DIGITS),
-                                              cp_zero_pad=node.get(IaProperties.ZERO_PAD),
-                                              cp_description=node.get(IaProperties.DESCRIPTION),
-                                              source_id=node.get(IaProperties.PROPERTY_ID))
+                                              cp_name=node.get(IaAttributes.PROPERTY_NAME),
+                                              cp_display_name=node.get(IaAttributes.DISPLAY_NAME),
+                                              cp_abbreviation=node.get(IaAttributes.ABBREVIATION),
+                                              cp_sort_order=node.get(IaAttributes.SORT_ORDER),
+                                              cp_data_type=node.get(IaAttributes.PROPERTY_TYPE),
+                                              cp_decimal_digits=node.get(IaAttributes.DECIMAL_DIGITS),
+                                              cp_zero_pad=node.get(IaAttributes.ZERO_PAD),
+                                              cp_description=node.get(IaAttributes.DESCRIPTION),
+                                              source_id=node.get(IaAttributes.PROPERTY_ID))
             rows_inserted += 1
 
             # After the CodingProperty is inserted, can insert the associated PropertyValue entities
@@ -566,9 +566,9 @@ def _insert_ia_cs_(doc: et._ElementTree, path: str = None):
         gv_data = []
         for node in global_nodes:
             gp_entity = GlobalProperty.create(coding_system=coding_system_entity,
-                                              gp_name=node.get(IaProperties.PROPERTY_NAME),
-                                              gp_description=node.get(IaProperties.DESCRIPTION),
-                                              source_id=node.get(IaProperties.PROPERTY_ID))
+                                              gp_name=node.get(IaAttributes.PROPERTY_NAME),
+                                              gp_description=node.get(IaAttributes.DESCRIPTION),
+                                              source_id=node.get(IaAttributes.PROPERTY_ID))
 
             rows_inserted += 1
 
