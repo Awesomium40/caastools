@@ -3,18 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database/bulkinsert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/ia.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/ia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/plots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/bulkinsert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/parsing/ia.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,7 +261,12 @@
       <workItem from="1586963849671" duration="609000" />
       <workItem from="1587049482972" duration="5958000" />
       <workItem from="1587121696627" duration="5961000" />
-      <workItem from="1587134645409" duration="2306000" />
+      <workItem from="1587134645409" duration="3140000" />
+      <workItem from="1587220939221" duration="1030000" />
+      <workItem from="1587471940438" duration="376000" />
+      <workItem from="1587486272530" duration="599000" />
+      <workItem from="1587555239020" duration="2341000" />
+      <workItem from="1587639969525" duration="1786000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -440,40 +436,15 @@
       <option name="project" value="LOCAL" />
       <updated>1587049541535</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Minor cleanup in caastools.stats&#10;fix a bug in database.models.init_database that occurred when attempting to connect to a database raised peewee.OperationalError">
+      <created>1587140216329</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1587140216329</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
-  </component>
-  <component name="TestHistory">
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 32m 25s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 33m 15s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 33m 23s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 33m 43s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.02 at 08h 36m 14s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.03 at 09h 43m 18s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_plots_TestPlots - 2020.04.03 at 09h 43m 55s.xml">
-      <configuration name="Unittests for test_plots.TestPlots" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_plots_py - 2020.04.03 at 09h 44m 28s.xml">
-      <configuration name="Unittests in test_plots.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_plots_py - 2020.04.03 at 09h 44m 35s.xml">
-      <configuration name="Unittests in test_plots.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_plots_py - 2020.04.03 at 10h 36m 00s.xml">
-      <configuration name="Unittests in test_plots.py" configurationId="tests" />
-    </history-entry>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -504,25 +475,26 @@
     <MESSAGE value="Update stats.fleiss to accept 3 Series as input rather than DataFrame and 3 column labels" />
     <MESSAGE value="Update stats.icc to fix bug in formula selection process" />
     <MESSAGE value="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing" />
+    <MESSAGE value="Minor cleanup in caastools.stats&#10;fix a bug in database.models.init_database that occurred when attempting to connect to a database raised peewee.OperationalError" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor cleanup in caastools.stats&#10;fix a bug in database.models.init_database that occurred when attempting to connect to a database raised peewee.OperationalError" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1553" y="294" key="CommitChangelistDialog2" timestamp="1587049541151">
+    <state x="1450" y="256" key="CommitChangelistDialog2" timestamp="1587140216008">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1553" y="294" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1587049541151" />
+    <state x="1450" y="256" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1587140216008" />
     <state x="1707" y="454" key="FileChooserDialogImpl" timestamp="1586198833992">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1707" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1586198833992" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1587049543058">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1587140226376">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1587049543058" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587140152469">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1587140226376" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587653542403">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1587140152469" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1587653542403" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -566,6 +538,11 @@
           <url>file://$PROJECT_DIR$/tests/test_stats.py</url>
           <line>17</line>
           <option name="timeStamp" value="112" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/caastools/datasets.py</url>
+          <line>164</line>
+          <option name="timeStamp" value="113" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
