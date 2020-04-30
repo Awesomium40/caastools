@@ -1,3 +1,4 @@
+from .utils import _progress_bar_
 from bisect import bisect_left
 from collections import Counter
 from scipy import stats
@@ -68,31 +69,6 @@ def __k__(ct: pandas.DataFrame, row_cats, col_cats, weight=None):
     kmax = (pmax - pe) / (1 - pe)
 
     return kappa, kmax
-
-
-def _progress_bar_(iteration, total, prefix='', suffix='', decimals=1, length=50, fill='█', printEnd="\r"):
-    """
-    prints progress bar to the console window. Use inside of a loop to get the proper effect
-    :param iteration: current iteration
-    :param total: total iterations
-    :param prefix: string to appear to the left of the progress bar
-    :param suffix: string to appear to the right of the progress bar
-    :param decimals: number of decimals to show in the pct complete
-    :param length: length of the progress bar
-    :param fill: character to fill in completed portion of progres bar
-    :param printEnd: EOL character
-    :return:
-    """
-
-    percent = (iteration / float(total))
-    #percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
-    filledLength = int(length * iteration // total)
-    bar = fill * filledLength + '-' * (length - filledLength)
-    print(f"\r{prefix} |{bar}| {percent:.2%} {suffix} ", end=printEnd)
-    #print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end=printEnd)
-    # Print New Line on Complete
-    if iteration == total:
-        print()
 
 
 def __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilities):

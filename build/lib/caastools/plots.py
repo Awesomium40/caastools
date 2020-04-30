@@ -1,9 +1,7 @@
-from . import constants
 from matplotlib import pyplot as plt
 import numpy
-import os
 import pandas
-import seaborn
+
 
 __all__ = ['disagreement_heatmap', 'reliability_line_plot']
 

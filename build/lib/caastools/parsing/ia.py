@@ -194,7 +194,7 @@ def reconstruct_ia(interview_name, fragments, parser=None):
         element_names = [node.get('name') for node in root.findall(schema_element_path)]
 
         if version < 138:
-            raise ValueError("Interviews scored with UCHAT versions below 3.11 are not compatible")
+            raise ValueError("Interviews scored with UCHAT versions below 3.31 are not compatible")
         if version == 138:
             document = update_transform(document)
             root = document.getroot()

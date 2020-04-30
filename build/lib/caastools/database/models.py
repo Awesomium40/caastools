@@ -1,8 +1,7 @@
-from peewee import AutoField, BooleanField, chunked, FloatField, ForeignKeyField, IntegerField, Model, SQL, TextField
+from peewee import *
 from playhouse.sqlite_ext import SqliteExtDatabase
 from typing import Sequence
 import logging
-import sqlite3
 
 
 logging.getLogger('database.models').addHandler(logging.NullHandler())
@@ -173,10 +172,14 @@ def init_database(path=":memory:"):
     if path != MEMORY:
         try:
             db.connect(reuse_if_open=True)
-        except:
-            conn = sqlite3.connect(path)
-            conn.close()
-    db.connect(reuse_if_open=True)
+        except OperationalError:
+            logging.error(f"Unable to connect to the database at {path}.\nDefaulting to :memory:")
+            db.init(":memory:", pragmas={'journal_mode': 'wal',
+                                         'cache_size': -1 * 64000,  # 64MB
+                                         'foreign_keys': 1,
+                                         'ignore_check_constraints': 0})
+            db.connect(reuse_if_open=True)
+
     db.create_tables([CodingSystem, Interview, CodingProperty, GlobalProperty, PropertyValue,
                       GlobalValue, Utterance, UtteranceCode, GlobalRating])
 

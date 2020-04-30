@@ -70,8 +70,9 @@ def build_session_level_dataframe(interviews):
     columns = [itm[0] for itm in utterance_data.cursor.description]
     df = pandas.DataFrame.from_records(data=utterance_data, columns=columns)
     agg = df[['interview_name', 'cp_name', 'pv_value']]
-    descriptives = df[['interview_name', 'study_id', 'rater_id', 'client_id', 'therapist_id', 'language_id']]\
-                     .drop_duplicates(subset=['interview_name']).set_index(['interview_name'])
+    descriptives = df[['interview_name', 'study_id', 'rater_id', 'client_id', 'therapist_id', 'language_id',
+                       'treatment_condition_id']].drop_duplicates(subset=['interview_name'])\
+        .set_index(['interview_name'])
 
     agg = agg.assign(property_value=agg['cp_name'] + "_" + agg['pv_value'])
     agg = agg.pivot_table(index='interview_name', columns='property_value', values='pv_value',
@@ -168,7 +169,6 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels: dict = Non
         # Need to know the data type and format of each column so that the SPSS file can be written properly
         # 0 is a numeric type, any positive integer is a string type where the number represents the number
         # of bytes the string can hold.
-        # TODO: Add in checks for additional dtypes
         if pandas.api.types.is_string_dtype(data_frame[col]):
             lens = list(filter(lambda x: pandas.notna(x) and x is not None, set(data_frame[col].str.len())))
             var_types[var_name] = int(max(lens)) * 2 if len(lens) > 0 else 255
@@ -203,8 +203,8 @@ def _get_utterance_data_(interviews):
 
     return m.UtteranceCode.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
                                   m.Interview.client_id, m.Interview.session_number, m.Interview.therapist_id,
-                                  m.Interview.language_id, m.Interview.treatment_condition_id, m.Utterance.utt_enum,
-                                  m.Utterance.utt_start_time, m.Utterance.utt_end_time,
+                                  m.Interview.language_id, m.Interview.treatment_condition_id, m.Utterance.utt_line,
+                                  m.Utterance.utt_enum, m.Utterance.utt_start_time, m.Utterance.utt_end_time,
                                   m.CodingProperty.cp_name, m.CodingProperty.cp_data_type,
                                   m.PropertyValue.pv_value, m.Utterance.utt_text) \
                             .join(m.Utterance) \

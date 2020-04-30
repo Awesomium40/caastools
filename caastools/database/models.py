@@ -1,9 +1,7 @@
-from peewee import AutoField, BooleanField, chunked, FloatField, ForeignKeyField, IntegerField, Model, SQL, TextField,\
-                   OperationalError
+from peewee import *
 from playhouse.sqlite_ext import SqliteExtDatabase
 from typing import Sequence
 import logging
-import sqlite3
 
 
 logging.getLogger('database.models').addHandler(logging.NullHandler())

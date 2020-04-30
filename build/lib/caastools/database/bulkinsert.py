@@ -184,10 +184,8 @@ def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist
     """
 
     document = reconstruct_ia(interview_name, interview_files, parser=None)
-    cs_id = int(document.xpath("/NewDataSet/{0}/{1}".format(IaNodes.CODING_SETS,
-                                                            IaAttributes.CODING_SYSTEM_ID))[0].text)
-    cs_name = document.xpath("/NewDataSet/{0}/{1}".format(IaNodes.CODING_SETS,
-                                                          IaAttributes.CODING_SYSTEM_NAME))[0].text
+    cs_id = int(document.xpath(f"/NewDataSet/{IaNodes.CODING_SETS}/{IaAttributes.CODING_SYSTEM_ID}")[0].text)
+    cs_name = document.xpath(f"/NewDataSet/{IaNodes.CODING_SETS}/{IaAttributes.CODING_SYSTEM_NAME}")[0].text
 
     rows_inserted = 0
 
@@ -208,7 +206,7 @@ def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist
     # Need to get the coding system associated with the interview
     cs_entity = CodingSystem.get(CodingSystem.source_id == cs_id)
     if cs_entity is None:
-        raise RecordNotFoundException("CodingSystem.source_id == {0}".format(cs_id))
+        raise RecordNotFoundException(f"CodingSystem.source_id == {cs_id}")
 
     iv, is_new = Interview.get_or_create(interview_name=interview_name, coding_system=cs_entity, study_id=study_id,
                                          client_id=client_id, rater_id=rater_id, therapist_id=therapist_id,

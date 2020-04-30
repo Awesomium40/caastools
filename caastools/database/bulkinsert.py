@@ -3,7 +3,7 @@ from .models import db
 from ..constants import CactiAttributes, CactiNodes, CLIENT_GLOBALS_SLICE, CodingSystemType, CS_XFORM, \
     IaNodes, IaAttributes, SE_GLOBALS_SLICE, THERAPIST_GLOBALS_SLICE
 from ..exceptions import *
-from ..parsing import *
+from .. import parsing
 import logging
 import lxml.etree as et
 import os
@@ -73,8 +73,8 @@ def upload_cacti_interview(interview_name, study_id, rater_id, client_id, therap
 
     if is_new:
         # The first step is to insert the utterances into the data
-        casaa_data = read_casaa(path_to_casaa)
-        comp_data = read_casaa(path_to_components) if path_to_components is not None else None
+        casaa_data = parsing.cacti.read_casaa(path_to_casaa)
+        comp_data = parsing.cacti.read_casaa(path_to_components) if path_to_components is not None else None
 
         utt_rows = [{Utterance.interview.name: interview,
                      Utterance.utt_enum.name: row[0],
@@ -104,10 +104,11 @@ def upload_cacti_interview(interview_name, study_id, rater_id, client_id, therap
 
         # Finally, can perform an insert on the globals
         if path_to_globals is not None:
-            global_lst.extend(read_globals(path_to_globals, (THERAPIST_GLOBALS_SLICE, CLIENT_GLOBALS_SLICE)))
+            global_lst.extend(parsing.cacti.read_globals(path_to_globals, (THERAPIST_GLOBALS_SLICE,
+                                                                           CLIENT_GLOBALS_SLICE)))
 
         if path_to_self_explore is not None:
-            global_lst.extend(read_globals(path_to_self_explore, (SE_GLOBALS_SLICE,)))
+            global_lst.extend(parsing.cacti.read_globals(path_to_self_explore, (SE_GLOBALS_SLICE,)))
 
         if len(global_lst) > 0:
             global_rows = [{GlobalRating.interview.name: interview,
@@ -153,8 +154,8 @@ def upload_coding_system(coding_system_type, file_path=None, file_obj=None):
         schema = et.XMLSchema(et.parse(cacti_path))
         insert_method = _insert_cacti_cs_
     elif coding_system_type == CodingSystemType.IA:
-        schema = extract_schema(document)
-        document = extract_data(document)
+        schema = parsing.ia.extract_schema(document)
+        document = parsing.ia.extract_data(document)
         insert_method = _insert_ia_cs_
     else:
         raise ValueError("Parameter cs_type must be instance of CodingSystemType")
@@ -183,7 +184,7 @@ def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist
     Note that this sequence of interview files must sorted in ascending order for fragmented interviews
     """
 
-    document = reconstruct_ia(interview_name, interview_files, parser=None)
+    document = parsing.ia.reconstruct_ia(interview_name, interview_files, parser=None)
     cs_id = int(document.xpath(f"/NewDataSet/{IaNodes.CODING_SETS}/{IaAttributes.CODING_SYSTEM_ID}")[0].text)
     cs_name = document.xpath(f"/NewDataSet/{IaNodes.CODING_SETS}/{IaAttributes.CODING_SYSTEM_NAME}")[0].text
 

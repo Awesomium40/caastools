@@ -169,7 +169,6 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels: dict = Non
         # Need to know the data type and format of each column so that the SPSS file can be written properly
         # 0 is a numeric type, any positive integer is a string type where the number represents the number
         # of bytes the string can hold.
-        # TODO: Add in checks for additional dtypes
         if pandas.api.types.is_string_dtype(data_frame[col]):
             lens = list(filter(lambda x: pandas.notna(x) and x is not None, set(data_frame[col].str.len())))
             var_types[var_name] = int(max(lens)) * 2 if len(lens) > 0 else 255
