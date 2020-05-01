@@ -318,13 +318,21 @@ class TestBulkImports(unittest.TestCase):
                         'Empathy': '5', 'Direction': '5', 'ClientSelfExplore': '3', 'LeeCognitiveExplore': '3',
                         'LeeEmoExplore': '2', 'LeeNLExplore': '4', 'LeePRM_VM': '0'}
 
-        upload_coding_system(CodingSystemType.CACTI, file_path=ptcs)
+        cs = upload_coding_system(CodingSystemType.CACTI, file_path=ptcs)
+        misc_id = CodingProperty.select(CodingProperty.coding_property_id)\
+            .where((CodingProperty.coding_system == cs) & (CodingProperty.cp_name == 'MISC'))\
+            .get().coding_property_id
+        component_id = CodingProperty.select(CodingProperty.coding_property_id)\
+            .where((CodingProperty.coding_system == cs) & (CodingProperty.cp_name == 'Components'))\
+            .get().coding_property_id
 
         # now try to upload the interview from the CACTI files
-        interview = upload_cacti_interview('R31531', 27, 5, 'HAEL002', 1, 9, 0, "CAMI_CACTI_1.0", "MISC",
-                                           "Components", r'./test_data/cacti/R31531.casaa',
-                                           r'./test_data/cacti/R31531.globals', r'./test_data/cacti/R31531.parse',
-                                           r'./test_data/cacti/R31531.globals')
+        interview = upload_cacti_interview('R31531', 27, 5, 'HAEL002', 1, 9, 0, r'./test_data/cacti/R31531.casaa',
+                                           path_to_globals=r'./test_data/cacti/R31531.globals',
+                                           path_to_components=r'./test_data/cacti/R31531.parse',
+                                           path_to_self_explore=r'./test_data/cacti/R31531.globals',
+                                           coding_system=cs, code_id=misc_id,
+                                           comp_id=component_id)
 
         # should have been 11 UtteranceCode entities uploaded
         codes = UtteranceCode.select(Utterance, PropertyValue)\
@@ -362,6 +370,25 @@ class TestBulkImports(unittest.TestCase):
         # Global ratings should all match:
         for name, value in global_ratings:
             self.assertEqual(value, true_globals[name])
+
+    def test_import_cacti_interview_parsing_only(self):
+
+        # Before an interview is uploaded, need to upload its coding system
+        script_dir = os.path.dirname(__file__)
+        test_folder = os.path.join(script_dir, 'test_data', 'cacti')
+        ptcs = os.path.join(test_folder, 'userConfiguration.xml')
+
+        # now try to upload the interview from the CACTI files
+        interview = upload_cacti_interview('R31531', 27, 5, 'HAEL002', 1, 9, 0, r'./test_data/cacti/R31531.casaa',
+                                           path_to_globals=r'./test_data/cacti/R31531.globals',
+                                           path_to_components=r'./test_data/cacti/R31531.parse',
+                                           path_to_self_explore=r'./test_data/cacti/R31531.globals',
+                                           coding_system=None, code_id=None,
+                                           comp_id=None)
+
+        # should have been 11 UtteranceCode entities uploaded
+        utts = Utterance.select().where(Utterance.interview == interview).execute()
+        self.assertEqual(len(utts), 11)
 
     def test_import_ia_interview(self):
 
