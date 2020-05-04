@@ -8,7 +8,16 @@ import typing
 __all__ = ['disagreement_heatmap', 'reliability_line_plot', 'parsing_alignment_plot']
 
 
-def _plot_parsing_axis_(results, category_names, ax, pad_first=False):
+def _plot_parsing_axis_(results, category_names, ax, pad_first=False, utt_enums=None):
+    """
+    Plots the parsing alignment axes
+    :param results: dict[str: list]. Keys are identities of raters, values are lenghts of utterances
+    :param category_names: list[int]: enumerations of utterances to be plotted
+    :param ax: the pyplot.Axis object to use in plotting
+    :param pad_first: Whether the first utterance in each rater's data should be trated as padding
+    :param utt_enums: how often to place a text displaying utterance enumeration. Default None
+    :return: Axis with plots drawn
+    """
 
     labels = list(results.keys())
     data = numpy.array(list(results.values()))
@@ -25,6 +34,13 @@ def _plot_parsing_axis_(results, category_names, ax, pad_first=False):
         starts = data_cum[:, i] - widths
         ax.barh(labels, widths, left=starts, height=0.5,
                 label=colname, color=color, edgecolor='black')
+        xcenters = starts + widths / 2
+
+        if utt_enums is not None:
+            utt_enums = int(utt_enums)
+            if i % utt_enums == 0:
+                for y, (x, c) in enumerate(zip(xcenters, widths)):
+                    ax.text(x, y, str(colname), ha='center', va='center', color='black', fontsize='xx-small')
 
     return ax
 
@@ -100,7 +116,8 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
                            quantiles=10, use_word_count=False, master_trainee=True) -> Figure
     Creates a plot of parsing alignment between raters using sequential data contained in
     :param data: sequence of DataFrames from which to draw parsing data.
-    Frames must contain the columns ['utt_enum', 'utt_start_time', 'utt_end_time']
+    Frames must contain at least 3 columns whose names correspond to the names of
+    Utterance.utt_enum.name, Utterance.utt_start_time, and Utterance.utt_end_time
     Frames must have a single integer-based index
     :param title: The title of the graph
     :param width: Width of the resulting plot
@@ -112,8 +129,7 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     """
 
     UL = 'utt_length'
-    CSUM = 'cumsum'
-    data = list((itm.copy() for itm in data))
+    data = list(data)
 
     STIME = m.Utterance.utt_start_time.name
     ETIME = m.Utterance.utt_end_time.name
@@ -123,7 +139,7 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     for frame in data:
         frame[UL] = frame[ETIME] - frame[STIME]
 
-    max_len = max(frame[UL].sum() for frame in data)
+    max_len = max(frame.loc[frame.index[-1], UL] for frame in data)
     cutoffs = [i * (max_len / 10) for i in range(1, quantiles)]
     cutoffs.append(max_len + 1)
     cutoffs.insert(0, 0)
@@ -167,7 +183,8 @@ def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-a
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     if yticks is not None:
-        plt.yticks(yticks)
+        plt.ylim(0, yticks[-1] + 1)
+        plt.yticks(yticks, [str(itm) for itm in yticks])
     plt.title(title)
     plt.xticks(xticks if xticks is not None else list(frame.index), rotation=90)
 

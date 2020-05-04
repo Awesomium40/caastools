@@ -82,7 +82,7 @@ class CodingProperty(BaseModel):
 class GlobalProperty(BaseModel):
     global_property_id = AutoField()
     coding_system = ForeignKeyField(CodingSystem, backref="globals", on_delete="CASCADE", on_update="CASCADE",
-                                    column_name="coding_system_id", index=True)
+                                    column_name="coding_system_id", index=True, null=False)
     gp_name = TextField(null=False, unique=False)
     gp_description = TextField(null=False, unique=False)
     gp_data_type = TextField(null=False, index=False, unique=False, default="string")
@@ -99,7 +99,7 @@ class GlobalProperty(BaseModel):
 
 class GlobalValue(BaseModel):
     global_value_id = AutoField()
-    global_property = ForeignKeyField(GlobalProperty, backref="global_values", index=True,
+    global_property = ForeignKeyField(GlobalProperty, backref="global_values", index=True, null=False,
                                       column_name="global_property_id", on_update="CASCADE", on_delete="CASCADE")
     gv_value = TextField(null=False, column_name="gv_value")
     gv_description = TextField(null=False, unique=False)

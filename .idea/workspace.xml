@@ -3,9 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/bulkinsert.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/plots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_bulkops.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_bulkops.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +58,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -73,7 +75,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -89,7 +91,7 @@
       <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_stats (1)">
+  <component name="RunManager" selected="Python tests.Unittests for test_bulkops.TestBulkImports.test_import_ia_cs">
     <configuration name="test_stats (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="caastools" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -134,6 +136,21 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests for test_bulkops.TestBulkImports.test_import_ia_cs" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="caastools" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_bulkops.TestBulkImports.test_import_ia_cs&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Unittests for test_plots.TestPlots" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="caastools" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -147,21 +164,6 @@
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_plots.TestPlots&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests in test_datasets.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="caastools" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_datasets.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Unittests in test_plots.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
@@ -181,11 +183,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Unittests for test_bulkops.TestBulkImports.test_import_ia_cs" />
         <item itemvalue="Python.test_stats (1)" />
         <item itemvalue="Python.test_stats" />
         <item itemvalue="Python tests.Unittests in test_plots.py" />
         <item itemvalue="Python tests.Unittests for test_plots.TestPlots" />
-        <item itemvalue="Python tests.Unittests in test_datasets.py" />
       </list>
     </recent_temporary>
   </component>
@@ -272,7 +274,7 @@
       <workItem from="1588076151219" duration="3230000" />
       <workItem from="1588242131093" duration="9804000" />
       <workItem from="1588261317680" duration="2496000" />
-      <workItem from="1588591025051" duration="1676000" />
+      <workItem from="1588327699260" duration="8535000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -467,7 +469,7 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
@@ -505,27 +507,66 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1246" y="365" key="#Inspections/0.0.3440.1400@0.0.3440.1400" timestamp="1588246687234" />
+    <state x="1409" y="409" key="#xdebugger.evaluate" timestamp="1588333320650">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1409" y="409" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1588333320650" />
     <state x="1450" y="256" key="CommitChangelistDialog2" timestamp="1588256057894">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1450" y="256" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1588256057894" />
+    <state width="1581" height="466" key="DebuggerActiveHint" timestamp="1588333237007">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1581" height="466" key="DebuggerActiveHint/0.0.3440.1400@0.0.3440.1400" timestamp="1588333237007" />
     <state x="1707" y="454" key="FileChooserDialogImpl" timestamp="1586198833992">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1707" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1586198833992" />
-    <state x="645" y="259" key="SettingsEditor" timestamp="1588591079185">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1508" height="484" key="GridCell.Tab.0.bottom" timestamp="1588333932668">
+      <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="645" y="259" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1588591079185" />
+    <state width="1508" height="484" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1588333932668" />
+    <state width="1508" height="484" key="GridCell.Tab.0.center" timestamp="1588333932668">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1508" height="484" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1588333932668" />
+    <state width="1508" height="484" key="GridCell.Tab.0.left" timestamp="1588333932668">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1508" height="484" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1588333932668" />
+    <state width="1508" height="484" key="GridCell.Tab.0.right" timestamp="1588333932668">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1508" height="484" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1588333932668" />
+    <state width="1508" height="484" key="GridCell.Tab.1.bottom" timestamp="1588333932668">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1508" height="484" key="GridCell.Tab.1.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1588333932668" />
+    <state width="1508" height="484" key="GridCell.Tab.1.center" timestamp="1588333932668">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1508" height="484" key="GridCell.Tab.1.center/0.0.3440.1400@0.0.3440.1400" timestamp="1588333932668" />
+    <state width="1508" height="484" key="GridCell.Tab.1.left" timestamp="1588333932668">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1508" height="484" key="GridCell.Tab.1.left/0.0.3440.1400@0.0.3440.1400" timestamp="1588333932668" />
+    <state width="1508" height="484" key="GridCell.Tab.1.right" timestamp="1588333932668">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="1508" height="484" key="GridCell.Tab.1.right/0.0.3440.1400@0.0.3440.1400" timestamp="1588333932668" />
+    <state x="1155" y="349" key="SettingsEditor" timestamp="1588246665546">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1588246665546" />
     <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1588256062424">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1588256062424" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588267999696">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588340337271">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1588267999696" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1588340337271" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -570,16 +611,20 @@
           <line>17</line>
           <option name="timeStamp" value="112" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/caastools/database/bulkinsert.py</url>
+          <line>82</line>
+          <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_bulkops.py</url>
+          <line>381</line>
+          <option name="timeStamp" value="117" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
-  <component name="debuggerHistoryManager">
-    <expressions id="evaluateExpression">
-      <expression>
-        <expression-string>len(seq_alpha.columns)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-    </expressions>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_bulkops_TestBulkImports_test_import_ia_cs.coverage" NAME="Unittests for test_bulkops.TestBulkImports.test_import_ia_cs Coverage Results" MODIFIED="1588333932658" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
 </project>
