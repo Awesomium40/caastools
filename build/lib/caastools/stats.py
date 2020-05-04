@@ -138,8 +138,6 @@ def _alpha_boot_(data, boot, diff_func, de):
 
         for i in range(n_boot):
             boot_alpha = 1
-            bsd_nn = bs_data.notnull()
-            # pair_count = int(((mus.sum() * (mus.sum() - 1)) // 2).sum())
 
             # For each pair randomly selected to be part of the sample (via a uniform distribution),
             # get its associated erorr term
@@ -478,7 +476,7 @@ def kalpha(data, metric='nominal', boot=None, out=None):
             if n_boot < 1000:
                 n_boot = 1000
 
-            boot_samples = _alpha_boot_(data, boot, diff_func, de)
+            boot_samples = _alpha_boot_(data, n_boot, diff_func, de)
 
             if len(boot_samples) > 0:
                 # Determine the probability of failing to attain specific values of alpha
@@ -495,7 +493,7 @@ def kalpha(data, metric='nominal', boot=None, out=None):
 def pabak(rater1, rater2):
     """
     stats.pabak(rows, colums) -> tuple[float, float, float]
-    Computes the prevalance-adjusted, bias-adjusted kappa as described in:
+    Computes the prevalence-adjusted, bias-adjusted kappa as described in:
     Byrt, T., Bishop, J., & Carlin, J. B. (1993). Prevalence, Bias, and Kappa.
     Journal of Clinical Epidemiology, 46(5), 423-429.
     :param rater1: The data from the first observer

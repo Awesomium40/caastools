@@ -37,40 +37,6 @@ class CactiNodes(object):
     USER_CONFIG = 'userConfiguration'
 
 
-"""
-class IaAttributes(object):
-    ABBREVIATION = "Abbreviation"
-    CLIENT_ID = "ClientID"
-    CODING_SYSTEM_ID = "CodingSystemID"
-    DATA_TYPE = "DataType"
-    DECIMAL_DIGITS = "DecimalDigits"
-    DESCRIPTION = "Description"
-    DISPLAY_NAME = "DisplayName"
-    ENUM = "Utt"
-    INTERVIEW_ID = "InterviewID"
-    LINE = "Line"
-    ORIGINAL_DISPLAY_NAME = "OriginalDisplayName"
-    ORIGINAL_ID = "OriginalID"
-    ORIGINAL_NAME = "OriginalName"
-    ORIGINAL_VALUE = "OriginalValue"
-    PROPERTY_ID = "PropertyID"
-    PROPERTY_NAME = "PropertyName"
-    PROPERTY_VALUE_ID = "PropertyValueID"
-    ROLE = "Role"
-    RATER_ID = "RaterID"
-    SESSION_NUMBER = "SessionNumber"
-    SORT_ORDER = "SortOrder"
-    START_TIME = "StartTime"
-    SYSTEM_NAME = "SystemName"
-    TEXT = "Text"
-    THERAPIST_ID = "TherapistID"
-    TREATMENT_CONDITION = "TxCondition"
-    VALUE = "Value"
-    WORD_COUNT = "Words"
-    ZERO_PAD = "ZeroPad"
-"""
-
-
 class IaAttributes(object):
     ABBREVIATION = "Abbreviation"
     CODING_SET_ID = "CodingSetID"

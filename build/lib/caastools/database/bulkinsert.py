@@ -3,7 +3,7 @@ from .models import db
 from ..constants import CactiAttributes, CactiNodes, CLIENT_GLOBALS_SLICE, CodingSystemType, CS_XFORM, \
     IaNodes, IaAttributes, SE_GLOBALS_SLICE, THERAPIST_GLOBALS_SLICE
 from ..exceptions import *
-from ..parsing import *
+from .. import parsing
 import logging
 import lxml.etree as et
 import os
@@ -16,9 +16,9 @@ logging.getLogger('database.bulkinsert').addHandler(logging.NullHandler())
 
 @db.atomic()
 def upload_cacti_interview(interview_name, study_id, rater_id, client_id, therapist_id,
-                           language_id, condition_id, cacti_name, codes_name,
-                           components_name, path_to_casaa, path_to_globals=None,
-                           path_to_components=None, path_to_self_explore=None):
+                           language_id, condition_id, path_to_casaa, path_to_globals=None,
+                           path_to_components=None, path_to_self_explore=None, coding_system=None, code_id=None,
+                           comp_id=None):
     """
     upload_cacti_interview(interview_name: str, study_id: int, rater_id: int, client_id: int,
                            therapist_id: int, language_id: int, condition_id: int, path_to_casaa: str,
@@ -32,40 +32,32 @@ def upload_cacti_interview(interview_name, study_id, rater_id, client_id, therap
     :param therapist_id: The ID of the therapist performing the interview
     :param language_id: The language in which the interview was conducted
     :param condition_id: the Treatment arm of the interview
-    :param cacti_name: The name of the CACTI coding system used to score the interview
-    :param codes_name: The name of the element in the CACTI xml containing code data
-    :param components_name: THe name of elements in the CACTI xml containing component data
     :param path_to_casaa: Path to the casaa file containing utterance-level codes
     :param path_to_globals: Path to the .global file containing globals
     :param path_to_components: path to the .parse file containing components
     :param path_to_self_explore: path to the .global file containing SelfExplore globals
+    :param coding_system: the CodingSystem with which the interview was scored
+    :param code_id: the CodingProperty corresponding to the MISC data
+    :param comp_id: the CodingProperty corresponding to the Components data
     :return database.Interview: The constructed Interview object
     """
 
     # Insertion of the various data from the interview into the tables is going to require
     # many lookups from the various tables, so let's fetch some dictionaries
-    cs = CodingSystem.get(CodingSystem.cs_name == cacti_name)
     global_lst = []
 
     property_value_query = PropertyValue.select(PropertyValue.property_value_id,
                                                 PropertyValue.pv_value,
-                                                CodingProperty.cp_name) \
+                                                CodingProperty.coding_property_id) \
         .join(CodingProperty) \
-        .join(CodingSystem) \
-        .where(CodingSystem.cs_name == cacti_name)
+        .where(CodingProperty.coding_system == coding_system)
 
     global_value_query = GlobalValue.select(GlobalValue.global_value_id, GlobalValue.gv_value, GlobalProperty.gp_name) \
         .join(GlobalProperty) \
-        .join(CodingSystem) \
-        #.where(CodingSystem.cs_name == cacti_name)
+        .where(GlobalProperty.coding_system == coding_system)
 
-    # These dictionaries are necessary b/c we need to be able to look up PropertyValueID
-    # and GlobalValueID for relational integrity
-    # based on information stored in the CACTI text files (i.e. name of the property and value of the PropertyValue)
-    pv_dict = {(row[2], row[1]): row[0] for row in property_value_query.tuples().execute()}
-    gv_dict = {(row[2], row[1]): row[0] for row in global_value_query.tuples().execute()}
-
-    interview, is_new = Interview.get_or_create(interview_name=interview_name, coding_system=cs,
+    # First step is to insert the interview object itself
+    interview, is_new = Interview.get_or_create(interview_name=interview_name, coding_system=coding_system,
                                                 study_id=study_id, client_id=client_id,
                                                 rater_id=rater_id, therapist_id=therapist_id,
                                                 language_id=language_id, treatment_condition_id=condition_id,
@@ -73,8 +65,9 @@ def upload_cacti_interview(interview_name, study_id, rater_id, client_id, therap
 
     if is_new:
         # The first step is to insert the utterances into the data
-        casaa_data = read_casaa(path_to_casaa)
-        comp_data = read_casaa(path_to_components) if path_to_components is not None else None
+        casaa_data = parsing.cacti.read_casaa(path_to_casaa)
+        comp_data = parsing.cacti.read_casaa(path_to_components) \
+            if path_to_components is not None and coding_system is not None else None
 
         utt_rows = [{Utterance.interview.name: interview,
                      Utterance.utt_enum.name: row[0],
@@ -87,33 +80,43 @@ def upload_cacti_interview(interview_name, study_id, rater_id, client_id, therap
         utt_dict = {tpl[0]: tpl[1] for tpl in Utterance.select(Utterance.utt_enum, Utterance.utterance_id)
                     .where(Utterance.interview == interview).tuples().execute()}
 
-        # Once the utterance-level data is inserted, can then insert the UtteranceCode data
-        code_data = [{UtteranceCode.utterance.name: utt_dict.get(row[0]),
-                      UtteranceCode.property_value.name: pv_dict.get((codes_name, row[4])),
-                      UtteranceCode.source_id.name: int(row[3])} for row in casaa_data
-                     if len(row) > 3 and row[3].strip() != '']
+        if coding_system is not None:
 
-        UtteranceCode.bulk_insert(code_data)
+            # These dictionaries are necessary b/c we need to be able to look up PropertyValueID
+            # and GlobalValueID for relational integrity
+            # based on information stored in the CACTI text files
+            # (i.e. name of the property and value of the PropertyValue)
+            pv_dict = {(row[2], row[1]): row[0] for row in property_value_query.tuples().execute()}
+            gv_dict = {(row[2], row[1]): row[0] for row in global_value_query.tuples().execute()}
 
-        # Need to do another bulk insert for the components
-        if comp_data is not None:
-            comp_rows = [{UtteranceCode.utterance_id.name: utt_dict.get(row[0]),
-                          UtteranceCode.property_value_id.name: pv_dict[(components_name, row[3])]} for row in
-                         comp_data if len(row) > 3 and row[3].strip() != '']
-            UtteranceCode.bulk_insert(comp_rows)
+            # Once the utterance-level data is inserted, can then insert the UtteranceCode data
+            code_data = [{UtteranceCode.utterance.name: utt_dict.get(row[0]),
+                          UtteranceCode.property_value.name: pv_dict.get((code_id, row[4])),
+                          UtteranceCode.source_id.name: int(row[3])} for row in casaa_data
+                         if len(row) > 3 and row[3].strip() != '']
 
-        # Finally, can perform an insert on the globals
-        if path_to_globals is not None:
-            global_lst.extend(read_globals(path_to_globals, (THERAPIST_GLOBALS_SLICE, CLIENT_GLOBALS_SLICE)))
+            UtteranceCode.bulk_insert(code_data)
 
-        if path_to_self_explore is not None:
-            global_lst.extend(read_globals(path_to_self_explore, (SE_GLOBALS_SLICE,)))
+            # Need to do another bulk insert for the components
+            if comp_data is not None:
+                comp_rows = [{UtteranceCode.utterance_id.name: utt_dict.get(row[0]),
+                              UtteranceCode.property_value_id.name: pv_dict[(comp_id, row[3])]} for row in
+                             comp_data if len(row) > 3 and row[3].strip() != '']
+                UtteranceCode.bulk_insert(comp_rows)
 
-        if len(global_lst) > 0:
-            global_rows = [{GlobalRating.interview.name: interview,
-                            GlobalRating.global_value.name: gv_dict[tpl]} for tpl in global_lst]
+            # Finally, can perform an insert on the globals
+            if path_to_globals is not None:
+                global_lst.extend(parsing.cacti.read_globals(path_to_globals, (THERAPIST_GLOBALS_SLICE,
+                                                                               CLIENT_GLOBALS_SLICE)))
 
-            GlobalRating.bulk_insert(global_rows)
+            if path_to_self_explore is not None:
+                global_lst.extend(parsing.cacti.read_globals(path_to_self_explore, (SE_GLOBALS_SLICE,)))
+
+            if len(global_lst) > 0:
+                global_rows = [{GlobalRating.interview.name: interview,
+                                GlobalRating.global_value.name: gv_dict[tpl]} for tpl in global_lst]
+
+                GlobalRating.bulk_insert(global_rows)
 
     return interview
 
@@ -153,8 +156,8 @@ def upload_coding_system(coding_system_type, file_path=None, file_obj=None):
         schema = et.XMLSchema(et.parse(cacti_path))
         insert_method = _insert_cacti_cs_
     elif coding_system_type == CodingSystemType.IA:
-        schema = extract_schema(document)
-        document = extract_data(document)
+        schema = parsing.ia.extract_schema(document)
+        document = parsing.ia.extract_data(document)
         insert_method = _insert_ia_cs_
     else:
         raise ValueError("Parameter cs_type must be instance of CodingSystemType")
@@ -183,7 +186,7 @@ def upload_ia_interview(interview_name, study_id, rater_id, client_id, therapist
     Note that this sequence of interview files must sorted in ascending order for fragmented interviews
     """
 
-    document = reconstruct_ia(interview_name, interview_files, parser=None)
+    document = parsing.ia.reconstruct_ia(interview_name, interview_files, parser=None)
     cs_id = int(document.xpath(f"/NewDataSet/{IaNodes.CODING_SETS}/{IaAttributes.CODING_SYSTEM_ID}")[0].text)
     cs_name = document.xpath(f"/NewDataSet/{IaNodes.CODING_SETS}/{IaAttributes.CODING_SYSTEM_NAME}")[0].text
 

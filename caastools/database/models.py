@@ -94,7 +94,7 @@ class GlobalProperty(BaseModel):
         constraints = [SQL('CONSTRAINT gp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id)')]
 
     def __repr__(self):
-        return "<GlobalProperty: {0} | {1}>".format(self.global_property_id, self.gp_name)
+        return f"<GlobalProperty: {self.global_property_id} | {self.gp_name}>"
 
 
 class GlobalValue(BaseModel):
@@ -109,7 +109,7 @@ class GlobalValue(BaseModel):
                        SQL('CONSTRAINT gv_source_id_gp_id_unique UNIQUE(source_id, global_property_id)')]
 
     def __repr__(self):
-        return "<GlobalValue: {0} | {1}>".format(self.global_value_id, self.gv_value)
+        return f"<GlobalValue: {self.global_value_id} | {self.gv_value}>"
 
 
 class PropertyValue(BaseModel):
@@ -126,7 +126,7 @@ class PropertyValue(BaseModel):
                        SQL('CONSTRAINT source_id_cp_id_unique UNIQUE (source_id, coding_property_id)')]
 
     def __repr__(self):
-        return "<PropertyValue: {0} | {1}>".format(self.property_value_id, self.pv_value)
+        return f"<PropertyValue: {self.property_value_id} | {self.pv_value}>"
 
 
 class Utterance(BaseModel):

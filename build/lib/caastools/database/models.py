@@ -49,7 +49,8 @@ class Interview(BaseModel):
     source_id = IntegerField(null=True, index=True, unique=True)
     interview_id = AutoField()
     interview_name = TextField(null=False, index=True, unique=True)
-    coding_system = ForeignKeyField(CodingSystem, backref="interviews", null=False, index=True)
+    coding_system = ForeignKeyField(CodingSystem, backref="interviews", null=True, index=True, on_delete="SET NULL",
+                                    on_update="CASCADE")
     session_number = IntegerField(null=False, index=True, unique=False)
     study_id = IntegerField(null=True, unique=False, index=True)
     client_id = TextField(null=False, unique=False, index=True)
@@ -81,7 +82,7 @@ class CodingProperty(BaseModel):
 class GlobalProperty(BaseModel):
     global_property_id = AutoField()
     coding_system = ForeignKeyField(CodingSystem, backref="globals", on_delete="CASCADE", on_update="CASCADE",
-                                    column_name="coding_system_id", index=True)
+                                    column_name="coding_system_id", index=True, null=False)
     gp_name = TextField(null=False, unique=False)
     gp_description = TextField(null=False, unique=False)
     gp_data_type = TextField(null=False, index=False, unique=False, default="string")
@@ -93,12 +94,12 @@ class GlobalProperty(BaseModel):
         constraints = [SQL('CONSTRAINT gp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id)')]
 
     def __repr__(self):
-        return "<GlobalProperty: {0} | {1}>".format(self.global_property_id, self.gp_name)
+        return f"<GlobalProperty: {self.global_property_id} | {self.gp_name}>"
 
 
 class GlobalValue(BaseModel):
     global_value_id = AutoField()
-    global_property = ForeignKeyField(GlobalProperty, backref="global_values", index=True,
+    global_property = ForeignKeyField(GlobalProperty, backref="global_values", index=True, null=False,
                                       column_name="global_property_id", on_update="CASCADE", on_delete="CASCADE")
     gv_value = TextField(null=False, column_name="gv_value")
     gv_description = TextField(null=False, unique=False)
@@ -108,7 +109,7 @@ class GlobalValue(BaseModel):
                        SQL('CONSTRAINT gv_source_id_gp_id_unique UNIQUE(source_id, global_property_id)')]
 
     def __repr__(self):
-        return "<GlobalValue: {0} | {1}>".format(self.global_value_id, self.gv_value)
+        return f"<GlobalValue: {self.global_value_id} | {self.gv_value}>"
 
 
 class PropertyValue(BaseModel):
@@ -125,7 +126,7 @@ class PropertyValue(BaseModel):
                        SQL('CONSTRAINT source_id_cp_id_unique UNIQUE (source_id, coding_property_id)')]
 
     def __repr__(self):
-        return "<PropertyValue: {0} | {1}>".format(self.property_value_id, self.pv_value)
+        return f"<PropertyValue: {self.property_value_id} | {self.pv_value}>"
 
 
 class Utterance(BaseModel):

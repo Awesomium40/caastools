@@ -45,7 +45,7 @@ def _plot_parsing_axis_(results, category_names, ax, pad_first=False, utt_enums=
     return ax
 
 
-def _compile_parsing_quantile(data, start_time, cutoff, rater_names, ax):
+def _compile_parsing_quantile_(data, start_time, cutoff, rater_names, ax):
 
     STIME = m.Utterance.utt_start_time.name
     ETIME = m.Utterance.utt_end_time.name
@@ -57,7 +57,7 @@ def _compile_parsing_quantile(data, start_time, cutoff, rater_names, ax):
     # First, need to locate the data in the current quantile for each rater
     for frame in data:
         idx = frame.loc[:, [STIME, ETIME]].loc[lambda x: x[STIME] >= start_time].loc[lambda x: x[STIME] < cutoff].index
-        rater = frame.loc[idx, ('utt_enum', STIME, ETIME, UL)].copy()
+        rater = frame.loc[idx, ['utt_enum', STIME, ETIME, UL]].copy()
 
         # Need to realign the quantile's data to the start time
         if rater.iloc[0].loc[STIME] > start_time:
@@ -139,7 +139,7 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     for frame in data:
         frame[UL] = frame[ETIME] - frame[STIME]
 
-    max_len = max(frame.loc[frame.index[-1], UL] for frame in data)
+    max_len = max(frame[UL].sum() for frame in data)
     cutoffs = [i * (max_len / 10) for i in range(1, quantiles)]
     cutoffs.append(max_len + 1)
     cutoffs.insert(0, 0)
@@ -154,11 +154,13 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
         ax: plt.Axes = axes[i]
         start_time = cutoffs[i]
 
-        quantile_data, pad_first = _compile_parsing_quantile(data, start_time, c, rater_names, ax)
+        quantile_data, pad_first = _compile_parsing_quantile_(data, start_time, c, rater_names, ax)
         category_names = quantile_data.index
         result = {col: list(quantile_data.loc[:, (col, UL)]) for col in quantile_data.columns.get_level_values(0)}
 
-        return _plot_parsing_axis_(result, category_names, ax, pad_first)
+        _plot_parsing_axis_(result, category_names, ax, pad_first)
+
+    return fig
 
 
 def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-axis", ylabel="y-axis",

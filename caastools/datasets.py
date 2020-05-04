@@ -9,56 +9,60 @@ import numpy
 __all__ = ['build_sequential_dataframe', 'build_session_level_dataframe', 'create_sl_variable_labels', 'save_as_spss']
 
 
-def build_sequential_dataframe(interview_names):
+def build_sequential_dataframe(interview_names, parsing_only=False):
     """
-    build_sequential_dataframe(interviews) -> pandas.DataFrame
+    build_sequential_dataframe(interviews, exclude_coding_data=False) -> pandas.DataFrame
     Builds a pandas DataFrame from the interviews specified
     :param interview_names: sequence of interviews to be included in the output
+    :param parsing_only: Whether to include only parsing data (True) or to include codes as well (False).
+    Default False
     :return: pandas.DataFrame
     """
 
+    data_func = _get_parsing_data_ if parsing_only else _get_utterance_data_
     # This will yield all the utterance-level data for the interviews specified
-    utterance_data = _get_utterance_data_(interview_names)
+    utterance_data = data_func(interview_names)
     columns = [itm[0] for itm in utterance_data.cursor.description]
 
     df = pandas.DataFrame.from_records(index=['interview_name', 'utt_enum'], data=utterance_data, columns=columns)
 
-    # Straight out of the database, all the codes, regardless of property are in the same column,
-    # Which is not desirable. Pull out the codes so they can be pivoted such that each CodingProperty
-    # has its own column
-    codes = df[['cp_name', 'pv_value']]
-    types = df[['cp_name', 'cp_data_type']].reset_index(drop=True)
+    if not parsing_only:
+        # Straight out of the database, all the codes, regardless of property are in the same column,
+        # Which is not desirable. Pull out the codes so they can be pivoted such that each CodingProperty
+        # has its own column
+        codes = df[['cp_name', 'pv_value']]
+        types = df[['cp_name', 'cp_data_type']].reset_index(drop=True)
 
-    # Prepare the DataFrame to receive code data - When the pivoting of codes occurs, there will be duplicate rows,
-    # which need to be removed. This op will take care of that
-    df = df.drop(labels=['cp_name', 'pv_value', 'cp_data_type'], axis=1)\
-           .reset_index()\
-           .drop_duplicates(subset=('interview_name', 'utt_enum'))\
-           .set_index(['interview_name', 'utt_enum'], drop=False)
+        # Prepare the DataFrame to receive code data - When the pivoting of codes occurs, there will be duplicate rows,
+        # which need to be removed. This op will take care of that
+        df = df.drop(labels=['cp_name', 'pv_value', 'cp_data_type'], axis=1)\
+               .reset_index()\
+               .drop_duplicates(subset=('interview_name', 'utt_enum'))\
+               .set_index(['interview_name', 'utt_enum'], drop=False)
 
-    # Some columns will need to be converted to a numeric type, based on the cp_data_type field values
-    # retrieve the names of columns that need to be converted
-    mask = (types['cp_data_type'] == 'numeric')
-    numeric_cols = set(types.loc[mask, 'cp_name'])
+        # Some columns will need to be converted to a numeric type, based on the cp_data_type field values
+        # retrieve the names of columns that need to be converted
+        mask = (types['cp_data_type'] == 'numeric')
+        numeric_cols = set(types.loc[mask, 'cp_name'])
 
-    # Because the frame needs to be multi-indexed on interview_name and utterance_number, and because this
-    # indexing needs to be destroyed as part of the pivot, need to create a new index to apply after the pivot happens
-    idx_names = list(codes.index.names)
-    codes.reset_index(inplace=True)
-    idx_values = codes[idx_names].values
-    tuples_index = [tuple(i) for i in idx_values]
-    new_index = pandas.MultiIndex.from_tuples(sorted(set(tuples_index), key=lambda x: tuples_index.index(x)),
-                                              names=idx_names)
+        # Because the frame needs to be multi-indexed on interview_name and utterance_number, and because this
+        # indexing needs to be destroyed as part of the pivot, need to create a new index to apply after the pivot happens
+        idx_names = list(codes.index.names)
+        codes.reset_index(inplace=True)
+        idx_values = codes[idx_names].values
+        tuples_index = [tuple(i) for i in idx_values]
+        new_index = pandas.MultiIndex.from_tuples(sorted(set(tuples_index), key=lambda x: tuples_index.index(x)),
+                                                  names=idx_names)
 
-    # this will actually perform the pivot and apply the new index
-    pivot = codes.assign(tuples_index=tuples_index).pivot(index='tuples_index', columns='cp_name', values='pv_value')
-    pivot.index = new_index
+        # this will actually perform the pivot and apply the new index
+        pivot = codes.assign(tuples_index=tuples_index).pivot(index='tuples_index', columns='cp_name', values='pv_value')
+        pivot.index = new_index
 
-    # Finally, recombine the result of the pivot with the descriptive information to yield a complete dataframe
-    df = df.join(pivot).drop(labels=['interview_name', 'utt_enum'], axis=1).applymap(lambda x: x if x is not None
-                                                                                     else numpy.NaN)
-    for col in numeric_cols:
-        df[col] = pandas.to_numeric(df[col])
+        # Finally, recombine the result of the pivot with the descriptive information to yield a complete dataframe
+        df = df.join(pivot).drop(labels=['interview_name', 'utt_enum'], axis=1).applymap(lambda x: x if x is not None
+                                                                                         else numpy.NaN)
+        for col in numeric_cols:
+            df[col] = pandas.to_numeric(df[col])
 
     return df
 
@@ -230,7 +234,7 @@ def _get_utterance_data_(interviews):
                                   m.Interview.language_id, m.Interview.treatment_condition_id, m.Utterance.utt_line,
                                   m.Utterance.utt_enum, m.Utterance.utt_start_time, m.Utterance.utt_end_time,
                                   m.CodingProperty.cp_name, m.CodingProperty.cp_data_type,
-                                  m.PropertyValue.pv_value, m.Utterance.utt_text) \
+                                  m.PropertyValue.pv_value, m.Utterance.utt_text, m.Utterance.utt_word_count) \
                             .join(m.Utterance) \
                             .join(m.Interview) \
                             .switch(m.UtteranceCode) \
@@ -239,3 +243,14 @@ def _get_utterance_data_(interviews):
                             .join(m.CodingSystem)\
                             .where(m.Interview.interview_name.in_(interviews))\
                             .dicts().execute()
+
+
+def _get_parsing_data_(interviews):
+
+    return (m.Utterance.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
+                               m.Interview.client_id, m.Interview.session_number, m.Interview.therapist_id,
+                               m.Interview.language_id, m.Interview.treatment_condition_id, m.Utterance.utt_line,
+                               m.Utterance.utt_enum, m.Utterance.utt_start_time, m.Utterance.utt_end_time,
+                               m.Utterance.utt_text, m.Utterance.utt_word_count)
+            .join(m.Interview)
+            .where(m.Interview.interview_name.in_(interviews))).dicts().execute()
