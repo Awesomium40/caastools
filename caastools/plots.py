@@ -8,14 +8,14 @@ import typing
 __all__ = ['disagreement_heatmap', 'reliability_line_plot', 'parsing_alignment_plot']
 
 
-def _plot_parsing_axis_(results, category_names, ax, pad_first=False, utt_enums=None):
+def _plot_parsing_axis_(results, category_names, ax, pad_first=False, enum_every=None):
     """
     Plots the parsing alignment axes
     :param results: dict[str: list]. Keys are identities of raters, values are lenghts of utterances
     :param category_names: list[int]: enumerations of utterances to be plotted
     :param ax: the pyplot.Axis object to use in plotting
     :param pad_first: Whether the first utterance in each rater's data should be trated as padding
-    :param utt_enums: how often to place a text displaying utterance enumeration. Default None
+    :param enum_every: how often to place a text displaying utterance enumeration. Default None
     :return: Axis with plots drawn
     """
 
@@ -36,9 +36,9 @@ def _plot_parsing_axis_(results, category_names, ax, pad_first=False, utt_enums=
                 label=colname, color=color, edgecolor='black')
         xcenters = starts + widths / 2
 
-        if utt_enums is not None:
-            utt_enums = int(utt_enums)
-            if i % utt_enums == 0:
+        if enum_every is not None:
+            enum_every = int(enum_every)
+            if i % enum_every == 0:
                 for y, (x, c) in enumerate(zip(xcenters, widths)):
                     ax.text(x, y, str(colname), ha='center', va='center', color='black', fontsize='xx-small')
 
@@ -110,7 +110,7 @@ def disagreement_heatmap(dataframe, title, fig_size=(10, 10), font_size=10):
 
 
 def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="ParsingPlot", width=11, height=8.5,
-                           rater_names=None, quantiles=10):
+                           rater_names=None, quantiles=10, enum_every=None):
     """
     parsing_alignment_plot(data, title="ParsingPlot", width=11, height=8.5,
                            quantiles=10, use_word_count=False, master_trainee=True) -> Figure
@@ -122,9 +122,11 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     :param title: The title of the graph
     :param width: Width of the resulting plot
     :param height: Height of the plot
+    :param rater_names: sequence of strings to specify rater represented by each frame. Default None
     :param quantiles: The number of equal-length quantiles into which to divide the interview.
     Each quantile will be plotted separately within the figure. Default 10
-    :param rater_names: sequence of strings to specify rater represented by each frame. Default None
+    :param enum_every: Integer specifying how often to label utterances in the figure with their enumeration.
+    Set None for no labeling. Default None
     :return: pyplot.Figure
     """
 
@@ -158,7 +160,7 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
         category_names = quantile_data.index
         result = {col: list(quantile_data.loc[:, (col, UL)]) for col in quantile_data.columns.get_level_values(0)}
 
-        _plot_parsing_axis_(result, category_names, ax, pad_first)
+        _plot_parsing_axis_(result, category_names, ax, pad_first=pad_first, enum_every=enum_every)
 
     return fig
 
@@ -173,7 +175,9 @@ def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-a
     :param xlabel: keyword argument string specifying the label of the x-axis
     :param ylabel: keyword argument string specifying the title of the y-axis
     :param yticks: keyword argument sequence specifying ticks for the y-axis
-    :param rater_labels: keyword argument dict mapping the column labels of frame to labels to be placed in the legend of the chart
+    :param rater_labels: dict mapping the column labels of frame to labels to be placed in the legend of the chart
+    :param width: float specifying the width of the figure in inches. Default 11
+    :param height: float specifying the height of the figure in inches. Default 8.5
     :param kwargs:
     :return: matplotlib.Figure
     """
