@@ -3,25 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database/bulkinsert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/ia.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/ia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/plots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/bulkinsert.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/plots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +57,6 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -90,7 +73,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -287,7 +270,9 @@
       <workItem from="1587754301826" duration="1887000" />
       <workItem from="1588000937113" duration="1084000" />
       <workItem from="1588076151219" duration="3230000" />
-      <workItem from="1588242131093" duration="8340000" />
+      <workItem from="1588242131093" duration="9804000" />
+      <workItem from="1588261317680" duration="2496000" />
+      <workItem from="1588591025051" duration="1676000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -471,11 +456,18 @@
       <option name="project" value="LOCAL" />
       <updated>1587653575732</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Add plots.parsing_alignment_plot, which creates a plot of parsing reliability/alignment">
+      <created>1588256058467</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1588256058467</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
@@ -505,33 +497,35 @@
     <MESSAGE value="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing" />
     <MESSAGE value="Minor cleanup in caastools.stats&#10;fix a bug in database.models.init_database that occurred when attempting to connect to a database raised peewee.OperationalError" />
     <MESSAGE value="Fix minor bug in database.datasets._get_utterance_data_ to retrieve all required fields" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix minor bug in database.datasets._get_utterance_data_ to retrieve all required fields" />
+    <MESSAGE value="Add plots.parsing_alignment_plot, which creates a plot of parsing reliability/alignment" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add plots.parsing_alignment_plot, which creates a plot of parsing reliability/alignment" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1246" y="365" key="#Inspections" timestamp="1588246687234">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1246" y="365" key="#Inspections/0.0.3440.1400@0.0.3440.1400" timestamp="1588246687234" />
-    <state x="1450" y="256" key="CommitChangelistDialog2" timestamp="1587653575342">
+    <state x="1450" y="256" key="CommitChangelistDialog2" timestamp="1588256057894">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1587653575342" />
+    <state x="1450" y="256" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1588256057894" />
     <state x="1707" y="454" key="FileChooserDialogImpl" timestamp="1586198833992">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1707" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1586198833992" />
-    <state x="1155" y="349" key="SettingsEditor" timestamp="1588246665546">
-      <screen x="0" y="0" width="3440" height="1400" />
+    <state x="645" y="259" key="SettingsEditor" timestamp="1588591079185">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="645" y="259" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1588591079185" />
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1588246665546" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1587653577630">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1588256062424">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1587653577630" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588255966550">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1588256062424" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588267999696">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1588255966550" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1588267999696" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

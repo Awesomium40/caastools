@@ -99,7 +99,7 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     parsing_alignment_plot(data, title="ParsingPlot", width=11, height=8.5,
                            quantiles=10, use_word_count=False, master_trainee=True) -> Figure
     Creates a plot of parsing alignment between raters using sequential data contained in
-    :param Data: sequence of DataFrames from which to draw parsing data.
+    :param data: sequence of DataFrames from which to draw parsing data.
     Frames must contain the columns ['utt_enum', 'utt_start_time', 'utt_end_time']
     Frames must have a single integer-based index
     :param title: The title of the graph
@@ -107,25 +107,23 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     :param height: Height of the plot
     :param quantiles: The number of equal-length quantiles into which to divide the interview.
     Each quantile will be plotted separately within the figure. Default 10
-    :param use_word_count: Whether to use start_time/end_time (False) or word_count (True) to determine parsing alignment.
-    Default False
-    :param master_trainee: Whether to plot all raters together (False) or to compare the first datum (master) to
-    the rest of the raters in the sequence (True). Default True
+    :param rater_names: sequence of strings to specify rater represented by each frame. Default None
     :return: pyplot.Figure
     """
 
     UL = 'utt_length'
-    data = list(data)
+    CSUM = 'cumsum'
+    data = list((itm.copy() for itm in data))
 
     STIME = m.Utterance.utt_start_time.name
     ETIME = m.Utterance.utt_end_time.name
-    rater_names = rater_names if rater_names is not None else [f"R{i + 1}" for i, f in enumerate(data)]
+    rater_names = list(rater_names) if rater_names is not None else [f"R{i + 1}" for i, f in enumerate(data)]
 
     quantiles = int(quantiles) if quantiles >= 1 else 1
     for frame in data:
         frame[UL] = frame[ETIME] - frame[STIME]
 
-    max_len = max(frame.loc[frame.index[-1], UL] for frame in data)
+    max_len = max(frame[UL].sum() for frame in data)
     cutoffs = [i * (max_len / 10) for i in range(1, quantiles)]
     cutoffs.append(max_len + 1)
     cutoffs.insert(0, 0)

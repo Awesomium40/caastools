@@ -9,17 +9,16 @@ import numpy
 __all__ = ['build_sequential_dataframe', 'build_session_level_dataframe', 'create_sl_variable_labels', 'save_as_spss']
 
 
-def build_sequential_dataframe(interviews):
+def build_sequential_dataframe(interview_names):
     """
-    build_dataframe(interviews) -> pandas.DataFrame
+    build_sequential_dataframe(interviews) -> pandas.DataFrame
     Builds a pandas DataFrame from the interviews specified
-    :param interviews: sequence of interviews to be included in the output
-    :param system_names: sequence of CodingSystem names
+    :param interview_names: sequence of interviews to be included in the output
     :return: pandas.DataFrame
     """
 
     # This will yield all the utterance-level data for the interviews specified
-    utterance_data = _get_utterance_data_(interviews)
+    utterance_data = _get_utterance_data_(interview_names)
     columns = [itm[0] for itm in utterance_data.cursor.description]
 
     df = pandas.DataFrame.from_records(index=['interview_name', 'utt_enum'], data=utterance_data, columns=columns)
@@ -64,9 +63,15 @@ def build_sequential_dataframe(interviews):
     return df
 
 
-def build_session_level_dataframe(interviews):
+def build_session_level_dataframe(interview_names):
+    """
+    datasets.build_session_level_dataframe(interviews) -> pandas.DataFrame
+    Constructs a session_level dataframe containing count/global scoring data for each interview in interviews
+    :param interview_names: Sequence of interview names by which to query
+    :return: pandas.DataFrame
+    """
 
-    utterance_data = _get_utterance_data_(interviews)
+    utterance_data = _get_utterance_data_(interview_names)
     columns = [itm[0] for itm in utterance_data.cursor.description]
     df = pandas.DataFrame.from_records(data=utterance_data, columns=columns)
     agg = df[['interview_name', 'cp_name', 'pv_value']]
@@ -78,7 +83,7 @@ def build_session_level_dataframe(interviews):
     agg = agg.pivot_table(index='interview_name', columns='property_value', values='pv_value',
                           aggfunc=pandas.Series.count)
 
-    global_data = _get_global_data_(interviews)
+    global_data = _get_global_data_(interview_names)
     columns = [itm[0] for itm in global_data.cursor.description]
 
     global_df = pandas.DataFrame.from_records(data=global_data, columns=columns)
@@ -96,6 +101,26 @@ def build_session_level_dataframe(interviews):
         data[col] = pandas.to_numeric(data[col], downcast='integer')
 
     return data
+
+
+def create_sequential_variable_labels(coding_system_id, find, replace):
+    """
+    datasets.create_sequential_variable_labels(coding_system_id, find, replace) -> dict
+    Creates a dictionary of variable labels suitable for building an SPSS sequential dataset
+    :param coding_system_id: the ID of the coding system for which to create labels
+    :param find: sequence of strings to be replaced in the variable names
+    :param replace: sequence of strings with which to replace corresponding entries in find. May also be a
+    callable which determines the appropriate replacement values
+    :return: dict
+    """
+
+    cp_query = (m.CodingProperty.select(m.CodingProperty.cp_name, m.CodingProperty.cp_description)
+                .join(m.CodingSystem)
+                .where(m.CodingSystem.coding_system_id == coding_system_id)
+                .order_by(m.CodingProperty.coding_property_id))
+
+    labels = {sanitize_for_spss(tpl[0], find=find, repl=replace): tpl[1] for tpl in cp_query.tuples().execute()}
+    return labels
 
 
 def create_sl_variable_labels(coding_system_id, find, replace):
@@ -130,8 +155,7 @@ def create_sl_variable_labels(coding_system_id, find, replace):
 
     global_properties = gp_query.execute()
 
-    sl_labels = {sanitize_for_spss("{0}_{1}".format(pv.coding_property.cp_name, pv.pv_value),
-                                   find=find, repl=replace):
+    sl_labels = {sanitize_for_spss(f"{pv.coding_property.cp_name}_{pv.pv_value}", find=find, repl=replace):
                  pv.pv_description for pv in property_values}
     sl_labels.update({sanitize_for_spss(gp.gp_name): gp.gp_description for gp in global_properties})
 

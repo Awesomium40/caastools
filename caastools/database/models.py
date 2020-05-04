@@ -49,7 +49,8 @@ class Interview(BaseModel):
     source_id = IntegerField(null=True, index=True, unique=True)
     interview_id = AutoField()
     interview_name = TextField(null=False, index=True, unique=True)
-    coding_system = ForeignKeyField(CodingSystem, backref="interviews", null=False, index=True)
+    coding_system = ForeignKeyField(CodingSystem, backref="interviews", null=True, index=True, on_delete="SET NULL",
+                                    on_update="CASCADE")
     session_number = IntegerField(null=False, index=True, unique=False)
     study_id = IntegerField(null=True, unique=False, index=True)
     client_id = TextField(null=False, unique=False, index=True)
