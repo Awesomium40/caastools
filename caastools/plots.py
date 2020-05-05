@@ -40,7 +40,8 @@ def _plot_parsing_axis_(results, category_names, ax, pad_first=False, enum_every
             enum_every = int(enum_every)
             if i % enum_every == 0:
                 for y, (x, c) in enumerate(zip(xcenters, widths)):
-                    ax.text(x, y, str(colname), ha='center', va='center', color='black', fontsize='xx-small')
+                    if c > 0 and colname > 0:
+                        ax.text(x, y, str(colname), ha='center', va='center', color='black', fontsize='xx-small')
 
     return ax
 
@@ -64,13 +65,11 @@ def _compile_parsing_quantile_(data, start_time, cutoff, rater_names, ax):
             pad_first = True
             row = rater.loc[idx[0], :]
             rater.loc[idx[0] - 1] = [row[0] - 1, start_time, row[1], row[1] - start_time]
-            rater.index += 1
-            rater['utt_enum'] += 1
             rater.sort_index(inplace=True)
 
         rater_data.append(rater)
 
-    joined = pandas.concat(rater_data, axis=1, keys=rater_names).reset_index(drop=True).fillna(0)
+    joined = pandas.concat(rater_data, axis=1, keys=rater_names).fillna(0)
     return joined, pad_first
 
 
