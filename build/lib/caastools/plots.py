@@ -8,7 +8,7 @@ import typing
 __all__ = ['disagreement_heatmap', 'reliability_line_plot', 'parsing_alignment_plot']
 
 
-def _plot_parsing_axis_(results, category_names, ax, pad_first=False, enum_every=None):
+def _plot_parsing_axis_(results, category_names, ax, pad_first=False, enum_every=25):
     """
     Plots the parsing alignment axes
     :param results: dict[str: list]. Keys are identities of raters, values are lenghts of utterances
@@ -36,7 +36,7 @@ def _plot_parsing_axis_(results, category_names, ax, pad_first=False, enum_every
                 label=colname, color=color, edgecolor='black')
         xcenters = starts + widths / 2
 
-        if enum_every is not None:
+        if enum_every is not None and enum_every > 0:
             enum_every = int(enum_every)
             if i % enum_every == 0:
                 for y, (x, c) in enumerate(zip(xcenters, widths)):
@@ -45,7 +45,7 @@ def _plot_parsing_axis_(results, category_names, ax, pad_first=False, enum_every
     return ax
 
 
-def _compile_parsing_quantile_(data, start_time, cutoff, rater_names, ax):
+def _compile_parsing_quantile(data, start_time, cutoff, rater_names, ax):
 
     STIME = m.Utterance.utt_start_time.name
     ETIME = m.Utterance.utt_end_time.name
@@ -57,7 +57,7 @@ def _compile_parsing_quantile_(data, start_time, cutoff, rater_names, ax):
     # First, need to locate the data in the current quantile for each rater
     for frame in data:
         idx = frame.loc[:, [STIME, ETIME]].loc[lambda x: x[STIME] >= start_time].loc[lambda x: x[STIME] < cutoff].index
-        rater = frame.loc[idx, ['utt_enum', STIME, ETIME, UL]].copy()
+        rater = frame.loc[idx, ('utt_enum', STIME, ETIME, UL)].copy()
 
         # Need to realign the quantile's data to the start time
         if rater.iloc[0].loc[STIME] > start_time:
@@ -110,7 +110,7 @@ def disagreement_heatmap(dataframe, title, fig_size=(10, 10), font_size=10):
 
 
 def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="ParsingPlot", width=11, height=8.5,
-                           rater_names=None, quantiles=10, enum_every=None):
+                           rater_names=None, quantiles=10, label_every=25):
     """
     parsing_alignment_plot(data, title="ParsingPlot", width=11, height=8.5,
                            quantiles=10, use_word_count=False, master_trainee=True) -> Figure
@@ -122,11 +122,10 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     :param title: The title of the graph
     :param width: Width of the resulting plot
     :param height: Height of the plot
-    :param rater_names: sequence of strings to specify rater represented by each frame. Default None
     :param quantiles: The number of equal-length quantiles into which to divide the interview.
     Each quantile will be plotted separately within the figure. Default 10
-    :param enum_every: Integer specifying how often to label utterances in the figure with their enumeration.
-    Set None for no labeling. Default None
+    :param rater_names: sequence of strings to specify rater represented by each frame. Default None
+    :param label_every: integer specifying how often utterances should be labeled with their enumeration in the plot
     :return: pyplot.Figure
     """
 
@@ -156,13 +155,11 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
         ax: plt.Axes = axes[i]
         start_time = cutoffs[i]
 
-        quantile_data, pad_first = _compile_parsing_quantile_(data, start_time, c, rater_names, ax)
+        quantile_data, pad_first = _compile_parsing_quantile(data, start_time, c, rater_names, ax)
         category_names = quantile_data.index
         result = {col: list(quantile_data.loc[:, (col, UL)]) for col in quantile_data.columns.get_level_values(0)}
 
-        _plot_parsing_axis_(result, category_names, ax, pad_first=pad_first, enum_every=enum_every)
-
-    return fig
+        return _plot_parsing_axis_(result, category_names, ax, pad_first, enum_every=enum_every)
 
 
 def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-axis", ylabel="y-axis",
@@ -175,9 +172,7 @@ def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-a
     :param xlabel: keyword argument string specifying the label of the x-axis
     :param ylabel: keyword argument string specifying the title of the y-axis
     :param yticks: keyword argument sequence specifying ticks for the y-axis
-    :param rater_labels: dict mapping the column labels of frame to labels to be placed in the legend of the chart
-    :param width: float specifying the width of the figure in inches. Default 11
-    :param height: float specifying the height of the figure in inches. Default 8.5
+    :param rater_labels: keyword argument dict mapping the column labels of frame to labels to be placed in the legend of the chart
     :param kwargs:
     :return: matplotlib.Figure
     """
@@ -192,7 +187,7 @@ def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-a
         plt.ylim(0, yticks[-1] + 1)
         plt.yticks(yticks, [str(itm) for itm in yticks])
     plt.title(title)
-    plt.xticks(xticks if xticks is not None else list(frame.index), rotation=90)
+    plt.xticks(xticks if xticks is not None else list(str(itm) for itm in frame.index), rotation=90)
 
     for col in frame.columns:
         label = rater_labels.get(col, col)

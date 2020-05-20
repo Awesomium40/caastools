@@ -6,7 +6,7 @@ with open(os.path.join(os.path.dirname(__file__), "README.md"), "r") as fh:
 
 setuptools.setup(
     name="caastools",
-    version="0.8.0",
+    version="0.8.1",
     author="Jay Walthers",
     author_email="justin_walthers@brown.edu",
     description="A package for managing and analyzing Interview data at CAAS",
