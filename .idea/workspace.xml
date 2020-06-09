@@ -19,14 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in parsing_alignment_plot that caused most axes to not be plotted properly">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/plots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/plots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -296,7 +291,8 @@
       <workItem from="1588327699260" duration="11240000" />
       <workItem from="1589893666201" duration="4223000" />
       <workItem from="1589911711679" duration="85000" />
-      <workItem from="1589979505990" duration="697000" />
+      <workItem from="1589979505990" duration="875000" />
+      <workItem from="1591719149883" duration="2251000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -494,30 +490,37 @@
       <option name="project" value="LOCAL" />
       <updated>1588340415099</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Fix a bug in parsing_alignment_plot that caused most axes to not be plotted properly">
+      <created>1589980301871</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1589980301871</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update setuptools script" />
     <MESSAGE value="Fix relative imports&#10;Fix bug that sometimes caused CACTI interviews not to upload" />
     <MESSAGE value="Change directory structure&#10;add new functions to utils module" />
     <MESSAGE value="Move functions from utils to datasets" />
@@ -542,7 +545,8 @@
     <MESSAGE value="Fix minor bug in database.datasets._get_utterance_data_ to retrieve all required fields" />
     <MESSAGE value="Add plots.parsing_alignment_plot, which creates a plot of parsing reliability/alignment" />
     <MESSAGE value="Minor changes to plots.parsing_alignment_plot to improve y-axis ticks&#10;Alter database.Models.Interview to allow for null CodingSystem reference&#10;Alter database.bulkinsert.upload_cacti_interview to allow for uploading interview with no coding/global data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor changes to plots.parsing_alignment_plot to improve y-axis ticks&#10;Alter database.Models.Interview to allow for null CodingSystem reference&#10;Alter database.bulkinsert.upload_cacti_interview to allow for uploading interview with no coding/global data" />
+    <MESSAGE value="Fix a bug in parsing_alignment_plot that caused most axes to not be plotted properly" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in parsing_alignment_plot that caused most axes to not be plotted properly" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1246" y="365" key="#Inspections" timestamp="1588246687234">
@@ -601,15 +605,16 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1588246665546" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1588340417604">
-      <screen x="0" y="0" width="3440" height="1400" />
-    </state>
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1588340417604" />
-    <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1589979668726">
+    <state x="848" y="321" key="Vcs.Push.Dialog.v2" timestamp="1589980303981">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="848" y="321" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589980303981" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1588340417604" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591723525701">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
     <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1588340337271" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1591723525701" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -653,11 +658,6 @@
           <url>file://$PROJECT_DIR$/tests/test_stats.py</url>
           <line>17</line>
           <option name="timeStamp" value="112" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/caastools/database/bulkinsert.py</url>
-          <line>82</line>
-          <option name="timeStamp" value="116" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/tests/test_bulkops.py</url>

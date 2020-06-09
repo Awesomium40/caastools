@@ -19,7 +19,7 @@ def build_sequential_dataframe(interview_names, parsing_only=False):
     :return: pandas.DataFrame
     """
 
-    data_func = _get_parsing_data_ if parsing_only else _get_utterance_data_
+    data_func = _get_parsing_data_ if parsing_only else _get_utterance_code_data_
     # This will yield all the utterance-level data for the interviews specified
     utterance_data = data_func(interview_names)
     columns = [itm[0] for itm in utterance_data.cursor.description]
@@ -75,7 +75,7 @@ def build_session_level_dataframe(interview_names):
     :return: pandas.DataFrame
     """
 
-    utterance_data = _get_utterance_data_(interview_names)
+    utterance_data = _get_utterance_code_data_(interview_names)
     columns = [itm[0] for itm in utterance_data.cursor.description]
     df = pandas.DataFrame.from_records(data=utterance_data, columns=columns)
     agg = df[['interview_name', 'cp_name', 'pv_value']]
@@ -227,7 +227,7 @@ def _get_global_data_(interviews):
                          .where(m.Interview.interview_name.in_(interviews)).dicts().execute()
 
 
-def _get_utterance_data_(interviews):
+def _get_utterance_code_data_(interviews):
 
     return m.UtteranceCode.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
                                   m.Interview.client_id, m.Interview.session_number, m.Interview.therapist_id,
