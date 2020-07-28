@@ -13,6 +13,57 @@ __all__ = ['upload_coding_system', 'upload_cacti_interview', 'upload_ia_intervie
 
 logging.getLogger('database.bulkinsert').addHandler(logging.NullHandler())
 
+@db.atomic()
+def insert_interview(interview_name, coding_system, study_id, rater_id, client_id, therapist_id,
+                           language_id, condition_id, session_number=1):
+
+    interview, is_new = Interview.get_or_create(interview_name=interview_name, coding_system=coding_system,
+                                                study_id=study_id, client_id=client_id,
+                                                rater_id=rater_id, therapist_id=therapist_id,
+                                                language_id=language_id, treatment_condition_id=condition_id,
+                                                session_number=session_number)
+
+
+def insert_utterances(interview, path):
+
+    # Read data and structure it for a bulk insertion
+    casaa_data = parsing.cacti.read_casaa(path)
+    utt_rows = [{Utterance.interview.name: interview,
+                 Utterance.utt_enum.name: row[0],
+                 Utterance.utt_start_time.name: row[1],
+                 Utterance.utt_end_time.name: row[2]} for row in casaa_data]
+
+    return Utterance.bulk_insert(utt_rows)
+
+
+def insert_utterance_codes(interview, coding_system, path, cp_name, type='cacti'):
+
+    # Insertion of the various data from the interview into the tables is going to require
+    # many lookups from the various tables, so let's fetch some dictionaries
+    property_value_query = PropertyValue.select(PropertyValue.property_value_id,
+                                                PropertyValue.pv_value,
+                                                CodingProperty.coding_property_id) \
+                                        .join(CodingProperty) \
+                                        .where(CodingProperty.coding_system == coding_system)
+
+    pv_dict = {(row[2], row[1]): row[0] for row in property_value_query.tuples().execute()}
+
+    # UtteranceCodes are always associated with an utterance, so need a dict to be able to look up a specific utterance
+    utt_dict = {tpl[0]: tpl[1] for tpl in Utterance.select(Utterance.utt_enum, Utterance.utterance_id)
+                                                   .where(Utterance.interview == interview)
+                                                   .tuples().execute()}
+    cp_id = CodingProperty.select(CodingProperty.coding_property_id)\
+                          .where((CodingProperty.coding_system == coding_system) & (CodingProperty.cp_name == cp_name))\
+                          .get().coding_property_id
+    casaa_data = parsing.cacti.read_casaa(path)
+
+    code_data = [{UtteranceCode.utterance.name: utt_dict.get(row[0]),
+                  UtteranceCode.property_value.name: pv_dict.get((cp_id, row[4])),
+                  UtteranceCode.source_id.name: int(row[3])} for row in casaa_data
+                 if len(row) > 3 and row[3].strip() != '']
+
+    UtteranceCode.bulk_insert(code_data)
+
 
 @db.atomic()
 def upload_cacti_interview(interview_name, study_id, rater_id, client_id, therapist_id,

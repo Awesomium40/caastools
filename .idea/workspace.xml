@@ -19,9 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in parsing_alignment_plot that caused most axes to not be plotted properly">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/bulkinsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/bulkinsert.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -292,7 +292,10 @@
       <workItem from="1589893666201" duration="4223000" />
       <workItem from="1589911711679" duration="85000" />
       <workItem from="1589979505990" duration="875000" />
-      <workItem from="1591719149883" duration="2251000" />
+      <workItem from="1591719149883" duration="3725000" />
+      <workItem from="1594919143844" duration="1373000" />
+      <workItem from="1595346386537" duration="2738000" />
+      <workItem from="1595353299153" duration="1939000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -497,7 +500,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589980301871</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Fix some improperly named functions">
+      <created>1591723542505</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1591723542505</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -521,7 +531,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Fix relative imports&#10;Fix bug that sometimes caused CACTI interviews not to upload" />
     <MESSAGE value="Change directory structure&#10;add new functions to utils module" />
     <MESSAGE value="Move functions from utils to datasets" />
     <MESSAGE value="change top-level insertions of bulk operations to get_or_create" />
@@ -546,7 +555,8 @@
     <MESSAGE value="Add plots.parsing_alignment_plot, which creates a plot of parsing reliability/alignment" />
     <MESSAGE value="Minor changes to plots.parsing_alignment_plot to improve y-axis ticks&#10;Alter database.Models.Interview to allow for null CodingSystem reference&#10;Alter database.bulkinsert.upload_cacti_interview to allow for uploading interview with no coding/global data" />
     <MESSAGE value="Fix a bug in parsing_alignment_plot that caused most axes to not be plotted properly" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in parsing_alignment_plot that caused most axes to not be plotted properly" />
+    <MESSAGE value="Fix some improperly named functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix some improperly named functions" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1246" y="365" key="#Inspections" timestamp="1588246687234">
@@ -557,10 +567,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1409" y="409" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1588333320650" />
-    <state x="1450" y="256" key="CommitChangelistDialog2" timestamp="1588340414721">
+    <state x="1450" y="256" key="CommitChangelistDialog2" timestamp="1591723542147">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1588340414721" />
+    <state x="1450" y="256" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1591723542147" />
     <state width="1581" height="466" key="DebuggerActiveHint" timestamp="1588333237007">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -605,11 +615,11 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1588246665546" />
-    <state x="848" y="321" key="Vcs.Push.Dialog.v2" timestamp="1589980303981">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1591723544090">
+      <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="848" y="321" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589980303981" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1588340417604" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1591723544090" />
     <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591723525701">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
