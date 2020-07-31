@@ -1,4 +1,4 @@
-from ..constants import CONVERT_XFORM, CS_XFORM, IaNodes, IaAttributes, IV_XFORM
+from caastools.constants import CONVERT_XFORM, CS_XFORM, IaNodes, IaAttributes, IV_XFORM
 import logging
 import lxml.etree as et
 import os

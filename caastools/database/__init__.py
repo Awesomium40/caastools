@@ -1,4 +1,6 @@
 from . import models
-from . import bulkinsert
 
-__all__ = ['models', 'bulkinsert']
+__all__ = ['atomic', 'models']
+
+
+atomic = models.db.atomic
