@@ -40,7 +40,7 @@ def read_globals(file, slices=None):
 
     for line in to_process:
         split_line = [itm.strip(":").strip("\n") for itm in line.split("\t")]
-        global_data.append(tuple((split_line[0], split_line[1])))
+        global_data.append((split_line[0], split_line[1]),)
 
     return global_data
 
@@ -73,21 +73,21 @@ def read_casaa(file, read_codes=False, read_components=False):
             # Expect 7 columns for reading in codes. If less than that found, enter None for value and desc
             if len(split_row) == 7:
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]),
-                                split_row[5], split_row[6]))
+                                split_row[5], split_row[6],))
             else:
                 logging.warning(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
                                 "Code data will not be read")
-                row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None, None))
+                row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None, None,))
 
         elif read_components:
             # Expect 6 columns for reading in components. Anything else, enter None for value and desc
             if len(split_row == 6):
-                row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), split_row[5]))
+                row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), split_row[5],))
             else:
                 logging.warning(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
                                 "Component data will not be read")
-                row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None))
+                row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None,))
         else:
-            row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4])))
+            row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]),))
 
     return row_data

@@ -77,7 +77,14 @@ class _Global(_HasParentElementBase):
 
 
 class _UserConfiguration(_ElementBase):
+    """
+    _UserConfiguration is a simple wrapper around an et._Element object, with properties and methods that make
+    accessing important data easier to do without any xpath expressions
+    """
 
+    '''
+    Properties
+    '''
     @property
     def codes(self):
         return self.find(CactiNodes.CODES)
@@ -89,6 +96,67 @@ class _UserConfiguration(_ElementBase):
     @property
     def globals(self):
         return self.iterfind(CactiNodes.GLOBALS)
+
+    '''
+    private methods
+    '''
+    def _find_(self, prop, **kwargs):
+
+        element_dict = {CactiNodes.CODES: CactiNodes.CODE,
+                        CactiNodes.COMPONENTS: CactiNodes.COMPONENT,
+                        CactiNodes.GLOBALS: CactiNodes.GLOBAL}
+        element = element_dict.get(prop)
+        if element is None:
+            raise ValueError(f"paramenter 'prop' expected ('codes', 'components', 'globals'), got {prop}]")
+
+        predicate = ("[" + " and ".join(f"@{key}='{value}'" for key, value in kwargs.items()) + "]") \
+            if len(kwargs) > 0 else ""
+
+        xpath = f"./{prop}/{element}{predicate}"
+        results = self.xpath(xpath)
+        return results[0] if len(results) > 0 else None
+
+    '''
+    public methods
+    '''
+    def find_code(self, **kwargs):
+        """
+        uc.find_code(**kwargs) -> _Code | None
+        Selects the first code element from the document meeting all of the specified criteria,
+        or None if no matching code found
+        :param kwargs: sequence of attribute-value pairs specifying search criteria.
+        argument names should be attributes of the element to query,
+        argument values should be value that the attribute should be equal to.
+        Specifying multiple keyword arguments will only match nodes that meet ALL of the search criteria
+        :return: _Code object, or None if no matches found
+        """
+        return self._find_(CactiNodes.CODES, **kwargs)
+
+    def find_component(self, **kwargs):
+        """
+        uc.find_component(**kwargs) -> _Code | None
+        Selects the first component element from the document meeting all of the specified criteria,
+        or None if no matching code found
+        :param kwargs: sequence of attribute-value pairs specifying search criteria.
+        argument names should be attributes of the element to query,
+        argument values should be value that the attribute should be equal to.
+        Specifying multiple keyword arguments will only match nodes that meet ALL of the search criteria
+        :return: _Code object, or None if no matches found
+        """
+        return self._find_(CactiNodes.COMPONENTS, **kwargs)
+
+    def find_global(self, **kwargs):
+        """
+        uc.find_global(**kwargs) -> _Code | None
+        Selects the first global element from the document meeting all of the specified criteria,
+        or None if no matching code found
+        :param kwargs: sequence of attribute-value pairs specifying search criteria.
+        argument names should be attributes of the element to query,
+        argument values should be value that the attribute should be equal to.
+        Specifying multiple keyword arguments will only match nodes that meet ALL of the search criteria
+        :return: _Code object, or None if no matches found
+        """
+        return self._find_(CactiNodes.GLOBALS, **kwargs)
 
 
 def UserConfiguration(path):
