@@ -1,8 +1,9 @@
-import functools
 import logging
-import operator
+import typing
+import warnings
 
-logging.getLogger('caastools.parsing.cacti.data').addHandler(logging.NullHandler())
+logging.captureWarnings(True)
+logging.getLogger('py.warnings').addHandler(logging.NullHandler())
 
 
 def _read_file_(file):
@@ -13,45 +14,62 @@ def _read_file_(file):
     """
 
     try:
-        row_data = file.readlines()
+        if file.tell() > 0:
+            file.seek(0)
     except AttributeError as err:
         with open(file, 'r') as in_file:
-            row_data = file.readlines
+            for row in in_file:
+                yield row
+    else:
+        for row in file:
+            yield row
 
-    return row_data
 
-
-def read_globals(file, slices=None):
+def read_globals(file):
     """
     make_globals(globalPath, sePath, parser, coding_system) -> list[tuple[str, int]]
     Parses the globals file at path_to_globals and returns a dict mapping global names to values
     :param file: a file-like object with the MISC globals, or the path to the MISC globals file
     :param slices: sequence of slices representing the lines of data to be read as data. Default None (read whole file)
-    :return: list of tuples. First entry is global name, second entry is global score
+    :return tuple[str, list[tuple]]: The path to the audio file scored,
+    and a list of tuples, each containing the global name and the score given
+    :raise ValueError: if data cannot be parsed into its appropriate type
     """
 
     global_data = []
-    slices = [slice(0)] if slices is None else slices
     global_txt = _read_file_(file)
 
-    # The globals of interest are stored in different locations in each file (5-11 for MISC)
-    to_process = functools.reduce(operator.concat, (global_txt[s] for s in slices)) \
-        if slices is not None else global_txt
+    # Audio file path is stored on the third line of globals file
 
-    for line in to_process:
+    for i, line in enumerate(global_txt):
+        if i == 2:
+            audio_file = line.strip('\n').split('\t')[1]
+            continue
+        elif i < 3:
+            continue
+
         split_line = [itm.strip(":").strip("\n") for itm in line.split("\t")]
+
+        # Skip rows that are invalid, warn the user
+        if len(split_line) < 2:
+            warnings.warn(f"Line {i} expected 2 columns, got {len(split_line)}. Data will be skipped", UserWarning)
+            continue
+
         global_data.append((split_line[0], split_line[1]),)
 
-    return global_data
+    return audio_file, global_data
 
 
-def read_casaa(file, read_codes=False, read_components=False):
+def read_casaa(file, read_codes=False, read_components=False) -> typing.Tuple[str, typing.List[tuple]]:
     """
-    _read_casaa_text_(path) -> list[tuple]:
+    read_casaa(path, read_codes=False, read_components=False) -> str, list[tuple]:
     reads the .casaa file specified at path and returns a list of rows found in the file
     :param file: a file-like object holding the casaa data, or the path to the casaa file
     :param read_codes: Whether to read coding data (True) or to ignore any codes (False). Default False
-    :param read_components: Whether to attempt to read component data. Overridden by setting ignore_codes to True
+    :param read_components: Whether to attempt to read component data. Overridden by setting read_codes to True
+    :return tuple[str, list[tuple]: the path to the audio file to which the casaa file points,
+    and a list of the utterance data
+    :raise ValueError: If data in file cannot be parsed into its appropriate type
     """
 
     def bit_to_time(bit_stamp):
@@ -63,31 +81,35 @@ def read_casaa(file, read_codes=False, read_components=False):
         return (int(bit_stamp) - 44) / bps
 
     row_data = []
+    audio_file = None
     for i, row in enumerate(_read_file_(file)):
-        if len(row.strip('\n').strip('\t')) == 0: continue
         split_row = row.strip('\n').split('\t')
-        if len(split_row) < 5:
-            raise ValueError("Unable to read casaa data from file: Too few columns")
+        if len(split_row) == 0:
+            continue
+
+        if i == 0:
+            audio_file = split_row[1]
+            continue
 
         if read_codes:
             # Expect 7 columns for reading in codes. If less than that found, enter None for value and desc
             if len(split_row) == 7:
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]),
-                                split_row[5], split_row[6],))
+                                int(split_row[5]), split_row[6],))
             else:
-                logging.warning(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
-                                "Code data will not be read")
+                warnings.warn(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
+                              "Code data will not be read", UserWarning)
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None, None,))
 
         elif read_components:
             # Expect 6 columns for reading in components. Anything else, enter None for value and desc
-            if len(split_row == 6):
+            if len(split_row) == 6:
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), split_row[5],))
             else:
-                logging.warning(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
-                                "Component data will not be read")
+                warnings.warn(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
+                              "Component data will not be read", UserWarning)
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None,))
         else:
             row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]),))
 
-    return row_data
+    return audio_file, row_data

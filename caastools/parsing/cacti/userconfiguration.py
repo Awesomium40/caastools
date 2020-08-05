@@ -65,15 +65,28 @@ class _Code(_CodeElementBase, _HasParentElementBase):
     pass
 
 
-class _Component(_ElementBase):
+class _Component(_CodeElementBase):
     pass
 
 
-class _Global(_HasParentElementBase):
+class _Global(_CodeElementBase, _HasParentElementBase):
 
     @property
     def data_type(self):
         return 'numeric'
+
+    @property
+    def min_rating(self):
+        return int(self.get(CactiAttributes.MIN_RATING))
+
+    @property
+    def max_rating(self):
+        return self.get(CactiAttributes.MAX_RATING)
+
+    @property
+    def summary_mode(self):
+        return self.get(CactiAttributes.SUM_MODE)
+
 
 
 class _UserConfiguration(_ElementBase):
@@ -95,7 +108,15 @@ class _UserConfiguration(_ElementBase):
 
     @property
     def globals(self):
-        return self.iterfind(CactiNodes.GLOBALS)
+        return self.find(CactiNodes.GLOBALS)
+
+    @property
+    def original_path(self):
+        return self.get("OriginalPath")
+
+    @original_path.setter
+    def original_path(self, value):
+        self.set("OriginalPath", value)
 
     '''
     private methods
@@ -159,7 +180,7 @@ class _UserConfiguration(_ElementBase):
         return self._find_(CactiNodes.GLOBALS, **kwargs)
 
 
-def UserConfiguration(path):
+def UserConfiguration(file):
     """
     UserConfiguration(path) -> parsing.cacti.userconfiguration._UserConfiguration
     Parses the userConfiguration.xml at the path specified and returns a _UserConfiguration object
@@ -171,6 +192,12 @@ def UserConfiguration(path):
     parser.set_element_class_lookup(_CactiLookup())
     script_dir = os.path.dirname(__file__)
     schema = et.XMLSchema(et.parse(os.path.join(script_dir, 'cacti_schema.xsd'), parser=parser))
-    data = et.parse(path, parser=parser)
+    data = et.parse(file, parser=parser)
     schema.assertValid(data)
-    return data.getroot()
+    root = data.getroot()
+    try:
+        root.set("OriginalPath", file.name)
+    except:
+        pass
+
+    return root

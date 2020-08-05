@@ -1,4 +1,5 @@
-from peewee import *
+from peewee import AutoField, BooleanField, chunked, FloatField, ForeignKeyField, IntegerField, Model, \
+    OperationalError, SQL, TextField
 from playhouse.sqlite_ext import SqliteExtDatabase
 from typing import Sequence
 import logging
@@ -6,12 +7,11 @@ import logging
 
 logging.getLogger('database.models').addHandler(logging.NullHandler())
 db = SqliteExtDatabase(None)
+atomic = db.atomic
 
-__all__ = ['close_database', 'CodingSystem', 'CodingProperty', 'PropertyValue', 'Interview', 'Utterance',
+__all__ = ['atomic', 'close_database', 'CodingSystem', 'CodingProperty', 'PropertyValue', 'Interview', 'Utterance',
            'UtteranceCode', 'GlobalProperty', 'GlobalValue', 'GlobalRating', 'init_database']
 
-IV_XFORM = "interview_transform.xslt"
-CS_XFORM = "cs_transform.xslt"
 MEMORY = ":memory:"
 
 
@@ -19,17 +19,17 @@ class BaseModel(Model):
     source_id = IntegerField(null=True, index=True, unique=False)
 
     @classmethod
-    def bulk_insert(cls, row_dicts: Sequence[dict]) -> int:
+    def bulk_insert(cls, data: Sequence[dict]) -> int:
         """
         BaseModel.bulk_insert(row_dict: dict) -> int
         Performs an atomic bulk insertion of the data provided in row_dicts and returns the number of rows inserted
-        :param row_dicts: sequence of dictionary objects mapping field names to values to insert
+        :param data: sequence of dictionary objects mapping field names to values to insert
         :return int: The number of rows inserted
         :raise peewee.PeeweeException: if bulk insertion fails
         """
         rows_inserted = 0
         with cls._meta.database.atomic() as transaction:
-            for batch in chunked(row_dicts, 100):
+            for batch in chunked(data, 100):
                 rows_inserted += cls.insert_many(batch).execute()
 
         return rows_inserted
@@ -165,21 +165,28 @@ class GlobalRating(BaseModel):
         constraints = [SQL('CONSTRAINT gv_id_iv_id_unique UNIQUE (global_value_id, interview_id)')]
 
 
-def init_database(path=":memory:"):
-    db.init(path, pragmas={'journal_mode': 'wal',
-                           'cache_size': -1 * 64000,  # 64MB
-                           'foreign_keys': 1,
-                           'ignore_check_constraints': 0})
+def init_database(path=":memory:", use_memory_on_failure=True):
+    """
+    Establish the connecction to the database at path.
+    :param path: path to the SQLite database
+    :param use_memory_on_failure: Whether to initialize an in-memory database upon failure to connect. Default True
+    :return: None
+    """
+    pragmas = {'journal_mode': 'wal',
+               'cache_size': -1 * 64000,  # 64MB
+               'foreign_keys': 1,
+               'ignore_check_constraints': 0}
+    db.init(path, pragmas=pragmas)
     if path != MEMORY:
         try:
             db.connect(reuse_if_open=True)
-        except OperationalError:
-            logging.error(f"Unable to connect to the database at {path}.\nDefaulting to :memory:")
-            db.init(":memory:", pragmas={'journal_mode': 'wal',
-                                         'cache_size': -1 * 64000,  # 64MB
-                                         'foreign_keys': 1,
-                                         'ignore_check_constraints': 0})
-            db.connect(reuse_if_open=True)
+        except OperationalError as err:
+            if use_memory_on_failure:
+                logging.error(f"Unable to connect to the database at {path}.\nDefaulting to :memory:")
+                db.init(MEMORY, pragmas=pragmas)
+                db.connect(reuse_if_open=True)
+            else:
+                raise err
 
     db.create_tables([CodingSystem, Interview, CodingProperty, GlobalProperty, PropertyValue,
                       GlobalValue, Utterance, UtteranceCode, GlobalRating])

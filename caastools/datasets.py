@@ -1,4 +1,5 @@
-from .database import models as m
+from .database import CodingSystem, CodingProperty, GlobalProperty, GlobalRating, GlobalValue, Interview, \
+    PropertyValue,  Utterance, UtteranceCode
 from peewee import JOIN
 from .utils import sanitize_for_spss
 from savReaderWriter.savWriter import SavWriter
@@ -118,10 +119,10 @@ def create_sequential_variable_labels(coding_system_id, find, replace):
     :return: dict
     """
 
-    cp_query = (m.CodingProperty.select(m.CodingProperty.cp_name, m.CodingProperty.cp_description)
-                .join(m.CodingSystem)
-                .where(m.CodingSystem.coding_system_id == coding_system_id)
-                .order_by(m.CodingProperty.coding_property_id))
+    cp_query = (CodingProperty.select(CodingProperty.cp_name, CodingProperty.cp_description)
+                .join(CodingSystem)
+                .where(CodingSystem.coding_system_id == coding_system_id)
+                .order_by(CodingProperty.coding_property_id))
 
     labels = {sanitize_for_spss(tpl[0], find=find, repl=replace): tpl[1] for tpl in cp_query.tuples().execute()}
     return labels
@@ -140,20 +141,20 @@ def create_sl_variable_labels(coding_system_id, find, replace):
 
     # In the SL dataset, each PropertyValue and each GlobalProperty become its own variable,
     # so need to query those tables for the right entities
-    GpParent = m.GlobalProperty.alias()
-    gp_query = (m.GlobalProperty.select(m.GlobalProperty, GpParent)
+    GpParent = GlobalProperty.alias()
+    gp_query = (GlobalProperty.select(GlobalProperty, GpParent)
                 .join(GpParent, JOIN.LEFT_OUTER)
-                .where(m.GlobalProperty.coding_system == coding_system_id))
+                .where(GlobalProperty.coding_system == coding_system_id))
 
-    Parent = m.PropertyValue.alias()  # type: m.PropertyValue
-    pv_query = (m.PropertyValue.select(m.PropertyValue, m.CodingProperty, Parent)
+    Parent = PropertyValue.alias()  # type: PropertyValue
+    pv_query = (PropertyValue.select(PropertyValue, CodingProperty, Parent)
                 .join(Parent, JOIN.LEFT_OUTER)
-                .switch(m.PropertyValue)
-                .join(m.CodingProperty)
-                .join(m.CodingSystem)
-                .where(m.CodingSystem.coding_system == coding_system_id)
-                .order_by(m.CodingProperty.coding_property_id, m.PropertyValue.pv_parent,
-                          m.PropertyValue.property_value_id))
+                .switch(PropertyValue)
+                .join(CodingProperty)
+                .join(CodingSystem)
+                .where(CodingSystem.coding_system == coding_system_id)
+                .order_by(CodingProperty.coding_property_id, PropertyValue.pv_parent,
+                          PropertyValue.property_value_id))
 
     property_values = pv_query.execute()
 
@@ -215,42 +216,42 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels: dict = Non
 
 def _get_global_data_(interviews):
 
-    return m.GlobalRating.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
-                                 m.Interview.client_id, m.Interview.therapist_id, m.Interview.language_id,
-                                 m.Interview.treatment_condition_id,
-                                 m.GlobalProperty.gp_name, m.GlobalProperty.gp_data_type,
-                                 m.GlobalValue.gv_value)\
-                         .join(m.Interview)\
-                         .switch(m.GlobalRating)\
-                         .join(m.GlobalValue)\
-                         .join(m.GlobalProperty)\
-                         .where(m.Interview.interview_name.in_(interviews)).dicts().execute()
+    return GlobalRating.select(Interview.interview_name, Interview.study_id, Interview.rater_id,
+                                 Interview.client_id, Interview.therapist_id, Interview.language_id,
+                                 Interview.treatment_condition_id,
+                                 GlobalProperty.gp_name, GlobalProperty.gp_data_type,
+                                 GlobalValue.gv_value)\
+                         .join(Interview)\
+                         .switch(GlobalRating)\
+                         .join(GlobalValue)\
+                         .join(GlobalProperty)\
+                         .where(Interview.interview_name.in_(interviews)).dicts().execute()
 
 
 def _get_utterance_code_data_(interviews):
 
-    return m.UtteranceCode.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
-                                  m.Interview.client_id, m.Interview.session_number, m.Interview.therapist_id,
-                                  m.Interview.language_id, m.Interview.treatment_condition_id, m.Utterance.utt_line,
-                                  m.Utterance.utt_enum, m.Utterance.utt_start_time, m.Utterance.utt_end_time,
-                                  m.CodingProperty.cp_name, m.CodingProperty.cp_data_type,
-                                  m.PropertyValue.pv_value, m.Utterance.utt_text, m.Utterance.utt_word_count) \
-                            .join(m.Utterance) \
-                            .join(m.Interview) \
-                            .switch(m.UtteranceCode) \
-                            .join(m.PropertyValue) \
-                            .join(m.CodingProperty) \
-                            .join(m.CodingSystem)\
-                            .where(m.Interview.interview_name.in_(interviews))\
+    return UtteranceCode.select(Interview.interview_name, Interview.study_id, Interview.rater_id,
+                                  Interview.client_id, Interview.session_number, Interview.therapist_id,
+                                  Interview.language_id, Interview.treatment_condition_id, Utterance.utt_line,
+                                  Utterance.utt_enum, Utterance.utt_start_time, Utterance.utt_end_time,
+                                  CodingProperty.cp_name, CodingProperty.cp_data_type,
+                                  PropertyValue.pv_value, Utterance.utt_text, Utterance.utt_word_count) \
+                            .join(Utterance) \
+                            .join(Interview) \
+                            .switch(UtteranceCode) \
+                            .join(PropertyValue) \
+                            .join(CodingProperty) \
+                            .join(CodingSystem)\
+                            .where(Interview.interview_name.in_(interviews))\
                             .dicts().execute()
 
 
 def _get_parsing_data_(interviews):
 
-    return (m.Utterance.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
-                               m.Interview.client_id, m.Interview.session_number, m.Interview.therapist_id,
-                               m.Interview.language_id, m.Interview.treatment_condition_id, m.Utterance.utt_line,
-                               m.Utterance.utt_enum, m.Utterance.utt_start_time, m.Utterance.utt_end_time,
-                               m.Utterance.utt_text, m.Utterance.utt_word_count)
-            .join(m.Interview)
-            .where(m.Interview.interview_name.in_(interviews))).dicts().execute()
+    return (Utterance.select(Interview.interview_name, Interview.study_id, Interview.rater_id,
+                               Interview.client_id, Interview.session_number, Interview.therapist_id,
+                               Interview.language_id, Interview.treatment_condition_id, Utterance.utt_line,
+                               Utterance.utt_enum, Utterance.utt_start_time, Utterance.utt_end_time,
+                               Utterance.utt_text, Utterance.utt_word_count)
+            .join(Interview)
+            .where(Interview.interview_name.in_(interviews))).dicts().execute()
