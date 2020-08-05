@@ -1,63 +1,6 @@
-from caastools.constants import CONVERT_XFORM, CS_XFORM, IaNodes, IaAttributes, IV_XFORM
-import logging
+from caastools.constants import CONVERT_XFORM, IaNodes, IaAttributes, IV_XFORM
 import lxml.etree as et
 import os
-
-__all__ = ['extract_data', 'extract_schema', 'reconstruct_ia']
-
-
-def _parse_coding_system_(path, parser=None):
-    """
-    _parse_coding_system_(path) -> et.Element
-    Parses the IA coding system into a series of Property and PropertyValue objects
-
-    Parameters:
-        path (str): The path to the XML file containing the IA coding system to parse
-
-    Return:
-        The <CodingSystem> root element of the parsed coding system
-    """
-    script_dir = os.path.dirname(__file__)
-    xform = et.XSLT(et.parse(os.path.join(script_dir, CS_XFORM), parser))
-    codingSystem = _parse_xml_(path, 'internal', xform, parser=parser)
-
-    return codingSystem
-
-
-def _parse_xml_(path, schemaPath='internal', transform=None, parser=None):
-    """
-    _parse_xml_(path, schema='internal', transform=None, parser=None) -> _Element
-    parses the XML at path and returns the root element of the document
-    :param path: path to the XML file to be parsed
-    :param schemaPath: path to schema for validation. Default 'internal'. set None for no validation
-    :param transform: an elementtree._XSLT with which to perform an XSL transform. Default None
-    :param parser: an elementtree.Parser object with which to parse. Default None
-    :return: root element of the parsed document
-    """
-
-    # parse the file into an etree
-    logging.info("Parsing xml document at {0}".format(path))
-    data = et.parse(path, parser=parser)
-
-    # Validate the document
-    if schemaPath.lower() == 'internal':
-        schema = extract_schema(data)
-        data = extract_data(data, parser)
-    elif schemaPath is None:
-        schema = None
-    else:
-        schema = et.parse(schemaPath, parser=parser)
-
-    results = _validate_xml_(data, schema) if schema is not None else None
-
-    if results is not None:
-        raise results
-
-    # Apply an XSLT transform to make the data easier to use
-    xformData = data if transform is None else transform(data)
-
-    logging.info("Parsing complete")
-    return xformData.getroot()
 
 
 def _renumber_(nodes, tag, scalar):
@@ -86,65 +29,8 @@ def _set_all_text_(root, tag, value):
     :return: None
     """
 
-    for element in root.xpath("//{0}".format(tag)):
+    for element in root.xpath(f"//{tag}"):
         element.text = value
-
-
-def _validate_xml_(dataDoc, schemaDoc):
-    """
-    Validates an XML document against the schema document and raises an exception if validation fails
-
-    Parameters:
-        dataDoc (lxml.etree.Element): The document to be validated
-        schemaDoc (lxml.etree.Element): The schema document against which to validate
-    """
-
-    logging.info("Validating document via XMLSchema")
-    schema = et.XMLSchema(schemaDoc)
-
-    results = schema.assertValid(dataDoc)
-    return results
-
-
-def extract_data(document, parser=None):
-    """
-    Dataset.extract_data(document, parser=None) -> ElementTree
-    Extracts the data portion of the provided XML document
-    :param document: The lxml.etree.ElementTree document from which to extract
-    :param parser: the lxml parser object to use in parsing. Default None
-    :return lxml.etree.ElementTree: The ElementTree object
-    """
-    NS = {'xs': "http://www.w3.org/2001/XMLSchema"}
-
-    # extract the Elements in the document minus the schema elements
-    nodes = document.xpath('./*[not(self::xs:schema)]', namespaces=NS)
-    new_data_set = et.fromstring("<NewDataSet></NewDataSet>", parser)
-
-    for n in nodes:
-        new_data_set.append(n)
-
-    return new_data_set.getroottree()
-
-
-def extract_schema(document):
-    """
-    Dataset._extract_schema(document) -> lxml.etree.Element
-    Extracts the embedded schema from the provided XML document
-    :param document: The lxml.etree._ElementTree from which to extract the internal schema
-    :return lxml.etree._Element: THe root node of the internal schema
-    :raise ValueError: if no internal schema found
-    """
-    NS = {'xs': "http://www.w3.org/2001/XMLSchema"}
-
-    logging.info("Extracting external schema...")
-
-    # Run an XPath to get only the Schema element embedded in the document
-    schema = document.xpath('./xs:schema', namespaces=NS)
-    if len(schema) == 0:
-        raise ValueError("No Schema Found")
-
-    logging.info("Extraction complete")
-    return et.XMLSchema(schema[0])
 
 
 def reconstruct_ia(interview_name, fragments, parser=None):
@@ -189,8 +75,7 @@ def reconstruct_ia(interview_name, fragments, parser=None):
     for i, file in enumerate(fragments):
         document = et.parse(file, parser=parser)
         root = document.getroot()
-        version = int(root.find("./{0}/{1}".format(IaNodes.CODING_SETS,
-                                                   IaAttributes.CODING_SYSTEM_ID)).text)
+        version = int(root.find(f"./{IaNodes.CODING_SETS}/{IaAttributes.CODING_SYSTEM_ID}").text)
         element_names = [node.get('name') for node in root.findall(schema_element_path)]
 
         if version < 138:
@@ -199,19 +84,17 @@ def reconstruct_ia(interview_name, fragments, parser=None):
             document = update_transform(document)
             root = document.getroot()
         elif version != 153:
-            raise ValueError("Incompatible coding system: {0}".format(root.find("./CodingSets/CodingSystemName")))
+            raise ValueError(f"Incompatible coding system: {root.find('./CodingSets/CodingSystemName')}")
 
         if i == 0:
-            root_element.append(root.find("{{{0}}}schema".format(ns['xs'])))
+            root_element.append(root.find(f"{{{ns['xs']}}}schema"))
             output_dict[IaNodes.INTERVIEWS] = root.find(IaNodes.INTERVIEWS)
             output_dict[IaNodes.DEMARC_SET] = root.find(IaNodes.DEMARC_SET)
             output_dict[IaNodes.CODING_SETS] = root.find(IaNodes.CODING_SETS)
             output_dict[IaNodes.PROPERTY_NAMES] = root.find(IaNodes.PROPERTY_NAMES)
-            interview_id = root.find("./{0}/{1}".format(IaNodes.INTERVIEWS,
-                                                        IaAttributes.INTERVIEW_ID)).text
-            dem_set_id = root.find("./{0}/{1}".format(IaNodes.DEMARC_SET, IaAttributes.DEM_SET_ID)).text
-            coding_set_id = root.find("./{0}/{1}".format(IaNodes.CODING_SETS,
-                                                         IaAttributes.CODING_SET_ID)).text
+            interview_id = root.find(f"./{IaNodes.INTERVIEWS}/{IaAttributes.INTERVIEW_ID}").text
+            dem_set_id = root.find(f"./{IaNodes.DEMARC_SET}/{IaAttributes.DEM_SET_ID}").text
+            coding_set_id = root.find(f"./{IaNodes.CODING_SETS}/{IaAttributes.CODING_SET_ID}").text
 
         ss_nodes = root.findall(IaNodes.SPEAKER_SEGMENTS)
         u_nodes = root.findall(IaNodes.UTTERANCES)
