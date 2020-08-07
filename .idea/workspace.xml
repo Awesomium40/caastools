@@ -575,10 +575,6 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state width="1581" height="466" key="DebuggerActiveHint/0.0.3440.1400@0.0.3440.1400" timestamp="1588333237007" />
-    <state x="1707" y="454" key="FileChooserDialogImpl" timestamp="1586198833992">
-      <screen x="0" y="0" width="3440" height="1400" />
-    </state>
-    <state x="1707" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1586198833992" />
     <state width="1508" height="395" key="GridCell.Tab.0.bottom" timestamp="1588353564142">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -620,11 +616,11 @@
     </state>
     <state x="848" y="321" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589980303981" />
     <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1591723544090" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591723525701">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596831027091">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1591723525701" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1596831027091" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
