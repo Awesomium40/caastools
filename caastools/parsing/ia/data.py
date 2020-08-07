@@ -1,6 +1,149 @@
 from caastools.constants import CONVERT_XFORM, IaNodes, IaAttributes, IV_XFORM
+from typing import List
 import lxml.etree as et
 import os
+
+
+class _InterviewLookup(et.CustomElementClassLookup):
+
+    def lookup(self, type, doc, namespace, name):
+        cls = _NewDataSet if name == 'NewDataSet' else \
+            _Interviews if name == IaNodes.INTERVIEWS else \
+            _Globals if name == IaNodes.GLOBALS else \
+            _Utterances if name == IaNodes.UTTERANCES else \
+            _UtteranceProperties if name == IaNodes.UTT_PROPERTIES else None
+        return cls
+
+
+class _Interviews(et.ElementBase):
+
+    @property
+    def interview_name(self):
+        return self.find(IaNodes.ID).text
+
+    @interview_name.setter
+    def interview_name(self, value):
+        self.find(IaNodes.ID).text = value
+
+    @property
+    def rater(self):
+        return self.find(IaNodes.MODIFIED_BY).text
+
+
+class _Globals(et.ElementBase):
+
+    @property
+    def original_value(self):
+        return self.find(IaAttributes.ORIGINAL_VALUE).text
+
+    @property
+    def property_id(self):
+        return int(self.find(IaAttributes.PROPERTY_ID).text)
+
+    @property
+    def property_value_id(self):
+        return int(self.find(IaAttributes.PROP_VALUE_ID).text)
+
+    @property
+    def property_name(self):
+        return self.find(IaAttributes.PROPERTY_NAME).text
+
+    @property
+    def property_value(self):
+        return self.find(IaAttributes.PROPERTY_VALUE).text
+
+
+class _Utterances(et.ElementBase):
+
+    @property
+    def demarcation_set_id(self):
+        return int(self.find(IaNodes.DEMARC_SET_ID).text)
+
+    @property
+    def line_number(self):
+        return int(self.find(IaNodes.LINE_NO).text)
+
+    @property
+    def speaker_role(self):
+        return self.find(IaNodes.SPEAKER_ROLE).text
+
+    @property
+    def start_time(self):
+        return float(self.find(IaNodes.START_TIME).text)
+
+    @property
+    def utterance_id(self):
+        return int(self.find(IaAttributes.UTTERANCE_ID).text)
+
+    @property
+    def utterance_number(self):
+        return int(self.find(IaNodes.UTT_NUM).text)
+
+    @property
+    def utterance_text(self):
+        return self.find(IaNodes.TEXT).text
+
+    @property
+    def word_count(self):
+        return int(self.find(IaNodes.WORD_COUNT).text)
+
+
+class _UtteranceProperties(et.ElementBase):
+
+    @property
+    def coding_set_id(self) -> int:
+        return int(self.find(IaAttributes.CODING_SET_ID).text)
+
+    @property
+    def property_id(self) -> int:
+        return int(self.find(IaAttributes.PROPERTY_ID).text)
+
+    @property
+    def property_name(self) -> str:
+        return self.find(IaAttributes.PROPERTY_NAME).text
+
+    @property
+    def property_value(self) -> int:
+        return self.find(IaAttributes.PROPERTY_VALUE).text
+
+    @property
+    def property_value_description(self) -> str:
+        return self.find(IaNodes.PROP_VALUE_DESC).text
+
+    @property
+    def property_value_id(self) -> int:
+        return int(self.find(IaAttributes.PROP_VALUE_ID).text)
+
+    @property
+    def utterance_id(self) -> int:
+        return int(self.find(IaAttributes.UTTERANCE_ID).text)
+
+    @property
+    def utterance_property_id(self) -> int:
+        return int(self.find(IaAttributes.UTT_PROP_ID).text)
+
+
+class _NewDataSet(et.ElementBase):
+
+    @property
+    def coding_set_id(self):
+        return int(self.find("./CodingSets/CodingSystemID").text)
+
+    @property
+    def global_ratings(self) -> List[_Globals]:
+        return self.findall(IaNodes.GLOBALS)
+
+    @property
+    def interview_info(self) -> _Interviews:
+        return self.find(IaNodes.INTERVIEWS)
+
+    @property
+    def utterances(self) -> List[_Utterances]:
+        return self.findall(IaNodes.UTTERANCES)
+
+    @property
+    def utterance_properties(self):
+        return self.findall(IaNodes.UTT_PROPERTIES)
 
 
 def _renumber_(nodes, tag, scalar):
@@ -33,11 +176,11 @@ def _set_all_text_(root, tag, value):
         element.text = value
 
 
-def reconstruct_ia(interview_name, fragments, parser=None):
+def InterviewData(interview_name, fragments):
     """
     Reconstructs the interview represented by fragments into an XML document
     :param interview_name: the name of the interview
-    :param fragments: collection listing the interview fragment files
+    :param fragments: collection listing the paths to the interview fragment files
     :param parser: et._Parser to parse the XML
     :return: et._ElementTree The reconstructed document
     """
@@ -47,6 +190,9 @@ def reconstruct_ia(interview_name, fragments, parser=None):
 
     if len(fragments) < 0:
         raise ValueError("No interview files provided")
+
+    parser = et.XMLParser()
+    parser.set_element_class_lookup(_InterviewLookup())
 
     speaker_segment_nodes = []
     utt_nodes = []
@@ -96,10 +242,11 @@ def reconstruct_ia(interview_name, fragments, parser=None):
             dem_set_id = root.find(f"./{IaNodes.DEMARC_SET}/{IaAttributes.DEM_SET_ID}").text
             coding_set_id = root.find(f"./{IaNodes.CODING_SETS}/{IaAttributes.CODING_SET_ID}").text
 
-        ss_nodes = root.findall(IaNodes.SPEAKER_SEGMENTS)
-        u_nodes = root.findall(IaNodes.UTTERANCES)
-        us_nodes = root.findall(IaNodes.UTT_SEGMENTS)
-        up_nodes = root.findall(IaNodes.UTT_PROPERTIES)
+        # Ensure that all nodes are in the proper order
+        ss_nodes = sorted(root.findall(IaNodes.SPEAKER_SEGMENTS), key=lambda e: int(e.find(IaAttributes.LINE_NO).text))
+        u_nodes = sorted(root.findall(IaNodes.UTTERANCES), key=lambda e: int(e.find(IaAttributes.UTT_NUMBER).text))
+        us_nodes = sorted(root.findall(IaNodes.UTT_SEGMENTS), key=lambda e: int(e.find(IaAttributes.UTT_SEGMENT_COUNT).text))
+        up_nodes = sorted(root.findall(IaNodes.UTT_PROPERTIES), key=lambda e: int(e.find(IaAttributes.UTT_PROP_ID).text))
 
         speaker_segment_nodes.extend(ss_nodes)
         utt_nodes.extend(u_nodes)
@@ -115,9 +262,12 @@ def reconstruct_ia(interview_name, fragments, parser=None):
             _renumber_(us_nodes, IaAttributes.LINE_NO, line_start)
 
         # Update the counters that assist in renumbering line, utterance, etc.
-        line_start = int(ss_nodes[-1].find(IaAttributes.LINE_NO).text)
-        utt_start = int(u_nodes[-1].find(IaAttributes.UTT_NUMBER).text)
-        seg_start = int(us_nodes[-1].find(IaAttributes.UTT_SEGMENT_COUNT).text)
+        line_start = max(int(e.find(IaAttributes.LINE_NO).text) for e in ss_nodes)
+        utt_start = max(int(e.find(IaAttributes.UTT_NUMBER).text) for e in u_nodes)
+        seg_start = max(int(e.find(IaAttributes.UTT_SEGMENT_COUNT).text) for e in us_nodes)
+        #line_start = int(ss_nodes[-1].find(IaAttributes.LINE_NO).text)
+        #utt_start = int(u_nodes[-1].find(IaAttributes.UTT_NUMBER).text)
+        #seg_start = int(us_nodes[-1].find(IaAttributes.UTT_SEGMENT_COUNT).text)
 
     # Ensure that all nodes are in the proper order
     speaker_segment_nodes.sort(key=lambda e: int(e.find(IaAttributes.LINE_NO).text))
@@ -138,4 +288,4 @@ def reconstruct_ia(interview_name, fragments, parser=None):
 
     output_dict[IaNodes.INTERVIEWS].find(IaAttributes.ID).text = interview_name
 
-    return final_transform(root_element.getroottree()).getroot().getroottree()
+    return final_transform(root_element.getroottree()).getroot()

@@ -1,7 +1,7 @@
 from peewee import AutoField, BooleanField, chunked, FloatField, ForeignKeyField, IntegerField, Model, \
     OperationalError, SQL, TextField
 from playhouse.sqlite_ext import SqliteExtDatabase
-from typing import Sequence
+from typing import Sequence, Iterable
 import logging
 
 
@@ -19,7 +19,7 @@ class BaseModel(Model):
     source_id = IntegerField(null=True, index=True, unique=False)
 
     @classmethod
-    def bulk_insert(cls, data: Sequence[dict]) -> int:
+    def bulk_insert(cls, data: Iterable[dict]) -> int:
         """
         BaseModel.bulk_insert(row_dict: dict) -> int
         Performs an atomic bulk insertion of the data provided in row_dicts and returns the number of rows inserted
@@ -132,7 +132,7 @@ class PropertyValue(BaseModel):
 class Utterance(BaseModel):
     utterance_id = AutoField()
     interview = ForeignKeyField(Interview, backref="utterances", column_name='interview_id',
-                                index=True)
+                                index=True, null=False, unique=False, on_delete="CASCADE", on_update="CASCADE")
     utt_line = IntegerField(null=True)
     utt_enum = IntegerField(null=False)
     utt_role = TextField(null=True)
@@ -149,9 +149,12 @@ class Utterance(BaseModel):
 class UtteranceCode(BaseModel):
     utterance_code_id = AutoField()
     utterance = ForeignKeyField(Utterance, index=True, null=False, backref="codes", on_update="CASCADE",
-                                on_delete="CASCADE")
+                                on_delete="CASCADE", column_name='utterance_id')
     property_value = ForeignKeyField(PropertyValue, index=True, null=False, backref="codes", on_update="CASCADE",
-                                     on_delete="CASCADE")
+                                     on_delete="CASCADE", column_name='property_value_id')
+
+    class Meta:
+        constraints = [SQL('CONSTRAINT utt_id_pv_iq_unique UNIQUE(utterance_id, property_value_id)')]
 
 
 class GlobalRating(BaseModel):

@@ -1,0 +1,175 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="CodingSystem">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="CodingSystemID" type="xs:int" minOccurs="0" />
+                <xs:element name="SystemName" type="xs:string" minOccurs="0" />
+                <xs:element name="ShortName" type="xs:string" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+                <xs:element name="SortOrder" type="xs:decimal" minOccurs="0" />
+                <xs:element name="IsActive" type="xs:boolean" minOccurs="0" />
+                <xs:element name="IsDefault" type="xs:boolean" minOccurs="0" />
+                <xs:element name="OriginalKeyID" type="xs:int" minOccurs="0" />
+                <xs:element name="DateCreated" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="CreatedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="LastModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="ModifiedBy" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Properties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="PropertyID" type="xs:int" minOccurs="0" />
+                <xs:element name="CodingSystemID" type="xs:int" minOccurs="0" />
+                <xs:element name="PropertyName" type="xs:string" minOccurs="0" />
+                <xs:element name="DisplayName" type="xs:string" minOccurs="0" />
+                <xs:element name="Abbreviation" type="xs:string" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+                <xs:element name="SortOrder" type="xs:int" minOccurs="0" />
+                <xs:element name="PropertyType" type="xs:string" minOccurs="0" />
+                <xs:element name="DecimalDigits" type="xs:int" minOccurs="0" />
+                <xs:element name="AutoFillScopeID" type="xs:int" minOccurs="0" />
+                <xs:element name="ZeroPad" type="xs:boolean" minOccurs="0" />
+                <xs:element name="DisplayAlternateColors" type="xs:boolean" minOccurs="0" />
+                <xs:element name="SparseDisplay" type="xs:boolean" minOccurs="0" />
+                <xs:element name="OriginalKeyID" type="xs:int" minOccurs="0" />
+                <xs:element name="DateCreated" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="CreatedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="LastModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="ModifiedBy" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="PropertyValues">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="PropertyValueID" type="xs:int" minOccurs="0" />
+                <xs:element name="PropertyID" type="xs:int" minOccurs="0" />
+                <xs:element name="PropertyValue" type="xs:string" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+                <xs:element name="SortOrder" type="xs:decimal" minOccurs="0" />
+                <xs:element name="OriginalKeyID" type="xs:int" minOccurs="0" />
+                <xs:element name="DateCreated" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="CreatedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="LastModified" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="ModifiedBy" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <CodingSystem>
+    <CodingSystemID>153</CodingSystemID>
+    <SystemName>UCHAT 3.4</SystemName>
+    <ShortName>U3.4</ShortName>
+    <Description>UCHATCoding System 3.4</Description>
+    <SortOrder>1</SortOrder>
+    <IsActive>true</IsActive>
+    <IsDefault>true</IsDefault>
+    <DateCreated>2019-05-07T12:23:10.397-04:00</DateCreated>
+    <CreatedBy>j1w</CreatedBy>
+    <LastModified>2019-05-08T15:12:29.44-04:00</LastModified>
+    <ModifiedBy>j1w</ModifiedBy>
+  </CodingSystem>
+  <Properties>
+    <PropertyID>425</PropertyID>
+    <CodingSystemID>153</CodingSystemID>
+    <PropertyName>TBO</PropertyName>
+    <DisplayName>TBO</DisplayName>
+    <Abbreviation>TBO</Abbreviation>
+    <Description>Targeted Behavior Outcome</Description>
+    <SortOrder>1</SortOrder>
+    <PropertyType>numeric</PropertyType>
+    <DecimalDigits>3</DecimalDigits>
+    <AutoFillScopeID>1</AutoFillScopeID>
+    <ZeroPad>true</ZeroPad>
+    <DisplayAlternateColors>true</DisplayAlternateColors>
+    <SparseDisplay>true</SparseDisplay>
+    <DateCreated>2019-05-07T12:23:10.397-04:00</DateCreated>
+    <CreatedBy>j1w</CreatedBy>
+    <LastModified>2019-05-07T12:23:10.397-04:00</LastModified>
+    <ModifiedBy>j1w</ModifiedBy>
+  </Properties>
+  <Properties>
+    <PropertyID>428</PropertyID>
+    <CodingSystemID>153</CodingSystemID>
+    <PropertyName>Topic Codes</PropertyName>
+    <DisplayName>Topic</DisplayName>
+    <Abbreviation>Top</Abbreviation>
+    <Description>Topic Codes</Description>
+    <SortOrder>2</SortOrder>
+    <PropertyType>numeric</PropertyType>
+    <DecimalDigits>4</DecimalDigits>
+    <AutoFillScopeID>0</AutoFillScopeID>
+    <ZeroPad>true</ZeroPad>
+    <DisplayAlternateColors>true</DisplayAlternateColors>
+    <SparseDisplay>true</SparseDisplay>
+    <DateCreated>2019-05-07T12:23:10.397-04:00</DateCreated>
+    <CreatedBy>j1w</CreatedBy>
+    <LastModified>2019-05-07T12:47:54.82-04:00</LastModified>
+    <ModifiedBy>j1w</ModifiedBy>
+  </Properties>
+  <PropertyValues>
+    <PropertyValueID>15038</PropertyValueID>
+    <PropertyID>425</PropertyID>
+    <PropertyValue>1.000</PropertyValue>
+    <Description>Alcohol use</Description>
+    <SortOrder>0.0000</SortOrder>
+    <DateCreated>2019-05-07T12:23:10.46-04:00</DateCreated>
+    <CreatedBy>j1w</CreatedBy>
+    <LastModified>2019-05-07T12:23:10.46-04:00</LastModified>
+    <ModifiedBy>j1w</ModifiedBy>
+  </PropertyValues>
+  <PropertyValues>
+    <PropertyValueID>15039</PropertyValueID>
+    <PropertyID>425</PropertyID>
+    <PropertyValue>2.000</PropertyValue>
+    <Description>Risky sexual behaviors</Description>
+    <SortOrder>0.0000</SortOrder>
+    <DateCreated>2019-05-07T12:23:10.46-04:00</DateCreated>
+    <CreatedBy>j1w</CreatedBy>
+    <LastModified>2019-05-07T12:23:10.46-04:00</LastModified>
+    <ModifiedBy>j1w</ModifiedBy>
+  </PropertyValues>
+  <PropertyValues>
+    <PropertyValueID>15040</PropertyValueID>
+    <PropertyID>425</PropertyID>
+    <PropertyValue>3.000</PropertyValue>
+    <Description>Combined Alcohol/Sexual risk</Description>
+    <SortOrder>0.0000</SortOrder>
+    <DateCreated>2019-05-07T12:23:10.46-04:00</DateCreated>
+    <CreatedBy>j1w</CreatedBy>
+    <LastModified>2019-05-07T12:23:10.46-04:00</LastModified>
+    <ModifiedBy>j1w</ModifiedBy>
+  </PropertyValues>
+   <PropertyValues>
+    <PropertyValueID>15145</PropertyValueID>
+    <PropertyID>428</PropertyID>
+    <PropertyValue>5.0000</PropertyValue>
+    <Description>HIV</Description>
+    <SortOrder>0.0000</SortOrder>
+    <DateCreated>2019-05-07T12:23:10.46-04:00</DateCreated>
+    <CreatedBy>j1w</CreatedBy>
+    <LastModified>2019-05-07T12:47:54.82-04:00</LastModified>
+    <ModifiedBy>j1w</ModifiedBy>
+  </PropertyValues>
+  <PropertyValues>
+    <PropertyValueID>15146</PropertyValueID>
+    <PropertyID>428</PropertyID>
+    <PropertyValue>5.1000</PropertyValue>
+    <Description>Labs</Description>
+    <SortOrder>0.0000</SortOrder>
+    <DateCreated>2019-05-07T12:23:10.46-04:00</DateCreated>
+    <CreatedBy>j1w</CreatedBy>
+    <LastModified>2019-05-07T12:47:54.823-04:00</LastModified>
+    <ModifiedBy>j1w</ModifiedBy>
+  </PropertyValues>
+</NewDataSet>
