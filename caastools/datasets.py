@@ -3,14 +3,77 @@ from .database import CodingSystem, CodingProperty, GlobalProperty, GlobalRating
 from peewee import Case, Cast, fn, JOIN
 from .utils import sanitize_for_spss
 from savReaderWriter.savWriter import SavWriter
+import logging
 import pandas
 import pandas.api.types as ptypes
 import numpy
 
+logging.getLogger('caastools.dataset').addHandler(logging.NullHandler())
 __all__ = ['sequential', 'session_level', 'create_sl_variable_labels', 'save_as_spss']
 
 
-def sequential(interview_names, parsing_only=False):
+def sequential(*included_interviews, included_properties=None):
+    """
+
+    :param included_interviews: sequence of
+    :param included_properties:
+    :return:
+    """
+    included_properties = sorted(set(included_properties))
+    property_ctes = []
+    display_names = []
+    property_query = UtteranceCode.select(UtteranceCode.utterance_id, PropertyValue.pv_value) \
+        .join(PropertyValue)
+
+    # The dataset construction needs to be atomic to avoid race conditions
+    with UtteranceCode._meta.database.atomic() as transaction:
+
+        # Having the display name will be required for giving columns useful names, so fetch them
+        cp_dict = {itm[0]: itm[1] for itm in
+                   CodingProperty.select(CodingProperty.coding_property_id, CodingProperty.cp_display_name)
+                                 .where(CodingProperty.coding_property_id.in_(included_properties))
+                                 .tuples().execute()}
+
+        # Need a CTE for each property whose data is to be included, so construct queries and convert to CTE
+        for prop_pk in included_properties:
+            cp_display_name = cp_dict.get(prop_pk)
+            if cp_display_name is None:
+                logging.warning(f"CodingProperty with id of {prop_pk} not found. This data will not be included...")
+                continue
+
+            pq = property_query.where(PropertyValue.coding_property_id == prop_pk)
+            property_ctes.append(pq.cte(f"cte_{cp_display_name}", columns=['utterance_id', cp_display_name]))
+            display_names.append(cp_display_name)
+
+        # The outer query will select the Utterances of the interview.
+        # any CTE will match on the Utterannce.utterance_id field and insert the appropriate fields with codes
+        # outer query needs to include the fields of the CTE as well, so start there
+        basic_query = Interview.select(Interview.interview_name, Interview.client_id, Interview.session_number,
+                                       Utterance.utterance_id, Utterance.utt_line, Utterance.utt_enum,
+                                       Utterance.utt_role,
+                                       *(getattr(cte.c, name) for name, cte in zip(display_names, property_ctes)),
+                                       Utterance.utt_text).join(Utterance)
+
+        # Once the basic query is constructed, the joins need to be added into the query
+        # so that the fields of the CTE can be queried property
+        for name, cte in zip(display_names, property_ctes):
+            basic_query = basic_query.join(cte, JOIN.LEFT_OUTER, on=(Utterance.utterance_id == cte.c.utterance_id))
+
+        # Final step of query prepration is to add in the CTE themselves and narrow the results
+        basic_query = basic_query.with_cte(*property_ctes)
+
+        basic_query = basic_query.where(Interview.interview_name.in_(included_interviews))\
+            .order_by(Interview.client_id, Interview.session_number)
+
+        results = basic_query.tuples().execute()
+        columns = [itm[0] for itm in results.cursor.description]
+        df = pandas.DataFrame(data=results, columns=columns)
+
+    return df
+
+
+
+def sequential_old(interview_names, parsing_only=False):
     """
     build_sequential_dataframe(interviews, exclude_coding_data=False) -> pandas.DataFrame
     Builds a pandas DataFrame from the interviews specified
@@ -70,13 +133,20 @@ def sequential(interview_names, parsing_only=False):
     return df
 
 
-def session_level(included_interviews=None, included_properties=None, included_globals=None, client_as_numeric=True):
+"""
+TODO: Investigate possibility that this function has unexpected results when multiple properties exist in different
+coding systems, but have the same cp_display_name
+"""
+
+
+def session_level(coding_system, included_interviews=None, included_properties=None, included_globals=None, client_as_numeric=True):
     """
     session_level(interview_names) -> pandas.DataFrame
     Builds a session-level DataFrame with counts for interviews named in interview_names
+    :param coding_system: Coding
     :param included_interviews: iterable of Interview.interview_names to be included in the Dataset
-    :param included_properties: iterable of CodingProperty.cp_display_name to be included
-    :param included_globals: iterable of GlobalProperty.gp_name to be included
+    :param included_properties: iterable of CodingProperty.coding_property_id to be included
+    :param included_globals: iterable of GlobalProperty.global_property_id to be included
     :param client_as_numeric: Whether to cast client_id as a numeric variable. Default True
     :return: pandas.DataFrame
     """
@@ -88,8 +158,8 @@ def session_level(included_interviews=None, included_properties=None, included_g
     # May want only certain interviews included or certain properties included,
     # so construct some predicates for where clauses, if necessary
     p1 = Interview.interview_name.in_(included_interviews)
-    p2 = CodingProperty.cp_display_name.in_(included_properties)
-    p3 = GlobalProperty.gp_name.in_(included_globals)
+    p2 = CodingProperty.coding_property_id.in_(included_properties)
+    p3 = GlobalProperty.global_property_id.in_(included_globals)
 
     predicate = ((p1) & (p2)) if included_interviews is not None and included_properties is not None else \
         (p1) if included_interviews is not None else \

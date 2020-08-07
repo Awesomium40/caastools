@@ -20,24 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/caastools/parsing/ia/iaconfiguration.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/caastools-0.8.6-py3-none-any.whl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/caastools-0.8.7-py3-none-any.whl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_data/ia/test_coding_system.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_parsing.ia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caastools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caastools.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/cactilookup.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/codingsytem.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_parsing.data.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_parsing.cacti.data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_parsing.ia.coding_system.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -353,7 +337,7 @@
       <workItem from="1596601213592" duration="20523000" />
       <workItem from="1596718419244" duration="20564000" />
       <workItem from="1596774883207" duration="2122000" />
-      <workItem from="1596808994858" duration="4436000" />
+      <workItem from="1596808994858" duration="13332000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -600,7 +584,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596652644223</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Update the datasets api to use more SQL, less pandas for constructing datasets">
+      <created>1596817922166</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1596817922166</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -624,7 +615,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="change top-level insertions of bulk operations to get_or_create" />
     <MESSAGE value="move some functions from database.models to database.bulkinsert&#10;streamline bulk_insert methods" />
     <MESSAGE value="Update functions that sanitize identifiers for SPSS variable names" />
     <MESSAGE value="Refactor functions in database.bulkinsert" />
@@ -649,7 +639,8 @@
     <MESSAGE value="Fix some improperly named functions" />
     <MESSAGE value="Remove the bulkinsert api, restructure the parsing api" />
     <MESSAGE value="Fix several bugs in the parsing.ia api&#10;Minor changes to the plots api" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix several bugs in the parsing.ia api&#10;Minor changes to the plots api" />
+    <MESSAGE value="Update the datasets api to use more SQL, less pandas for constructing datasets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update the datasets api to use more SQL, less pandas for constructing datasets" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1246" y="365" key="#Inspections" timestamp="1588246687234">
@@ -672,10 +663,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1306" y="321" width="797" height="420" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1596659478788" />
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1596652643911">
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1596817921676">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1596652643911" />
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1596817921676" />
     <state width="1801" height="466" key="DebuggerActiveHint" timestamp="1596661154195">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -729,11 +720,11 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1596167222588" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596817889500">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596830001550">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1596817889500" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1596830001550" />
     <state x="2243" y="320" width="672" height="678" key="search.everywhere.popup" timestamp="1596656501407">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
