@@ -6,7 +6,7 @@ with open(os.path.join(os.path.dirname(__file__), "README.md"), "r") as fh:
 
 setuptools.setup(
     name="caastools",
-    version="0.8.1",
+    version="0.9.0",
     author="Jay Walthers",
     author_email="justin_walthers@brown.edu",
     description="A package for managing and analyzing Interview data at CAAS",
@@ -14,7 +14,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/JayWaWa/caastools",
     install_requires=['lxml >= 4.3.3', 'peewee >= 3.0', 'numpy >= 1.16.0', 'scipy >= 1.3.0',
-                      'pandas >= 1.0.0', 'matplotlib >= 3.1.0', 'seaborn >= 0.10.0', 'savReaderWriter >= 3.4.0'],
+                      'pandas >= 1.0.0', 'matplotlib >= 3.1.0', 'savReaderWriter >= 3.4.0'],
     packages=setuptools.find_packages(),
     package_data={'': ['*.xml', '*.xsd', '*.xslt']},
     include_package_data=True,

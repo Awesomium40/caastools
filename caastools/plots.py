@@ -1,11 +1,11 @@
-from .database import models as m
+from .database import Utterance
 from matplotlib import pyplot as plt
 import numpy
 import pandas
 import typing
 
 
-__all__ = ['disagreement_heatmap', 'reliability_line_plot', 'parsing_alignment_plot']
+__all__ = ['disagreement_heatmap', 'reliability_plot', 'parsing_alignment_plot']
 
 
 def _plot_parsing_axis_(results, category_names, ax, pad_first=False, enum_every=25):
@@ -47,8 +47,8 @@ def _plot_parsing_axis_(results, category_names, ax, pad_first=False, enum_every
 
 def _compile_parsing_quantile(data, start_time, cutoff, rater_names, ax):
 
-    STIME = m.Utterance.utt_start_time.name
-    ETIME = m.Utterance.utt_end_time.name
+    STIME = Utterance.utt_start_time.name
+    ETIME = Utterance.utt_end_time.name
     UL = 'utt_length'
 
     rater_data = []
@@ -132,8 +132,8 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     UL = 'utt_length'
     data = list(data)
 
-    STIME = m.Utterance.utt_start_time.name
-    ETIME = m.Utterance.utt_end_time.name
+    STIME = Utterance.utt_start_time.name
+    ETIME = Utterance.utt_end_time.name
     rater_names = list(rater_names) if rater_names is not None else [f"R{i + 1}" for i, f in enumerate(data)]
 
     quantiles = int(quantiles) if quantiles >= 1 else 1
@@ -163,37 +163,42 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     return fig
 
 
-def reliability_line_plot(frame: pandas.DataFrame, title="LinePlot", xlabel="x-axis", ylabel="y-axis",
-                          rater_labels=None, width=11, height=8.5, xticks=None, yticks=None, **kwargs):
+def reliability_plot(interview_names, *y, title="Reliability Line Plot", xlabel="x-axis", ylabel="y-axis",
+                     rater_labels=None, width=11, height=8.5, yticks=None):
     """
-    plots.reliability_line_plot(frame, **kwargs) --> matplotlib.Figure
-    produces a reliability line plot from the specified
-    :param frame: The DataFrame to provide data for the plot. Each column will become a line in the plot
-    :param title: string specifying the title of the plot
-    :param xlabel: keyword argument string specifying the label of the x-axis
-    :param ylabel: keyword argument string specifying the title of the y-axis
-    :param yticks: keyword argument sequence specifying ticks for the y-axis
-    :param rater_labels: keyword argument dict mapping the column labels of frame to labels to be placed in the legend of the chart
-    :param kwargs:
-    :return: matplotlib.Figure
+    plot.reliability_plot(interview_names, *y, title, **kwargs) -> Figure
+    Draws a line plot for reliability visualization
+    :param interview_names: Sequence of interview names to be plotted as the x-axis
+    :param y: sequence of rater data to plot as the y-axis.
+    Each data must be a sequence of equal length to interview_names
+    :param title: Title for the plot
+    :param xlabel: label for the x axis
+    :param ylabel: label for the y axis
+    :param rater_labels: Optional labels for raters
+    :param width: width (in inches) of the returned figure
+    :param height: height (in inches) of the returned figure
+    :param yticks: Ticks for the y-axis. Optional
+    :return: matplotlib.figure.Figure
     """
 
-    rater_labels = {} if rater_labels is None else rater_labels
+    rater_labels = (f"rater_{i}" for i in range(len(y))) if rater_labels is None else \
+                   (rater_labels[i] if i < len(rater_labels) else f"rater_{i}" for i in range(len(y)))
 
     fig, axes = plt.subplots()  # type: plt.Figure, plt.Axes
-    fig.set_size_inches(width, height)
+
+    for rater, data in zip(rater_labels, y):
+        axes.plot(data, label=rater)
+
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+    plt.title(title)
+    axes.set_xticks(range(len(interview_names)))
+    axes.set_xticklabels(str(x) for x in interview_names)
+
     if yticks is not None:
         plt.ylim(0, yticks[-1] + 1)
         plt.yticks(yticks, [str(itm) for itm in yticks])
-    plt.title(title)
-    # plt.xticks(xticks if xticks is not None else list(str(itm) for itm in frame.index), rotation=90)
-
-    for col in frame.columns:
-        label = rater_labels.get(col, col)
-        mask = numpy.isfinite(numpy.array(frame[col]).astype(numpy.float_))
-        plt.plot([str(x) for x in frame.index[mask]], frame[col][mask], label=label, linestyle="-", marker="o")
 
     axes.legend()
     return fig
+

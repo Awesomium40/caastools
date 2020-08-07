@@ -1,110 +1,163 @@
-from .database import models as m
-from peewee import JOIN
+from .database import CodingSystem, CodingProperty, GlobalProperty, GlobalRating, GlobalValue, Interview, \
+    PropertyValue,  Utterance, UtteranceCode
+from peewee import Case, Cast, fn, JOIN
 from .utils import sanitize_for_spss
 from savReaderWriter.savWriter import SavWriter
+import logging
 import pandas
 import pandas.api.types as ptypes
 import numpy
 
-__all__ = ['build_sequential_dataframe', 'build_session_level_dataframe', 'create_sl_variable_labels', 'save_as_spss']
+logging.getLogger('caastools.dataset').addHandler(logging.NullHandler())
+__all__ = ['sequential', 'session_level', 'create_sl_variable_labels', 'save_as_spss']
 
 
-def build_sequential_dataframe(interview_names, parsing_only=False):
-    """
-    build_sequential_dataframe(interviews, exclude_coding_data=False) -> pandas.DataFrame
-    Builds a pandas DataFrame from the interviews specified
-    :param interview_names: sequence of interviews to be included in the output
-    :param parsing_only: Whether to include only parsing data (True) or to include codes as well (False).
-    Default False
-    :return: pandas.DataFrame
+def sequential(*included_interviews, included_properties=None):
     """
 
-    data_func = _get_parsing_data_ if parsing_only else _get_utterance_code_data_
-    # This will yield all the utterance-level data for the interviews specified
-    utterance_data = data_func(interview_names)
-    columns = [itm[0] for itm in utterance_data.cursor.description]
+    :param included_interviews: sequence of
+    :param included_properties:
+    :return:
+    """
+    included_properties = sorted(set(included_properties))
+    property_ctes = []
+    display_names = []
+    property_query = UtteranceCode.select(UtteranceCode.utterance_id, PropertyValue.pv_value) \
+        .join(PropertyValue)
 
-    df = pandas.DataFrame.from_records(index=['interview_name', 'utt_enum'], data=utterance_data, columns=columns)
+    # The dataset construction needs to be atomic to avoid race conditions
+    with UtteranceCode._meta.database.atomic() as transaction:
 
-    if not parsing_only:
-        # Straight out of the database, all the codes, regardless of property are in the same column,
-        # Which is not desirable. Pull out the codes so they can be pivoted such that each CodingProperty
-        # has its own column
-        codes = df[['cp_name', 'pv_value']]
-        types = df[['cp_name', 'cp_data_type']].reset_index(drop=True)
+        # Having the display name will be required for giving columns useful names, so fetch them
+        cp_dict = {itm[0]: itm[1] for itm in
+                   CodingProperty.select(CodingProperty.coding_property_id, CodingProperty.cp_display_name)
+                                 .where(CodingProperty.coding_property_id.in_(included_properties))
+                                 .tuples().execute()}
 
-        # Prepare the DataFrame to receive code data - When the pivoting of codes occurs, there will be duplicate rows,
-        # which need to be removed. This op will take care of that
-        df = df.drop(labels=['cp_name', 'pv_value', 'cp_data_type'], axis=1)\
-               .reset_index()\
-               .drop_duplicates(subset=('interview_name', 'utt_enum'))\
-               .set_index(['interview_name', 'utt_enum'], drop=False)
+        # Need a CTE for each property whose data is to be included, so construct queries and convert to CTE
+        for prop_pk in included_properties:
+            cp_display_name = cp_dict.get(prop_pk)
+            if cp_display_name is None:
+                logging.warning(f"CodingProperty with id of {prop_pk} not found. This data will not be included...")
+                continue
 
-        # Some columns will need to be converted to a numeric type, based on the cp_data_type field values
-        # retrieve the names of columns that need to be converted
-        mask = (types['cp_data_type'] == 'numeric')
-        numeric_cols = set(types.loc[mask, 'cp_name'])
+            pq = property_query.where(PropertyValue.coding_property_id == prop_pk)
+            property_ctes.append(pq.cte(f"cte_{cp_display_name}", columns=['utterance_id', cp_display_name]))
+            display_names.append(cp_display_name)
 
-        # Because the frame needs to be multi-indexed on interview_name and utterance_number, and because this
-        # indexing needs to be destroyed as part of the pivot, need to create a new index to apply after the pivot happens
-        idx_names = list(codes.index.names)
-        codes.reset_index(inplace=True)
-        idx_values = codes[idx_names].values
-        tuples_index = [tuple(i) for i in idx_values]
-        new_index = pandas.MultiIndex.from_tuples(sorted(set(tuples_index), key=lambda x: tuples_index.index(x)),
-                                                  names=idx_names)
+        # The outer query will select the Utterances of the interview.
+        # any CTE will match on the Utterannce.utterance_id field and insert the appropriate fields with codes
+        # outer query needs to include the fields of the CTE as well, so start there
+        basic_query = Interview.select(Interview.interview_name, Interview.client_id, Interview.session_number,
+                                       Utterance.utterance_id, Utterance.utt_line, Utterance.utt_enum,
+                                       Utterance.utt_role,
+                                       *(getattr(cte.c, name) for name, cte in zip(display_names, property_ctes)),
+                                       Utterance.utt_text).join(Utterance)
 
-        # this will actually perform the pivot and apply the new index
-        pivot = codes.assign(tuples_index=tuples_index).pivot(index='tuples_index', columns='cp_name', values='pv_value')
-        pivot.index = new_index
+        # Once the basic query is constructed, the joins need to be added into the query
+        # so that the fields of the CTE can be queried property
+        for name, cte in zip(display_names, property_ctes):
+            basic_query = basic_query.join(cte, JOIN.LEFT_OUTER, on=(Utterance.utterance_id == cte.c.utterance_id))
 
-        # Finally, recombine the result of the pivot with the descriptive information to yield a complete dataframe
-        df = df.join(pivot).drop(labels=['interview_name', 'utt_enum'], axis=1).applymap(lambda x: x if x is not None
-                                                                                         else numpy.NaN)
-        for col in numeric_cols:
-            df[col] = pandas.to_numeric(df[col])
+        # Final step of query prepration is to add in the CTE themselves and narrow the results
+        basic_query = basic_query.with_cte(*property_ctes)
+
+        basic_query = basic_query.where(Interview.interview_name.in_(included_interviews))\
+            .order_by(Interview.client_id, Interview.session_number)
+
+        results = basic_query.tuples().execute()
+        columns = [itm[0] for itm in results.cursor.description]
+        df = pandas.DataFrame(data=results, columns=columns)
 
     return df
 
 
-def build_session_level_dataframe(interview_names):
+def session_level(coding_system, included_interviews=None, included_properties=None, included_globals=None, client_as_numeric=True):
     """
-    datasets.build_session_level_dataframe(interviews) -> pandas.DataFrame
-    Constructs a session_level dataframe containing count/global scoring data for each interview in interviews
-    :param interview_names: Sequence of interview names by which to query
+    session_level(interview_names) -> pandas.DataFrame
+    Builds a session-level DataFrame with counts for interviews named in interview_names
+    :param coding_system: Coding
+    :param included_interviews: iterable of Interview.interview_names to be included in the Dataset
+    :param included_properties: iterable of CodingProperty.coding_property_id to be included
+    :param included_globals: iterable of GlobalProperty.global_property_id to be included
+    :param client_as_numeric: Whether to cast client_id as a numeric variable. Default True
     :return: pandas.DataFrame
     """
 
-    utterance_data = _get_utterance_code_data_(interview_names)
-    columns = [itm[0] for itm in utterance_data.cursor.description]
-    df = pandas.DataFrame.from_records(data=utterance_data, columns=columns)
-    agg = df[['interview_name', 'cp_name', 'pv_value']]
-    descriptives = df[['interview_name', 'study_id', 'rater_id', 'client_id', 'therapist_id', 'language_id',
-                       'treatment_condition_id']].drop_duplicates(subset=['interview_name'])\
-        .set_index(['interview_name'])
+    # may want the client_id cast as numeric
+    client_column = Cast(Interview.client_id, "INT").alias('client_id') if client_as_numeric else Interview.client_id
+    var_column = CodingProperty.cp_display_name.concat("_").concat(PropertyValue.pv_value).alias('property')
 
-    agg = agg.assign(property_value=agg['cp_name'] + "_" + agg['pv_value'])
-    agg = agg.pivot_table(index='interview_name', columns='property_value', values='pv_value',
-                          aggfunc=pandas.Series.count)
+    # May want only certain interviews included or certain properties included,
+    # so construct some predicates for where clauses, if necessary
+    p1 = Interview.interview_name.in_(included_interviews)
+    p2 = CodingProperty.coding_property_id.in_(included_properties)
+    p3 = GlobalProperty.global_property_id.in_(included_globals)
 
-    global_data = _get_global_data_(interview_names)
-    columns = [itm[0] for itm in global_data.cursor.description]
+    predicate = ((p1) & (p2)) if included_interviews is not None and included_properties is not None else \
+        (p1) if included_interviews is not None else \
+        (p2) if included_properties is not None else \
+        None
 
-    global_df = pandas.DataFrame.from_records(data=global_data, columns=columns)
-    types = global_df[['gp_name', 'gp_data_type']].reset_index(drop=True)
+    global_predicate = ((p1) & (p3)) if included_interviews is not None and included_globals is not None else \
+        (p1) if included_interviews is not None else \
+        (p3) if included_globals is not None else \
+        None
 
-    # Some columns will need to be converted to a numeric type, based on the cp_data_type field values
-    # retrieve the names of columns that need to be converted
-    mask = (types['gp_data_type'] == 'numeric')
-    numeric_cols = set(types.loc[mask, 'gp_name'])
+    # The most difficult part about building the count data is constructing the query.
+    # Construct it by parts to make the job simpler
 
-    pivot = global_df.pivot(index='interview_name', columns='gp_name', values='gv_value').astype(numpy.int_)
+    # inner_query is the CTE that selects the existing count data. Is later joined with an outer
+    inner_query = (UtteranceCode.select(Utterance.interview_id, UtteranceCode.property_value_id,
+                                        fn.COUNT(UtteranceCode.property_value_id))
+                   .join(Utterance)
+                   .group_by(Utterance.interview_id, UtteranceCode.property_value_id))
 
-    data = descriptives.join([agg, pivot]).fillna(0)
-    for col in numeric_cols:
-        data[col] = pandas.to_numeric(data[col], downcast='integer')
+    # In addition to counts, need to get the globals as well, so construct a query to UNION ALL with
+    global_query = (GlobalRating.select(Interview.interview_name, client_column, Interview.rater_id,
+                                        Interview.session_number, GlobalProperty.gp_name,
+                                        Cast(GlobalValue.gv_value, "INT"))
+                    .join(Interview)
+                    .switch(GlobalRating)
+                    .join(GlobalValue).join(GlobalProperty))
 
-    return data
+    # Append the predicate, if any was specified
+    if global_predicate is not None:
+        global_query = global_query.where(global_predicate)
+
+    # The inner query needs to be used as a table expression, so that it can be joined with the outer query
+    cte = inner_query.cte('cte', columns=('interview_id', 'pvid', 'cnt'))
+
+    # We want to enter zero when the result of the join is NULL
+    # (Null indicates that a count for a PropertyValue was zero
+    # because there is no related record in the UtteranceCode table having the specified PropertyValue)
+    case = Case(None, ((cte.c.cnt.is_null(), 0),), (cte.c.cnt))
+    outer_query = (Interview
+                   .select(Interview.interview_name, client_column, Interview.rater_id, Interview.session_number,
+                           var_column, case.alias('var_count'))
+                   .join(CodingSystem)
+                   .join(CodingProperty)
+                   .join(PropertyValue))
+
+    # Perform the joins on the CTE and do the union all for the final query
+    full_query = (outer_query.join(cte, JOIN.LEFT_OUTER, on=((PropertyValue.property_value_id == cte.c.pvid)
+                                                             & (Interview.interview_id == cte.c.interview_id)))
+                  .with_cte(cte))
+    if predicate is not None:
+        full_query = full_query.where(predicate)
+
+    full_query = (full_query.union_all(global_query)
+                  .order_by(client_column, Interview.session_number, Interview.rater_id, var_column))
+
+    # pull the query results into a dataframe, then reshape it
+    # Some DBMS lack the pivot function so reshaping the DataFrame itself rather than the query is necessary
+    df = pandas.DataFrame.from_records(data=full_query.tuples().execute(),
+                                       columns=['interview_name', 'client_id', 'rater_id', 'session_number', 'var_name',
+                                                'var_value'])
+
+    df = df.set_index(['interview_name', 'client_id', 'rater_id', 'session_number', 'var_name']).unstack(
+        'var_name').loc[:, 'var_value'].reset_index()
+    return df
 
 
 def create_sequential_variable_labels(coding_system_id, find, replace):
@@ -118,10 +171,10 @@ def create_sequential_variable_labels(coding_system_id, find, replace):
     :return: dict
     """
 
-    cp_query = (m.CodingProperty.select(m.CodingProperty.cp_name, m.CodingProperty.cp_description)
-                .join(m.CodingSystem)
-                .where(m.CodingSystem.coding_system_id == coding_system_id)
-                .order_by(m.CodingProperty.coding_property_id))
+    cp_query = (CodingProperty.select(CodingProperty.cp_name, CodingProperty.cp_description)
+                .join(CodingSystem)
+                .where(CodingSystem.coding_system_id == coding_system_id)
+                .order_by(CodingProperty.coding_property_id))
 
     labels = {sanitize_for_spss(tpl[0], find=find, repl=replace): tpl[1] for tpl in cp_query.tuples().execute()}
     return labels
@@ -140,20 +193,20 @@ def create_sl_variable_labels(coding_system_id, find, replace):
 
     # In the SL dataset, each PropertyValue and each GlobalProperty become its own variable,
     # so need to query those tables for the right entities
-    GpParent = m.GlobalProperty.alias()
-    gp_query = (m.GlobalProperty.select(m.GlobalProperty, GpParent)
+    GpParent = GlobalProperty.alias()
+    gp_query = (GlobalProperty.select(GlobalProperty, GpParent)
                 .join(GpParent, JOIN.LEFT_OUTER)
-                .where(m.GlobalProperty.coding_system == coding_system_id))
+                .where(GlobalProperty.coding_system == coding_system_id))
 
-    Parent = m.PropertyValue.alias()  # type: m.PropertyValue
-    pv_query = (m.PropertyValue.select(m.PropertyValue, m.CodingProperty, Parent)
+    Parent = PropertyValue.alias()  # type: PropertyValue
+    pv_query = (PropertyValue.select(PropertyValue, CodingProperty, Parent)
                 .join(Parent, JOIN.LEFT_OUTER)
-                .switch(m.PropertyValue)
-                .join(m.CodingProperty)
-                .join(m.CodingSystem)
-                .where(m.CodingSystem.coding_system == coding_system_id)
-                .order_by(m.CodingProperty.coding_property_id, m.PropertyValue.pv_parent,
-                          m.PropertyValue.property_value_id))
+                .switch(PropertyValue)
+                .join(CodingProperty)
+                .join(CodingSystem)
+                .where(CodingSystem.coding_system == coding_system_id)
+                .order_by(CodingProperty.coding_property_id, PropertyValue.pv_parent,
+                          PropertyValue.property_value_id))
 
     property_values = pv_query.execute()
 
@@ -215,42 +268,42 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels: dict = Non
 
 def _get_global_data_(interviews):
 
-    return m.GlobalRating.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
-                                 m.Interview.client_id, m.Interview.therapist_id, m.Interview.language_id,
-                                 m.Interview.treatment_condition_id,
-                                 m.GlobalProperty.gp_name, m.GlobalProperty.gp_data_type,
-                                 m.GlobalValue.gv_value)\
-                         .join(m.Interview)\
-                         .switch(m.GlobalRating)\
-                         .join(m.GlobalValue)\
-                         .join(m.GlobalProperty)\
-                         .where(m.Interview.interview_name.in_(interviews)).dicts().execute()
+    return GlobalRating.select(Interview.interview_name, Interview.study_id, Interview.rater_id,
+                                 Interview.client_id, Interview.therapist_id, Interview.language_id,
+                                 Interview.treatment_condition_id,
+                                 GlobalProperty.gp_name, GlobalProperty.gp_data_type,
+                                 GlobalValue.gv_value)\
+                         .join(Interview)\
+                         .switch(GlobalRating)\
+                         .join(GlobalValue)\
+                         .join(GlobalProperty)\
+                         .where(Interview.interview_name.in_(interviews)).dicts().execute()
 
 
 def _get_utterance_code_data_(interviews):
 
-    return m.UtteranceCode.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
-                                  m.Interview.client_id, m.Interview.session_number, m.Interview.therapist_id,
-                                  m.Interview.language_id, m.Interview.treatment_condition_id, m.Utterance.utt_line,
-                                  m.Utterance.utt_enum, m.Utterance.utt_start_time, m.Utterance.utt_end_time,
-                                  m.CodingProperty.cp_name, m.CodingProperty.cp_data_type,
-                                  m.PropertyValue.pv_value, m.Utterance.utt_text, m.Utterance.utt_word_count) \
-                            .join(m.Utterance) \
-                            .join(m.Interview) \
-                            .switch(m.UtteranceCode) \
-                            .join(m.PropertyValue) \
-                            .join(m.CodingProperty) \
-                            .join(m.CodingSystem)\
-                            .where(m.Interview.interview_name.in_(interviews))\
+    return UtteranceCode.select(Interview.interview_name, Interview.study_id, Interview.rater_id,
+                                  Interview.client_id, Interview.session_number, Interview.therapist_id,
+                                  Interview.language_id, Interview.treatment_condition_id, Utterance.utt_line,
+                                  Utterance.utt_enum, Utterance.utt_start_time, Utterance.utt_end_time,
+                                  CodingProperty.cp_name, CodingProperty.cp_data_type,
+                                  PropertyValue.pv_value, Utterance.utt_text, Utterance.utt_word_count) \
+                            .join(Utterance) \
+                            .join(Interview) \
+                            .switch(UtteranceCode) \
+                            .join(PropertyValue) \
+                            .join(CodingProperty) \
+                            .join(CodingSystem)\
+                            .where(Interview.interview_name.in_(interviews))\
                             .dicts().execute()
 
 
 def _get_parsing_data_(interviews):
 
-    return (m.Utterance.select(m.Interview.interview_name, m.Interview.study_id, m.Interview.rater_id,
-                               m.Interview.client_id, m.Interview.session_number, m.Interview.therapist_id,
-                               m.Interview.language_id, m.Interview.treatment_condition_id, m.Utterance.utt_line,
-                               m.Utterance.utt_enum, m.Utterance.utt_start_time, m.Utterance.utt_end_time,
-                               m.Utterance.utt_text, m.Utterance.utt_word_count)
-            .join(m.Interview)
-            .where(m.Interview.interview_name.in_(interviews))).dicts().execute()
+    return (Utterance.select(Interview.interview_name, Interview.study_id, Interview.rater_id,
+                               Interview.client_id, Interview.session_number, Interview.therapist_id,
+                               Interview.language_id, Interview.treatment_condition_id, Utterance.utt_line,
+                               Utterance.utt_enum, Utterance.utt_start_time, Utterance.utt_end_time,
+                               Utterance.utt_text, Utterance.utt_word_count)
+            .join(Interview)
+            .where(Interview.interview_name.in_(interviews))).dicts().execute()
