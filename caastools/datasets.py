@@ -51,18 +51,19 @@ def sequential(*included_interviews, included_properties=None):
         # The outer query will select the Utterances of the interview.
         # any CTE will match on the Utterannce.utterance_id field and insert the appropriate fields with codes
         # outer query needs to include the fields of the CTE as well, so start there
-        basic_query = Interview.select(Interview.interview_name, Interview.client_id, Interview.session_number,
-                                       Utterance.utterance_id, Utterance.utt_line, Utterance.utt_enum,
-                                       Utterance.utt_role,
+        basic_query = Interview.select(Interview.interview_name, Interview.rater_id, Interview.client_id,
+                                       Interview.session_number, Utterance.utterance_id, Utterance.utt_line,
+                                       Utterance.utt_enum, Utterance.utt_role,
                                        *(getattr(cte.c, name) for name, cte in zip(display_names, property_ctes)),
-                                       Utterance.utt_text).join(Utterance)
+                                       Utterance.utt_text, Utterance.utt_start_time, Utterance.utt_end_time)\
+                               .join(Utterance)
 
         # Once the basic query is constructed, the joins need to be added into the query
         # so that the fields of the CTE can be queried property
         for name, cte in zip(display_names, property_ctes):
             basic_query = basic_query.join(cte, JOIN.LEFT_OUTER, on=(Utterance.utterance_id == cte.c.utterance_id))
 
-        # Final step of query prepration is to add in the CTE themselves and narrow the results
+        # Final step of query preparation is to add in the CTE themselves and narrow the results
         basic_query = basic_query.with_cte(*property_ctes)
 
         basic_query = basic_query.where(Interview.interview_name.in_(included_interviews))\

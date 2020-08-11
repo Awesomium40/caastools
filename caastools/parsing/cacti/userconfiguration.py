@@ -88,7 +88,6 @@ class _Global(_CodeElementBase, _HasParentElementBase):
         return self.get(CactiAttributes.SUM_MODE)
 
 
-
 class _UserConfiguration(_ElementBase):
     """
     _UserConfiguration is a simple wrapper around an et._Element object, with properties and methods that make
@@ -98,6 +97,7 @@ class _UserConfiguration(_ElementBase):
     '''
     Properties
     '''
+
     @property
     def codes(self):
         return self.find(CactiNodes.CODES)

@@ -103,6 +103,6 @@ class IaNodes(object):
     WORD_COUNT = "WordCount"
 
 
-THERAPIST_GLOBALS_SLICE = slice(6, 12, 1)
-CLIENT_GLOBALS_SLICE = slice(13, 14, 1)
-SE_GLOBALS_SLICE = slice(15, 19, 1)
+THERAPIST_GLOBALS_SLICE = slice(3, 9, 1)
+CLIENT_GLOBALS_SLICE = slice(10, 11, 1)
+SE_GLOBALS_SLICE = slice(12, 16, 1)
