@@ -6,7 +6,6 @@ from savReaderWriter.savWriter import SavWriter
 import logging
 import pandas
 import pandas.api.types as ptypes
-import numpy
 
 logging.getLogger('caastools.dataset').addHandler(logging.NullHandler())
 __all__ = ['sequential', 'session_level', 'create_sl_variable_labels', 'save_as_spss']
@@ -14,11 +13,15 @@ __all__ = ['sequential', 'session_level', 'create_sl_variable_labels', 'save_as_
 
 def sequential(*included_interviews, included_properties=None):
     """
-
-    :param included_interviews: sequence of
-    :param included_properties:
-    :return:
+    datasets.sequential(*included_interviews, included_properties) -> pandas.DataFrame
+    Builds a sequential dataset with including those interviews specified in included_interviews and the
+    properties specified in included_properties
+    :param included_interviews: sequence of interviews to be included in the dataset
+    :param included_properties: Sequence of CodingProperty whose data is to be included (can be ID as well)
+    :return: pandas.DataFrame
     """
+
+    # No need to include properties twice
     included_properties = sorted(set(included_properties))
     property_ctes = []
     display_names = []
@@ -72,11 +75,11 @@ def sequential(*included_interviews, included_properties=None):
     return df
 
 
-def session_level(coding_system, included_interviews=None, included_properties=None, included_globals=None, client_as_numeric=True):
+def session_level(included_interviews=None, included_properties=None, included_globals=None,
+                  client_as_numeric=True):
     """
     session_level(interview_names) -> pandas.DataFrame
     Builds a session-level DataFrame with counts for interviews named in interview_names
-    :param coding_system: Coding
     :param included_interviews: iterable of Interview.interview_names to be included in the Dataset
     :param included_properties: iterable of CodingProperty.coding_property_id to be included
     :param included_globals: iterable of GlobalProperty.global_property_id to be included
@@ -91,8 +94,8 @@ def session_level(coding_system, included_interviews=None, included_properties=N
     # May want only certain interviews included or certain properties included,
     # so construct some predicates for where clauses, if necessary
     p1 = Interview.interview_name.in_(included_interviews)
-    p2 = CodingProperty.coding_property_id.in_(included_properties)
-    p3 = GlobalProperty.global_property_id.in_(included_globals)
+    p2 = (CodingProperty.coding_property_id.in_(included_properties))
+    p3 = (GlobalProperty.global_property_id.in_(included_globals))
 
     predicate = ((p1) & (p2)) if included_interviews is not None and included_properties is not None else \
         (p1) if included_interviews is not None else \
@@ -193,28 +196,17 @@ def create_sl_variable_labels(coding_system_id, find, replace):
 
     # In the SL dataset, each PropertyValue and each GlobalProperty become its own variable,
     # so need to query those tables for the right entities
-    GpParent = GlobalProperty.alias()
-    gp_query = (GlobalProperty.select(GlobalProperty, GpParent)
-                .join(GpParent, JOIN.LEFT_OUTER)
+    gp_query = (GlobalProperty.select(GlobalProperty.gp_name, GlobalProperty.gp_description)
                 .where(GlobalProperty.coding_system == coding_system_id))
 
-    Parent = PropertyValue.alias()  # type: PropertyValue
-    pv_query = (PropertyValue.select(PropertyValue, CodingProperty, Parent)
-                .join(Parent, JOIN.LEFT_OUTER)
-                .switch(PropertyValue)
+    pv_query = (PropertyValue.select(CodingProperty.cp_name.concat("_").concat(PropertyValue.pv_value))
                 .join(CodingProperty)
                 .join(CodingSystem)
-                .where(CodingSystem.coding_system == coding_system_id)
-                .order_by(CodingProperty.coding_property_id, PropertyValue.pv_parent,
-                          PropertyValue.property_value_id))
+                .where(CodingProperty.coding_system == coding_system_id)
+                .union_all(gp_query)
+                .order_by(CodingProperty.coding_property_id, PropertyValue.pv_value))
 
-    property_values = pv_query.execute()
-
-    global_properties = gp_query.execute()
-
-    sl_labels = {sanitize_for_spss(f"{pv.coding_property.cp_name}_{pv.pv_value}", find=find, repl=replace):
-                 pv.pv_description for pv in property_values}
-    sl_labels.update({sanitize_for_spss(gp.gp_name): gp.gp_description for gp in global_properties})
+    sl_labels = {sanitize_for_spss(row[0], find=find, repl=replace): row[1] for row in pv_query.tuples().execute()}
 
     return sl_labels
 
@@ -264,46 +256,3 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels: dict = Non
     with SavWriter(out_path, var_names, var_types, formats=var_formats, varLabels=var_labels, ioUtf8=True) as writer:
         for row in data_frame.index:
             writer.writerow(data_frame.loc[row, :].values)
-
-
-def _get_global_data_(interviews):
-
-    return GlobalRating.select(Interview.interview_name, Interview.study_id, Interview.rater_id,
-                                 Interview.client_id, Interview.therapist_id, Interview.language_id,
-                                 Interview.treatment_condition_id,
-                                 GlobalProperty.gp_name, GlobalProperty.gp_data_type,
-                                 GlobalValue.gv_value)\
-                         .join(Interview)\
-                         .switch(GlobalRating)\
-                         .join(GlobalValue)\
-                         .join(GlobalProperty)\
-                         .where(Interview.interview_name.in_(interviews)).dicts().execute()
-
-
-def _get_utterance_code_data_(interviews):
-
-    return UtteranceCode.select(Interview.interview_name, Interview.study_id, Interview.rater_id,
-                                  Interview.client_id, Interview.session_number, Interview.therapist_id,
-                                  Interview.language_id, Interview.treatment_condition_id, Utterance.utt_line,
-                                  Utterance.utt_enum, Utterance.utt_start_time, Utterance.utt_end_time,
-                                  CodingProperty.cp_name, CodingProperty.cp_data_type,
-                                  PropertyValue.pv_value, Utterance.utt_text, Utterance.utt_word_count) \
-                            .join(Utterance) \
-                            .join(Interview) \
-                            .switch(UtteranceCode) \
-                            .join(PropertyValue) \
-                            .join(CodingProperty) \
-                            .join(CodingSystem)\
-                            .where(Interview.interview_name.in_(interviews))\
-                            .dicts().execute()
-
-
-def _get_parsing_data_(interviews):
-
-    return (Utterance.select(Interview.interview_name, Interview.study_id, Interview.rater_id,
-                               Interview.client_id, Interview.session_number, Interview.therapist_id,
-                               Interview.language_id, Interview.treatment_condition_id, Utterance.utt_line,
-                               Utterance.utt_enum, Utterance.utt_start_time, Utterance.utt_end_time,
-                               Utterance.utt_text, Utterance.utt_word_count)
-            .join(Interview)
-            .where(Interview.interview_name.in_(interviews))).dicts().execute()

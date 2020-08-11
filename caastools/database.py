@@ -1,7 +1,7 @@
 from peewee import AutoField, BooleanField, chunked, FloatField, ForeignKeyField, IntegerField, Model, \
     OperationalError, SQL, TextField
 from playhouse.sqlite_ext import SqliteExtDatabase
-from typing import Sequence, Iterable
+from typing import Iterable
 import logging
 
 

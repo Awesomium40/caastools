@@ -163,14 +163,14 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     return fig
 
 
-def reliability_plot(interview_names, *y, title="Reliability Line Plot", xlabel="x-axis", ylabel="y-axis",
+def reliability_plot(interview_names, *y, title="Reliability Line Plot", xlabel="interview", ylabel="count",
                      rater_labels=None, width=11, height=8.5, yticks=None):
     """
     plot.reliability_plot(interview_names, *y, title, **kwargs) -> Figure
     Draws a line plot for reliability visualization
     :param interview_names: Sequence of interview names to be plotted as the x-axis
     :param y: sequence of rater data to plot as the y-axis.
-    Each data must be a sequence of equal length to interview_names
+    Each dataset must be a sequence of equal length to interview_names
     :param title: Title for the plot
     :param xlabel: label for the x axis
     :param ylabel: label for the y axis
