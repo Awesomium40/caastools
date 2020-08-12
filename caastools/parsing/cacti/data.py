@@ -1,9 +1,7 @@
 import logging
 import typing
-import warnings
 
-logging.captureWarnings(True)
-logging.getLogger('py.warnings').addHandler(logging.NullHandler())
+logging.getLogger('caastools.parsing.cacti.data').addHandler(logging.NullHandler())
 
 
 def _read_file_(file):
@@ -52,7 +50,7 @@ def read_globals(file):
 
         # Skip rows that are invalid, warn the user
         if len(split_line) < 2:
-            warnings.warn(f"Line {i} expected 2 columns, got {len(split_line)}. Data will be skipped", UserWarning)
+            logging.warning(f"Line {i} expected 2 columns, got {len(split_line)}. Data will be skipped")
             continue
 
         global_data.append((split_line[0], split_line[1]),)
@@ -97,8 +95,8 @@ def read_casaa(file, read_codes=False, read_components=False) -> typing.Tuple[st
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]),
                                 int(split_row[5]), split_row[6],))
             else:
-                warnings.warn(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
-                              "Code data will not be read", UserWarning)
+                logging.warning(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
+                                "Code data will not be read", UserWarning)
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None, None,))
 
         elif read_components:
@@ -106,8 +104,8 @@ def read_casaa(file, read_codes=False, read_components=False) -> typing.Tuple[st
             if len(split_row) == 6:
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), split_row[5],))
             else:
-                warnings.warn(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
-                              "Component data will not be read", UserWarning)
+                logging.warning(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
+                                "Component data will not be read", UserWarning)
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None,))
         else:
             row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]),))

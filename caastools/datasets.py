@@ -4,6 +4,7 @@ from peewee import Case, Cast, fn, JOIN
 from .utils import sanitize_for_spss
 from savReaderWriter.savWriter import SavWriter
 import logging
+from numpy import NaN
 import pandas
 import pandas.api.types as ptypes
 
@@ -11,7 +12,7 @@ logging.getLogger('caastools.dataset').addHandler(logging.NullHandler())
 __all__ = ['sequential', 'session_level', 'create_sl_variable_labels', 'save_as_spss']
 
 
-def sequential(*included_interviews, included_properties=None):
+def sequential(*included_interviews, included_properties=None, client_as_numeric=True):
     """
     datasets.sequential(*included_interviews, included_properties) -> pandas.DataFrame
     Builds a sequential dataset with including those interviews specified in included_interviews and the
@@ -25,36 +26,56 @@ def sequential(*included_interviews, included_properties=None):
     included_properties = sorted(set(included_properties))
     property_ctes = []
     display_names = []
-    property_query = UtteranceCode.select(UtteranceCode.utterance_id, PropertyValue.pv_value) \
-        .join(PropertyValue)
+    property_cases = []
+    cast_columns = []
+    property_query = UtteranceCode.select(UtteranceCode.utterance_id, PropertyValue.pv_value,
+                                          CodingProperty.cp_data_type) \
+        .join(PropertyValue)\
+        .join(CodingProperty)
+
+    STR_MSNG = '-999999999999999'
+    NUM_MSNG = -999999999999999
+
+    client_column = Cast(Interview.client_id, "INT").alias('client_id') if client_as_numeric else Interview.client_id
 
     # The dataset construction needs to be atomic to avoid race conditions
     with UtteranceCode._meta.database.atomic() as transaction:
 
         # Having the display name will be required for giving columns useful names, so fetch them
-        cp_dict = {itm[0]: itm[1] for itm in
-                   CodingProperty.select(CodingProperty.coding_property_id, CodingProperty.cp_display_name)
+        cp_dict = {itm[0]: (itm[1], itm[2],) for itm in
+                   CodingProperty.select(CodingProperty.coding_property_id, CodingProperty.cp_display_name,
+                                         CodingProperty.cp_data_type)
                                  .where(CodingProperty.coding_property_id.in_(included_properties))
                                  .tuples().execute()}
 
         # Need a CTE for each property whose data is to be included, so construct queries and convert to CTE
+        # Need to conditionally create a CAST expression as well because some properties are Numeric, some are STR
         for prop_pk in included_properties:
-            cp_display_name = cp_dict.get(prop_pk)
+            cp_display_name, cp_data_type = cp_dict.get(prop_pk, (None, None))
+
             if cp_display_name is None:
                 logging.warning(f"CodingProperty with id of {prop_pk} not found. This data will not be included...")
                 continue
 
-            pq = property_query.where(PropertyValue.coding_property_id == prop_pk)
-            property_ctes.append(pq.cte(f"cte_{cp_display_name}", columns=['utterance_id', cp_display_name]))
+            if cp_data_type == 'numeric': cast_columns.append(cp_display_name)
+
+            cte = property_query.where(PropertyValue.coding_property_id == prop_pk)\
+                                .cte(f"cte_{cp_display_name}", columns=['utterance_id', cp_display_name, 'cp_data_type'])
+            data_field = getattr(cte.c, cp_display_name)
+            property_ctes.append(cte)
+
+            pc = Case(None, ((data_field.is_null(), STR_MSNG),), data_field)
+            property_cases.append(pc)
             display_names.append(cp_display_name)
 
         # The outer query will select the Utterances of the interview.
         # any CTE will match on the Utterannce.utterance_id field and insert the appropriate fields with codes
         # outer query needs to include the fields of the CTE as well, so start there
-        basic_query = Interview.select(Interview.interview_name, Interview.rater_id, Interview.client_id,
+        basic_query = Interview.select(Interview.interview_name, Interview.rater_id, client_column,
                                        Interview.session_number, Utterance.utt_line,
                                        Utterance.utt_enum, Utterance.utt_role,
-                                       *(getattr(cte.c, name) for name, cte in zip(display_names, property_ctes)),
+                                       *(Cast(pc, "FLOAT").alias(name) if name in cast_columns
+                                         else pc.alias(name) for name, pc in zip(display_names, property_cases)),
                                        Utterance.utt_text, Utterance.utt_start_time, Utterance.utt_end_time)\
                                .join(Utterance)
 
@@ -67,11 +88,11 @@ def sequential(*included_interviews, included_properties=None):
         basic_query = basic_query.with_cte(*property_ctes)
 
         basic_query = basic_query.where(Interview.interview_name.in_(included_interviews))\
-            .order_by(Interview.client_id, Interview.session_number)
+            .order_by(client_column, Interview.session_number, Utterance.utt_enum)
 
         results = basic_query.tuples().execute()
         columns = [itm[0] for itm in results.cursor.description]
-        df = pandas.DataFrame(data=results, columns=columns)
+        df = pandas.DataFrame(data=results, columns=columns).replace([NUM_MSNG, STR_MSNG], [NaN, ''])
 
     return df
 
@@ -127,8 +148,7 @@ def session_level(included_interviews=None, included_properties=None, included_g
 
     full_global_query = outer_global_query.join(global_cte, JOIN.LEFT_OUTER,
                                              on=((Interview.interview_id == global_cte.c.interview_id) &
-                                             (GlobalProperty.global_property_id == global_cte.c.global_property_id)))\
-                                          .with_cte(global_cte)
+                                             (GlobalProperty.global_property_id == global_cte.c.global_property_id)))
 
     # Append the predicate, if any was specified
     if global_predicate is not None:
@@ -158,7 +178,7 @@ def session_level(included_interviews=None, included_properties=None, included_g
     # Perform the joins on the CTE and do the union all for the final query
     full_query = (outer_query.join(cte, JOIN.LEFT_OUTER, on=((PropertyValue.property_value_id == cte.c.pvid)
                                                              & (Interview.interview_id == cte.c.interview_id)))
-                  .with_cte(cte))
+                  .with_cte(cte, global_cte))
     if predicate is not None:
         full_query = full_query.where(predicate)
 
@@ -260,7 +280,7 @@ def save_as_spss(data_frame: pandas.DataFrame, out_path: str, labels: dict = Non
             var_types[var_name] = int(max(lens)) * 2 if len(lens) > 0 else 255
         else:
             var_types[var_name] = 0
-            var_formats[var_name] = "F10.2" if ptypes.is_float(data_frame[col].dtype) else \
+            var_formats[var_name] = "F10.2" if ptypes.is_float_dtype(data_frame[col].dtype) else \
                 "ADATE8" if ptypes.is_datetime64_any_dtype(data_frame[col]) else \
                 "F12.0"
 
