@@ -6,7 +6,7 @@ as well as statistical implementations for the most commonly used analyses</p>
 Installation is simple. 
 </p>
 <ul>
-<li><i>Preferred</i>: download the most recent version of the caastools wheel (currently <a href="https://github.com/JayWaWa/caastools/blob/master/dist/caastools-0.9.1-py3-none-any.whl">v0.9.1</a>)
+<li><i>Preferred</i>: download the most recent version of the caastools wheel (currently <a href="https://github.com/JayWaWa/caastools/blob/master/dist/caastools-0.9.5-py3-none-any.whl">v0.9.5</a>)
 and install via pip -> <code>pip install path_to_wheel</code></li>
 <li>Clone the repository to a folder on your local machine</li>
 <li>You can also install via:
