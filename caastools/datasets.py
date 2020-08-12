@@ -111,25 +111,37 @@ def session_level(included_interviews=None, included_properties=None, included_g
     # The most difficult part about building the count data is constructing the query.
     # Construct it by parts to make the job simpler
 
+    # For a session-level dataset, we want counts of all codes assigned, but we also want scores for all
+    # session-level globals. Thus, there will need to be a UNION ALL of counts and global ratings.
+    # Below constructs the global ratings part of the UNION ALL
+    global_query = (GlobalRating.select(GlobalRating.interview_id, GlobalProperty.gp_name,
+                                        Cast(GlobalValue.gv_value, "INT"), GlobalValue.global_property_id)
+                    .join(GlobalValue).join(GlobalProperty, JOIN.LEFT_OUTER))
+    global_cte = global_query.cte("global_cte", columns=['interview_id', 'gp_name', 'gv_value', 'global_property_id'])
+
+    outer_global_query = (Interview
+                          .select(Interview.interview_name, client_column, Interview.rater_id, Interview.session_number,
+                                  GlobalProperty.gp_name, global_cte.c.gv_value)
+                          .join(CodingSystem)
+                          .join(GlobalProperty))
+
+    full_global_query = outer_global_query.join(global_cte, JOIN.LEFT_OUTER,
+                                             on=((Interview.interview_id == global_cte.c.interview_id) &
+                                             (GlobalProperty.global_property_id == global_cte.c.global_property_id)))\
+                                          .with_cte(global_cte)
+
+    # Append the predicate, if any was specified
+    if global_predicate is not None:
+        full_global_query = full_global_query.where(global_predicate)
+
+    # Below constructs the code frequency part of the UNION ALL
     # inner_query is the CTE that selects the existing count data. Is later joined with an outer
     inner_query = (UtteranceCode.select(Utterance.interview_id, UtteranceCode.property_value_id,
                                         fn.COUNT(UtteranceCode.property_value_id))
                    .join(Utterance)
                    .group_by(Utterance.interview_id, UtteranceCode.property_value_id))
 
-    # In addition to counts, need to get the globals as well, so construct a query to UNION ALL with
-    global_query = (GlobalRating.select(Interview.interview_name, client_column, Interview.rater_id,
-                                        Interview.session_number, GlobalProperty.gp_name,
-                                        Cast(GlobalValue.gv_value, "INT"))
-                    .join(Interview)
-                    .switch(GlobalRating)
-                    .join(GlobalValue).join(GlobalProperty))
-
-    # Append the predicate, if any was specified
-    if global_predicate is not None:
-        global_query = global_query.where(global_predicate)
-
-    # The inner query needs to be used as a table expression, so that it can be joined with the outer query
+    # The inner query needs to be used as a table expression, so that it can be joined with the outer query properly
     cte = inner_query.cte('cte', columns=('interview_id', 'pvid', 'cnt'))
 
     # We want to enter zero when the result of the join is NULL
@@ -150,7 +162,7 @@ def session_level(included_interviews=None, included_properties=None, included_g
     if predicate is not None:
         full_query = full_query.where(predicate)
 
-    full_query = (full_query.union_all(global_query)
+    full_query = (full_query.union_all(full_global_query)
                   .order_by(client_column, Interview.session_number, Interview.rater_id, var_column))
 
     # pull the query results into a dataframe, then reshape it
