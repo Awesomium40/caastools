@@ -52,7 +52,7 @@ def sequential(*included_interviews, included_properties=None):
         # any CTE will match on the Utterannce.utterance_id field and insert the appropriate fields with codes
         # outer query needs to include the fields of the CTE as well, so start there
         basic_query = Interview.select(Interview.interview_name, Interview.rater_id, Interview.client_id,
-                                       Interview.session_number, Utterance.utterance_id, Utterance.utt_line,
+                                       Interview.session_number, Utterance.utt_line,
                                        Utterance.utt_enum, Utterance.utt_role,
                                        *(getattr(cte.c, name) for name, cte in zip(display_names, property_ctes)),
                                        Utterance.utt_text, Utterance.utt_start_time, Utterance.utt_end_time)\
