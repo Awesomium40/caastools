@@ -192,8 +192,9 @@ def reliability_plot(interview_names, *y, title="Reliability Line Plot", xlabel=
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.title(title)
-    axes.set_xticks(range(len(interview_names)))
-    axes.set_xticklabels(str(x) for x in interview_names)
+    plt.xticks(range(len(interview_names)), labels=(str(x) for x in interview_names))
+    #axes.set_xticks(range(len(interview_names)))
+    #axes.set_xticklabels(str(x) for x in interview_names)
 
     if yticks is not None:
         plt.ylim(0, yticks[-1] + 1)

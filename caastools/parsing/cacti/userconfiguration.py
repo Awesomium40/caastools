@@ -19,7 +19,7 @@ class _CactiLookup(et.CustomElementClassLookup):
         return _UserConfiguration if name == CactiNodes.USER_CONFIG else \
             _Code if name == CactiNodes.CODE else \
             _Component if name == CactiNodes.COMPONENT else \
-            _Global if name == CactiNodes.GLOBAL else None
+            _Global if name == CactiNodes.GLOBAL else _ElementBase
 
 
 """

@@ -37,6 +37,18 @@ class BaseModel(Model):
     class Meta:
         database = db
 
+    def __lt__(self, other):
+        pk_name = self._meta.get_primary_keys()[0].name
+        return getattr(self, pk_name) < getattr(other, pk_name)
+
+    def __gt__(self, other):
+        pk_name = self._meta.get_primary_keys()[0].name
+        return getattr(self, pk_name) > getattr(other, pk_name)
+
+    def __int__(self):
+        pk_name = self._meta.get_primary_keys()[0].name
+        return int(getattr(self, pk_name))
+
 
 class CodingSystem(BaseModel):
     coding_system_id = AutoField()

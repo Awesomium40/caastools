@@ -48,9 +48,8 @@ def read_globals(file):
 
         split_line = [itm.strip(":").strip("\n") for itm in line.split("\t")]
 
-        # Skip rows that are invalid, warn the user
+        # Skip rows that are invalid
         if len(split_line) < 2:
-            logging.warning(f"Line {i} expected 2 columns, got {len(split_line)}. Data will be skipped")
             continue
 
         global_data.append((split_line[0], split_line[1]),)
@@ -79,6 +78,7 @@ def read_casaa(file, read_codes=False, read_components=False) -> typing.Tuple[st
         return (int(bit_stamp) - 44) / bps
 
     row_data = []
+    has_missing = 0
     audio_file = None
     for i, row in enumerate(_read_file_(file)):
         split_row = row.strip('\n').split('\t')
@@ -91,23 +91,24 @@ def read_casaa(file, read_codes=False, read_components=False) -> typing.Tuple[st
 
         if read_codes:
             # Expect 7 columns for reading in codes. If less than that found, enter None for value and desc
-            if len(split_row) == 7:
+            if len(split_row) >= 7:
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]),
                                 int(split_row[5]), split_row[6],))
             else:
-                logging.warning(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
-                                "Code data will not be read", UserWarning)
+                has_missing += 1
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None, None,))
 
         elif read_components:
             # Expect 6 columns for reading in components. Anything else, enter None for value and desc
-            if len(split_row) == 6:
+            if len(split_row) >= 6:
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), split_row[5],))
             else:
-                logging.warning(f"Line {i} of file expected 7 columns, found {len(split_row)}. " +
-                                "Component data will not be read", UserWarning)
+                has_missing += 1
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None,))
         else:
             row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]),))
+
+    if has_missing > 0: logging.info(f"File {file.name if hasattr(file, 'name') else repr(file)} had {has_missing} " +
+                                     "rows with missing data.")
 
     return audio_file, row_data
