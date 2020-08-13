@@ -19,8 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/userconfiguration.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/cacti/userconfiguration.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -374,7 +376,7 @@
       <workItem from="1597243178969" duration="4425000" />
       <workItem from="1597259511872" duration="284000" />
       <workItem from="1597265742030" duration="1616000" />
-      <workItem from="1597320899536" duration="6460000" />
+      <workItem from="1597320899536" duration="10779000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -705,7 +707,21 @@
       <option name="project" value="LOCAL" />
       <updated>1597333862936</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
+      <created>1597341971439</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1597341971439</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
+      <created>1597342045169</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1597342045169</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -729,7 +745,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Minor updates to stats module" />
     <MESSAGE value="update kalpha function to include bootstrapping 95% CI&#10;update kalpha function to support output additional info to file_like object" />
     <MESSAGE value="Update kalpha function to improve performance" />
     <MESSAGE value="Update stats.icc to compute more versions of ICC as described in McGraw &amp; Wong" />
@@ -754,7 +769,8 @@
     <MESSAGE value="Update datasets.sequential to properly cast columns as FLOAT when CodingProperty indicates that data is numeric" />
     <MESSAGE value="Branch to v1.0" />
     <MESSAGE value="Simplify some logging, add additional properties to models in database" />
-    <option name="LAST_COMMIT_MESSAGE" value="Simplify some logging, add additional properties to models in database" />
+    <MESSAGE value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1274" y="363" key="#Notifications" timestamp="1596166698767">
@@ -773,10 +789,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1306" y="321" width="797" height="420" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1596659478788" />
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1597341971173">
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1597351596410">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1597341971173" />
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1597351596410" />
     <state width="1801" height="466" key="DebuggerActiveHint" timestamp="1596661154195">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -785,22 +801,22 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1572" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1597161272739" />
-    <state width="1417" height="394" key="GridCell.Tab.0.bottom" timestamp="1597342020855">
+    <state width="1417" height="394" key="GridCell.Tab.0.bottom" timestamp="1597342396618">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1597342020855" />
-    <state width="1417" height="394" key="GridCell.Tab.0.center" timestamp="1597342020855">
+    <state width="1417" height="394" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1597342396618" />
+    <state width="1417" height="394" key="GridCell.Tab.0.center" timestamp="1597342396618">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1597342020855" />
-    <state width="1417" height="394" key="GridCell.Tab.0.left" timestamp="1597342020855">
+    <state width="1417" height="394" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1597342396618" />
+    <state width="1417" height="394" key="GridCell.Tab.0.left" timestamp="1597342396618">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1597342020855" />
-    <state width="1417" height="394" key="GridCell.Tab.0.right" timestamp="1597342020855">
+    <state width="1417" height="394" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1597342396618" />
+    <state width="1417" height="394" key="GridCell.Tab.0.right" timestamp="1597342396618">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1597342020855" />
+    <state width="1417" height="394" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1597342396618" />
     <state width="1417" height="482" key="GridCell.Tab.1.bottom" timestamp="1597333758315">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -821,20 +837,20 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1596775160279" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1597341973700">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1597342046374">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="848" y="321" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589980303981" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1597341973700" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1597342046374" />
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog" timestamp="1596167222588">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1596167222588" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1597342038719">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1597351861246">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1597342038719" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1597351861246" />
     <state x="1511" y="565" key="git4idea.rebase.GitRebaseDialog" timestamp="1597259276426">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>

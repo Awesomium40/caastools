@@ -464,8 +464,8 @@ def kalpha(data, metric='nominal', boot=None, out=None):
         dexp = dmx * expect
 
         # compute alpha
-        do = dobs.sum().sum()
-        de = dexp.sum().sum()
+        do = dobs.sum().sum() / 2.0
+        de = dexp.sum().sum() / 2.0
         alpha = 1 - (do / de)
 
         # Perform the bootstrapping via the Hayes algorithm

@@ -27,8 +27,8 @@ Dependencies should resolve on their own, but caastools has the following depend
 <li>numpy &gt;= 1.16.0</li>
 <li>scipy &gt;= 1.3.0</li>
 <li>pandas &gt;= 1.0.0</li>
-<li>matplotlib &gt;= 3.1.0</li>
+<li>matplotlib &gt;= 3.1.0</li>gi
 <li>savReaderWriter &gt;= 3.4.0</li>
 </ul>
-
+ 
 <h2>Usage</h2>
