@@ -21,12 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/cacti/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/userconfiguration.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/cacti/userconfiguration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/plots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/caastools-0.9.5-py3-none-any.whl" beforeDir="false" afterPath="$PROJECT_DIR$/dist/caastools-0.9.5-py3-none-any.whl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -379,7 +374,7 @@
       <workItem from="1597243178969" duration="4425000" />
       <workItem from="1597259511872" duration="284000" />
       <workItem from="1597265742030" duration="1616000" />
-      <workItem from="1597320899536" duration="4500000" />
+      <workItem from="1597320899536" duration="6460000" />
     </task>
     <task id="LOCAL-00001" summary="Update setuptools script">
       <created>1584500480550</created>
@@ -703,7 +698,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597259779362</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Simplify some logging, add additional properties to models in database">
+      <created>1597333862936</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1597333862936</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -727,7 +729,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Add function to compute Krippendorf's alpha to stats&#10;add function to create line plots for reliability" />
     <MESSAGE value="Minor updates to stats module" />
     <MESSAGE value="update kalpha function to include bootstrapping 95% CI&#10;update kalpha function to support output additional info to file_like object" />
     <MESSAGE value="Update kalpha function to improve performance" />
@@ -752,7 +753,8 @@
     <MESSAGE value="Update datasets.session-level to return remove extraneous fields from queries" />
     <MESSAGE value="Update datasets.sequential to properly cast columns as FLOAT when CodingProperty indicates that data is numeric" />
     <MESSAGE value="Branch to v1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Branch to v1.0" />
+    <MESSAGE value="Simplify some logging, add additional properties to models in database" />
+    <option name="LAST_COMMIT_MESSAGE" value="Simplify some logging, add additional properties to models in database" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1274" y="363" key="#Notifications" timestamp="1596166698767">
@@ -771,10 +773,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1306" y="321" width="797" height="420" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1596659478788" />
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1597259779084">
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1597333862618">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1597259779084" />
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1597333862618" />
     <state width="1801" height="466" key="DebuggerActiveHint" timestamp="1596661154195">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -819,20 +821,20 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1596775160279" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1597259783118">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1597333867038">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="848" y="321" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589980303981" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1597259783118" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1597333867038" />
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog" timestamp="1596167222588">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1596167222588" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1597333783810">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1597341934267">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1597333783810" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1597341934267" />
     <state x="1511" y="565" key="git4idea.rebase.GitRebaseDialog" timestamp="1597259276426">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>

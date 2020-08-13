@@ -131,7 +131,7 @@ def _alpha_boot_(data, boot, diff_func, de):
             mu = len(column_data)
             for i, v1 in enumerate(column_data[:-1]):
                 for v2 in column_data[i + 1:]:
-                    diff = diff_func(v1, v2)
+                    diff = diff_func(*((v1, v2) if v1 < v2 else (v2, v1)))
                     e = 2 * (diff / de)
                     delta = e / (mu - 1)
                     er.append(delta)
