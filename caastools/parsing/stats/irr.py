@@ -1,4 +1,4 @@
-from .utils import _progress_bar_
+from caastools.utils import _progress_bar_
 from bisect import bisect_left
 from collections import Counter
 from scipy import stats

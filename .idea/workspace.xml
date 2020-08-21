@@ -20,9 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/caastools/parsing/stats/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/stats/irr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -124,6 +127,13 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\SyncThing\caastools\caastools\parsing\stats" />
+      <recent name="D:\SyncThing\caastools\caastools\parsing\ia" />
+      <recent name="D:\SyncThing\caastools\tests" />
+      <recent name="D:\SyncThing\caastools\parsing" />
+      <recent name="D:\SyncThing\caastools\database" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
       <recent name="D:\SyncThing\caastools\tests" />
@@ -131,25 +141,6 @@
       <recent name="H:\Lee Magill MOBC\Data Management\Syntax" />
       <recent name="D:\SyncThing\caastools\tests\test_data\cacti\invalid" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\SyncThing\caastools\caastools\parsing\ia" />
-      <recent name="D:\SyncThing\caastools\tests" />
-      <recent name="D:\SyncThing\caastools\parsing" />
-      <recent name="D:\SyncThing\caastools\database" />
-      <recent name="D:\SyncThing\caastools" />
-    </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Python.setup">
     <configuration name="models" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -391,13 +382,7 @@
       <workItem from="1597352259952" duration="1254000" />
       <workItem from="1597777355042" duration="794000" />
       <workItem from="1597807923406" duration="5000" />
-    </task>
-    <task id="LOCAL-00005" summary="Move functions from utils to datasets">
-      <created>1584587116221</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1584587116221</updated>
+      <workItem from="1598041816140" duration="325000" />
     </task>
     <task id="LOCAL-00006" summary="change top-level insertions of bulk operations to get_or_create">
       <created>1585008779825</created>
@@ -735,7 +720,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597352312005</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Initial commit of version 1.1">
+      <created>1598041986212</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1598041986213</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -759,7 +751,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update kalpha function to improve performance" />
     <MESSAGE value="Update stats.icc to compute more versions of ICC as described in McGraw &amp; Wong" />
     <MESSAGE value="Update stats.fleiss to accept 3 Series as input rather than DataFrame and 3 column labels" />
     <MESSAGE value="Update stats.icc to fix bug in formula selection process" />
@@ -784,7 +775,8 @@
     <MESSAGE value="Simplify some logging, add additional properties to models in database" />
     <MESSAGE value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
     <MESSAGE value="Update to version 1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.0" />
+    <MESSAGE value="Initial commit of version 1.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit of version 1.1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1274" y="363" key="#Notifications" timestamp="1596166698767">
@@ -803,10 +795,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1306" y="321" width="797" height="420" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1596659478788" />
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1597352311739">
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1598041985870">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1597352311739" />
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1598041985870" />
     <state width="1801" height="466" key="DebuggerActiveHint" timestamp="1596661154195">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -851,20 +843,20 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1596775160279" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1597352317086">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1598041988850">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="848" y="321" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589980303981" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1597352317086" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598041988850" />
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog" timestamp="1596167222588">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1596167222588" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598041969189">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598042143427">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598041969189" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598042143427" />
     <state x="1511" y="565" key="git4idea.rebase.GitRebaseDialog" timestamp="1597259276426">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
