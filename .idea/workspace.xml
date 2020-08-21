@@ -20,11 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/caastools/parsing/stats/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/stats/irr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -382,14 +379,7 @@
       <workItem from="1597352259952" duration="1254000" />
       <workItem from="1597777355042" duration="794000" />
       <workItem from="1597807923406" duration="5000" />
-      <workItem from="1598041816140" duration="325000" />
-    </task>
-    <task id="LOCAL-00006" summary="change top-level insertions of bulk operations to get_or_create">
-      <created>1585008779825</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1585008779826</updated>
+      <workItem from="1598041816140" duration="459000" />
     </task>
     <task id="LOCAL-00007" summary="move some functions from database.models to database.bulkinsert&#10;streamline bulk_insert methods">
       <created>1585153101613</created>
@@ -727,7 +717,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598041986213</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Initial commit of version 1.1">
+      <created>1598042155653</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1598042155653</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -795,10 +792,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1306" y="321" width="797" height="420" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1596659478788" />
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1598041985870">
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1598042155309">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1598041985870" />
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1598042155309" />
     <state width="1801" height="466" key="DebuggerActiveHint" timestamp="1596661154195">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -843,20 +840,20 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1596775160279" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1598041988850">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1598042156967">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="848" y="321" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589980303981" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598041988850" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598042156967" />
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog" timestamp="1596167222588">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1596167222588" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598042143427">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598042276532">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598042143427" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598042276532" />
     <state x="1511" y="565" key="git4idea.rebase.GitRebaseDialog" timestamp="1597259276426">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
