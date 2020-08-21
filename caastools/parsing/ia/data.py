@@ -1,7 +1,11 @@
 from caastools.constants import CONVERT_XFORM, IaNodes, IaAttributes, IV_XFORM
 from typing import List
+import logging
 import lxml.etree as et
 import os
+
+
+logging.getLogger('caastools.parsing.ia.data').addHandler(logging.NullHandler())
 
 
 class _InterviewLookup(et.CustomElementClassLookup):
@@ -229,9 +233,9 @@ def InterviewData(interview_name, fragments):
         if version == 138:
             document = update_transform(document)
             root = document.getroot()
-        elif version != 153:
-            raise ValueError(f"Incompatible coding system: {root.find('./CodingSets/CodingSystemName')}")
 
+        # Interview needs to be rebuilt from the ground up
+        # Elements are list-like, so simply copy nodes from the fragments to the new, reconstructed interview
         if i == 0:
             root_element.append(root.find(f"{{{ns['xs']}}}schema"))
             output_dict[IaNodes.INTERVIEWS] = root.find(IaNodes.INTERVIEWS)
@@ -265,9 +269,6 @@ def InterviewData(interview_name, fragments):
         line_start = max(int(e.find(IaAttributes.LINE_NO).text) for e in ss_nodes)
         utt_start = max(int(e.find(IaAttributes.UTT_NUMBER).text) for e in u_nodes)
         seg_start = max(int(e.find(IaAttributes.UTT_SEGMENT_COUNT).text) for e in us_nodes)
-        #line_start = int(ss_nodes[-1].find(IaAttributes.LINE_NO).text)
-        #utt_start = int(u_nodes[-1].find(IaAttributes.UTT_NUMBER).text)
-        #seg_start = int(us_nodes[-1].find(IaAttributes.UTT_SEGMENT_COUNT).text)
 
     # Ensure that all nodes are in the proper order
     speaker_segment_nodes.sort(key=lambda e: int(e.find(IaAttributes.LINE_NO).text))

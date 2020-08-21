@@ -10,7 +10,7 @@ import numpy
 import pandas
 
 
-logging.getLogger('caastools.stats').addHandler(logging.NullHandler())
+logging.getLogger('caastools.stats.irr').addHandler(logging.NullHandler())
 
 __all__ = ['cohens_kappa', 'fleiss', 'icc', 'kalpha', 'pabak']
 

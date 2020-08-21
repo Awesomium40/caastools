@@ -21,7 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/stats/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/stats/irr.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/irr.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,19 +126,19 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\SyncThing\caastools\caastools\parsing\stats" />
-      <recent name="D:\SyncThing\caastools\caastools\parsing\ia" />
-      <recent name="D:\SyncThing\caastools\tests" />
-      <recent name="D:\SyncThing\caastools\parsing" />
-      <recent name="D:\SyncThing\caastools\database" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
       <recent name="D:\SyncThing\caastools\tests" />
       <recent name="D:\SyncThing\caastools\caastools\parsing\cacti" />
       <recent name="H:\Lee Magill MOBC\Data Management\Syntax" />
       <recent name="D:\SyncThing\caastools\tests\test_data\cacti\invalid" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\SyncThing\caastools\caastools" />
+      <recent name="D:\SyncThing\caastools\caastools\parsing\stats" />
+      <recent name="D:\SyncThing\caastools\caastools\parsing\ia" />
+      <recent name="D:\SyncThing\caastools\tests" />
+      <recent name="D:\SyncThing\caastools\parsing" />
     </key>
   </component>
   <component name="RunManager" selected="Python.setup">
@@ -380,6 +382,7 @@
       <workItem from="1597777355042" duration="794000" />
       <workItem from="1597807923406" duration="5000" />
       <workItem from="1598041816140" duration="459000" />
+      <workItem from="1598042385194" duration="2326000" />
     </task>
     <task id="LOCAL-00007" summary="move some functions from database.models to database.bulkinsert&#10;streamline bulk_insert methods">
       <created>1585153101613</created>
@@ -792,10 +795,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1306" y="321" width="797" height="420" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1596659478788" />
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1598042155309">
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1598053805674">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1598042155309" />
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1598053805674" />
     <state width="1801" height="466" key="DebuggerActiveHint" timestamp="1596661154195">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -849,11 +852,11 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1596167222588" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598042276532">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598053924414">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598042276532" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598053924414" />
     <state x="1511" y="565" key="git4idea.rebase.GitRebaseDialog" timestamp="1597259276426">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -913,13 +916,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
-          <line>272</line>
+          <line>277</line>
           <option name="timeStamp" value="124" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
-          <line>290</line>
+          <line>295</line>
           <option name="timeStamp" value="125" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/caastools/parsing/ia/iaconfiguration.py</url>
+          <option name="timeStamp" value="126" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
