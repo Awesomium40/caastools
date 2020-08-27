@@ -19,11 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update parsing.ia.iaconfiguration to handle all coding systems">
+      <change afterPath="$PROJECT_DIR$/dist/caastools-1.0.1-py3-none-any.whl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/caastools-1.0.2-py3-none-any.whl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/stats/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/stats/irr.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/irr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/iaconfiguration.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/iaconfiguration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -382,14 +384,9 @@
       <workItem from="1597777355042" duration="794000" />
       <workItem from="1597807923406" duration="5000" />
       <workItem from="1598041816140" duration="459000" />
-      <workItem from="1598042385194" duration="2326000" />
-    </task>
-    <task id="LOCAL-00007" summary="move some functions from database.models to database.bulkinsert&#10;streamline bulk_insert methods">
-      <created>1585153101613</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1585153101613</updated>
+      <workItem from="1598042385194" duration="3759000" />
+      <workItem from="1598137423611" duration="1667000" />
+      <workItem from="1598475002024" duration="5998000" />
     </task>
     <task id="LOCAL-00008" summary="Update functions that sanitize identifiers for SPSS variable names">
       <created>1585232615438</created>
@@ -727,7 +724,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598042155653</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Update parsing.ia.iaconfiguration to handle all coding systems">
+      <created>1598053945462</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1598053945462</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -751,7 +755,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update stats.icc to compute more versions of ICC as described in McGraw &amp; Wong" />
     <MESSAGE value="Update stats.fleiss to accept 3 Series as input rather than DataFrame and 3 column labels" />
     <MESSAGE value="Update stats.icc to fix bug in formula selection process" />
     <MESSAGE value="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing" />
@@ -776,7 +779,8 @@
     <MESSAGE value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
     <MESSAGE value="Update to version 1.0" />
     <MESSAGE value="Initial commit of version 1.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit of version 1.1" />
+    <MESSAGE value="Update parsing.ia.iaconfiguration to handle all coding systems" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update parsing.ia.iaconfiguration to handle all coding systems" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1274" y="363" key="#Notifications" timestamp="1596166698767">
@@ -795,10 +799,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1306" y="321" width="797" height="420" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1596659478788" />
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1598053805674">
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1598501721368">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1598053805674" />
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1598501721368" />
     <state width="1801" height="466" key="DebuggerActiveHint" timestamp="1596661154195">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -807,22 +811,22 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1572" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1597161272739" />
-    <state width="1417" height="394" key="GridCell.Tab.0.bottom" timestamp="1597352111384">
+    <state width="1480" height="394" key="GridCell.Tab.0.bottom" timestamp="1598059190193">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1597352111384" />
-    <state width="1417" height="394" key="GridCell.Tab.0.center" timestamp="1597352111384">
+    <state width="1480" height="394" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1598059190193" />
+    <state width="1480" height="394" key="GridCell.Tab.0.center" timestamp="1598059190193">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1597352111384" />
-    <state width="1417" height="394" key="GridCell.Tab.0.left" timestamp="1597352111384">
+    <state width="1480" height="394" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1598059190193" />
+    <state width="1480" height="394" key="GridCell.Tab.0.left" timestamp="1598059190193">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1597352111384" />
-    <state width="1417" height="394" key="GridCell.Tab.0.right" timestamp="1597352111384">
+    <state width="1480" height="394" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1598059190193" />
+    <state width="1480" height="394" key="GridCell.Tab.0.right" timestamp="1598059190193">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1597352111384" />
+    <state width="1480" height="394" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1598059190193" />
     <state width="1417" height="482" key="GridCell.Tab.1.bottom" timestamp="1597333758315">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -843,20 +847,20 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1596775160279" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1598042156967">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1598053947241">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="848" y="321" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589980303981" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598042156967" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598053947241" />
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog" timestamp="1596167222588">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1596167222588" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598053924414">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598501750264">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598053924414" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598501750264" />
     <state x="1511" y="565" key="git4idea.rebase.GitRebaseDialog" timestamp="1597259276426">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -916,12 +920,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
-          <line>277</line>
+          <line>273</line>
           <option name="timeStamp" value="124" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
-          <line>295</line>
+          <line>291</line>
           <option name="timeStamp" value="125" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -939,6 +943,6 @@
     <SUITE FILE_PATH="coverage/caastools$test_parsing_data.coverage" NAME="test_parsing.data Coverage Results" MODIFIED="1596229625818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$test_parsing_ia_ia_config.coverage" NAME="test_parsing.ia Coverage Results" MODIFIED="1596726040989" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$test_parsing_cacti.coverage" NAME="test_parsing.cacti Coverage Results" MODIFIED="1596551989630" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/caastools$setup.coverage" NAME="setup Coverage Results" MODIFIED="1597352111380" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/caastools$setup.coverage" NAME="setup Coverage Results" MODIFIED="1598501728554" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

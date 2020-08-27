@@ -71,10 +71,6 @@ class _Property(_HasDescriptionElementBase, _HasPropertyValueElementBase):
         return self.get(IaAttributes.DECIMAL_DIGITS)
 
     @property
-    def description(self):
-        return self.get(IaAttributes.DESCRIPTION)
-
-    @property
     def display_name(self):
         return self.get(IaAttributes.DISPLAY_NAME)
 
@@ -89,6 +85,10 @@ class _Property(_HasDescriptionElementBase, _HasPropertyValueElementBase):
     @property
     def sort_order(self):
         return int(self.get(IaAttributes.SORT_ORDER))
+
+    @property
+    def zero_pad(self):
+        return self.get(IaAttributes.ZERO_PAD) == 'true'
 
 
 class _GlobalProperty(_Property):
