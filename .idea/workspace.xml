@@ -19,12 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update parsing.ia.iaconfiguration to handle all coding systems">
-      <change afterPath="$PROJECT_DIR$/dist/caastools-1.0.1-py3-none-any.whl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/caastools-1.0.2-py3-none-any.whl" afterDir="false" />
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/iaconfiguration.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/iaconfiguration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/stats/irr.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/irr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +115,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="XML" />
     <property name="ignore.virus.scanning.warn.message" value="true" />
-    <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../qtools" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -386,14 +385,15 @@
       <workItem from="1598041816140" duration="459000" />
       <workItem from="1598042385194" duration="3759000" />
       <workItem from="1598137423611" duration="1667000" />
-      <workItem from="1598475002024" duration="5998000" />
-    </task>
-    <task id="LOCAL-00008" summary="Update functions that sanitize identifiers for SPSS variable names">
-      <created>1585232615438</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1585232615438</updated>
+      <workItem from="1598475002024" duration="6038000" />
+      <workItem from="1598545277232" duration="2819000" />
+      <workItem from="1598727414348" duration="1226000" />
+      <workItem from="1598797958115" duration="829000" />
+      <workItem from="1599408910825" duration="49000" />
+      <workItem from="1599583467604" duration="488000" />
+      <workItem from="1599748861686" duration="2126000" />
+      <workItem from="1600180528229" duration="635000" />
+      <workItem from="1602599635011" duration="264000" />
     </task>
     <task id="LOCAL-00009" summary="Refactor functions in database.bulkinsert">
       <created>1585250415987</created>
@@ -731,7 +731,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598053945462</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Add a few new properties to classes in parsing.ia">
+      <created>1598501778579</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1598501778579</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -755,7 +762,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update stats.fleiss to accept 3 Series as input rather than DataFrame and 3 column labels" />
     <MESSAGE value="Update stats.icc to fix bug in formula selection process" />
     <MESSAGE value="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing" />
     <MESSAGE value="Minor cleanup in caastools.stats&#10;fix a bug in database.models.init_database that occurred when attempting to connect to a database raised peewee.OperationalError" />
@@ -780,7 +786,8 @@
     <MESSAGE value="Update to version 1.0" />
     <MESSAGE value="Initial commit of version 1.1" />
     <MESSAGE value="Update parsing.ia.iaconfiguration to handle all coding systems" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update parsing.ia.iaconfiguration to handle all coding systems" />
+    <MESSAGE value="Add a few new properties to classes in parsing.ia" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add a few new properties to classes in parsing.ia" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1274" y="363" key="#Notifications" timestamp="1596166698767">
@@ -799,34 +806,34 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1306" y="321" width="797" height="420" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1596659478788" />
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1598501721368">
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1598501778265">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1598501721368" />
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1598501778265" />
     <state width="1801" height="466" key="DebuggerActiveHint" timestamp="1596661154195">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state width="1801" height="466" key="DebuggerActiveHint/0.0.3440.1400@0.0.3440.1400" timestamp="1596661154195" />
-    <state x="1572" y="454" key="FileChooserDialogImpl" timestamp="1597161272739">
+    <state x="1572" y="454" key="FileChooserDialogImpl" timestamp="1600180561630">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1572" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1597161272739" />
-    <state width="1480" height="394" key="GridCell.Tab.0.bottom" timestamp="1598059190193">
+    <state x="1572" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1600180561630" />
+    <state width="1480" height="394" key="GridCell.Tab.0.bottom" timestamp="1598501789802">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="394" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1598059190193" />
-    <state width="1480" height="394" key="GridCell.Tab.0.center" timestamp="1598059190193">
+    <state width="1480" height="394" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1598501789802" />
+    <state width="1480" height="394" key="GridCell.Tab.0.center" timestamp="1598501789802">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="394" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1598059190193" />
-    <state width="1480" height="394" key="GridCell.Tab.0.left" timestamp="1598059190193">
+    <state width="1480" height="394" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1598501789802" />
+    <state width="1480" height="394" key="GridCell.Tab.0.left" timestamp="1598501789802">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="394" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1598059190193" />
-    <state width="1480" height="394" key="GridCell.Tab.0.right" timestamp="1598059190193">
+    <state width="1480" height="394" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1598501789802" />
+    <state width="1480" height="394" key="GridCell.Tab.0.right" timestamp="1598501789802">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="394" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1598059190193" />
+    <state width="1480" height="394" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1598501789802" />
     <state width="1417" height="482" key="GridCell.Tab.1.bottom" timestamp="1597333758315">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -847,20 +854,18 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1596775160279" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1598053947241">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1598501781969">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="848" y="321" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589980303981" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598053947241" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598501781969" />
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog" timestamp="1596167222588">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1596167222588" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598501750264">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1602600060127">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598501750264" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1602600060127" />
     <state x="1511" y="565" key="git4idea.rebase.GitRebaseDialog" timestamp="1597259276426">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>

@@ -57,7 +57,8 @@ def sequential(*included_interviews, included_properties=None, client_as_numeric
                 logging.warning(f"CodingProperty with id of {prop_pk} not found. This data will not be included...")
                 continue
 
-            if cp_data_type == 'numeric': cast_columns.append(cp_display_name)
+            if cp_data_type == 'numeric':
+                cast_columns.append(cp_display_name)
 
             cte = property_query.where(PropertyValue.coding_property_id == prop_pk)\
                                 .cte(f"cte_{cp_display_name}", columns=['utterance_id', cp_display_name, 'cp_data_type'])
