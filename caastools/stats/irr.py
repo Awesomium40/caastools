@@ -1,4 +1,4 @@
-from .utils import _progress_bar_
+from caastools.utils import _progress_bar_
 from bisect import bisect_left
 from collections import Counter
 from scipy import stats
@@ -10,7 +10,7 @@ import numpy
 import pandas
 
 
-logging.getLogger('caastools.stats').addHandler(logging.NullHandler())
+logging.getLogger('caastools.stats.irr').addHandler(logging.NullHandler())
 
 __all__ = ['cohens_kappa', 'fleiss', 'icc', 'kalpha', 'pabak']
 
@@ -73,27 +73,31 @@ def __k__(ct: pandas.DataFrame, row_cats, col_cats, weight=None):
 
 def __alpha_out__(out, cmx, dmx, alpha, lower, upper, alpha_levels, probabilities):
 
-    sep = "===================================================\n\n"
-    try:
+    def write_output(out, cmx, dmx, sep, alpha, lower, upper, alpha_levels, probabilities):
         out.write("Coincidence matrix:\n")
+        out.write(cmx.to_string() + "\n")
+        out.write(sep)
+        out.write("Difference Matrix:\n")
+        out.write(dmx.to_string() + "\n")
+        out.write(sep)
+        if lower != numpy.NaN and upper != numpy.NaN:
+            out.write("alpha, 95% CI:\n")
+            out.write(f"{alpha:.3f}, {{{lower:.3f}, {upper:.3f}}}\n")
+            out.write(sep)
+            out.write("Probability of failing to atttain selected values of alpha:\n")
+            for i, level in enumerate(alpha_levels):
+                out.write(f"{level:<.2f}: {probabilities[i]:<.3f}\n")
+
+    sep = "===================================================\n\n"
+
+    try:
+        write_output(out, cmx, dmx, sep, alpha, lower, upper, alpha_levels, probabilities)
     except io.UnsupportedOperation as uo_err:
         logging.error(str(uo_err))
     except AttributeError:
         try:
-            with open(out, 'w') as out:
-                out.write("Coincidence matrix:\n")
-                out.write(cmx.to_string() + "\n")
-                out.write(sep)
-                out.write("Difference Matrix:\n")
-                out.write(dmx.to_string() + "\n")
-                out.write(sep)
-                if lower != numpy.NaN and upper != numpy.NaN:
-                    out.write("alpha, 95% CI:\n")
-                    out.write(f"{alpha:.3f}, {{{lower:.3f}, {upper:.3f}}}\n")
-                    out.write(sep)
-                    out.write("Probability of failing to atttain selected values of alpha:\n")
-                    for i, level in enumerate(alpha_levels):
-                        out.write(f"{level:<.2f}: {probabilities[i]:<.3f}\n")
+            with open(out, 'w') as out_file:
+                write_output(out_file, cmx, dmx, sep, alpha, lower, upper, alpha_levels, probabilities)
         except OSError as os_error:
             logging.error("Unable to create output because 'out' was an invalid file handle")
 
@@ -183,7 +187,7 @@ def cohens_kappa(rows, columns, weight=None):
     return k, kmax
 
 
-def fleiss(subjects, raters, categories):
+def fleiss(subjects: pandas.Series, raters, categories):
     """
     stats.fleiss(frame: pandas.DataFrame) -> float
     Computes the fleiss multirater kappa from the provided count data
@@ -197,6 +201,7 @@ def fleiss(subjects, raters, categories):
     subject_column = 'subject'
     rater_column = 'rater'
     category_column = 'category'
+
     frame = pandas.DataFrame({subject_column: subjects,
                               rater_column: raters,
                               category_column: categories})
@@ -210,6 +215,7 @@ def fleiss(subjects, raters, categories):
 
     # number of raters
     n = obs_count // N
+    n = len(numpy.unique(pandas.Series(subjects).dropna()))
 
     # pj = proportion of agreement for the jth category
     pj = counts.sum() / obs_count
@@ -375,7 +381,7 @@ def icc(frame: pandas.DataFrame, model=2, measures='single', agreement='A'):
                       'A': (ms_subjects, ms_error, ms_raters, n)
                       }
                  }
-    }
+        }
 
     args = formula_args[model][measures] if model == 1 else formula_args[model][measures][agreement]
     coeff = formula(*args)
@@ -392,10 +398,8 @@ def kalpha(data, metric='nominal', boot=None, out=None):
     Data should be structured S.T. raters are the index,
     subjects are the columns, and observations are the cell values
     :param data: pandas.DataFrame holding the observational data
-    :param metric: string specifying the type of data/metric. Default 'nominal'
-    Acceptable values are 'nominal', 'ordinal', 'interval', 'ratio'
-    :param boot: number of samples to take for bootstrapping the CI, or None if no bootstrapping desired.
-    Specifying fewer than 1000 for boot causes it to be set to 1000. Values are rounded down to the nearest 1000
+    :param metric: string specifying the type of data/metric. Default 'nominal'. Acceptable values are 'nominal', 'ordinal', 'interval', 'ratio'
+    :param boot: number of samples to take for bootstrapping the CI, or None if no bootstrapping desired. Specifying fewer than 1000 for boot causes it to be set to 1000. Values are rounded down to the nearest 1000
     :param out: file-like object or path to file to which to write output. Default None. Output includes
     coincidence matrix, delta matrix, and if bootstrapping, 95% CI and probabilities to attain various levels of alpha.
     :return tuple[float, float, float]: alpha and the lower/upper bounds of the 95% CI
@@ -464,8 +468,8 @@ def kalpha(data, metric='nominal', boot=None, out=None):
         dexp = dmx * expect
 
         # compute alpha
-        do = dobs.sum().sum() / 2.0
-        de = dexp.sum().sum() / 2.0
+        do = dobs.sum().sum()
+        de = dexp.sum().sum()
         alpha = 1 - (do / de)
 
         # Perform the bootstrapping via the Hayes algorithm
@@ -476,7 +480,7 @@ def kalpha(data, metric='nominal', boot=None, out=None):
             if n_boot < 1000:
                 n_boot = 1000
 
-            boot_samples = _alpha_boot_(data, n_boot, diff_func, de)
+            boot_samples = _alpha_boot_(data, n_boot, diff_func, de / 2)
 
             if len(boot_samples) > 0:
                 # Determine the probability of failing to attain specific values of alpha

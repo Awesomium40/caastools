@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: caastools-Awesomium40
+Version: 0.2.0
+Summary: A package for managing and analyzing Interview data at CAAS
+Home-page: https://github.com/JayWaWa/caastools
+Author: Jay Walthers
+Author-email: justin_walthers@brown.edu
+License: UNKNOWN
+Description: <h1>caastools</h1>
+        <p>caastools is a simple package to assist in the management and analysis of data collected from clinical interviews at
+        the CAAS coding labs. It provides a unified data storage and retrieval framework
+        as well as statistical implementations for the most commonly used analyses</p>
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: Microsoft :: Windows
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown

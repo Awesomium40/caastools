@@ -20,9 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dist/caastools-1.0.0-py3-none-any.whl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/plots.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,10 +94,11 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="d565c25ae432696f055ce58390b5d3933c5f2e19" />
+        <entry key="$PROJECT_DIR$" value="v1.1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1aBAbRBdXRzNaYir55cAuIdgBKm" />
@@ -112,7 +112,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="XML" />
     <property name="ignore.virus.scanning.warn.message" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../camihelpers" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -132,11 +132,11 @@
       <recent name="D:\SyncThing\caastools\tests\test_data\cacti\invalid" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\SyncThing\caastools\caastools" />
+      <recent name="D:\SyncThing\caastools\caastools\parsing\stats" />
       <recent name="D:\SyncThing\caastools\caastools\parsing\ia" />
       <recent name="D:\SyncThing\caastools\tests" />
       <recent name="D:\SyncThing\caastools\parsing" />
-      <recent name="D:\SyncThing\caastools\database" />
-      <recent name="D:\SyncThing\caastools" />
     </key>
   </component>
   <component name="RunManager" selected="Python.setup">
@@ -376,48 +376,26 @@
       <workItem from="1597259511872" duration="284000" />
       <workItem from="1597265742030" duration="1616000" />
       <workItem from="1597320899536" duration="11043000" />
-    </task>
-    <task id="LOCAL-00004" summary="Change directory structure&#10;add new functions to utils module">
-      <created>1584575197321</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1584575197321</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Move functions from utils to datasets">
-      <created>1584587116221</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1584587116221</updated>
-    </task>
-    <task id="LOCAL-00006" summary="change top-level insertions of bulk operations to get_or_create">
-      <created>1585008779825</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1585008779826</updated>
-    </task>
-    <task id="LOCAL-00007" summary="move some functions from database.models to database.bulkinsert&#10;streamline bulk_insert methods">
-      <created>1585153101613</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1585153101613</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Update functions that sanitize identifiers for SPSS variable names">
-      <created>1585232615438</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1585232615438</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Refactor functions in database.bulkinsert">
-      <created>1585250415987</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1585250415987</updated>
+      <workItem from="1597352259952" duration="1254000" />
+      <workItem from="1597777355042" duration="794000" />
+      <workItem from="1597807923406" duration="5000" />
+      <workItem from="1598041816140" duration="459000" />
+      <workItem from="1598042385194" duration="3759000" />
+      <workItem from="1598137423611" duration="1667000" />
+      <workItem from="1598475002024" duration="6038000" />
+      <workItem from="1598545277232" duration="2819000" />
+      <workItem from="1598727414348" duration="1226000" />
+      <workItem from="1598797958115" duration="829000" />
+      <workItem from="1599408910825" duration="49000" />
+      <workItem from="1599583467604" duration="488000" />
+      <workItem from="1599748861686" duration="2126000" />
+      <workItem from="1600180528229" duration="635000" />
+      <workItem from="1602599635011" duration="470000" />
+      <workItem from="1602611430931" duration="1878000" />
+      <workItem from="1602681732168" duration="900000" />
+      <workItem from="1602768714394" duration="387000" />
+      <workItem from="1626091616591" duration="46000" />
+      <workItem from="1626558943431" duration="610000" />
     </task>
     <task id="LOCAL-00010" summary="Refactor functions in database.bulkinsert">
       <created>1585251241260</created>
@@ -720,7 +698,49 @@
       <option name="project" value="LOCAL" />
       <updated>1597351981770</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Update to version 1.0">
+      <created>1597352312005</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1597352312005</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Initial commit of version 1.1">
+      <created>1598041986212</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1598041986213</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Initial commit of version 1.1">
+      <created>1598042155653</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1598042155653</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Update parsing.ia.iaconfiguration to handle all coding systems">
+      <created>1598053945462</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1598053945462</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Add a few new properties to classes in parsing.ia">
+      <created>1598501778579</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1598501778579</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Fix a bug in stats.irr that caused kalpha extended output not to write">
+      <created>1602600096677</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1602600096677</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -744,11 +764,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="update kalpha function to include bootstrapping 95% CI&#10;update kalpha function to support output additional info to file_like object" />
-    <MESSAGE value="Update kalpha function to improve performance" />
-    <MESSAGE value="Update stats.icc to compute more versions of ICC as described in McGraw &amp; Wong" />
-    <MESSAGE value="Update stats.fleiss to accept 3 Series as input rather than DataFrame and 3 column labels" />
-    <MESSAGE value="Update stats.icc to fix bug in formula selection process" />
     <MESSAGE value="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing" />
     <MESSAGE value="Minor cleanup in caastools.stats&#10;fix a bug in database.models.init_database that occurred when attempting to connect to a database raised peewee.OperationalError" />
     <MESSAGE value="Fix minor bug in database.datasets._get_utterance_data_ to retrieve all required fields" />
@@ -769,7 +784,12 @@
     <MESSAGE value="Branch to v1.0" />
     <MESSAGE value="Simplify some logging, add additional properties to models in database" />
     <MESSAGE value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
+    <MESSAGE value="Update to version 1.0" />
+    <MESSAGE value="Initial commit of version 1.1" />
+    <MESSAGE value="Update parsing.ia.iaconfiguration to handle all coding systems" />
+    <MESSAGE value="Add a few new properties to classes in parsing.ia" />
+    <MESSAGE value="Fix a bug in stats.irr that caused kalpha extended output not to write" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in stats.irr that caused kalpha extended output not to write" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1274" y="363" key="#Notifications" timestamp="1596166698767">
@@ -788,34 +808,34 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1306" y="321" width="797" height="420" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1596659478788" />
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1597352284729">
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1602600096374">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1597352284729" />
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1602600096374" />
     <state width="1801" height="466" key="DebuggerActiveHint" timestamp="1596661154195">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state width="1801" height="466" key="DebuggerActiveHint/0.0.3440.1400@0.0.3440.1400" timestamp="1596661154195" />
-    <state x="1572" y="454" key="FileChooserDialogImpl" timestamp="1597161272739">
+    <state x="1572" y="454" key="FileChooserDialogImpl" timestamp="1600180561630">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1572" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1597161272739" />
-    <state width="1417" height="394" key="GridCell.Tab.0.bottom" timestamp="1597352111384">
+    <state x="1572" y="454" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1600180561630" />
+    <state width="1480" height="394" key="GridCell.Tab.0.bottom" timestamp="1598501789802">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1597352111384" />
-    <state width="1417" height="394" key="GridCell.Tab.0.center" timestamp="1597352111384">
+    <state width="1480" height="394" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1598501789802" />
+    <state width="1480" height="394" key="GridCell.Tab.0.center" timestamp="1598501789802">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1597352111384" />
-    <state width="1417" height="394" key="GridCell.Tab.0.left" timestamp="1597352111384">
+    <state width="1480" height="394" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1598501789802" />
+    <state width="1480" height="394" key="GridCell.Tab.0.left" timestamp="1598501789802">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1597352111384" />
-    <state width="1417" height="394" key="GridCell.Tab.0.right" timestamp="1597352111384">
+    <state width="1480" height="394" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1598501789802" />
+    <state width="1480" height="394" key="GridCell.Tab.0.right" timestamp="1598501789802">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1417" height="394" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1597352111384" />
+    <state width="1480" height="394" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1598501789802" />
     <state width="1417" height="482" key="GridCell.Tab.1.bottom" timestamp="1597333758315">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -836,20 +856,18 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1596775160279" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1597351984162">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1602600098347">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="848" y="321" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589980303981" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1597351984162" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1602600098347" />
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog" timestamp="1596167222588">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1596167222588" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598042348197">
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1602600060127">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="969" y="458" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589979668726" />
-    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598042348197" />
+    <state x="1736" y="616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1602600060127" />
     <state x="1511" y="565" key="git4idea.rebase.GitRebaseDialog" timestamp="1597259276426">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -909,13 +927,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
-          <line>272</line>
+          <line>273</line>
           <option name="timeStamp" value="124" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
-          <line>290</line>
+          <line>291</line>
           <option name="timeStamp" value="125" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/caastools/parsing/ia/iaconfiguration.py</url>
+          <option name="timeStamp" value="126" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -923,11 +945,11 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/caastools$models.coverage" NAME="models Coverage Results" MODIFIED="1596234876558" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/database" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_bulkops_TestBulkImports_test_import_ia_cs.coverage" NAME="Unittests for test_bulkops.TestBulkImports.test_import_ia_cs Coverage Results" MODIFIED="1596215528113" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/caastools$test_parsing_data.coverage" NAME="test_parsing.data Coverage Results" MODIFIED="1596229625818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_in_test_parsing_ia_coding_system_py.coverage" NAME="Unittests in test_parsing.ia.coding_system.py Coverage Results" MODIFIED="1596647955327" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$test_parsing_ia_coding_system.coverage" NAME="test_parsing.ia.coding_system Coverage Results" MODIFIED="1596663333536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/caastools$test_parsing_cacti.coverage" NAME="test_parsing.cacti Coverage Results" MODIFIED="1596551989630" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$test_parsing_data.coverage" NAME="test_parsing.data Coverage Results" MODIFIED="1596229625818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$test_parsing_ia_ia_config.coverage" NAME="test_parsing.ia Coverage Results" MODIFIED="1596726040989" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/caastools$setup.coverage" NAME="setup Coverage Results" MODIFIED="1597352111380" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/caastools$test_parsing_cacti.coverage" NAME="test_parsing.cacti Coverage Results" MODIFIED="1596551989630" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/caastools$setup.coverage" NAME="setup Coverage Results" MODIFIED="1598501728554" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
