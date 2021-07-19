@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!--Attribute type definitions-->
+    <xs:simpleType name="globalType-attribute">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MISC"/>
+            <xs:enumeration value="LEE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="isSummary-attribute">
+        <xs:restriction base="xs:nonNegativeInteger">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="mico-attribute">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Y"/>
+            <xs:enumeration value="N"/>
+            <xs:enumeration value="NA"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="panel-attribute">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="reverse-attribute">
+        <xs:restriction base="xs:nonNegativeInteger">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="role-attribute">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="T"/>
+            <xs:enumeration value="C"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="seqUse-attribute">
+        <xs:restriction base="xs:nonNegativeInteger">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="summaryMode-attribute">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="sum"/>
+            <xs:enumeration value="mean"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+
+    <!--The element type definition for 'code' and containing 'codes' elements-->
+    <xs:complexType name="code">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:nonNegativeInteger" use="required"/>
+        <xs:attribute name="description" type="xs:string" use="required"/>
+        <xs:attribute name="mico" type="mico-attribute"/>
+        <xs:attribute name="role" type="role-attribute" use="required"/>
+        <xs:attribute name="isSummary" type="isSummary-attribute" use="required"/>
+        <xs:attribute name="summaryMode" type="summaryMode-attribute"/>
+        <xs:attribute name="parent" type="xs:positiveInteger"/>
+    </xs:complexType>
+
+    <xs:complexType name="codes">
+        <xs:sequence>
+            <xs:element name="code" type="code" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="codingPropertyName" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!--The element type definition for 'global' and containing 'globals' elements-->
+    <xs:complexType name="global">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:positiveInteger" use="required"/>
+        <xs:attribute name="label" type="xs:string" use="required"/>
+        <xs:attribute name="description" type="xs:string" use="required"/>
+        <xs:attribute name="minRating" type="xs:integer" use="required"/>
+        <xs:attribute name="maxRating" type="xs:integer" use="required"/>
+        <xs:attribute name="defaultRating" type="xs:integer" use="required"/>
+        <xs:attribute name="isSummary" type="isSummary-attribute" use="required"/>
+        <xs:attribute name="summaryMode" type="summaryMode-attribute"/>
+        <xs:attribute name="seqUse" type="seqUse-attribute" use="required"/>
+        <xs:attribute name="reverse" type="reverse-attribute" use="required"/>
+        <xs:attribute name="type" type="globalType-attribute" use="required"/>
+        <xs:attribute name="scale" type="xs:string"/>
+        <xs:attribute name="parent" type="xs:positiveInteger"/>
+    </xs:complexType>
+
+    <xs:complexType name="globals">
+        <xs:sequence>
+            <xs:element name="global" type="global" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!--The element type definition for the button and spacer elements-->
+    <xs:complexType name="button">
+        <xs:attribute name="code" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="spacer"/>
+
+    <!-- the element type definitions for the group and row elements-->
+    <xs:complexType name="group">
+        <xs:sequence>
+            <xs:element name="button" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="label"/>
+    </xs:complexType>
+
+    <xs:complexType name="row">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element name="group" type="group" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="button" type="button" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="spacer" type="spacer" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <!--The element type definition for codeControls element-->
+    <xs:complexType name="codeControls">
+        <xs:sequence>
+            <xs:element name="row" type="row" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="panel" type="panel-attribute"/>
+        <xs:attribute name="label" type="xs:string"/>
+    </xs:complexType>
+
+    <!--Element type definitions for the 'slider', 'globalControls', and 'globalsBorder' elements -->
+    <xs:complexType name="slider">
+        <xs:attribute name="global" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="globalControls">
+        <xs:sequence>
+            <xs:element name="slider" type="slider" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="panel" type="panel-attribute"/>
+    </xs:complexType>
+
+    <xs:complexType name="globalsBorder">
+        <xs:attribute name="label" type="xs:string"/>
+    </xs:complexType>
+
+    <!--The definition of the 'component' and 'components' elements-->
+    <xs:complexType name="component">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:float" use="required"/>
+        <xs:attribute name="description" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="components">
+        <xs:sequence>
+            <xs:element name="component" type="component" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="codingPropertyName" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!--This complexType represents the structure of the document at the root level-->
+    <xs:complexType name="userConfiguration">
+        <xs:choice minOccurs="6" maxOccurs="8">
+            <xs:element name="codes" type="codes" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="codeControls" type="codeControls" minOccurs="1" maxOccurs="2"/>
+            <xs:element name="globals" type="globals" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="globalControls" type="globalControls" maxOccurs="2"/>
+            <xs:element name="globalsBorder" type="globalsBorder" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="components" type="components" minOccurs="1" maxOccurs="1"/>
+        </xs:choice>
+        <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+
+    <!--Above is the definition of types. Below is the definition of the document structure-->
+    <xs:element name="userConfiguration" type="userConfiguration"/>
+
+</xs:schema>

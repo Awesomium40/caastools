@@ -21,10 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/stats/irr.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/irr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/plots.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +112,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="XML" />
     <property name="ignore.virus.scanning.warn.message" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../qtools" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -393,14 +390,12 @@
       <workItem from="1599583467604" duration="488000" />
       <workItem from="1599748861686" duration="2126000" />
       <workItem from="1600180528229" duration="635000" />
-      <workItem from="1602599635011" duration="264000" />
-    </task>
-    <task id="LOCAL-00009" summary="Refactor functions in database.bulkinsert">
-      <created>1585250415987</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1585250415987</updated>
+      <workItem from="1602599635011" duration="470000" />
+      <workItem from="1602611430931" duration="1878000" />
+      <workItem from="1602681732168" duration="900000" />
+      <workItem from="1602768714394" duration="387000" />
+      <workItem from="1626091616591" duration="46000" />
+      <workItem from="1626558943431" duration="610000" />
     </task>
     <task id="LOCAL-00010" summary="Refactor functions in database.bulkinsert">
       <created>1585251241260</created>
@@ -738,7 +733,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598501778579</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Fix a bug in stats.irr that caused kalpha extended output not to write">
+      <created>1602600096677</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1602600096677</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -762,7 +764,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update stats.icc to fix bug in formula selection process" />
     <MESSAGE value="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing" />
     <MESSAGE value="Minor cleanup in caastools.stats&#10;fix a bug in database.models.init_database that occurred when attempting to connect to a database raised peewee.OperationalError" />
     <MESSAGE value="Fix minor bug in database.datasets._get_utterance_data_ to retrieve all required fields" />
@@ -787,7 +788,8 @@
     <MESSAGE value="Initial commit of version 1.1" />
     <MESSAGE value="Update parsing.ia.iaconfiguration to handle all coding systems" />
     <MESSAGE value="Add a few new properties to classes in parsing.ia" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add a few new properties to classes in parsing.ia" />
+    <MESSAGE value="Fix a bug in stats.irr that caused kalpha extended output not to write" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in stats.irr that caused kalpha extended output not to write" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1274" y="363" key="#Notifications" timestamp="1596166698767">
@@ -806,10 +808,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1306" y="321" width="797" height="420" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1596659478788" />
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1598501778265">
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2" timestamp="1602600096374">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1598501778265" />
+    <state x="1450" y="256" width="873" height="939" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1602600096374" />
     <state width="1801" height="466" key="DebuggerActiveHint" timestamp="1596661154195">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -854,10 +856,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1155" y="349" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1596775160279" />
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1598501781969">
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2" timestamp="1602600098347">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1598501781969" />
+    <state x="1519" y="432" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1602600098347" />
     <state x="998" y="106" width="1368" height="1199" key="com.intellij.dvcs.ui.CompareBranchesDialog" timestamp="1596167222588">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
