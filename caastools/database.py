@@ -1,5 +1,5 @@
 from peewee import AutoField, BooleanField, chunked, FloatField, ForeignKeyField, IntegerField, Model, \
-    OperationalError, SQL, TextField
+    ModelInsert, OperationalError, SQL, TextField
 from playhouse.sqlite_ext import SqliteExtDatabase
 from typing import Iterable
 import logging
@@ -16,21 +16,29 @@ MEMORY = ":memory:"
 
 
 class BaseModel(Model):
+
+    oc_actions = {'ignore': ModelInsert.on_conflict_ignore,
+                  'replace': ModelInsert.on_conflict_replace}
     source_id = IntegerField(null=True, index=True, unique=False)
 
     @classmethod
-    def bulk_insert(cls, data: Iterable[dict]) -> int:
+    def bulk_insert(cls, data: Iterable[dict], on_conflict='replace') -> int:
         """
         BaseModel.bulk_insert(row_dict: dict) -> int
         Performs an atomic bulk insertion of the data provided in row_dicts and returns the number of rows inserted
         :param data: sequence of dictionary objects mapping field names to values to insert
+        :param on_conflict: How to handle rows with a unique constraint violation ['ignore' | 'replace'] (default 'replace')
         :return int: The number of rows inserted
         :raise peewee.PeeweeException: if bulk insertion fails
         """
+
+        action = cls.oc_actions.get(on_conflict, ModelInsert.on_conflict_replace)
         rows_inserted = 0
         with cls._meta.database.atomic() as transaction:
             for batch in chunked(data, 100):
-                rows_inserted += cls.insert_many(batch).execute()
+                query = cls.insert_many(batch)
+                query = action(query)
+                rows_inserted = query.execute()
 
         return rows_inserted
 
@@ -187,11 +195,12 @@ def init_database(path=":memory:", use_memory_on_failure=True):
     :param use_memory_on_failure: Whether to initialize an in-memory database upon failure to connect. Default True
     :return: None
     """
-    pragmas = {'journal_mode': 'wal',
-               'cache_size': -1 * 64000,  # 64MB
-               'foreign_keys': 1,
-               'ignore_check_constraints': 0}
+    pragmas = (('journal_mode', 'wal'),
+               ('cache_size', -1 * 64000),  # 64MB
+               ('foreign_keys', 1),
+               ('ignore_check_constraints', 0))
     db.init(path, pragmas=pragmas)
+    db.execute_sql("PRAGMA foreign_keys = ON;")
     if path != MEMORY:
         try:
             db.connect(reuse_if_open=True)
