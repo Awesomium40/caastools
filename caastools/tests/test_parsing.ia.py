@@ -27,7 +27,7 @@ class TestIaParsing(unittest.TestCase):
 
     def test_parse_coding_system(self):
 
-        cs = IaConfiguration(r'.\test_data\ia\test_coding_system.xml')
+        cs = IaConfiguration(r'test_data/ia/test_coding_system.xml')
         self.assertIsInstance(cs, _IaConfiguration)
 
         # CodingSystem should have 2 property elements

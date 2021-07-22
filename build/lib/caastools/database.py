@@ -188,6 +188,19 @@ class GlobalRating(BaseModel):
         constraints = [SQL('CONSTRAINT gv_id_iv_id_unique UNIQUE (global_value_id, interview_id)')]
 
 
+class UtteranceStaging(BaseModel):
+    interview_name = TextField(null=False, index=True)
+    cs_name = TextField(null=False, index=True)
+    cp_name = TextField(null=False, index=True)
+    utt_enum = IntegerField(null=False, index=True)
+    utt_role = TextField(null=True)
+    utt_text = TextField(null=True)
+    utt_word_count = IntegerField(null=True)
+    utt_start_time = FloatField(null=True)
+    utt_end_time = FloatField(null=True)
+    pv_value = TextField(null=False, index=True)
+
+
 def init_database(path=":memory:", use_memory_on_failure=True):
     """
     Establish the connecction to the database at path.
@@ -213,7 +226,7 @@ def init_database(path=":memory:", use_memory_on_failure=True):
                 raise err
 
     db.create_tables([CodingSystem, Interview, CodingProperty, GlobalProperty, PropertyValue,
-                      GlobalValue, Utterance, UtteranceCode, GlobalRating])
+                      GlobalValue, Utterance, UtteranceCode, GlobalRating, UtteranceStaging])
 
 
 def close_database():
