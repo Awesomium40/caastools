@@ -20,11 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/SOURCES.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/tests/test_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/tests/test_database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/caastools-1.0.5-py3-none-any.whl" beforeDir="false" afterPath="$PROJECT_DIR$/dist/caastools-1.0.5-py3-none-any.whl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -380,14 +377,7 @@
       <workItem from="1626091616591" duration="46000" />
       <workItem from="1626558943431" duration="610000" />
       <workItem from="1626930823341" duration="10860000" />
-      <workItem from="1627144325312" duration="3804000" />
-    </task>
-    <task id="LOCAL-00011" summary="update setup.py script to include required packages">
-      <created>1585251714786</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1585251714786</updated>
+      <workItem from="1627144325312" duration="3929000" />
     </task>
     <task id="LOCAL-00012" summary="Update GlobalProperty to have self-referential relationship&#10;Update PropertyValue and GlobalProperty models to include summary_mode fields&#10;Update bulkinsert functions to reflect model changes">
       <created>1585294163201</created>
@@ -725,7 +715,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626974741572</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Add Staging table for global ratings&#10;Add unit tests for global staging table">
+      <created>1627148253465</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1627148253465</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -749,7 +746,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Minor cleanup in caastools.stats&#10;fix a bug in database.models.init_database that occurred when attempting to connect to a database raised peewee.OperationalError" />
     <MESSAGE value="Fix minor bug in database.datasets._get_utterance_data_ to retrieve all required fields" />
     <MESSAGE value="Add plots.parsing_alignment_plot, which creates a plot of parsing reliability/alignment" />
     <MESSAGE value="Minor changes to plots.parsing_alignment_plot to improve y-axis ticks&#10;Alter database.Models.Interview to allow for null CodingSystem reference&#10;Alter database.bulkinsert.upload_cacti_interview to allow for uploading interview with no coding/global data" />
@@ -774,7 +770,8 @@
     <MESSAGE value="Add a few new properties to classes in parsing.ia" />
     <MESSAGE value="Fix a bug in stats.irr that caused kalpha extended output not to write" />
     <MESSAGE value="Add unit tests for staging table" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add unit tests for staging table" />
+    <MESSAGE value="Add Staging table for global ratings&#10;Add unit tests for global staging table" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Staging table for global ratings&#10;Add unit tests for global staging table" />
   </component>
   <component name="WindowStateProjectService">
     <state x="977" y="100" width="1340" height="1207" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1627146596010">
@@ -785,26 +782,26 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1377" y="569" width="1253" height="586" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1627148023551" />
-    <state x="1329" y="297" key="CommitChangelistDialog2" timestamp="1626974740414">
+    <state x="1329" y="297" key="CommitChangelistDialog2" timestamp="1627148408528">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1329" y="297" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1626974740414" />
-    <state width="1480" height="482" key="GridCell.Tab.0.bottom" timestamp="1627148081730">
+    <state x="1329" y="297" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1627148408528" />
+    <state width="1480" height="390" key="GridCell.Tab.0.bottom" timestamp="1627148268436">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="482" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1627148081730" />
-    <state width="1480" height="482" key="GridCell.Tab.0.center" timestamp="1627148081730">
+    <state width="1480" height="390" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1627148268436" />
+    <state width="1480" height="390" key="GridCell.Tab.0.center" timestamp="1627148268436">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="482" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1627148081730" />
-    <state width="1480" height="482" key="GridCell.Tab.0.left" timestamp="1627148081730">
+    <state width="1480" height="390" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1627148268436" />
+    <state width="1480" height="390" key="GridCell.Tab.0.left" timestamp="1627148268436">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="482" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1627148081730" />
-    <state width="1480" height="482" key="GridCell.Tab.0.right" timestamp="1627148081730">
+    <state width="1480" height="390" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1627148268436" />
+    <state width="1480" height="390" key="GridCell.Tab.0.right" timestamp="1627148268436">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="482" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1627148081730" />
+    <state width="1480" height="390" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1627148268436" />
     <state width="1480" height="482" key="GridCell.Tab.1.bottom" timestamp="1627148081730">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -821,14 +818,14 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state width="1480" height="482" key="GridCell.Tab.1.right/0.0.3440.1400@0.0.3440.1400" timestamp="1627148081730" />
-    <state x="1406" y="436" key="Vcs.Push.Dialog.v2" timestamp="1626974744557">
+    <state x="1406" y="436" key="Vcs.Push.Dialog.v2" timestamp="1627148255665">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1406" y="436" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1626974744557" />
-    <state x="1623" y="620" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1627148225914">
+    <state x="1406" y="436" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1627148255665" />
+    <state x="1623" y="620" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1627148417480">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1623" y="620" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1627148225914" />
+    <state x="1623" y="620" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1627148417480" />
     <state x="1310" y="320" width="672" height="678" key="search.everywhere.popup" timestamp="1627144652074">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -891,11 +888,6 @@
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
           <line>291</line>
           <option name="timeStamp" value="125" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/caastools/tests/test_database.py</url>
-          <line>159</line>
-          <option name="timeStamp" value="130" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

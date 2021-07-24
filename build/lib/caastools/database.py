@@ -201,6 +201,13 @@ class UtteranceStaging(BaseModel):
     pv_value = TextField(null=False, index=True)
 
 
+class GlobalStaging(BaseModel):
+    interview_name = TextField(null=False, index=True)
+    cs_name = TextField(null=False, index=True)
+    gp_name = TextField(null=False, index=True)
+    gv_value = TextField(null=False, index=True)
+
+
 def init_database(path=":memory:", use_memory_on_failure=True):
     """
     Establish the connecction to the database at path.
@@ -226,7 +233,8 @@ def init_database(path=":memory:", use_memory_on_failure=True):
                 raise err
 
     db.create_tables([CodingSystem, Interview, CodingProperty, GlobalProperty, PropertyValue,
-                      GlobalValue, Utterance, UtteranceCode, GlobalRating, UtteranceStaging])
+                      GlobalValue, Utterance, UtteranceCode, GlobalRating, UtteranceStaging,
+                      GlobalStaging])
 
 
 def close_database():
