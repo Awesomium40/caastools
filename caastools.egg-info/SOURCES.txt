@@ -22,5 +22,12 @@ caastools/parsing/ia/data.py
 caastools/parsing/ia/iaconfiguration.py
 caastools/stats/__init__.py
 caastools/stats/irr.py
-tests/test_datasets.py
-tests/test_utils.py
+caastools/tests/__init__.py
+caastools/tests/test_database.py
+caastools/tests/test_datasets.py
+caastools/tests/test_parsing.cacti.data.py
+caastools/tests/test_parsing.cacti.py
+caastools/tests/test_parsing.ia.py
+caastools/tests/test_plots.py
+caastools/tests/test_stats.py
+caastools/tests/test_utils.py

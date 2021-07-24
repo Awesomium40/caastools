@@ -1,10 +1,9 @@
 import unittest
 from ..database import UtteranceStaging, CodingSystem, CodingProperty, Interview, init_database, close_database, \
-    PropertyValue, Utterance, UtteranceCode
+    PropertyValue, Utterance, UtteranceCode, GlobalProperty, GlobalValue, GlobalRating, GlobalStaging
 
 
 class TestDatabase(unittest.TestCase):
-
 
     def setUp(self) -> None:
         init_database()
@@ -12,12 +11,53 @@ class TestDatabase(unittest.TestCase):
         self.interview = Interview.create(interview_name="TEST_INTERVIEW", coding_system=self.coding_system,
                                           session_number=1, client_id=1, rater_id=1)
         self.coding_property = CodingProperty.create(coding_system=self.coding_system, cp_name="MISC",
-                                                    cp_display_name="MISC", cp_description="MISC2.5")
+                                                     cp_display_name="MISC", cp_description="MISC2.5")
         self.property_value = PropertyValue.create(pv_value='FI', pv_description='Filler',
                                                    coding_property=self.coding_property)
+        self.global_property = GlobalProperty.create(coding_system=self.coding_system, gp_name="Collaboration",
+                                                     gp_description="MISC 2.5 Collaboration", gp_data_type="numeric",
+                                                     )
+        self.global_value = GlobalValue.create(global_property=self.global_property, gv_value="5",
+                                               gv_description = "Collaboration 5")
 
     def tearDown(self) -> None:
         close_database()
+
+
+    def test_global_staging(self):
+
+        SAMPLE_DATA = (
+            {
+                GlobalStaging.interview_name.name: "TEST_INTERVIEW",
+                GlobalStaging.cs_name.name: "TEST_CODING_SYSTEM",
+                GlobalStaging.gp_name.name: "Collaboration",
+                GlobalStaging.gv_value.name: "5"
+            },
+        )
+
+        GR_EXPECTED = ({Interview.interview_name.name: self.interview.interview_name,
+                       GlobalValue.gv_value.name: "5"},)
+
+        # Test that insertion into the staging table works as expected
+        GlobalStaging.bulk_insert(SAMPLE_DATA)
+
+        result = GlobalStaging.select(GlobalStaging.interview_name, GlobalStaging.cs_name, GlobalStaging.gp_name,
+                                      GlobalStaging.gv_value).dicts().execute()
+        for expected, actual in zip(SAMPLE_DATA, result):
+            self.assertEqual(actual, expected)
+
+        # Test that unstaging works as expected
+        rows_inserted = self.unstage_global_ratings(self.interview)
+        self.assertEqual(rows_inserted, 1)
+
+        result = GlobalRating.select(Interview.interview_name, GlobalValue.gv_value)\
+        .join(Interview)\
+        .switch(GlobalRating)\
+        .join(GlobalValue)\
+        .dicts().execute()
+
+        for expected, actual in zip(GR_EXPECTED, result):
+            self.assertEqual(expected, actual)
 
     def test_utterance_staging(self):
 
@@ -40,10 +80,10 @@ class TestDatabase(unittest.TestCase):
              },)
 
         EXPECTED_UTTERANCE = ({Utterance.interview_id.name: self.interview.interview_id,
-                              Utterance.utt_enum.name: 0,
-                              Utterance.utt_start_time.name: 2.0,
-                              Utterance.utt_end_time.name: 3.0,
-                              },
+                               Utterance.utt_enum.name: 0,
+                               Utterance.utt_start_time.name: 2.0,
+                               Utterance.utt_end_time.name: 3.0,
+                               },
                               {Utterance.interview_id.name: self.interview.interview_id,
                                Utterance.utt_enum.name: 1,
                                Utterance.utt_start_time.name: 3.0,
@@ -83,13 +123,47 @@ class TestDatabase(unittest.TestCase):
 
         EXPECTED_UTT_CODE = ({UtteranceCode.utterance_id.name: d.utterance_id,
                               UtteranceCode.property_value_id.name: self.property_value.property_value_id}
-                              for d in Utterance.select().execute())
+                             for d in Utterance.select().execute())
 
         inserted_rows = UtteranceCode.select(UtteranceCode.utterance_id,
                                              UtteranceCode.property_value_id).dicts().execute()
 
         for expected, actual in zip(EXPECTED_UTT_CODE, inserted_rows):
             self.assertEqual(expected, actual)
+
+    def unstage_global_ratings(self, interview, truncate_after=False):
+        """
+        Unstages records from the GlobalStaging table and uses them to create rows in the GlobalRating table
+        :param interview: THe interview to which global ratings belong
+        :param truncate_after" Whether to truncate the table after performing an insertion
+        :return: The number of rows inserted into the GlobalRating table
+        """
+
+        # This table expression will allow a join to records containing the appropriate global_value_id
+        gv_locate = GlobalValue.select(CodingSystem.cs_name, GlobalProperty.gp_name, GlobalValue.gv_value,
+                                       GlobalValue.global_value_id) \
+            .join(GlobalProperty) \
+            .join(CodingSystem).cte("GlobalValueLocate", columns=['cs_name', 'gp_name', 'gv_value', 'global_value_id'])
+
+        # This table expression will allow a join to records containing the appropriate interview_id
+        iv_locate = Interview.select(Interview.interview_name, Interview.interview_id) \
+            .cte("InterviewLocate", columns=['interview_name', 'interview_id'])
+
+        select_query = GlobalStaging.select(gv_locate.c.global_value_id, iv_locate.c.interview_id)\
+            .join(iv_locate, on=(GlobalStaging.interview_name == iv_locate.c.interview_name))\
+            .switch(GlobalStaging)\
+            .join(gv_locate, on=((GlobalStaging.cs_name == gv_locate.c.cs_name) &
+                                 (GlobalStaging.gp_name == gv_locate.c.gp_name) &
+                                 (GlobalStaging.gv_value == gv_locate.c.gv_value)))\
+            .with_cte(iv_locate, gv_locate)
+
+        rows_inserted = GlobalRating.insert_from(select_query, [GlobalRating.global_value_id,
+                                                                GlobalRating.interview_id]).execute()
+
+        if truncate_after:
+            GlobalStaging.truncate_table()
+
+        return rows_inserted
 
     def unstage_utterance_codes(self, interview, truncate_after=True):
         """
