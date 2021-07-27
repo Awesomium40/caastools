@@ -23,7 +23,6 @@ class TestDatabase(unittest.TestCase):
     def tearDown(self) -> None:
         close_database()
 
-
     def test_global_staging(self):
 
         SAMPLE_DATA = (
