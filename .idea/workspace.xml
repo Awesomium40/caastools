@@ -20,9 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Jay.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -226,10 +224,10 @@
     </configuration>
     <list>
       <item itemvalue="Python.setup" />
+      <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
+      <item itemvalue="Python tests.Unittests in test_database.py" />
       <item itemvalue="Python tests.Unittests for caastools.tests.test_database.TestDatabase" />
       <item itemvalue="Python tests.Unittests for caastools.tests.test_database.TestDatabase.test_global_staging" />
-      <item itemvalue="Python tests.Unittests in test_database.py" />
-      <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
     </list>
     <recent_temporary>
       <list>
@@ -380,13 +378,6 @@
       <workItem from="1626930823341" duration="10860000" />
       <workItem from="1627144325312" duration="10000000" />
       <workItem from="1627392419838" duration="25000" />
-    </task>
-    <task id="LOCAL-00013" summary="Update GlobalProperty to have self-referential relationship&#10;Update PropertyValue and GlobalProperty models to include summary_mode fields&#10;Update bulkinsert functions to reflect model changes">
-      <created>1585296647912</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1585296647912</updated>
     </task>
     <task id="LOCAL-00014" summary="Update methods in datasets to correctly set types of columns in&#10;session-level dataframes">
       <created>1585391484521</created>
@@ -724,7 +715,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627148429486</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
+      <created>1630002608308</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1630002608309</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -763,7 +761,6 @@
     <MESSAGE value="Update datasets.sequential to properly cast columns as FLOAT when CodingProperty indicates that data is numeric" />
     <MESSAGE value="Branch to v1.0" />
     <MESSAGE value="Simplify some logging, add additional properties to models in database" />
-    <MESSAGE value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
     <MESSAGE value="Update to version 1.0" />
     <MESSAGE value="Initial commit of version 1.1" />
     <MESSAGE value="Update parsing.ia.iaconfiguration to handle all coding systems" />
@@ -772,7 +769,8 @@
     <MESSAGE value="Add unit tests for staging table" />
     <MESSAGE value="Add Staging table for global ratings&#10;Add unit tests for global staging table" />
     <MESSAGE value="Update to version 1.0.6" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.0.6" />
+    <MESSAGE value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

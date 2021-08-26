@@ -12,7 +12,7 @@ setuptools.setup(
     description="A package for managing and analyzing Interview data at CAAS",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/JayWaWa/caastools",
+    url="https://github.com/Awesomium40/caastools",
     install_requires=['lxml >= 4.3.3', 'peewee >= 3.0', 'numpy >= 1.16.0', 'scipy >= 1.3.0',
                       'pandas >= 1.0.0', 'matplotlib >= 3.1.0', 'savReaderWriter >= 3.4.0'],
     packages=setuptools.find_packages(),
