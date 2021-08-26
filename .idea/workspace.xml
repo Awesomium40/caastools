@@ -21,7 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,10 +223,10 @@
     </configuration>
     <list>
       <item itemvalue="Python.setup" />
-      <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
-      <item itemvalue="Python tests.Unittests in test_database.py" />
       <item itemvalue="Python tests.Unittests for caastools.tests.test_database.TestDatabase" />
       <item itemvalue="Python tests.Unittests for caastools.tests.test_database.TestDatabase.test_global_staging" />
+      <item itemvalue="Python tests.Unittests in test_database.py" />
+      <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
     </list>
     <recent_temporary>
       <list>
@@ -239,6 +238,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -378,13 +378,6 @@
       <workItem from="1626930823341" duration="10860000" />
       <workItem from="1627144325312" duration="10000000" />
       <workItem from="1627392419838" duration="25000" />
-    </task>
-    <task id="LOCAL-00014" summary="Update methods in datasets to correctly set types of columns in&#10;session-level dataframes">
-      <created>1585391484521</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1585391484521</updated>
     </task>
     <task id="LOCAL-00015" summary="Fix a bug that sometimes caused Dataframes having object columns with&#10;missing values to fail to save as SPSS datasets">
       <created>1585412120505</created>
@@ -722,7 +715,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630002608309</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
+      <created>1630002809717</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1630002809717</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
