@@ -50,7 +50,7 @@ def _global_query_(included_interviews=None, included_globals=None, client_as_nu
 
     full_global_query = outer_global_query.join(global_cte, JOIN.LEFT_OUTER,
                         on=((Interview.interview_id == global_cte.c.interview_id) &
-                        (GlobalProperty.global_property_id == global_cte.c.global_property_id)))
+                        (GlobalProperty.global_property_id == global_cte.c.global_property_id))).with_cte(global_cte)
 
     # Append the predicate, if any was specified
     if global_predicate is not None:
@@ -94,11 +94,11 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
 
     # Once an utterance has a quantile number assigned, the last step in getting the counts
     # is to select codes and group by interview, quantile, and property_value
-    decile_counts = UtteranceCode.select(utt_deciles.c.interview_id, utt_deciles.c.decile,
+    decile_counts = UtteranceCode.select(utt_deciles.c.interview_id, utt_deciles.c.quantile,
                                          UtteranceCode.property_value_id,
                                          fn.COUNT(UtteranceCode.utterance_code_id)) \
         .join(utt_deciles, JOIN.LEFT_OUTER, on=(UtteranceCode.utterance_id == utt_deciles.c.utterance_id)) \
-        .group_by(utt_deciles.c.interview_id, utt_deciles.c.decile, UtteranceCode.property_value_id) \
+        .group_by(utt_deciles.c.interview_id, utt_deciles.c.quantile, UtteranceCode.property_value_id) \
         .cte('decile_counts', columns=['interview_id', 'quantile', 'property_value_id', 'cnt'])
 
     case = Case(None, ((decile_counts.c.cnt.is_null(), 0),), (decile_counts.c.cnt))
@@ -119,7 +119,7 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
                  .join(PropertyValue)).cte('base', recursive=True)
 
     # Now, define the recursive terms
-    rquantile = (base_case.c.decile - 1).alias('quantile')
+    rquantile = (base_case.c.quantile - 1).alias('quantile')
     rterm = base_case.select(base_case.c.interview_id, base_case.c.property_value_id, base_case.c.interview_name,
                              base_case.c.client_id,
                              base_case.c.rater_id, base_case.c.session_number,
@@ -128,17 +128,17 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     # The full expression is the union all of the base case with the recursive term
     qt = base_case.union_all(rterm)
     outer_query = qt.select_from(qt.c.interview_id, qt.c.property_value_id, qt.c.interview_name,
-                                  qt.c.client_id, qt.c.rater_id, qt.c.session_number, qt.c.decile, qt.c.property,
+                                  qt.c.client_id, qt.c.rater_id, qt.c.session_number, qt.c.quantile, qt.c.property,
                                   case.alias('var_count'))
 
     # Join the recursive CTE for interview/deciles to the actual count data
     full_query = (outer_query.join(decile_counts, JOIN.LEFT_OUTER,
                                    on=((qt.c.property_value_id == decile_counts.c.property_value_id) &
                                        (qt.c.interview_id == decile_counts.c.interview_id) &
-                                       (qt.c.decile == decile_counts.c.decile)))
+                                       (qt.c.quantile == decile_counts.c.quantile)))
                   .with_cte(decile_counts, utt_deciles, decile_lens, qt))
     full_query = full_query.order_by(qt.c.client_id, qt.c.session_number, qt.c.rater_id, qt.c.property,
-                                     qt.c.decile)
+                                     qt.c.quantile)
 
     # WIth the full query constructed, can build the dataframe from the returned rows
     df = DataFrame.from_records(full_query.tuples().execute(),

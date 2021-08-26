@@ -19,8 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update to version 1.0.8">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -379,13 +380,6 @@
       <workItem from="1627144325312" duration="10000000" />
       <workItem from="1627392419838" duration="25000" />
     </task>
-    <task id="LOCAL-00015" summary="Fix a bug that sometimes caused Dataframes having object columns with&#10;missing values to fail to save as SPSS datasets">
-      <created>1585412120505</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1585412120505</updated>
-    </task>
     <task id="LOCAL-00016" summary="Fix bug in stats.cohens_kappa that occasionally caused incorrect results&#10;Speed up computations in stats.cohens_kappa">
       <created>1585676554533</created>
       <option name="number" value="00016" />
@@ -722,7 +716,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630002809717</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Update to version 1.0.8">
+      <created>1630003476049</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1630003476049</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -745,7 +746,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Add plots.parsing_alignment_plot, which creates a plot of parsing reliability/alignment" />
     <MESSAGE value="Minor changes to plots.parsing_alignment_plot to improve y-axis ticks&#10;Alter database.Models.Interview to allow for null CodingSystem reference&#10;Alter database.bulkinsert.upload_cacti_interview to allow for uploading interview with no coding/global data" />
     <MESSAGE value="Fix a bug in parsing_alignment_plot that caused most axes to not be plotted properly" />
     <MESSAGE value="Fix some improperly named functions" />
@@ -770,7 +770,8 @@
     <MESSAGE value="Add Staging table for global ratings&#10;Add unit tests for global staging table" />
     <MESSAGE value="Update to version 1.0.6" />
     <MESSAGE value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
+    <MESSAGE value="Update to version 1.0.8" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.0.8" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
