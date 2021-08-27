@@ -21,7 +21,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update to version 1.0.8">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/caastools-1.0.8-py3-none-any.whl" beforeDir="false" afterPath="$PROJECT_DIR$/dist/caastools-1.0.8-py3-none-any.whl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -380,13 +383,6 @@
       <workItem from="1627144325312" duration="10000000" />
       <workItem from="1627392419838" duration="25000" />
     </task>
-    <task id="LOCAL-00016" summary="Fix bug in stats.cohens_kappa that occasionally caused incorrect results&#10;Speed up computations in stats.cohens_kappa">
-      <created>1585676554533</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1585676554533</updated>
-    </task>
     <task id="LOCAL-00017" summary="Add function to compute Krippendorf's alpha to stats&#10;add function to create line plots for reliability">
       <created>1585780127702</created>
       <option name="number" value="00017" />
@@ -723,7 +719,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630003476049</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Update to version 1.0.8">
+      <created>1630009111853</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1630009111853</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
