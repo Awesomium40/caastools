@@ -19,11 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update to version 1.0.8">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update to version 1.0.9&#10;update datsets.py to include quantile_level">
+      <change beforePath="$PROJECT_DIR$/.idea/caastools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caastools.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/lib/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/datasets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/caastools-1.0.8-py3-none-any.whl" beforeDir="false" afterPath="$PROJECT_DIR$/dist/caastools-1.0.8-py3-none-any.whl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -115,7 +118,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="XML" />
     <property name="ignore.virus.scanning.warn.message" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="H:/Lee Magill MOBC/Data Management/Syntax" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -242,7 +245,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -382,13 +384,10 @@
       <workItem from="1626930823341" duration="10860000" />
       <workItem from="1627144325312" duration="10000000" />
       <workItem from="1627392419838" duration="25000" />
-    </task>
-    <task id="LOCAL-00017" summary="Add function to compute Krippendorf's alpha to stats&#10;add function to create line plots for reliability">
-      <created>1585780127702</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1585780127702</updated>
+      <workItem from="1630065627406" duration="275000" />
+      <workItem from="1630066296450" duration="1000" />
+      <workItem from="1630066723979" duration="1509000" />
+      <workItem from="1630072056222" duration="619000" />
     </task>
     <task id="LOCAL-00018" summary="Minor updates to stats module">
       <created>1585923935083</created>
@@ -726,7 +725,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630009111853</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Update to version 1.0.9&#10;update datsets.py to include quantile_level">
+      <created>1630029241724</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1630029241724</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -749,7 +755,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Minor changes to plots.parsing_alignment_plot to improve y-axis ticks&#10;Alter database.Models.Interview to allow for null CodingSystem reference&#10;Alter database.bulkinsert.upload_cacti_interview to allow for uploading interview with no coding/global data" />
     <MESSAGE value="Fix a bug in parsing_alignment_plot that caused most axes to not be plotted properly" />
     <MESSAGE value="Fix some improperly named functions" />
     <MESSAGE value="Remove the bulkinsert api, restructure the parsing api" />
@@ -774,7 +779,18 @@
     <MESSAGE value="Update to version 1.0.6" />
     <MESSAGE value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
     <MESSAGE value="Update to version 1.0.8" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.0.8" />
+    <MESSAGE value="Update to version 1.0.9&#10;update datsets.py to include quantile_level" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.0.9&#10;update datsets.py to include quantile_level" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1426" y="457" key="FileChooserDialogImpl" timestamp="1630067045171">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1426" y="457" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1630067045171" />
+    <state x="1148" y="345" key="SettingsEditor" timestamp="1630066806521">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1148" y="345" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1630066806521" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -826,13 +842,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
-          <line>273</line>
+          <line>277</line>
           <option name="timeStamp" value="124" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
-          <line>291</line>
-          <option name="timeStamp" value="125" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

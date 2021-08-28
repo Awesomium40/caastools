@@ -146,7 +146,7 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
                                          'rater_id', 'session_number', 'quantile', 'var_name', 'var_value'])
 
     # Compute a column for quantile x code
-    df['decile_var_name'] = df['var_name'] + "_d" + df['quantile'].astype(str).apply(lambda x: x.zfill(2))
+    df['decile_var_name'] = df['var_name'] + "_q" + df['quantile'].astype(str).apply(lambda x: x.zfill(2))
 
     # Reshape the dataframe and index on client_id
     df = df.loc[:, ['interview_name', 'client_id', 'rater_id', 'session_number',
