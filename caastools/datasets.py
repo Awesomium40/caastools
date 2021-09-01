@@ -414,6 +414,7 @@ def save_as_spss(data_frame: DataFrame, out_path: str, labels: dict = None, find
         if is_string_dtype(data_frame[col]) or is_object_dtype(data_frame[col]):
             lens = list(filter(lambda x: notna(x) and x is not None, set(data_frame[col].str.len())))
             var_types[var_name] = int(max(lens)) * 2 if len(lens) > 0 else 255
+
         else:
             var_types[var_name] = 0
             var_formats[var_name] = "F10.2" if ptypes.is_float_dtype(data_frame[col].dtype) else \

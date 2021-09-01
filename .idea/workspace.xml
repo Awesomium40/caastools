@@ -19,15 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update to version 1.0.9&#10;update datsets.py to include quantile_level">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update to version 1.0.9.1&#10;update datsets.py to include quantile_level">
       <change beforePath="$PROJECT_DIR$/.idea/caastools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caastools.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/interview_transform.xslt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/interview_transform.xslt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/translate_u331_interview_to_u34.xslt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/translate_u331_interview_to_u34.xslt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +51,7 @@
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_datasets_TestDatasets_test_save_as_spss.coverage" NAME="Unittests for test_datasets.TestDatasets.test_save_as_spss Coverage Results" MODIFIED="1585167624916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_bulkops_TestBulkImports.coverage" NAME="Unittests for test_bulkops.TestBulkImports Coverage Results" MODIFIED="1584456632402" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_in_test_plots_py.coverage" NAME="Unittests in test_plots.py Coverage Results" MODIFIED="1585924559496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/caastools$qsf2codebook.coverage" NAME="qsf2codebook Coverage Results" MODIFIED="1584716355986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../" />
+    <SUITE FILE_PATH="coverage/caastools$qsf2codebook.coverage" NAME="qsf2codebook Coverage Results" MODIFIED="1584716355986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:/" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_plots_TestPlots.coverage" NAME="Unittests for test_plots.TestPlots Coverage Results" MODIFIED="1585921435295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/test_data" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_in_test_parsing_py.coverage" NAME="Unittests in test_parsing.py Coverage Results" MODIFIED="1584450918357" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/caastools$Unittests_for_test_parsing_TestParsing_test_reconstruct_ia.coverage" NAME="Unittests for test_parsing.TestParsing.test_reconstruct_ia Coverage Results" MODIFIED="1584452343946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
@@ -388,13 +387,7 @@
       <workItem from="1630066296450" duration="1000" />
       <workItem from="1630066723979" duration="1509000" />
       <workItem from="1630072056222" duration="619000" />
-    </task>
-    <task id="LOCAL-00018" summary="Minor updates to stats module">
-      <created>1585923935083</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1585923935083</updated>
+      <workItem from="1630510648899" duration="25000" />
     </task>
     <task id="LOCAL-00019" summary="update kalpha function to include bootstrapping 95% CI&#10;update kalpha function to support output additional info to file_like object">
       <created>1586527674681</created>
@@ -732,7 +725,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630029241724</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Update to version 1.0.9.1&#10;update datsets.py to include quantile_level">
+      <created>1630141296970</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1630141296971</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -743,19 +743,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Fix a bug in parsing_alignment_plot that caused most axes to not be plotted properly" />
     <MESSAGE value="Fix some improperly named functions" />
     <MESSAGE value="Remove the bulkinsert api, restructure the parsing api" />
     <MESSAGE value="Fix several bugs in the parsing.ia api&#10;Minor changes to the plots api" />
@@ -780,17 +780,18 @@
     <MESSAGE value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
     <MESSAGE value="Update to version 1.0.8" />
     <MESSAGE value="Update to version 1.0.9&#10;update datsets.py to include quantile_level" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.0.9&#10;update datsets.py to include quantile_level" />
+    <MESSAGE value="Update to version 1.0.9.1&#10;update datsets.py to include quantile_level" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.0.9.1&#10;update datsets.py to include quantile_level" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1426" y="457" key="FileChooserDialogImpl" timestamp="1630067045171">
+    <state x="1148" y="345" key="SettingsEditor" timestamp="1630510660111">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1426" y="457" key="FileChooserDialogImpl/0.0.3440.1400@0.0.3440.1400" timestamp="1630067045171" />
-    <state x="1148" y="345" key="SettingsEditor" timestamp="1630066806521">
+    <state x="1148" y="345" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1630510660111" />
+    <state x="1428" y="415" key="git4idea.branch.GitSmartOperationDialog" timestamp="1630510743049">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1148" y="345" key="SettingsEditor/0.0.3440.1400@0.0.3440.1400" timestamp="1630066806521" />
+    <state x="1428" y="415" key="git4idea.branch.GitSmartOperationDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1630510743049" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -806,7 +807,7 @@
           <option name="timeStamp" value="74" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/../../qsf2codebook.py</url>
+          <url>file://D:/qsf2codebook.py</url>
           <line>159</line>
           <option name="timeStamp" value="80" />
         </line-breakpoint>
