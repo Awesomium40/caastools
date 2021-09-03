@@ -16,7 +16,7 @@ def joint_frequencies(events, pre=None, post=None, lag=1):
 
     # Construct the basic dataframe with events for lag 0 and lag N
     lc = f'lag{lag}'
-    event_data = pandas.DataFrame(events, columns=['lag0'])
+    event_data = pandas.DataFrame(numpy.array(events), columns=['lag0'])
     event_data[lc] = event_data['lag0'].shift(-lag).dropna()
 
     # Filter out rows that don't conform to user specs
