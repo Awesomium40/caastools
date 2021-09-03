@@ -170,12 +170,12 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     return df
 
 
-def sequential(included_interviews, included_properties=None, client_as_numeric=True):
+def sequential(included_interviews=None, included_properties=None, client_as_numeric=True):
     """
     datasets.sequential(*included_interviews, included_properties) -> pandas.DataFrame
     Builds a sequential dataset with including those interviews specified in included_interviews and the
     properties specified in included_properties
-    :param included_interviews: sequence of interviews to be included in the dataset
+    :param included_interviews: sequence of interviews to be included in the dataset. None for all interviews
     :param included_properties: Sequence of CodingProperty whose data is to be included (can be ID as well)
     :param client_as_numeric: Whether client_id should be a numeric variable (default True)
     :return: pandas.DataFrame
@@ -245,9 +245,10 @@ def sequential(included_interviews, included_properties=None, client_as_numeric=
 
         # Final step of query preparation is to add in the CTE themselves and narrow the results
         basic_query = basic_query.with_cte(*property_ctes)
+        if included_interviews is not None:
+            basic_query = basic_query.where(Interview.interview_name.in_(included_interviews))
 
-        basic_query = basic_query.where(Interview.interview_name.in_(included_interviews))\
-            .order_by(client_column, Interview.session_number, Utterance.utt_enum)
+        basic_query = basic_query.order_by(client_column, Interview.session_number, Utterance.utt_enum)
 
         results = basic_query.tuples().execute()
         columns = [itm[0] for itm in results.cursor.description]

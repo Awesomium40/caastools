@@ -1,28 +1,85 @@
-from caastools import stats
+from ..stats import irr, sequence
+import itertools
 import numpy
 import os
 import pandas
+import unittest
 
 
-script_dir = os.path.dirname(__file__)
-td_folder = os.path.join(script_dir, 'test_data', 'datasets')
+class SequenceTest(unittest.TestCase):
 
-sl = pandas.read_pickle(os.path.join(td_folder, 'session_level.pkl'))
-seq = pandas.read_pickle(os.path.join(td_folder, 'sequential.pkl')).reset_index(drop=False)
+    def setUp(self) -> None:
+        pass
 
-# Steps to prepare sequential dataset for alpha
-seq_alpha = seq.loc[:, ['client_id', 'utt_enum', 'rater_id', 'MISC']].copy()  # type: pandas.DataFrame
-seq_alpha['client_id'] = seq_alpha['client_id'].astype(numpy.float_).astype(numpy.int_)
-seq_alpha['str_enum'] = seq_alpha['utt_enum'].apply(lambda x: str(x).zfill(4))
-seq_alpha['subject'] = seq_alpha['client_id'].astype(str) + "." + seq_alpha['str_enum'].astype(str)
-seq_alpha = seq_alpha.drop(columns=['utt_enum', 'client_id', 'str_enum']).sort_values(['subject', 'rater_id'])\
-    .pivot(index='rater_id', columns='subject', values='MISC')
+    def tearDown(self) -> None:
+        pass
 
+    def test_transition_matrix(self):
 
-# Steps to prepare SL dataset for alpha
-sl_alpha = sl.reset_index(drop=False).loc[:, ['client_id', 'rater_id', 'Empathy']]  # type: pandas.DataFrame
-sl_alpha['client_id'] = sl_alpha['client_id'].astype(numpy.float_).astype(numpy.int_)
-sl_alpha = sl_alpha.sort_values(['client_id', 'rater_id'])
-sla = sl_alpha.pivot(index='rater_id', columns='client_id', values='Empathy')
+        # Test that works as expected with a list, no filtration, at lag 1
+        events = ['C', 'B', 'C', 'C', 'A', 'B', 'A', 'A', 'C', 'A', 'C', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'C']
+        tm, c, p, dof = sequence.joint_frequencies(events)
 
-stats.kalpha(None)
+        expected = pandas.DataFrame([[3, 3, 2],
+                                     [2, 2, 2],
+                                     [3, 1, 1]], index=['A', 'B', 'C'], columns=['A', 'B', 'C'])
+        self.assertTrue(tm.equals(expected))
+
+        # Test that works as expected with a list, no filtration at lag > 1
+        tm, c, p, dof = sequence.joint_frequencies(events, lag=2)
+        expected = pandas.DataFrame([[3, 4, 1],
+                                     [3, 0, 2],
+                                     [2, 1, 2]], index=['A', 'B', 'C'], columns=['A', 'B', 'C'])
+        self.assertTrue(tm.equals(expected))
+
+        # Test that works as expected with a list, filter pre-events at lag 1
+        tm, c, p, dof = sequence.joint_frequencies(events, pre=['A'])
+        expected = pandas.DataFrame([[3, 3, 2]], index=['A'], columns=['A', 'B', 'C'])
+        self.assertTrue(tm.equals(expected))
+
+        # Test that works as expected with a list, filter post-events at lag 1
+        tm, c, p, dof = sequence.joint_frequencies(events, post=['B', 'C'])
+        expected = pandas.DataFrame([[3, 2],
+                                     [2, 2],
+                                     [1, 1]], index=['A', 'B', 'C'], columns=['B', 'C'])
+        self.assertTrue(tm.equals(expected))
+
+        # Test that works as expected with a list, filter pre and post events at lag 1
+        tm, c, p, dof = sequence.joint_frequencies(events, pre=['A'], post=['B', 'C'])
+        expected = pandas.DataFrame([[3, 2]], index=['A'], columns=['B', 'C'])
+        self.assertTrue(tm.equals(expected))
+
+    def test_transition_stats(self):
+
+        jntf_idx = ['ELCTD', 'ELCTP', 'ELN', 'ELSTD', 'ELSTP', 'MIIN', 'MIREL', 'OTHER']
+        jntf_cols = ['CTD', 'CTP', 'FN', 'STD', 'STP']
+
+        exp_cols = ['given', 'target', 'jntf', 'expf', 'conp', 'rsdl', 'adjr', 'pval', 'odds', 'lnor']
+
+        exp_raw = [['ELCTD', 'CTD', 2820, 747.6519, 0.72962, 2072.348, 92.53701, 0.0006, 29.07529, 3.36989],
+                   ['ELSTP', 'FN', 39, 124.0356, 0.19697, -85.03562, -12.5467, 0.0006, 0.14395, -1.93832]]
+
+        jntf_raw = [[2820, 65, 832, 146, 2],
+                    [67, 939, 257, 24, 52],
+                    [551, 232, 6795, 261, 41],
+                    [86, 7, 307, 988, 9],
+                    [5, 27, 39, 13, 114],
+                    [32, 35, 162, 8, 5],
+                    [114, 282, 1643, 46, 24],
+                    [767, 339, 4350, 426, 51]]
+
+        jntf = pandas.DataFrame(jntf_raw, index=jntf_idx, columns=jntf_cols)
+
+        expm = pandas.DataFrame(exp_raw, columns=exp_cols).set_index(['given', 'target'])
+
+        actm = sequence.cell_stats(jntf)
+
+        # Test that transition statistics match expectations within 3 decimal places
+        for r, c in itertools.product(expm.index.values, expm.columns.values):
+            expected = expm.loc[r, c]
+            actual = actm.loc[r, c]
+
+            if isinstance(expected, (int, float, numpy.int64, numpy.float64)):
+                self.assertAlmostEqual(expected, actual, 3)
+            else:
+                self.assertEqual(expected, actual)
