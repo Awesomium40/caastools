@@ -1,7 +1,6 @@
 from ..stats import irr, sequence
 import itertools
 import numpy
-import os
 import pandas
 import unittest
 

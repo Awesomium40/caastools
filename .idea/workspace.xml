@@ -19,10 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update to version 1.0.9.1&#10;update datsets.py to include quantile_level">
-      <change afterPath="$PROJECT_DIR$/caastools/stats/sequence.py" afterDir="false" />
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/tests/test_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/tests/test_stats.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -379,21 +377,7 @@
       <workItem from="1630072056222" duration="619000" />
       <workItem from="1630510648899" duration="25000" />
       <workItem from="1630510865054" duration="1630000" />
-      <workItem from="1630616094601" duration="16668000" />
-    </task>
-    <task id="LOCAL-00019" summary="update kalpha function to include bootstrapping 95% CI&#10;update kalpha function to support output additional info to file_like object">
-      <created>1586527674681</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1586527674681</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Update kalpha function to improve performance">
-      <created>1586624378190</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1586624378190</updated>
+      <workItem from="1630616094601" duration="17537000" />
     </task>
     <task id="LOCAL-00021" summary="Update stats.icc to compute more versions of ICC as described in McGraw &amp; Wong">
       <created>1586783371667</created>
@@ -724,7 +708,21 @@
       <option name="project" value="LOCAL" />
       <updated>1630141296971</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Minor updates to datasets.sequential">
+      <created>1630683695819</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1630683695819</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Minor updates to datasets.sequential">
+      <created>1630683779212</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1630683779212</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -748,7 +746,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Fix some improperly named functions" />
     <MESSAGE value="Remove the bulkinsert api, restructure the parsing api" />
     <MESSAGE value="Fix several bugs in the parsing.ia api&#10;Minor changes to the plots api" />
     <MESSAGE value="Update the datasets api to use more SQL, less pandas for constructing datasets" />
@@ -773,37 +770,38 @@
     <MESSAGE value="Update to version 1.0.8" />
     <MESSAGE value="Update to version 1.0.9&#10;update datsets.py to include quantile_level" />
     <MESSAGE value="Update to version 1.0.9.1&#10;update datsets.py to include quantile_level" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.0.9.1&#10;update datsets.py to include quantile_level" />
+    <MESSAGE value="Minor updates to datasets.sequential" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor updates to datasets.sequential" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1402" y="410" key="#xdebugger.evaluate" timestamp="1630675915875">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1402" y="410" key="#xdebugger.evaluate/0.0.3440.1400@0.0.3440.1400" timestamp="1630675915875" />
-    <state x="1272" y="287" key="CommitChangelistDialog2" timestamp="1630683720147">
+    <state x="1272" y="287" key="CommitChangelistDialog2" timestamp="1630683778324">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1272" y="287" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1630683720147" />
+    <state x="1272" y="287" key="CommitChangelistDialog2/0.0.3440.1400@0.0.3440.1400" timestamp="1630683778324" />
     <state width="1679" height="466" key="DebuggerActiveHint" timestamp="1630679536234">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state width="1679" height="466" key="DebuggerActiveHint/0.0.3440.1400@0.0.3440.1400" timestamp="1630679536234" />
-    <state width="1480" height="387" key="GridCell.Tab.0.bottom" timestamp="1630683763467">
+    <state width="1480" height="387" key="GridCell.Tab.0.bottom" timestamp="1630702478926">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="387" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1630683763467" />
-    <state width="1480" height="387" key="GridCell.Tab.0.center" timestamp="1630683763467">
+    <state width="1480" height="387" key="GridCell.Tab.0.bottom/0.0.3440.1400@0.0.3440.1400" timestamp="1630702478926" />
+    <state width="1480" height="387" key="GridCell.Tab.0.center" timestamp="1630702478926">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="387" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1630683763467" />
-    <state width="1480" height="387" key="GridCell.Tab.0.left" timestamp="1630683763467">
+    <state width="1480" height="387" key="GridCell.Tab.0.center/0.0.3440.1400@0.0.3440.1400" timestamp="1630702478926" />
+    <state width="1480" height="387" key="GridCell.Tab.0.left" timestamp="1630702478926">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="387" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1630683763467" />
-    <state width="1480" height="387" key="GridCell.Tab.0.right" timestamp="1630683763467">
+    <state width="1480" height="387" key="GridCell.Tab.0.left/0.0.3440.1400@0.0.3440.1400" timestamp="1630702478926" />
+    <state width="1480" height="387" key="GridCell.Tab.0.right" timestamp="1630702478926">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state width="1480" height="387" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1630683763467" />
+    <state width="1480" height="387" key="GridCell.Tab.0.right/0.0.3440.1400@0.0.3440.1400" timestamp="1630702478926" />
     <state width="1480" height="479" key="GridCell.Tab.1.bottom" timestamp="1630679940404">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -828,10 +826,10 @@
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
     <state x="1239" y="435" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1630683700496" />
-    <state x="1456" y="619" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1630683654273">
+    <state x="1456" y="619" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1630702520216">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="1456" y="619" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1630683654273" />
+    <state x="1456" y="619" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1630702520216" />
     <state x="1428" y="415" key="git4idea.branch.GitSmartOperationDialog" timestamp="1630510743049">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
@@ -880,7 +878,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/setup_py$Unittests_for_caastools_tests_test_stats_SequenceTest_test_transition_stats.coverage" NAME="Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats Coverage Results" MODIFIED="1630679485436" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/setup_py$Unittests_for_caastools_tests_test_stats_SequenceTest.coverage" NAME="Unittests for caastools.tests.test_stats.SequenceTest Coverage Results" MODIFIED="1630680027099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/setup_py$Unittests_for_caastools_tests_test_stats_SequenceTest.coverage" NAME="Unittests for caastools.tests.test_stats.SequenceTest Coverage Results" MODIFIED="1630702478916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/setup_py$Unittests_for_caastools_tests_test_stats_SequenceTest_test_transition_matrix.coverage" NAME="Unittests for caastools.tests.test_stats.SequenceTest.test_transition_matrix Coverage Results" MODIFIED="1630679991526" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
