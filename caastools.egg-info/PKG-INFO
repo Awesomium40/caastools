@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: caastools
-Version: 1.0.9.2
+Version: 1.0.9.3
 Summary: A package for managing and analyzing Interview data at CAAS
 Home-page: https://github.com/Awesomium40/caastools
 Author: Jay Walthers
@@ -14,7 +14,7 @@ Description: <h1>caastools</h1>
         Installation is simple. 
         </p>
         <ul>
-        <li><i>Preferred</i>: download the most recent version of the caastools wheel (currently <a href="https://github.com/Awesomium40/caastools/blob/master/dist/caastools-1.0.9.1-py3-none-any.whl">v1.0.9.1</a>)
+        <li><i>Preferred</i>: download the most recent version of the caastools wheel (currently <a href="https://github.com/Awesomium40/caastools/blob/master/dist/caastools-1.0.9.3-py3-none-any.whl">v1.0.9.3</a>)
         and install via pip -> <code>pip install path_to_wheel</code></li>
         <li>Clone the repository to a folder on your local machine</li>
         <li>You can also install via:
