@@ -4,7 +4,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 xmlns:fn="http://www.w3.org/2005/xpath-functions"
 xmlns:func="http://exslt.org/functions"
 extension-element-prefixes="func"
-xmlns:jww="http://notARealPlace.com">
+xmlns:jww="https://github.com/Awesomium40">
 
 <!--
 Transforms an IA XML file into something a little easier to digest via SPSS and python

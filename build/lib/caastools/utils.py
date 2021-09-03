@@ -129,10 +129,3 @@ def sanitize_for_spss(dirty_str, find=None, repl=None):
     new_var = new_var[:32] if len(new_var) > max_length else new_var
 
     return new_var
-
-
-
-
-
-
-

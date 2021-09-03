@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns:fn="http://www.w3.org/2005/xpath-functions"
-                xmlns:func="http://exslt.org/functions" xmlns:jww="http://notARealPlace.com"
+                xmlns:func="http://exslt.org/functions" xmlns:jww="https://github.com/Awesomium40"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 extension-element-prefixes="func" version="1.0">

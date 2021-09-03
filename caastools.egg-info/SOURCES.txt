@@ -23,6 +23,7 @@ caastools/parsing/ia/data.py
 caastools/parsing/ia/iaconfiguration.py
 caastools/stats/__init__.py
 caastools/stats/irr.py
+caastools/stats/sequence.py
 caastools/tests/__init__.py
 caastools/tests/test_database.py
 caastools/tests/test_datasets.py
