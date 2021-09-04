@@ -50,7 +50,7 @@ def _global_query_(included_interviews=None, included_globals=None, client_as_nu
 
     full_global_query = outer_global_query.join(global_cte, JOIN.LEFT_OUTER,
                         on=((Interview.interview_id == global_cte.c.interview_id) &
-                        (GlobalProperty.global_property_id == global_cte.c.global_property_id))).with_cte(global_cte)
+                        (GlobalProperty.global_property_id == global_cte.c.global_property_id)))
 
     # Append the predicate, if any was specified
     if global_predicate is not None:
@@ -159,6 +159,7 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     # Then put into dataframe
     # then, reshape and reindex like the count data
     global_query, global_cte = _global_query_()
+    global_query = global_query.with_cte(global_cte)
     gdf = (DataFrame.from_records(global_query.tuples().execute(), columns=['interview_name', 'client_id', 'rater_id',
                                                                             'session_number', 'var_name', 'var_value'])
            .loc[:, ['client_id', 'var_name', 'var_value']]
