@@ -19,14 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/stats/sequence.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/sequence.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/tests/test_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/tests/test_stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-    </list>
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="minor update to stats.sequence.joint_frequencies" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -386,13 +379,6 @@
       <workItem from="1630616094601" duration="18808000" />
       <workItem from="1630704873226" duration="878000" />
     </task>
-    <task id="LOCAL-00027" summary="Add plots.parsing_alignment_plot, which creates a plot of parsing reliability/alignment">
-      <created>1588256058467</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1588256058467</updated>
-    </task>
     <task id="LOCAL-00028" summary="Minor changes to plots.parsing_alignment_plot to improve y-axis ticks&#10;Alter database.Models.Interview to allow for null CodingSystem reference&#10;Alter database.bulkinsert.upload_cacti_interview to allow for uploading interview with no coding/global data">
       <created>1588340415099</created>
       <option name="number" value="00028" />
@@ -729,7 +715,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630714334177</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="minor update to stats.sequence.joint_frequencies">
+      <created>1630750243470</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1630750243470</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -752,7 +745,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Further update datasets api to use even less pandas and more SQL in dataset construction" />
     <MESSAGE value="Merge V0.9" />
     <MESSAGE value="Remove extraneous functions from datasets module" />
     <MESSAGE value="Update datasets module to query more fields" />
@@ -777,7 +769,8 @@
     <MESSAGE value="add module for sequential analysis" />
     <MESSAGE value="Fix a bug in stats" />
     <MESSAGE value="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities" />
+    <MESSAGE value="minor update to stats.sequence.joint_frequencies" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor update to stats.sequence.joint_frequencies" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
