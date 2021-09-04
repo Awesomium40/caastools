@@ -26,7 +26,7 @@ def joint_frequencies(events, pre=None, post=None, lag=1, chisq=True):
     filtered = event_data.loc[lambda x: (x['lag0'].isin(pre)) & (x[lc].isin(post)), :].dropna()
 
     # Compute the transition matrix, chi square, p, and dof
-    jntf = pandas.crosstab(filtered['lag0'], filtered[lc], dropna=False)
+    jntf = pandas.crosstab(filtered['lag0'], filtered[lc], rownames=pre, colnames=post, dropna=False)
 
     return jntf
 
