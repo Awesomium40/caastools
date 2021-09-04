@@ -159,6 +159,7 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     # Then put into dataframe
     # then, reshape and reindex like the count data
     global_query, global_cte = _global_query_()
+    global_query = global_query.with_cte(global_cte)
     gdf = (DataFrame.from_records(global_query.tuples().execute(), columns=['interview_name', 'client_id', 'rater_id',
                                                                             'session_number', 'var_name', 'var_value'])
            .loc[:, ['client_id', 'var_name', 'var_value']]

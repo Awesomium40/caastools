@@ -20,8 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="minor update to stats.sequence.joint_frequencies">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/stats/sequence.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/sequence.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,11 +216,11 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python tests.Unittests in test_database.py" />
-      <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
       <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest" />
       <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_matrix" />
       <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats" />
+      <item itemvalue="Python tests.Unittests in test_database.py" />
+      <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
     </list>
     <recent_temporary>
       <list>
