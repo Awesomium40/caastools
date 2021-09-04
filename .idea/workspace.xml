@@ -19,9 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="add module for sequential analysis">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in stats">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/stats/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/stats/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/stats/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/stats/sequence.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/sequence.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -383,13 +384,6 @@
       <workItem from="1630616094601" duration="18808000" />
       <workItem from="1630704873226" duration="878000" />
     </task>
-    <task id="LOCAL-00024" summary="Fix a bug in plots.disagreement_heatmap that prevented tight_layout from executing">
-      <created>1587049541535</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1587049541535</updated>
-    </task>
     <task id="LOCAL-00025" summary="Minor cleanup in caastools.stats&#10;fix a bug in database.models.init_database that occurred when attempting to connect to a database raised peewee.OperationalError">
       <created>1587140216329</created>
       <option name="number" value="00025" />
@@ -726,7 +720,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630702675461</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="Fix a bug in stats">
+      <created>1630713403605</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1630713403605</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -749,7 +750,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Fix several bugs in the parsing.ia api&#10;Minor changes to the plots api" />
     <MESSAGE value="Update the datasets api to use more SQL, less pandas for constructing datasets" />
     <MESSAGE value="Further update datasets api to use even less pandas and more SQL in dataset construction" />
     <MESSAGE value="Merge V0.9" />
@@ -774,7 +774,8 @@
     <MESSAGE value="Update to version 1.0.9.1&#10;update datsets.py to include quantile_level" />
     <MESSAGE value="Minor updates to datasets.sequential" />
     <MESSAGE value="add module for sequential analysis" />
-    <option name="LAST_COMMIT_MESSAGE" value="add module for sequential analysis" />
+    <MESSAGE value="Fix a bug in stats" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in stats" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -813,6 +814,11 @@
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
           <line>277</line>
           <option name="timeStamp" value="124" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/caastools/stats/sequence.py</url>
+          <line>75</line>
+          <option name="timeStamp" value="125" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

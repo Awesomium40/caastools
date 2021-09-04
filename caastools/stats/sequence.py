@@ -69,7 +69,7 @@ def cell_stats(jntf):
         transition_data['odds'].append(odds_ratio)
         transition_data['lnor'].append(lnor)
         transition_data['conp'].append(a / jntf.loc[given, :].sum())
-        transition_data['pval'] = p
+        transition_data['pval'].append(p)
 
     td = pandas.DataFrame(transition_data, columns=td_columns).set_index(['given', 'target'])
 
