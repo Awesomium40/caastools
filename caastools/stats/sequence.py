@@ -4,13 +4,14 @@ import pandas
 import scipy
 
 
-def joint_frequencies(events, pre=None, post=None, lag=1):
+def joint_frequencies(events, pre=None, post=None, lag=1, chisq=True):
     """
     Computes the matrix of transitions from events at lag lag
     :param events: list-like of events for which to compute transition probability matrix
     :param pre: list-like of pre-cursor events
     :param post: list-like of post-events
     :param lag: distance between pre- and post-events. Default 1
+    :param chisq: Whether to compute chi-square stats on the computed joint frequency table
     :return: DataFrame with joint frequencies, chi-square, p-value, degrees of freedom
     """
 
@@ -25,13 +26,12 @@ def joint_frequencies(events, pre=None, post=None, lag=1):
     filtered = event_data.loc[lambda x: (x['lag0'].isin(pre)) & (x[lc].isin(post)), :].dropna()
 
     # Compute the transition matrix, chi square, p, and dof
-    jntf = pandas.crosstab(filtered['lag0'], event_data[lc])
-    c, p, dof, expected = scipy.stats.chi2_contingency(jntf)
+    jntf = pandas.crosstab(filtered['lag0'], event_data[lc], dropna=False)
 
-    return jntf, c, p, dof
+    return jntf
 
 
-def cell_stats(jntf):
+def sequence_stats(jntf):
     """
     Computes the transition probability statistics for each transition in the matrix jntf
     :param jntf: pandas.DataFrame containing joint frequencies for transitions
@@ -72,5 +72,6 @@ def cell_stats(jntf):
         transition_data['pval'].append(p)
 
     td = pandas.DataFrame(transition_data, columns=td_columns).set_index(['given', 'target'])
+    c, p, dof, expected = scipy.stats.chi2_contingency(jntf)
 
-    return td
+    return td, c, p, dof

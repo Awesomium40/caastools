@@ -17,7 +17,7 @@ class SequenceTest(unittest.TestCase):
 
         # Test that works as expected with a list, no filtration, at lag 1
         events = ['C', 'B', 'C', 'C', 'A', 'B', 'A', 'A', 'C', 'A', 'C', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'C']
-        tm, c, p, dof = sequence.joint_frequencies(events)
+        tm = sequence.joint_frequencies(events)
 
         expected = pandas.DataFrame([[3, 3, 2],
                                      [2, 2, 2],
@@ -25,26 +25,26 @@ class SequenceTest(unittest.TestCase):
         self.assertTrue(tm.equals(expected))
 
         # Test that works as expected with a list, no filtration at lag > 1
-        tm, c, p, dof = sequence.joint_frequencies(events, lag=2)
+        tm = sequence.joint_frequencies(events, lag=2)
         expected = pandas.DataFrame([[3, 4, 1],
                                      [3, 0, 2],
                                      [2, 1, 2]], index=['A', 'B', 'C'], columns=['A', 'B', 'C'])
         self.assertTrue(tm.equals(expected))
 
         # Test that works as expected with a list, filter pre-events at lag 1
-        tm, c, p, dof = sequence.joint_frequencies(events, pre=['A'])
+        tm = sequence.joint_frequencies(events, pre=['A'])
         expected = pandas.DataFrame([[3, 3, 2]], index=['A'], columns=['A', 'B', 'C'])
         self.assertTrue(tm.equals(expected))
 
         # Test that works as expected with a list, filter post-events at lag 1
-        tm, c, p, dof = sequence.joint_frequencies(events, post=['B', 'C'])
+        tm = sequence.joint_frequencies(events, post=['B', 'C'])
         expected = pandas.DataFrame([[3, 2],
                                      [2, 2],
                                      [1, 1]], index=['A', 'B', 'C'], columns=['B', 'C'])
         self.assertTrue(tm.equals(expected))
 
         # Test that works as expected with a list, filter pre and post events at lag 1
-        tm, c, p, dof = sequence.joint_frequencies(events, pre=['A'], post=['B', 'C'])
+        tm = sequence.joint_frequencies(events, pre=['A'], post=['B', 'C'])
         expected = pandas.DataFrame([[3, 2]], index=['A'], columns=['B', 'C'])
         self.assertTrue(tm.equals(expected))
 
@@ -71,7 +71,7 @@ class SequenceTest(unittest.TestCase):
 
         expm = pandas.DataFrame(exp_raw, columns=exp_cols).set_index(['given', 'target'])
 
-        actm = sequence.cell_stats(jntf)
+        actm, c, p, dof = sequence.sequence_stats(jntf)
 
         # Test that transition statistics match expectations within 3 decimal places
         for r, c in itertools.product(expm.index.values, expm.columns.values):

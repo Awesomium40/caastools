@@ -19,11 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in stats">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/stats/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/stats/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/stats/sequence.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/sequence.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/tests/test_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/tests/test_stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -384,20 +386,6 @@
       <workItem from="1630616094601" duration="18808000" />
       <workItem from="1630704873226" duration="878000" />
     </task>
-    <task id="LOCAL-00025" summary="Minor cleanup in caastools.stats&#10;fix a bug in database.models.init_database that occurred when attempting to connect to a database raised peewee.OperationalError">
-      <created>1587140216329</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1587140216329</updated>
-    </task>
-    <task id="LOCAL-00026" summary="Fix minor bug in database.datasets._get_utterance_data_ to retrieve all required fields">
-      <created>1587653575732</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1587653575732</updated>
-    </task>
     <task id="LOCAL-00027" summary="Add plots.parsing_alignment_plot, which creates a plot of parsing reliability/alignment">
       <created>1588256058467</created>
       <option name="number" value="00027" />
@@ -727,7 +715,21 @@
       <option name="project" value="LOCAL" />
       <updated>1630713403605</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities">
+      <created>1630714227337</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1630714227337</updated>
+    </task>
+    <task id="LOCAL-00075" summary="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities">
+      <created>1630714334177</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1630714334177</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -750,7 +752,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update the datasets api to use more SQL, less pandas for constructing datasets" />
     <MESSAGE value="Further update datasets api to use even less pandas and more SQL in dataset construction" />
     <MESSAGE value="Merge V0.9" />
     <MESSAGE value="Remove extraneous functions from datasets module" />
@@ -775,7 +776,8 @@
     <MESSAGE value="Minor updates to datasets.sequential" />
     <MESSAGE value="add module for sequential analysis" />
     <MESSAGE value="Fix a bug in stats" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in stats" />
+    <MESSAGE value="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -817,7 +819,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/stats/sequence.py</url>
-          <line>75</line>
+          <line>76</line>
           <option name="timeStamp" value="125" />
         </line-breakpoint>
       </breakpoints>
