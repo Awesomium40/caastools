@@ -19,8 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="minor update to stats.sequence.joint_frequencies">
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in datasets._global_query_">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/stats/sequence.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/sequence.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -381,20 +382,6 @@
       <workItem from="1630616094601" duration="18808000" />
       <workItem from="1630704873226" duration="878000" />
     </task>
-    <task id="LOCAL-00030" summary="Fix some improperly named functions">
-      <created>1591723542505</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1591723542505</updated>
-    </task>
-    <task id="LOCAL-00031" summary="Fix some improperly named functions">
-      <created>1595952837128</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1595952837128</updated>
-    </task>
     <task id="LOCAL-00032" summary="Fix some improperly named functions">
       <created>1596167811368</created>
       <option name="number" value="00032" />
@@ -724,7 +711,21 @@
       <option name="project" value="LOCAL" />
       <updated>1630750544476</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="Fix a bug in datasets._global_query_">
+      <created>1630752205821</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1630752205821</updated>
+    </task>
+    <task id="LOCAL-00080" summary="Fix a bug in datasets._global_query_">
+      <created>1630752263718</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1630752263718</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -747,7 +748,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Merge V0.9" />
     <MESSAGE value="Remove extraneous functions from datasets module" />
     <MESSAGE value="Update datasets module to query more fields" />
     <MESSAGE value="Update datasets.session-level to return missing values where appropriate" />
@@ -772,7 +772,8 @@
     <MESSAGE value="Fix a bug in stats" />
     <MESSAGE value="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities" />
     <MESSAGE value="minor update to stats.sequence.joint_frequencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor update to stats.sequence.joint_frequencies" />
+    <MESSAGE value="Fix a bug in datasets._global_query_" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in datasets._global_query_" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -816,6 +817,11 @@
           <url>file://$PROJECT_DIR$/caastools/stats/sequence.py</url>
           <line>77</line>
           <option name="timeStamp" value="125" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/caastools/tests/test_stats.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="126" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
