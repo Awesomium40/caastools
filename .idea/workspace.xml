@@ -19,10 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fix a bug in datasets._global_query_">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/stats/sequence.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/sequence.py" afterDir="false" />
-    </list>
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -382,20 +379,6 @@
       <workItem from="1630616094601" duration="18808000" />
       <workItem from="1630704873226" duration="878000" />
     </task>
-    <task id="LOCAL-00033" summary="Remove the bulkinsert api, restructure the parsing api">
-      <created>1596169677051</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1596169677051</updated>
-    </task>
-    <task id="LOCAL-00034" summary="Remove the bulkinsert api, restructure the parsing api">
-      <created>1596601289817</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1596601289817</updated>
-    </task>
     <task id="LOCAL-00035" summary="Fix several bugs in the parsing.ia api&#10;Minor changes to the plots api">
       <created>1596652644223</created>
       <option name="number" value="00035" />
@@ -725,7 +708,21 @@
       <option name="project" value="LOCAL" />
       <updated>1630754590927</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
+      <created>1630804124654</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1630804124655</updated>
+    </task>
+    <task id="LOCAL-00083" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
+      <created>1630804154262</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1630804154262</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -748,7 +745,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Remove extraneous functions from datasets module" />
     <MESSAGE value="Update datasets module to query more fields" />
     <MESSAGE value="Update datasets.session-level to return missing values where appropriate" />
     <MESSAGE value="Update datasets.session-level to return remove extraneous fields from queries" />
@@ -773,7 +769,8 @@
     <MESSAGE value="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities" />
     <MESSAGE value="minor update to stats.sequence.joint_frequencies" />
     <MESSAGE value="Fix a bug in datasets._global_query_" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix a bug in datasets._global_query_" />
+    <MESSAGE value="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

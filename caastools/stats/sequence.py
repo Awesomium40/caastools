@@ -84,6 +84,6 @@ def sequence_stats(jntf):
     # Perform a correction if any zero cells exist, to duplicate that computed by GSEQ
     if any(jntf == 0):
         jntf = jntf + 0.1
-    c, p, dof, expected = scipy.stats.chi2_contingency(jntf.loc)
+    c, p, dof, expected = scipy.stats.chi2_contingency(jntf)
 
     return td, c, p, dof
