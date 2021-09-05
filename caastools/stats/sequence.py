@@ -52,27 +52,38 @@ def sequence_stats(jntf):
         c = jntf.loc[jntf.index != given, target].sum()
         d = jntf.loc[jntf.index != given, jntf.columns != target].sum().sum()
 
+        ordf = pandas.DataFrame([[a, b], [c, d]])
+        if any(ordf == 0):
+            ordf = ordf + 0.1
+
         # Cell stats
-        odds_ratio = (a * d) / (b * c)
+        odds_ratio, pres = scipy.stats.fisher_exact(ordf)
         lnor = numpy.log(odds_ratio)
-        c, p, dof, expected = scipy.stats.chi2_contingency([[a, b], [c, d]])
+        exp = jntf.loc[given, :].sum() * jntf.loc[:, target].sum() / jntf.sum().sum()
 
         # The following are used to compute the adjusted residual
         nA = jntf.loc[:, target].sum()
         nB = jntf.loc[given, :].sum()
         N = jntf.sum().sum()
-        exp = expected[0, 0]
+
+        # Adjusted residual
+        adjr = (a - exp) / numpy.sqrt(nA * nB * (1 - nA / N) * (1 - nB / N) / N)
 
         transition_data['jntf'].append(a)
         transition_data['expf'].append(exp)
         transition_data['rsdl'].append(a - exp)
-        transition_data['adjr'].append((a - exp) / numpy.sqrt(nA * nB * (1 - nA / N) * (1 - nB / N) / N))
+        transition_data['adjr'].append(adjr)
         transition_data['odds'].append(odds_ratio)
         transition_data['lnor'].append(lnor)
         transition_data['conp'].append(a / jntf.loc[given, :].sum())
-        transition_data['pval'].append(p)
+        transition_data['pval'].append(pres)
 
+    # Create a DF with the cell stats
     td = pandas.DataFrame(transition_data, columns=td_columns).set_index(['given', 'target'])
-    c, p, dof, expected = scipy.stats.chi2_contingency(jntf)
+
+    # Perform a correction if any zero cells exist, to duplicate that computed by GSEQ
+    if any(jntf == 0):
+        jntf = jntf + 0.1
+    c, p, dof, expected = scipy.stats.chi2_contingency(jntf.loc)
 
     return td, c, p, dof
