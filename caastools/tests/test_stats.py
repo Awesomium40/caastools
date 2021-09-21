@@ -22,31 +22,42 @@ class SequenceTest(unittest.TestCase):
         expected = pandas.DataFrame([[3, 3, 2],
                                      [2, 2, 2],
                                      [3, 1, 1]], index=['A', 'B', 'C'], columns=['A', 'B', 'C'])
-        self.assertTrue(tm.equals(expected))
+
+        for row, col in itertools.product(expected.index, expected.columns):
+            self.assertAlmostEqual(expected.loc[row, col], tm.loc[row, col], delta=0.001)
+
 
         # Test that works as expected with a list, no filtration at lag > 1
         tm = sequence.joint_frequencies(events, lag=2)
         expected = pandas.DataFrame([[3, 4, 1],
                                      [3, 0, 2],
                                      [2, 1, 2]], index=['A', 'B', 'C'], columns=['A', 'B', 'C'])
-        self.assertTrue(tm.equals(expected))
+
+        for row, col in itertools.product(expected.index, expected.columns):
+            self.assertAlmostEqual(expected.loc[row, col], tm.loc[row, col], delta=0.001)
 
         # Test that works as expected with a list, filter pre-events at lag 1
         tm = sequence.joint_frequencies(events, pre=['A'])
         expected = pandas.DataFrame([[3, 3, 2]], index=['A'], columns=['A', 'B', 'C'])
-        self.assertTrue(tm.equals(expected))
+
+        for row, col in itertools.product(expected.index, expected.columns):
+            self.assertAlmostEqual(expected.loc[row, col], tm.loc[row, col], delta=0.001)
 
         # Test that works as expected with a list, filter post-events at lag 1
         tm = sequence.joint_frequencies(events, post=['B', 'C'])
         expected = pandas.DataFrame([[3, 2],
                                      [2, 2],
                                      [1, 1]], index=['A', 'B', 'C'], columns=['B', 'C'])
-        self.assertTrue(tm.equals(expected))
+
+        for row, col in itertools.product(expected.index, expected.columns):
+            self.assertAlmostEqual(expected.loc[row, col], tm.loc[row, col], delta=0.001)
 
         # Test that works as expected with a list, filter pre and post events at lag 1
         tm = sequence.joint_frequencies(events, pre=['A'], post=['B', 'C'])
         expected = pandas.DataFrame([[3, 2]], index=['A'], columns=['B', 'C'])
-        self.assertTrue(tm.equals(expected))
+
+        for row, col in itertools.product(expected.index, expected.columns):
+            self.assertAlmostEqual(expected.loc[row, col], tm.loc[row, col], delta=0.001)
 
     def test_transition_stats(self):
 

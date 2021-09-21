@@ -21,10 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/stats/sequence.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/stats/sequence.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/tests/test_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/tests/test_stats.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -384,13 +381,7 @@
       <workItem from="1630510865054" duration="1630000" />
       <workItem from="1630616094601" duration="18808000" />
       <workItem from="1630704873226" duration="878000" />
-    </task>
-    <task id="LOCAL-00037" summary="Further update datasets api to use even less pandas and more SQL in dataset construction">
-      <created>1596830027971</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1596830027971</updated>
+      <workItem from="1630941895940" duration="45000" />
     </task>
     <task id="LOCAL-00038" summary="Merge V0.9">
       <created>1596831133823</created>
@@ -728,7 +719,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630804289740</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
+      <created>1630804662468</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1630804662468</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -818,8 +816,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/tests/test_stats.py</url>
-          <line>24</line>
-          <option name="timeStamp" value="126" />
+          <line>25</line>
+          <option name="timeStamp" value="128" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
