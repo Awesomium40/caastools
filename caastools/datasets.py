@@ -79,7 +79,7 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     # Frist step in that operation is to determine the length of a quantile by interview
     decile_lens = Utterance.select(Utterance.interview_id, fn.MIN(Utterance.utt_start_time),
                                    fn.MAX(Utterance.utt_end_time),
-                                   (fn.MAX(Utterance.utt_end_time) - fn.MIN(Utterance.utt_start_time)) / 10) \
+                                   (fn.MAX(Utterance.utt_end_time) - fn.MIN(Utterance.utt_start_time)) / quantiles) \
         .group_by(Utterance.interview_id) \
         .cte('decile_lens', columns=['interview_id', 'start_time', 'end_time', 'length'])
 
@@ -171,7 +171,35 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     return df
 
 
-def sequential(included_interviews=None, included_properties=None, client_as_numeric=True):
+def quantized_sequential(included_interviews=None, included_properties=None, client_as_numeric=True, quantiles=10):
+    """
+    Constructs a sequential dataset that includes the quantile for each utterance
+    :param included_interviews: list-like of interviews to include in the dataset. None to include all interviews
+    :param included_properties: list-like of CodingProperties whose data is to be included. None to include all
+    :param client_as_numeric: Whether to cast client_id as a numeric Type. Default True
+    :param quantiles: Number of quantiles for each interview. Default 10
+    :return: pandas.DataFrame
+    """
+
+    # In order to build the quantile-level dataset, each utterance needs to be placed into its quantile
+    # Frist step in that operation is to determine the length of a quantile by interview
+    decile_lens = Utterance.select(Utterance.interview_id, fn.MIN(Utterance.utt_start_time),
+                                   fn.MAX(Utterance.utt_end_time),
+                                   (fn.MAX(Utterance.utt_end_time) - fn.MIN(Utterance.utt_start_time)) / quantiles) \
+        .group_by(Utterance.interview_id) \
+        .cte('decile_lens', columns=['interview_id', 'start_time', 'end_time', 'length'])
+
+    # Once the length of a quantile is known, the next step is to compute a CTE
+    # in which each utterance has its quantile number assigned
+    utt_deciles = Utterance.select(Utterance.interview_id, Utterance.utterance_id,
+                                   Cast(
+                                       (Utterance.utt_start_time - decile_lens.c.start_time) / decile_lens.c.length + 1,
+                                       "INT")) \
+        .join(decile_lens, JOIN.LEFT_OUTER, on=(Utterance.interview_id == decile_lens.c.interview_id)) \
+        .cte('utt_deciles', columns=['interview_id', 'utterance_id', 'quantile'])
+
+
+def sequential(included_interviews=None, included_properties=None, client_as_numeric=True, quantiles=1):
     """
     datasets.sequential(*included_interviews, included_properties) -> pandas.DataFrame
     Builds a sequential dataset with including those interviews specified in included_interviews and the
@@ -179,12 +207,13 @@ def sequential(included_interviews=None, included_properties=None, client_as_num
     :param included_interviews: sequence of interviews to be included in the dataset. None for all interviews
     :param included_properties: Sequence of CodingProperty whose data is to be included (can be ID as well)
     :param client_as_numeric: Whether client_id should be a numeric variable (default True)
+    :param quantiles: Number of quantiles per interview. Default 1
     :return: pandas.DataFrame
     """
 
     # No need to include properties twice
     included_properties = sorted(set(included_properties))
-    property_ctes = []
+    table_expressions = []
     display_names = []
     property_cases = []
     cast_columns = []
@@ -200,6 +229,23 @@ def sequential(included_interviews=None, included_properties=None, client_as_num
 
     # The dataset construction needs to be atomic to avoid race conditions
     with UtteranceCode._meta.database.atomic() as transaction:
+
+        # each utterance needs to be placed into its quantile
+        # Frist step in that operation is to determine the length of a quantile by interview
+        quantile_lens = Utterance.select(Utterance.interview_id, fn.MIN(Utterance.utt_start_time),
+                                       fn.MAX(Utterance.utt_end_time),
+                                       (fn.MAX(Utterance.utt_end_time) - fn.MIN(Utterance.utt_start_time)) / quantiles) \
+            .group_by(Utterance.interview_id) \
+            .cte('decile_lens', columns=['interview_id', 'start_time', 'end_time', 'length'])
+
+        # Once the length of a quantile is known, the next step is to compute a CTE
+        # in which each utterance has its quantile number assigned
+        utt_quantiles = Utterance.select(Utterance.interview_id, Utterance.utterance_id,
+                                       Cast(
+                                           (Utterance.utt_start_time - quantile_lens.c.start_time) / quantile_lens.c.length + 1,
+                                           "INT")) \
+            .join(quantile_lens, JOIN.LEFT_OUTER, on=(Utterance.interview_id == quantile_lens.c.interview_id)) \
+            .cte('utt_deciles', columns=['interview_id', 'utterance_id', 'quantile'])
 
         # Having the display name will be required for giving columns useful names, so fetch them
         cp_dict = {itm[0]: (itm[1], itm[2],) for itm in
@@ -222,7 +268,7 @@ def sequential(included_interviews=None, included_properties=None, client_as_num
             cte = property_query.where(PropertyValue.coding_property_id == prop_pk)\
                                 .cte(f"cte_{cp_display_name}", columns=['utterance_id', cp_display_name, 'cp_data_type'])
             data_field = getattr(cte.c, cp_display_name)
-            property_ctes.append(cte)
+            table_expressions.append(cte)
 
             pc = Case(None, ((data_field.is_null(), STR_MSNG),), data_field)
             property_cases.append(pc)
@@ -236,16 +282,20 @@ def sequential(included_interviews=None, included_properties=None, client_as_num
                                        Utterance.utt_enum, Utterance.utt_role,
                                        *(Cast(pc, "FLOAT").alias(name) if name in cast_columns
                                          else pc.alias(name) for name, pc in zip(display_names, property_cases)),
-                                       Utterance.utt_text, Utterance.utt_start_time, Utterance.utt_end_time)\
-                               .join(Utterance)
+                                       Utterance.utt_text, Utterance.utt_start_time, Utterance.utt_end_time,
+                                       utt_quantiles.c.quantile).join(Utterance)\
+            .join(utt_quantiles, JOIN.LEFT_OUTER, on=(Utterance.utterance_id == utt_quantiles.c.utterance_id))
 
         # Once the basic query is constructed, the joins need to be added into the query
         # so that the fields of the CTE can be queried property
-        for name, cte in zip(display_names, property_ctes):
+        for name, cte in zip(display_names, table_expressions):
             basic_query = basic_query.join(cte, JOIN.LEFT_OUTER, on=(Utterance.utterance_id == cte.c.utterance_id))
 
+        # Add the quantile CTE to the list of CTE to be included in the query later
+        table_expressions.extend([quantile_lens, utt_quantiles])
+
         # Final step of query preparation is to add in the CTE themselves and narrow the results
-        basic_query = basic_query.with_cte(*property_ctes)
+        basic_query = basic_query.with_cte(*table_expressions)
         if included_interviews is not None:
             basic_query = basic_query.where(Interview.interview_name.in_(included_interviews))
 

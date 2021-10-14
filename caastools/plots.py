@@ -163,7 +163,7 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     return fig
 
 
-def reliability_plot(interview_names, *y, title="Reliability Line Plot", xlabel="interview", ylabel="count",
+def reliability_plot(interview_names, y, title="Reliability Line Plot", xlabel="interview", ylabel="count",
                      rater_labels=None, width=11, height=8.5, yticks=None):
     """
     plot.reliability_plot(interview_names, *y, title, **kwargs) -> Figure

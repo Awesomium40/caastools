@@ -1,6 +1,6 @@
 from caastools import datasets
 from caastools.constants import CodingSystemType
-from caastools.database.models import *
+from caastools.database import *
 from caastools.datasets import save_as_spss
 import os
 import unittest

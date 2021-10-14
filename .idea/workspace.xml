@@ -19,9 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update unit tests for stats.sequence">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/tests/test_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/tests/test_stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/plots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/tests/test_datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/tests/test_datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -383,13 +385,6 @@
       <workItem from="1630704873226" duration="878000" />
       <workItem from="1630941895940" duration="45000" />
     </task>
-    <task id="LOCAL-00038" summary="Merge V0.9">
-      <created>1596831133823</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1596831133823</updated>
-    </task>
     <task id="LOCAL-00039" summary="Merge V0.9">
       <created>1596831196375</created>
       <option name="number" value="00039" />
@@ -726,7 +721,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630804662468</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="Update unit tests for stats.sequence">
+      <created>1632246539338</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1632246539338</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -749,7 +751,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update datasets module to query more fields" />
     <MESSAGE value="Update datasets.session-level to return missing values where appropriate" />
     <MESSAGE value="Update datasets.session-level to return remove extraneous fields from queries" />
     <MESSAGE value="Update datasets.sequential to properly cast columns as FLOAT when CodingProperty indicates that data is numeric" />
@@ -774,7 +775,8 @@
     <MESSAGE value="minor update to stats.sequence.joint_frequencies" />
     <MESSAGE value="Fix a bug in datasets._global_query_" />
     <MESSAGE value="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact" />
+    <MESSAGE value="Update unit tests for stats.sequence" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update unit tests for stats.sequence" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -813,11 +815,6 @@
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
           <line>277</line>
           <option name="timeStamp" value="124" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/caastools/tests/test_stats.py</url>
-          <line>25</line>
-          <option name="timeStamp" value="128" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
