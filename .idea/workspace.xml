@@ -19,10 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update datasets.sequential to include quantile data">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets">
+      <change afterPath="$PROJECT_DIR$/dist/caastools-1.0.9.11-py3-none-any.whl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/caastools-1.0.9.12-py3-none-any.whl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/datasets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -384,13 +387,6 @@
       <workItem from="1630704873226" duration="878000" />
       <workItem from="1630941895940" duration="45000" />
     </task>
-    <task id="LOCAL-00041" summary="Update datasets module to query more fields">
-      <created>1597186921316</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1597186921316</updated>
-    </task>
     <task id="LOCAL-00042" summary="Update datasets.session-level to return missing values where appropriate">
       <created>1597196527486</created>
       <option name="number" value="00042" />
@@ -727,7 +723,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634218784559</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets">
+      <created>1634223823623</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1634223823623</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -750,7 +753,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update datasets.session-level to return remove extraneous fields from queries" />
     <MESSAGE value="Update datasets.sequential to properly cast columns as FLOAT when CodingProperty indicates that data is numeric" />
     <MESSAGE value="Branch to v1.0" />
     <MESSAGE value="Simplify some logging, add additional properties to models in database" />
@@ -775,7 +777,8 @@
     <MESSAGE value="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact" />
     <MESSAGE value="Update unit tests for stats.sequence" />
     <MESSAGE value="Update datasets.sequential to include quantile data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update datasets.sequential to include quantile data" />
+    <MESSAGE value="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

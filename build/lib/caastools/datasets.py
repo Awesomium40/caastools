@@ -233,17 +233,17 @@ def sequential(included_interviews=None, included_properties=None, client_as_num
         # each utterance needs to be placed into its quantile
         # Frist step in that operation is to determine the length of a quantile by interview
         quantile_lens = Utterance.select(Utterance.interview_id, fn.MIN(Utterance.utt_start_time),
-                                       fn.MAX(Utterance.utt_end_time),
-                                       (fn.MAX(Utterance.utt_end_time) - fn.MIN(Utterance.utt_start_time)) / quantiles) \
+                                       fn.MAX(Utterance.utt_end_time) + 0.5,
+                                       (fn.MAX(Utterance.utt_end_time) - fn.MIN(Utterance.utt_start_time) + 0.5) / quantiles) \
             .group_by(Utterance.interview_id) \
             .cte('decile_lens', columns=['interview_id', 'start_time', 'end_time', 'length'])
 
         # Once the length of a quantile is known, the next step is to compute a CTE
         # in which each utterance has its quantile number assigned
         utt_quantiles = Utterance.select(Utterance.interview_id, Utterance.utterance_id,
-                                       Cast(
-                                           (Utterance.utt_start_time - quantile_lens.c.start_time) / quantile_lens.c.length + 1,
-                                           "INT")) \
+                                         Cast(
+                                           (Utterance.utt_start_time - quantile_lens.c.start_time) /
+                                           quantile_lens.c.length + 1, "INT")) \
             .join(quantile_lens, JOIN.LEFT_OUTER, on=(Utterance.interview_id == quantile_lens.c.interview_id)) \
             .cte('utt_deciles', columns=['interview_id', 'utterance_id', 'quantile'])
 
