@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets" />
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fixed a bug in database that caused incorrect reporting of rows inserted for bulk insertions">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -380,13 +383,6 @@
       <workItem from="1630704873226" duration="878000" />
       <workItem from="1630941895940" duration="45000" />
     </task>
-    <task id="LOCAL-00043" summary="Update datasets.session-level to return remove extraneous fields from queries">
-      <created>1597209791178</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1597209791178</updated>
-    </task>
     <task id="LOCAL-00044" summary="Update datasets.sequential to properly cast columns as FLOAT when CodingProperty indicates that data is numeric">
       <created>1597255189271</created>
       <option name="number" value="00044" />
@@ -723,7 +719,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634223886919</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="Fixed a bug in database that caused incorrect reporting of rows inserted for bulk insertions">
+      <created>1634664193420</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1634664193421</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -746,7 +749,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update datasets.sequential to properly cast columns as FLOAT when CodingProperty indicates that data is numeric" />
     <MESSAGE value="Branch to v1.0" />
     <MESSAGE value="Simplify some logging, add additional properties to models in database" />
     <MESSAGE value="Update to version 1.0" />
@@ -771,7 +773,8 @@
     <MESSAGE value="Update unit tests for stats.sequence" />
     <MESSAGE value="Update datasets.sequential to include quantile data" />
     <MESSAGE value="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets" />
+    <MESSAGE value="Fixed a bug in database that caused incorrect reporting of rows inserted for bulk insertions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug in database that caused incorrect reporting of rows inserted for bulk insertions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
