@@ -38,7 +38,7 @@ class BaseModel(Model):
             for batch in chunked(data, 100):
                 query = cls.insert_many(batch)
                 query = action(query)
-                rows_inserted = query.execute()
+                rows_inserted += query.execute()
 
         return rows_inserted
 
