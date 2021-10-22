@@ -199,9 +199,9 @@ def quantized_sequential(included_interviews=None, included_properties=None, cli
         .cte('utt_deciles', columns=['interview_id', 'utterance_id', 'quantile'])
 
 
-def sequential(included_interviews=None, included_properties=None, client_as_numeric=True, quantiles=1):
+def sequential(included_interviews, included_properties, client_as_numeric=True, quantiles=1):
     """
-    datasets.sequential(*included_interviews, included_properties) -> pandas.DataFrame
+    datasets.sequential(included_interviews, included_properties) -> pandas.DataFrame
     Builds a sequential dataset with including those interviews specified in included_interviews and the
     properties specified in included_properties
     :param included_interviews: sequence of interviews to be included in the dataset. None for all interviews
@@ -241,9 +241,9 @@ def sequential(included_interviews=None, included_properties=None, client_as_num
         # Once the length of a quantile is known, the next step is to compute a CTE
         # in which each utterance has its quantile number assigned
         utt_quantiles = Utterance.select(Utterance.interview_id, Utterance.utterance_id,
-                                         Cast(
-                                           (Utterance.utt_start_time - quantile_lens.c.start_time) /
-                                           quantile_lens.c.length + 1, "INT")) \
+                                       Cast(
+                                           (Utterance.utt_start_time - quantile_lens.c.start_time) / quantile_lens.c.length + 1,
+                                           "INT")) \
             .join(quantile_lens, JOIN.LEFT_OUTER, on=(Utterance.interview_id == quantile_lens.c.interview_id)) \
             .cte('utt_deciles', columns=['interview_id', 'utterance_id', 'quantile'])
 
