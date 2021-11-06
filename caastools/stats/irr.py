@@ -480,7 +480,7 @@ def kalpha(data, metric='nominal', boot=None, out=None):
             if n_boot < 1000:
                 n_boot = 1000
 
-            boot_samples = _alpha_boot_(data, n_boot, diff_func, de / 2)
+            boot_samples = _alpha_boot_(data, n_boot, diff_func, de)
 
             if len(boot_samples) > 0:
                 # Determine the probability of failing to attain specific values of alpha
