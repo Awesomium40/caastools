@@ -6,6 +6,7 @@ caastools/constants.py
 caastools/database.py
 caastools/datasets.py
 caastools/exceptions.py
+caastools/log.py
 caastools/plots.py
 caastools/utils.py
 caastools.egg-info/PKG-INFO
