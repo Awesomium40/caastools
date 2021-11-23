@@ -111,7 +111,15 @@ class _PropertyValue(_HasDescriptionElementBase):
     @property
     def original_value(self):
         ov = self.get(IaAttributes.ORIGINAL_VALUE)
-        return ov if ov is None else int(ov)
+        converter = float if self.getparent().data_type == 'numeric' else str
+        if self.getparent().data_type == 'numeric':
+            float_converted = converter(ov)
+            int_converted = int(float_converted)
+            converted = int_converted if int_converted == float_converted else float_converted
+        else:
+            converted = ov
+
+        return converted
 
     @property
     def property_id(self):
