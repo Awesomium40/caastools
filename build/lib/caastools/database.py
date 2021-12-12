@@ -71,7 +71,7 @@ class CodingSystem(BaseModel):
 class Interview(BaseModel):
     source_id = IntegerField(null=True, index=True, unique=True)
     interview_id = AutoField()
-    interview_name = TextField(null=False, index=True, unique=True)
+    interview_name = TextField(null=False, index=True, unique=False)
     interview_type = TextField(null=False, index=True, unique=False, choices=['general', 'reliability'],
                                default='general')
     coding_system = ForeignKeyField(CodingSystem, backref="interviews", null=True, index=True, on_delete="SET NULL",

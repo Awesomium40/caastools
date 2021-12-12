@@ -24,7 +24,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -406,13 +409,6 @@
       <workItem from="1638581781376" duration="1249000" />
       <workItem from="1639311284750" duration="676000" />
     </task>
-    <task id="LOCAL-00050" summary="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
-      <created>1597351867161</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1597351867161</updated>
-    </task>
     <task id="LOCAL-00051" summary="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
       <created>1597351907742</created>
       <option name="number" value="00051" />
@@ -749,7 +745,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639316338953</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="Remove unique constraint on Interview.interview_name">
+      <created>1639342130445</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1639342130445</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -772,7 +775,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Add a few new properties to classes in parsing.ia" />
     <MESSAGE value="Fix a bug in stats.irr that caused kalpha extended output not to write" />
     <MESSAGE value="Add unit tests for staging table" />
     <MESSAGE value="Add Staging table for global ratings&#10;Add unit tests for global staging table" />
@@ -797,7 +799,8 @@
     <MESSAGE value="Update to Version 1.1.0" />
     <MESSAGE value="Add type hints to userconfiguration.py" />
     <MESSAGE value="Update Interview.language to be a text field" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Interview.language to be a text field" />
+    <MESSAGE value="Remove unique constraint on Interview.interview_name" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove unique constraint on Interview.interview_name" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
