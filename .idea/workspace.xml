@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -19,9 +22,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Fixed a bug in iaconfiguration.py that caused some property values to raise an exception from their original_value method">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +98,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="V1.2_new_database" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -402,13 +405,6 @@
       <workItem from="1638528719565" duration="629000" />
       <workItem from="1638581781376" duration="1249000" />
       <workItem from="1639311284750" duration="676000" />
-    </task>
-    <task id="LOCAL-00047" summary="Simplify some logging, add additional properties to models in database">
-      <created>1597333862936</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1597333862936</updated>
     </task>
     <task id="LOCAL-00048" summary="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
       <created>1597341971439</created>
@@ -746,7 +742,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637673271140</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="Restore workspace.xml">
+      <created>1639312419514</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1639312419514</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -769,7 +772,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update to version 1.0" />
     <MESSAGE value="Initial commit of version 1.1" />
     <MESSAGE value="Update parsing.ia.iaconfiguration to handle all coding systems" />
     <MESSAGE value="Add a few new properties to classes in parsing.ia" />
@@ -794,7 +796,8 @@
     <MESSAGE value="Fixed a bug in database that caused incorrect reporting of rows inserted for bulk insertions" />
     <MESSAGE value="Fixed a bug in datasets.sequential that caused an unhandled exception" />
     <MESSAGE value="Fixed a bug in iaconfiguration.py that caused some property values to raise an exception from their original_value method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug in iaconfiguration.py that caused some property values to raise an exception from their original_value method" />
+    <MESSAGE value="Restore workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Restore workspace.xml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
