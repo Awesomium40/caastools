@@ -81,7 +81,7 @@ class Interview(BaseModel):
     client_id = TextField(null=False, unique=False, index=True)
     rater_id = TextField(null=False, unique=False, index=True)  # Changed to TextField for V1.2
     therapist_id = IntegerField(null=True, unique=False, index=False)
-    language_id = IntegerField(null=True, unique=False, index=False)
+    language = TextField(null=True, unique=False, index=False, default='en')
     treatment_condition_id = IntegerField(null=True, unique=False, index=False)
 
     class Meta:

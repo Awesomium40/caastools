@@ -22,8 +22,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/userconfiguration.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/cacti/userconfiguration.py" afterDir="false" />
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Add type hints to userconfiguration.py">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/cacti/userconfiguration.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/cacti/userconfiguration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/caastools-1.1.0-py3-none-any.whl" beforeDir="false" afterPath="$PROJECT_DIR$/dist/caastools-1.1.0-py3-none-any.whl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -405,13 +412,6 @@
       <workItem from="1638581781376" duration="1249000" />
       <workItem from="1639311284750" duration="676000" />
     </task>
-    <task id="LOCAL-00048" summary="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
-      <created>1597341971439</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1597341971439</updated>
-    </task>
     <task id="LOCAL-00049" summary="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
       <created>1597342045169</created>
       <option name="number" value="00049" />
@@ -748,7 +748,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639312752203</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="Add type hints to userconfiguration.py">
+      <created>1639312887890</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1639312887890</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -771,7 +778,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Initial commit of version 1.1" />
     <MESSAGE value="Update parsing.ia.iaconfiguration to handle all coding systems" />
     <MESSAGE value="Add a few new properties to classes in parsing.ia" />
     <MESSAGE value="Fix a bug in stats.irr that caused kalpha extended output not to write" />
@@ -796,7 +802,8 @@
     <MESSAGE value="Fixed a bug in datasets.sequential that caused an unhandled exception" />
     <MESSAGE value="Fixed a bug in iaconfiguration.py that caused some property values to raise an exception from their original_value method" />
     <MESSAGE value="Update to Version 1.1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to Version 1.1.0" />
+    <MESSAGE value="Add type hints to userconfiguration.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add type hints to userconfiguration.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
