@@ -65,19 +65,27 @@ class CodingSystem(BaseModel):
     cs_path = TextField(null=False, index=True, unique=True)
 
 
+# Project structures usually maintain two databases because interviews need to be unique.
+# Instead, switching to a single DB structure, so need to think about the ground truth of interviews
+# Add a new field that specifies whether an interview is reliability or not
 class Interview(BaseModel):
     source_id = IntegerField(null=True, index=True, unique=True)
     interview_id = AutoField()
     interview_name = TextField(null=False, index=True, unique=True)
+    interview_type = TextField(null=False, index=True, unique=False, choices=['general', 'reliability'],
+                               default='general')
     coding_system = ForeignKeyField(CodingSystem, backref="interviews", null=True, index=True, on_delete="SET NULL",
                                     on_update="CASCADE")
     session_number = IntegerField(null=False, index=True, unique=False)
     study_id = IntegerField(null=True, unique=False, index=True)
     client_id = TextField(null=False, unique=False, index=True)
-    rater_id = IntegerField(null=False, unique=False, index=True)
+    rater_id = TextField(null=False, unique=False, index=True)  # Changed to TextField for V1.2
     therapist_id = IntegerField(null=True, unique=False, index=False)
     language_id = IntegerField(null=True, unique=False, index=False)
     treatment_condition_id = IntegerField(null=True, unique=False, index=False)
+
+    class Meta:
+        constraints = [SQL('CONSTRAINT iv_name_iv_type UNIQUE(interview_name, interview_type)')]
 
 
 class CodingProperty(BaseModel):
@@ -89,7 +97,7 @@ class CodingProperty(BaseModel):
     cp_display_name = TextField(null=False, index=False, unique=False)
     cp_abbreviation = TextField(null=True, index=False, unique=False)
     cp_sort_order = IntegerField(null=False, index=False, unique=False, default=0)
-    cp_data_type = TextField(null=False, index=False, unique=False, default="string")
+    cp_data_type = TextField(null=False, index=False, unique=False, default="string", choices=['string', 'numeric'])
     cp_decimal_digits = IntegerField(null=False, default=0)
     cp_zero_pad = BooleanField(null=False, default=False)
     cp_description = TextField(null=False, index=False, unique=False)
