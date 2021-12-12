@@ -180,7 +180,7 @@ class _UserConfiguration(_ElementBase):
         return self._find_(CactiNodes.GLOBALS, **kwargs)
 
 
-def UserConfiguration(file):
+def UserConfiguration(file) -> _UserConfiguration:
     """
     UserConfiguration(path) -> parsing.cacti.userconfiguration._UserConfiguration
     Parses the userConfiguration.xml at the path specified and returns a _UserConfiguration object
