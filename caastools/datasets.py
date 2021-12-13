@@ -112,8 +112,8 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     # This will require a recursive CTE
     # Start with the base case
     quantile = Value(quantiles).alias('quantile')
-    base_case = (Interview.select(Interview.interview_id, PropertyValue.property_value_id, Interview.interview_name,
-                                  client_column,
+    base_case = (Interview.select(Interview.interview_id, Interview.interview_type,
+                                  PropertyValue.property_value_id, Interview.interview_name, client_column,
                                   Interview.rater_id, Interview.session_number, quantile, var_column)
                  .join(CodingSystem)
                  .join(CodingProperty)
@@ -121,14 +121,13 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
 
     # Now, define the recursive terms
     rquantile = (base_case.c.quantile - 1).alias('quantile')
-    rterm = base_case.select(base_case.c.interview_id, base_case.c.property_value_id, base_case.c.interview_name,
-                             base_case.c.client_id,
-                             base_case.c.rater_id, base_case.c.session_number,
-                             rquantile, base_case.c.property).where(rquantile > 1)
+    rterm = base_case.select(base_case.c.interview_id, base_case.c.interview_type, base_case.c.property_value_id,
+                             base_case.c.interview_name, base_case.c.client_id, base_case.c.rater_id,
+                             base_case.c.session_number, rquantile, base_case.c.property).where(rquantile > 1)
 
     # The full expression is the union all of the base case with the recursive term
     qt = base_case.union_all(rterm)
-    outer_query = qt.select_from(qt.c.interview_id, qt.c.property_value_id, qt.c.interview_name,
+    outer_query = qt.select_from(qt.c.interview_id, qt.c.property_value_id, qt.c.interview_name, qt.c.interview_type,
                                  qt.c.client_id, qt.c.rater_id, qt.c.session_number, qt.c.quantile, qt.c.property,
                                  case.alias('var_count'))
 
@@ -143,8 +142,9 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
 
     # WIth the full query constructed, can build the dataframe from the returned rows
     df = DataFrame.from_records(full_query.tuples().execute(),
-                                columns=['interview_id', 'property_value_id', 'interview_name', 'client_id',
-                                         'rater_id', 'session_number', 'quantile', 'var_name', 'var_value'])
+                                columns=['interview_id', 'property_value_id', 'interview_name', 'interview_type',
+                                         'client_id', 'rater_id', 'session_number', 'quantile', 'var_name',
+                                         'var_value'])
 
     # Compute a column for quantile x code
     df['decile_var_name'] = df['var_name'] + "_q" + df['quantile'].astype(str).apply(lambda x: x.zfill(2))
@@ -379,8 +379,8 @@ def session_level(included_interviews=None, included_properties=None, included_g
     # pull the query results into a dataframe, then reshape it
     # Some DBMS lack the pivot function so reshaping the DataFrame itself rather than the query is necessary
     df = DataFrame.from_records(data=full_query.tuples().execute(),
-                                columns=['interview_name', 'client_id', 'rater_id', 'session_number', 'var_name',
-                                         'var_value'])
+                                columns=['interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number',
+                                         'var_name', 'var_value'])
 
     df = df.set_index(['interview_name', 'client_id', 'rater_id', 'session_number', 'var_name']) \
              .unstack('var_name').loc[:, 'var_value'].reset_index().sort_index()
