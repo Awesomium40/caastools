@@ -206,7 +206,7 @@ class UtteranceStaging(BaseModel):
     utt_word_count = IntegerField(null=True)
     utt_start_time = FloatField(null=True)
     utt_end_time = FloatField(null=True)
-    pv_value = TextField(null=False, index=True)
+    pv_value = TextField(null=True, index=True)
 
 
 class GlobalStaging(BaseModel):
