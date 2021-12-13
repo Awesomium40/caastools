@@ -104,6 +104,7 @@ class CodingProperty(BaseModel):
 
     class Meta:
         constraints = [SQL('CONSTRAINT cp_name_cs_id_unique UNIQUE(cp_name, coding_system_id)'),
+                       SQL('CONSTRAINT cp_name_cs_id_unique UNIQUE(cp_display_name, coding_system_id)'),
                        SQL('CONSTRAINT cp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id)')]
 
 
