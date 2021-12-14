@@ -363,7 +363,7 @@ def session_level(included_interviews=None, included_properties=None, included_g
                                 columns=['interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number',
                                          'var_name', 'var_value'])
 
-    df = df.set_index(['interview_name', 'interview_type' 'client_id', 'rater_id', 'session_number', 'var_name']) \
+    df = df.set_index(['interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number', 'var_name']) \
              .unstack('var_name').loc[:, 'var_value'].reset_index().sort_index()
 
     return df
