@@ -199,6 +199,7 @@ class GlobalRating(BaseModel):
 
 class UtteranceStaging(BaseModel):
     interview_name = TextField(null=False, index=True)
+    interview_type = TextField(null=False, index=True, choices=['general', 'reliability'], default='general')
     cs_name = TextField(null=False, index=True)
     cp_name = TextField(null=False, index=True)
     utt_enum = IntegerField(null=False, index=True)
@@ -212,6 +213,7 @@ class UtteranceStaging(BaseModel):
 
 class GlobalStaging(BaseModel):
     interview_name = TextField(null=False, index=True)
+    interview_type = TextField(null=False, index=True, choices=['general', 'reliability'], default='general')
     cs_name = TextField(null=False, index=True)
     gp_name = TextField(null=False, index=True)
     gv_value = TextField(null=False, index=True)

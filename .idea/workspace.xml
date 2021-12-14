@@ -23,8 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -408,13 +408,6 @@
       <workItem from="1639388540355" duration="2091000" />
       <workItem from="1639476818270" duration="1360000" />
     </task>
-    <task id="LOCAL-00054" summary="Initial commit of version 1.1">
-      <created>1598041986212</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1598041986213</updated>
-    </task>
     <task id="LOCAL-00055" summary="Initial commit of version 1.1">
       <created>1598042155653</created>
       <option name="number" value="00055" />
@@ -751,7 +744,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639403910652</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="Update to 1.1.3.1">
+      <created>1639478470809</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1639478470809</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -774,7 +774,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update to version 1.0.6" />
     <MESSAGE value="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates" />
     <MESSAGE value="Update to version 1.0.8" />
     <MESSAGE value="Update to version 1.0.9&#10;update datsets.py to include quantile_level" />
@@ -799,7 +798,8 @@
     <MESSAGE value="Add interview_type to all datasets created by datasets.py" />
     <MESSAGE value="change UtteranceStaging.pv_value to be nullable" />
     <MESSAGE value="Change datasets.py to allow included_properties argument to use strings for cp_display_name rather than integers for coding_property_id" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change datasets.py to allow included_properties argument to use strings for cp_display_name rather than integers for coding_property_id" />
+    <MESSAGE value="Update to 1.1.3.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to 1.1.3.1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -838,6 +838,11 @@
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
           <line>277</line>
           <option name="timeStamp" value="124" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/caastools/datasets.py</url>
+          <line>288</line>
+          <option name="timeStamp" value="125" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
