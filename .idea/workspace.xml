@@ -25,7 +25,6 @@
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/build/lib/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/datasets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -409,13 +408,6 @@
       <workItem from="1639388540355" duration="2091000" />
       <workItem from="1639476818270" duration="1360000" />
     </task>
-    <task id="LOCAL-00058" summary="Fix a bug in stats.irr that caused kalpha extended output not to write">
-      <created>1602600096677</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1602600096677</updated>
-    </task>
     <task id="LOCAL-00059" summary="Add unit tests for staging table">
       <created>1626974741571</created>
       <option name="number" value="00059" />
@@ -752,7 +744,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639508702352</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="Fix a bug in datasets.py that caused sequential datastets to fail to compile">
+      <created>1639508906611</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1639508906611</updated>
+    </task>
+    <option name="localTasksCounter" value="108" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

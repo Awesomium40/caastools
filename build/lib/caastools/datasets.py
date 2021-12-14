@@ -37,14 +37,14 @@ def _global_query_(included_interviews=None, included_globals=None, client_as_nu
     # Thus, there will need to be either a UNION ALL of counts and global ratings
     # or a separate query for globals.
     # Below constructs the global ratings part of the UNION ALL
-    global_query = (GlobalRating.select(GlobalRating.interview_id, GlobalProperty.gp_name,
+    global_query = (GlobalRating.select(GlobalRating.interview_id,  GlobalProperty.gp_name,
                                         Cast(GlobalValue.gv_value, "INT"), GlobalValue.global_property_id)
                     .join(GlobalValue).join(GlobalProperty, JOIN.LEFT_OUTER))
     global_cte = global_query.cte("global_cte", columns=['interview_id', 'gp_name', 'gv_value', 'global_property_id'])
 
     outer_global_query = (Interview
-                          .select(Interview.interview_name, client_column, Interview.rater_id, Interview.session_number,
-                                  GlobalProperty.gp_name, global_cte.c.gv_value)
+                          .select(Interview.interview_name, Interview.interview_type, client_column, Interview.rater_id,
+                                  Interview.session_number, GlobalProperty.gp_name, global_cte.c.gv_value)
                           .join(CodingSystem)
                           .join(GlobalProperty))
 
