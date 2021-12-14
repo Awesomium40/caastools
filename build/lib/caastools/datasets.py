@@ -16,7 +16,7 @@ __all__ = ['sequential', 'session_level', 'create_sl_variable_labels', 'save_as_
 def _global_query_(included_interviews=None, included_globals=None, client_as_numeric=True):
     """
     Constructs the globals query for session-level datasets
-    :param included_interviews:
+    :param included_interviews: iterable of str specifying names of interviews to include
     :param included_globals:
     :param client_as_numeric: Whether to cast client_id as a numeric type. Default True
     :return: ModelSelect, Cte - The full query for global ratings and the CTE associated object
@@ -48,10 +48,10 @@ def _global_query_(included_interviews=None, included_globals=None, client_as_nu
                           .join(CodingSystem)
                           .join(GlobalProperty))
 
-    full_global_query = outer_global_query.join(global_cte, JOIN.LEFT_OUTER,
-                                                on=((Interview.interview_id == global_cte.c.interview_id) &
-                                                    (
-                                                                GlobalProperty.global_property_id == global_cte.c.global_property_id)))
+    full_global_query = outer_global_query.join(
+        global_cte, JOIN.LEFT_OUTER, on=((Interview.interview_id == global_cte.c.interview_id) &
+                                         (GlobalProperty.global_property_id == global_cte.c.global_property_id))
+    )
 
     # Append the predicate, if any was specified
     if global_predicate is not None:
@@ -86,12 +86,11 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
 
     # Once the length of a quantile is known, the next step is to compute a CTE
     # in which each utterance has its quantile number assigned
-    utt_deciles = Utterance.select(Utterance.interview_id, Utterance.utterance_id,
-                                   Cast(
-                                       (Utterance.utt_start_time - decile_lens.c.start_time) / decile_lens.c.length + 1,
-                                       "INT")) \
-        .join(decile_lens, JOIN.LEFT_OUTER, on=(Utterance.interview_id == decile_lens.c.interview_id)) \
-        .cte('utt_deciles', columns=['interview_id', 'utterance_id', 'quantile'])
+    utt_deciles = Utterance.select(
+        Utterance.interview_id, Utterance.utterance_id,
+        Cast((Utterance.utt_start_time - decile_lens.c.start_time) / decile_lens.c.length + 1, "INT")
+    ).join(decile_lens, JOIN.LEFT_OUTER, on=(Utterance.interview_id == decile_lens.c.interview_id)) \
+     .cte('utt_deciles', columns=['interview_id', 'utterance_id', 'quantile'])
 
     # Once an utterance has a quantile number assigned, the last step in getting the counts
     # is to select codes and group by interview, quantile, and property_value
@@ -132,11 +131,18 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
                                  case.alias('var_count'))
 
     # Join the recursive CTE for interview/quantiles to the actual count data
-    full_query = (outer_query.join(decile_counts, JOIN.LEFT_OUTER,
-                                   on=((qt.c.property_value_id == decile_counts.c.property_value_id) &
-                                       (qt.c.interview_id == decile_counts.c.interview_id) &
-                                       (qt.c.quantile == decile_counts.c.quantile)))
-                  .with_cte(decile_counts, utt_deciles, decile_lens, qt))
+    full_query = (
+        outer_query.join(
+            decile_counts, JOIN.LEFT_OUTER,
+            on=((qt.c.property_value_id == decile_counts.c.property_value_id) &
+                (qt.c.interview_id == decile_counts.c.interview_id) &
+                (qt.c.quantile == decile_counts.c.quantile)))
+        )
+
+    if included_interviews is not None:
+        full_query = full_query.where(qt.c.interview_name.in_(included_interviews))
+
+    full_query = full_query.with_cte(decile_counts, utt_deciles, decile_lens, qt)
     full_query = full_query.order_by(qt.c.client_id, qt.c.session_number, qt.c.rater_id, qt.c.property,
                                      qt.c.quantile)
 
@@ -150,54 +156,26 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     df['decile_var_name'] = df['var_name'] + "_q" + df['quantile'].astype(str).apply(lambda x: x.zfill(2))
 
     # Reshape the dataframe and index on client_id
-    df = df.loc[:, ['interview_name', 'client_id', 'rater_id', 'session_number',
-                    'decile_var_name', 'var_value']] \
-             .set_index(['interview_name', 'client_id', 'rater_id', 'session_number',
-                         'decile_var_name']) \
-             .unstack('decile_var_name').loc[:, 'var_value'].reset_index().set_index('client_id')
+    df = df.loc[:, ['interview_name', 'client_id', 'rater_id', 'session_number', 'decile_var_name', 'var_value']] \
+        .set_index(['interview_name', 'client_id', 'rater_id', 'session_number', 'decile_var_name']) \
+        .unstack('decile_var_name').loc[:, 'var_value'].reset_index().set_index('client_id')
 
     # To add the globals data, first get the appropriate query
     # Then put into dataframe
     # then, reshape and reindex like the count data
     global_query, global_cte = _global_query_()
     global_query = global_query.with_cte(global_cte)
-    gdf = (DataFrame.from_records(global_query.tuples().execute(), columns=['interview_name', 'client_id', 'rater_id',
-                                                                            'session_number', 'var_name', 'var_value'])
-               .loc[:, ['client_id', 'var_name', 'var_value']]
-               .set_index(['client_id', 'var_name'])
-               .unstack('var_name').loc[:, 'var_value'])
+    gdf = (
+        DataFrame.from_records(
+            global_query.tuples().execute(),
+            columns=['interview_name', 'client_id', 'rater_id', 'session_number', 'var_name', 'var_value']
+        )
+        .loc[:, ['client_id', 'var_name', 'var_value']].set_index(['client_id', 'var_name'])
+        .unstack('var_name').loc[:, 'var_value'])
 
     df = df.join(gdf).sort_index()
 
     return df
-
-
-def quantized_sequential(included_interviews=None, included_properties=None, client_as_numeric=True, quantiles=10):
-    """
-    Constructs a sequential dataset that includes the quantile for each utterance
-    :param included_interviews: list-like of interviews to include in the dataset. None to include all interviews
-    :param included_properties: list-like of CodingProperties whose data is to be included. None to include all
-    :param client_as_numeric: Whether to cast client_id as a numeric Type. Default True
-    :param quantiles: Number of quantiles for each interview. Default 10
-    :return: pandas.DataFrame
-    """
-
-    # In order to build the quantile-level dataset, each utterance needs to be placed into its quantile
-    # Frist step in that operation is to determine the length of a quantile by interview
-    decile_lens = Utterance.select(Utterance.interview_id, fn.MIN(Utterance.utt_start_time),
-                                   fn.MAX(Utterance.utt_end_time),
-                                   (fn.MAX(Utterance.utt_end_time) - fn.MIN(Utterance.utt_start_time)) / quantiles) \
-        .group_by(Utterance.interview_id) \
-        .cte('decile_lens', columns=['interview_id', 'start_time', 'end_time', 'length'])
-
-    # Once the length of a quantile is known, the next step is to compute a CTE
-    # in which each utterance has its quantile number assigned
-    utt_deciles = Utterance.select(Utterance.interview_id, Utterance.utterance_id,
-                                   Cast(
-                                       (Utterance.utt_start_time - decile_lens.c.start_time) / decile_lens.c.length + 1,
-                                       "INT")) \
-        .join(decile_lens, JOIN.LEFT_OUTER, on=(Utterance.interview_id == decile_lens.c.interview_id)) \
-        .cte('utt_deciles', columns=['interview_id', 'utterance_id', 'quantile'])
 
 
 def sequential(included_interviews, included_properties, client_as_numeric=True, quantiles=1):
@@ -206,7 +184,7 @@ def sequential(included_interviews, included_properties, client_as_numeric=True,
     Builds a sequential dataset with including those interviews specified in included_interviews and the
     properties specified in included_properties
     :param included_interviews: sequence of interviews to be included in the dataset. None for all interviews
-    :param included_properties: Sequence of CodingProperty whose data is to be included (can be ID as well)
+    :param included_properties: Sequence of str specifying display_name of CodingProperty to include in the query
     :param client_as_numeric: Whether client_id should be a numeric variable (default True)
     :param quantiles: Number of quantiles per interview. Default 1
     :return: pandas.DataFrame
@@ -249,23 +227,27 @@ def sequential(included_interviews, included_properties, client_as_numeric=True,
             .join(quantile_lens, JOIN.LEFT_OUTER, on=(Utterance.interview_id == quantile_lens.c.interview_id)) \
             .cte('utt_deciles', columns=['interview_id', 'utterance_id', 'quantile'])
 
-        # Having the display name will be required for giving columns useful names, so fetch them
-        cp_dict = {itm[0]: (itm[1], itm[2],) for itm in
-                   CodingProperty.select(CodingProperty.coding_property_id, CodingProperty.cp_display_name,
-                                         CodingProperty.cp_data_type)
-                       .where(CodingProperty.coding_property_id.in_(included_properties))
-                       .tuples().execute()}
+        # Need the property's data type, so that appropriate casts can be made
+        cp_dict = {itm[0]: (itm[1], itm[2]) for itm in
+                   CodingProperty.select(CodingProperty.cp_display_name, CodingProperty.coding_property_id,
+                                         CodingProperty.cp_data_type
+                                         )
+                   .where(CodingProperty.cp_display_name.in_(included_properties))
+                   .tuples().execute()}
 
         # Need a CTE for each property whose data is to be included, so construct queries and convert to CTE
         # Need to conditionally create a CAST expression as well because some properties are Numeric, some are STR
-        for prop_pk in included_properties:
-            cp_display_name, cp_data_type = cp_dict.get(int(prop_pk), (None, None))
+        for cp_display_name in included_properties:
+            prop_pk, cp_data_type = cp_dict.get(int(cp_display_name), (None, None))
 
             if cp_display_name is None:
-                logging.warning(f"CodingProperty with id of {prop_pk} not found. This data will not be included...")
+                logging.warning(f"CodingProperty with display name of {cp_display_name} " +
+                                "not found. This data will not be included")
                 continue
 
-            if cp_data_type == 'numeric': cast_columns.append(cp_display_name)
+            # If a numeric type specified, add it to the columns to be cast to numeric
+            if cp_data_type == 'numeric':
+                cast_columns.append(cp_display_name)
 
             cte = property_query.where(PropertyValue.coding_property_id == prop_pk) \
                 .cte(f"cte_{cp_display_name}", columns=['utterance_id', cp_display_name, 'cp_data_type'])
@@ -317,7 +299,7 @@ def session_level(included_interviews=None, included_properties=None, included_g
     session_level(interview_names) -> pandas.DataFrame
     Builds a session-level DataFrame with counts for interviews named in interview_names
     :param included_interviews: iterable of Interview.interview_names to be included in the Dataset
-    :param included_properties: iterable of CodingProperty.coding_property_id to be included
+    :param included_properties: iterable of str specifying the display_name of any properties to be included
     :param included_globals: iterable of GlobalProperty.global_property_id to be included
     :param client_as_numeric: Whether to cast client_id as a numeric variable. Default True
     :return: pandas.DataFrame
@@ -330,8 +312,7 @@ def session_level(included_interviews=None, included_properties=None, included_g
     # May want only certain interviews included or certain properties included,
     # so construct some predicates for where clauses, if necessary
     p1 = Interview.interview_name.in_(included_interviews)
-    p2 = (CodingProperty.coding_property_id.in_(included_properties))
-    # p3 = (GlobalProperty.global_property_id.in_(included_globals))
+    p2 = (CodingProperty.cp_display_name.in_(included_properties))
 
     predicate = ((p1) & (p2)) if included_interviews is not None and included_properties is not None else \
         (p1) if included_interviews is not None else \
