@@ -238,7 +238,7 @@ def sequential(included_interviews, included_properties, client_as_numeric=True,
         # Need a CTE for each property whose data is to be included, so construct queries and convert to CTE
         # Need to conditionally create a CAST expression as well because some properties are Numeric, some are STR
         for cp_display_name in included_properties:
-            prop_pk, cp_data_type = cp_dict.get(int(cp_display_name), (None, None))
+            prop_pk, cp_data_type = cp_dict.get(cp_display_name, (None, None))
 
             if cp_display_name is None:
                 logging.warning(f"CodingProperty with display name of {cp_display_name} " +
