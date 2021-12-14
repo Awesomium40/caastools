@@ -26,7 +26,7 @@ def _global_query_(included_interviews=None, included_globals=None, client_as_nu
     # May want only certain interviews included or certain properties included,
     # so construct some predicates for where clauses, if necessary
     p1 = Interview.interview_name.in_(included_interviews)
-    p3 = (GlobalProperty.global_property_id.in_(included_globals))
+    p3 = (GlobalProperty.gp_name.in_(included_globals))
 
     global_predicate = ((p1) & (p3)) if included_interviews is not None and included_globals is not None else \
         (p1) if included_interviews is not None else \
