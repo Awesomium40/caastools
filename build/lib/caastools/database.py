@@ -202,6 +202,7 @@ class UtteranceStaging(BaseModel):
     interview_type = TextField(null=False, index=True, choices=['general', 'reliability'], default='general')
     cs_name = TextField(null=False, index=True)
     cp_name = TextField(null=False, index=True)
+    utt_line = IntegerField(null=True, index=True)
     utt_enum = IntegerField(null=False, index=True)
     utt_role = TextField(null=True)
     utt_text = TextField(null=True)
