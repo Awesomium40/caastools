@@ -24,8 +24,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -413,14 +411,9 @@
       <workItem from="1639651042907" duration="3941000" />
       <workItem from="1639738938946" duration="3098000" />
       <workItem from="1639747635226" duration="1265000" />
-      <workItem from="1639835726695" duration="180000" />
-    </task>
-    <task id="LOCAL-00063" summary="Fix a bug in stats.kalpha that occasionally caused incorrect bootstrapping estimates">
-      <created>1630002809717</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1630002809717</updated>
+      <workItem from="1639835726695" duration="889000" />
+      <workItem from="1639852161194" duration="512000" />
+      <workItem from="1640081738264" duration="2310000" />
     </task>
     <task id="LOCAL-00064" summary="Update to version 1.0.8">
       <created>1630003476049</created>
@@ -758,7 +751,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639744457699</updated>
     </task>
-    <option name="localTasksCounter" value="112" />
+    <task id="LOCAL-00112" summary="Update to 1.1.4">
+      <created>1639835998361</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1639835998362</updated>
+    </task>
+    <option name="localTasksCounter" value="113" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -781,7 +781,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities" />
     <MESSAGE value="minor update to stats.sequence.joint_frequencies" />
     <MESSAGE value="Fix a bug in datasets._global_query_" />
     <MESSAGE value="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact" />
@@ -806,7 +805,8 @@
     <MESSAGE value="Update to 1.1.3.5" />
     <MESSAGE value="Fix a bug in datasets.session-level that caused function to fail" />
     <MESSAGE value="Update datasets.py to allow specifying exclusion of reliability type interviews for all dataset types" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update datasets.py to allow specifying exclusion of reliability type interviews for all dataset types" />
+    <MESSAGE value="Update to 1.1.4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to 1.1.4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
