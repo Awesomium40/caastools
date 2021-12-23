@@ -13,25 +13,34 @@ logging.getLogger('caastools.dataset').addHandler(logging.NullHandler())
 __all__ = ['sequential', 'session_level', 'create_sl_variable_labels', 'save_as_spss']
 
 
-def _global_query_(included_interviews=None, included_globals=None, client_as_numeric=True):
+def _global_query_(included_interviews=None, included_globals=None, client_as_numeric=True, exclude_reliability=True):
     """
     Constructs the globals query for session-level datasets
     :param included_interviews: iterable of str specifying names of interviews to include
     :param included_globals:
     :param client_as_numeric: Whether to cast client_id as a numeric type. Default True
+    :param exclude_reliability: Whether to exclude (True, default) or include (False) interviews of type 'reliability'
     :return: ModelSelect, Cte - The full query for global ratings and the CTE associated object
     """
     client_column = Cast(Interview.client_id, "INT").alias('client_id') if client_as_numeric else Interview.client_id
 
     # May want only certain interviews included or certain properties included,
     # so construct some predicates for where clauses, if necessary
-    p1 = Interview.interview_name.in_(included_interviews)
-    p3 = (GlobalProperty.gp_name.in_(included_globals))
+    types = ['general'] if exclude_reliability else ['general', 'reliability']
 
-    global_predicate = ((p1) & (p3)) if included_interviews is not None and included_globals is not None else \
-        (p1) if included_interviews is not None else \
-            (p3) if included_globals is not None else \
-                None
+    predicate = Interview.interview_type.in_(types)
+    if included_interviews is not None:
+        predicate = predicate & Interview.interview_name.in_(included_interviews)
+    if included_globals is not None:
+        predicate = predicate & GlobalProperty.gp_name.in_(included_globals)
+
+    """
+    Logic above replaces this
+    global_predicate = ((p1) & (p2) & (p3)) if included_interviews is not None and included_globals is not None else \
+        ((p1) & (p3)) if included_interviews is not None else \
+            ((p2) & (p3)) if included_globals is not None else \
+                p3
+    """
 
     # For any session-level/decile dataset, we want scores for all session-level globals.
     # Thus, there will need to be either a UNION ALL of counts and global ratings
@@ -53,15 +62,14 @@ def _global_query_(included_interviews=None, included_globals=None, client_as_nu
                                          (GlobalProperty.global_property_id == global_cte.c.global_property_id))
     )
 
-    # Append the predicate, if any was specified
-    if global_predicate is not None:
-        full_global_query = full_global_query.where(global_predicate)
+    # Append the predicate
+    full_global_query = full_global_query.where(predicate)
 
     return full_global_query, global_cte
 
 
 def quantile_level(quantiles=10, included_interviews=None, included_properties=None, included_globals=None,
-                   client_as_numeric=True):
+                   client_as_numeric=True, exclude_reliability=True):
     """
     Constructs a quantile-level dataset
 
@@ -73,8 +81,10 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     :param included_globals: sequence of int specifying GlobalProperties to be included. None to include all.
     Default None
     :param client_as_numeric: Whether to cast client_id to a numeric type. Default True
+    :param exclude_reliability: Whether to exclude (True, default) or include (False) interviews of type 'reliability'
     :return: DataFrame
     """
+    included_types = ['general'] if exclude_reliability else ['general', 'reliability']
 
     # In order to build the quantile-level dataset, each utterance needs to be placed into its quantile
     # Frist step in that operation is to determine the length of a quantile by interview
@@ -139,9 +149,13 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
                 (qt.c.quantile == decile_counts.c.quantile)))
         )
 
+    # Filter the included data as specified, for type and name
+    predicate = qt.c.interview_type.in_(included_types)
     if included_interviews is not None:
-        full_query = full_query.where(qt.c.interview_name.in_(included_interviews))
+        predicate = predicate & qt.c.interview_name.in_(included_interviews)
+    full_query = full_query.where(predicate)
 
+    # Include the required table expressions to create the full query
     full_query = full_query.with_cte(decile_counts, utt_deciles, decile_lens, qt)
     full_query = full_query.order_by(qt.c.client_id, qt.c.session_number, qt.c.rater_id, qt.c.property,
                                      qt.c.quantile)
@@ -163,7 +177,10 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     # To add the globals data, first get the appropriate query
     # Then put into dataframe
     # then, reshape and reindex like the count data
-    global_query, global_cte = _global_query_()
+    global_query, global_cte = _global_query_(
+        included_interviews=included_interviews, included_globals=included_globals,
+        exclude_reliability=exclude_reliability
+    )
     global_query = global_query.with_cte(global_cte)
     gdf = (
         DataFrame.from_records(
@@ -178,7 +195,7 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     return df
 
 
-def sequential(included_interviews, included_properties, client_as_numeric=True, quantiles=1):
+def sequential(included_interviews, included_properties, client_as_numeric=True, exclude_reliability=True, quantiles=1):
     """
     datasets.sequential(included_interviews, included_properties) -> pandas.DataFrame
     Builds a sequential dataset with including those interviews specified in included_interviews and the
@@ -186,9 +203,13 @@ def sequential(included_interviews, included_properties, client_as_numeric=True,
     :param included_interviews: sequence of interviews to be included in the dataset. None for all interviews
     :param included_properties: Sequence of str specifying display_name of CodingProperty to include in the query
     :param client_as_numeric: Whether client_id should be a numeric variable (default True)
+    :param exclude_reliability: Whether to exclude (True, default) or include (False) interviews of type 'reliability'
     :param quantiles: Number of quantiles per interview. Default 1
     :return: pandas.DataFrame
     """
+
+    included_types = ['general'] if exclude_reliability else ['general', 'reliability']
+    type_predicate = Interview.interview_type.in_(included_types)
 
     # No need to include properties twice
     included_properties = sorted(set(included_properties))
@@ -282,7 +303,9 @@ def sequential(included_interviews, included_properties, client_as_numeric=True,
         # Final step of query preparation is to add in the CTE themselves and narrow the results
         basic_query = basic_query.with_cte(*table_expressions)
         if included_interviews is not None:
-            basic_query = basic_query.where(Interview.interview_name.in_(included_interviews))
+            basic_query = basic_query.where((Interview.interview_name.in_(included_interviews)) & (type_predicate))
+        else:
+            basic_query = basic_query.where(type_predicate)
 
         basic_query = basic_query.order_by(client_column, Interview.session_number, Utterance.utt_enum)
 
@@ -294,7 +317,7 @@ def sequential(included_interviews, included_properties, client_as_numeric=True,
 
 
 def session_level(included_interviews=None, included_properties=None, included_globals=None,
-                  client_as_numeric=True):
+                  client_as_numeric=True, exclude_reliability=True):
     """
     session_level(interview_names) -> pandas.DataFrame
     Builds a session-level DataFrame with counts for interviews named in interview_names
@@ -302,8 +325,12 @@ def session_level(included_interviews=None, included_properties=None, included_g
     :param included_properties: iterable of str specifying the display_name of any properties to be included
     :param included_globals: iterable of GlobalProperty.global_property_id to be included
     :param client_as_numeric: Whether to cast client_id as a numeric variable. Default True
+    :param exclude_reliability: Whether to exclude (True, default) or include (False) interviews of type 'reliability'
     :return: pandas.DataFrame
     """
+
+    # Used to create a predicate to exclude reliability interviews, if specified
+    included_types = ['general'] if exclude_reliability else ['general', 'reliability']
 
     # may want the client_id cast as numeric
     client_column = Cast(Interview.client_id, "INT").alias('client_id') if client_as_numeric else Interview.client_id
@@ -311,14 +338,19 @@ def session_level(included_interviews=None, included_properties=None, included_g
 
     # May want only certain interviews included or certain properties included,
     # so construct some predicates for where clauses, if necessary
-    p1 = Interview.interview_name.in_(included_interviews)
-    p2 = (CodingProperty.cp_display_name.in_(included_properties))
+    predicate = Interview.interview_type.in_(included_types)
+    if included_interviews is not None:
+        predicate = predicate & Interview.interview_name.in_(included_interviews)
+    if included_properties is not None:
+        predicate = predicate & CodingProperty.cp_display_name.in_(included_properties)
 
-    predicate = ((p1) & (p2)) if included_interviews is not None and included_properties is not None else \
-        (p1) if included_interviews is not None else \
-        (p2) if included_properties is not None else \
-                None
-
+    """
+    # Replace this logic with more readable logic, immediately above
+    predicate = ((p1) & (p2) & (type_predicate)) if included_interviews is not None and included_properties is not None \
+        else ((p1) & (type_predicate)) if included_interviews is not None \
+        else ((p2) & (type_predicate)) if included_properties is not None \
+        else (type_predicate)
+    """
     # Construct the global query and associated CTE
     full_global_query, global_cte = _global_query_(included_interviews=included_interviews,
                                                    included_globals=included_globals,
@@ -351,8 +383,7 @@ def session_level(included_interviews=None, included_properties=None, included_g
                                                              & (Interview.interview_id == cte.c.interview_id)))
                   .with_cte(cte, global_cte))
 
-    if predicate is not None:
-        full_query = full_query.where(predicate)
+    full_query = full_query.where(predicate)
 
     full_query = (full_query.union_all(full_global_query)
                   .order_by(client_column, Interview.session_number, Interview.rater_id, var_column))
@@ -363,7 +394,7 @@ def session_level(included_interviews=None, included_properties=None, included_g
                                 columns=['interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number',
                                          'var_name', 'var_value'])
 
-    df = df.set_index(['interview_name', 'interview_type' 'client_id', 'rater_id', 'session_number', 'var_name']) \
+    df = df.set_index(['interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number', 'var_name']) \
              .unstack('var_name').loc[:, 'var_value'].reset_index().sort_index()
 
     return df
