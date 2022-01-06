@@ -22,9 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-    </list>
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -424,13 +422,6 @@
       <workItem from="1641296450079" duration="2505000" />
       <workItem from="1641377652580" duration="5379000" />
     </task>
-    <task id="LOCAL-00069" summary="Minor updates to datasets.sequential">
-      <created>1630683779212</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1630683779212</updated>
-    </task>
     <task id="LOCAL-00070" summary="add module for sequential analysis">
       <created>1630702550148</created>
       <option name="number" value="00070" />
@@ -767,7 +758,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641464123814</updated>
     </task>
-    <option name="localTasksCounter" value="118" />
+    <task id="LOCAL-00118" summary="Update to 1.1.5.1">
+      <created>1641464673528</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1641464673528</updated>
+    </task>
+    <option name="localTasksCounter" value="119" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -790,7 +788,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update unit tests for stats.sequence" />
     <MESSAGE value="Update datasets.sequential to include quantile data" />
     <MESSAGE value="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets" />
     <MESSAGE value="Fixed a bug in database that caused incorrect reporting of rows inserted for bulk insertions" />
@@ -815,7 +812,8 @@
     <MESSAGE value="Update to 1.1.4.1" />
     <MESSAGE value="add reference to utterance for parsing.ia.data._UtteranceProperties" />
     <MESSAGE value="Add dataclasses to represent IA/CACTI interview data and implement their usage in parsing.ia.data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add dataclasses to represent IA/CACTI interview data and implement their usage in parsing.ia.data" />
+    <MESSAGE value="Update to 1.1.5.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to 1.1.5.1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

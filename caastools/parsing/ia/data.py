@@ -44,6 +44,8 @@ def parse_interview(interview_name, fragments) -> DataSet:
     globals = []
     utterances = []
     utterance_properties = []
+    coding_system_id = None
+    interview = None
 
     # Construct the et.XSLT object required to perform the transformations on the data
     script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -74,6 +76,7 @@ def parse_interview(interview_name, fragments) -> DataSet:
         # Because interviews are fragmented, some properties are different between fragments.
         # These will need to be made uniform, so extract values from the initial fragment
         if i == 0:
+            coding_system_id = int(root.find("./CodingSets/CodingSystemID").text)
             interview = Interview(interview_name, root.find("./Interviews/ModifiedBy").text)
 
         # Ensure that all nodes are in the proper order
@@ -116,6 +119,6 @@ def parse_interview(interview_name, fragments) -> DataSet:
         )
 
     # Once all the data in the various fragments has been parsed, can construct the DataSet object
-    dataset = DataSet(globals, interview, utterances, utterance_properties, version)
+    dataset = DataSet(globals, interview, utterances, utterance_properties, coding_system_id)
 
     return dataset
