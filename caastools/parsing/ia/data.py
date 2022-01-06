@@ -128,7 +128,12 @@ class _UtteranceProperties(et.ElementBase):
 
     @property
     def utterance(self):
-        raise NotImplementedError()
+        try:
+            utt = self._utterance
+        except AttributeError:
+            self._utterance = None
+            utt = self._utterance
+        return utt
 
     @utterance.setter
     def utterance(self, utt: _Utterances) -> None:

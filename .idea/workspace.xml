@@ -23,7 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/data.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -784,7 +783,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Fix a bug in datasets._global_query_" />
     <MESSAGE value="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact" />
     <MESSAGE value="Update unit tests for stats.sequence" />
     <MESSAGE value="Update datasets.sequential to include quantile data" />
@@ -809,7 +807,8 @@
     <MESSAGE value="Update datasets.py to allow specifying exclusion of reliability type interviews for all dataset types" />
     <MESSAGE value="Update to 1.1.4" />
     <MESSAGE value="Update to 1.1.4.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to 1.1.4.1" />
+    <MESSAGE value="add reference to utterance for parsing.ia.data._UtteranceProperties" />
+    <option name="LAST_COMMIT_MESSAGE" value="add reference to utterance for parsing.ia.data._UtteranceProperties" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -846,7 +845,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
-          <line>285</line>
+          <line>290</line>
           <option name="timeStamp" value="124" />
         </line-breakpoint>
       </breakpoints>
