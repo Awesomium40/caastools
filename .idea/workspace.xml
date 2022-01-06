@@ -236,11 +236,11 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.test_parsing.ia" />
       <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_matrix" />
       <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats" />
       <item itemvalue="Python tests.Unittests in test_database.py" />
       <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
-      <item itemvalue="Python.test_parsing.ia" />
     </list>
     <recent_temporary>
       <list>
