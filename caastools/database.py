@@ -10,7 +10,8 @@ db = SqliteExtDatabase(None)
 atomic = db.atomic
 
 __all__ = ['atomic', 'close_database', 'CodingSystem', 'CodingProperty', 'PropertyValue', 'Interview', 'Utterance',
-           'UtteranceCode', 'GlobalProperty', 'GlobalValue', 'GlobalRating', 'init_database']
+           'UtteranceCode', 'GlobalProperty', 'GlobalValue', 'GlobalRating', 'init_database', 'UtteranceStaging',
+           'GlobalStaging']
 
 MEMORY = ":memory:"
 

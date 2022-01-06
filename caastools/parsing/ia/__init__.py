@@ -1,4 +1,4 @@
 from .iaconfiguration import IaConfiguration
-from .data import InterviewData
+from .data import parse_interview
 
-__all__ = ['IaConfiguration', 'InterviewData']
+__all__ = ['IaConfiguration', 'parse_interview']
