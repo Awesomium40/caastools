@@ -49,4 +49,6 @@ class DataSet:
     interview_info: Interview
     utterances: List[Utterance]
     utterance_properties: List[UtteranceProperty]
-    coding_set_id: int = None
+    coding_system_id: int = None
+    coding_system_name: str = None
+
