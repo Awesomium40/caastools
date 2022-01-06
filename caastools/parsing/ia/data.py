@@ -126,6 +126,14 @@ class _UtteranceProperties(et.ElementBase):
     def utterance_property_id(self) -> int:
         return int(self.find(IaAttributes.UTT_PROP_ID).text)
 
+    @property
+    def utterance(self):
+        raise NotImplementedError()
+
+    @utterance.setter
+    def utterance(self, utt: _Utterances) -> None:
+        self._utterance = utt;
+
 
 class _NewDataSet(et.ElementBase):
 
@@ -288,5 +296,11 @@ def InterviewData(interview_name, fragments):
     _set_all_text_(root_element, IaAttributes.INTERVIEW_ID, interview_id)
 
     output_dict[IaNodes.INTERVIEWS].find(IaAttributes.ID).text = interview_name
+    transformed = final_transform(root_element.getroottree()).getroot()  # type: _NewDataSet
+
+    # for each UtteranceProperty element in the dataset, add a reference to its corresponding Utterance
+    utt_lookup = {u.utterance_id: u for u in transformed.utterances}
+    for prop in transformed.utterance_properties:  # type: _UtteranceProperties
+        prop.utterance = utt_lookup.get(prop.utterance_id)
 
     return final_transform(root_element.getroottree()).getroot()
