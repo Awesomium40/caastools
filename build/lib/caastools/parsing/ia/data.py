@@ -116,6 +116,6 @@ def parse_interview(interview_name, fragments) -> DataSet:
         )
 
     # Once all the data in the various fragments has been parsed, can construct the DataSet object
-    dataset = DataSet(globals, interview, utterances, utterance_properties)
+    dataset = DataSet(globals, interview, utterances, utterance_properties, version)
 
     return dataset

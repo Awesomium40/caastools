@@ -23,15 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/common.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/caastools-1.1.5-py3-none-any.whl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/SOURCES.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
