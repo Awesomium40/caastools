@@ -15,6 +15,7 @@ caastools.egg-info/dependency_links.txt
 caastools.egg-info/requires.txt
 caastools.egg-info/top_level.txt
 caastools/parsing/__init__.py
+caastools/parsing/common.py
 caastools/parsing/cacti/__init__.py
 caastools/parsing/cacti/data.py
 caastools/parsing/cacti/userconfiguration.py
