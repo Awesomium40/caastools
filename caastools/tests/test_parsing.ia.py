@@ -1,7 +1,7 @@
-from caastools.constants import IaNodes, IaAttributes
-from caastools.parsing.ia import IaConfiguration, InterviewData
-from caastools.parsing.ia.iaconfiguration import _IaConfiguration, _GlobalProperty, _Property, _PropertyValue
-from caastools.parsing.ia.data import _Globals, _Interviews, _UtteranceProperties, _Utterances
+from caastools.constants import IaNodes
+from caastools.parsing.ia import IaConfiguration, parse_interview
+from caastools.parsing.ia.iaconfiguration import _IaConfiguration, _Property, _PropertyValue
+from caastools.parsing.ia.data import Global, Utterance, UtteranceProperty
 import lxml.etree as et
 import os
 import unittest
@@ -16,9 +16,9 @@ class TestIaParsing(unittest.TestCase):
         cls._ia_files = [os.path.join(data_folder, f) for f in ('UC379 (1 of 2).xml', 'UC379 (2 of 2).xml')]
         cls._interview_name = 'UC379'
 
-        cls._transform = et.XSLT(et.parse(os.path.join(script_dir, "..", "caastools", "parsing", "ia",
+        cls._transform = et.XSLT(et.parse(os.path.join(script_dir, "..", "parsing", "ia",
                                                        "interview_transform.xslt")))
-        cls._cs_transform = et.XSLT(et.parse(os.path.join(script_dir, "..", "caastools", "parsing", "ia",
+        cls._cs_transform = et.XSLT(et.parse(os.path.join(script_dir, "..", "parsing", "ia",
                                                           "cs_transform.xslt")))
 
     @classmethod
@@ -54,29 +54,29 @@ class TestIaParsing(unittest.TestCase):
 
     def test_reconstruct_interview(self):
 
-        interview = InterviewData(self._interview_name, self._ia_files)
-        root = interview.getroot()
-        utt_nodes = root.findall(IaNodes.UTTERANCES)
-        up_nodes = root.findall(IaNodes.UTT_PROPERTIES)
-        global_nodes = root.findall(IaNodes.GLOBALS)
+        interview = parse_interview(self._interview_name, self._ia_files)
+
+        utt_nodes = interview.utterances
+        up_nodes = interview.utterance_properties
+        global_nodes = interview.global_ratings
 
         # The name of the interview should be 'UC379'
-        self.assertEqual(root.find("Interviews/ID").text, self._interview_name)
+        self.assertEqual(interview.interview_info.interview_name, self._interview_name)
 
         # Should be 4 Utterances elements, all of type _Utterance
         self.assertEqual(len(utt_nodes), 4)
         for node in utt_nodes:
-            self.assertIsInstance(node, _Utterances)
+            self.assertIsInstance(node, Utterance)
 
         # Should be 2 GLobals elements, both of type _Globals
         self.assertEqual(len(global_nodes), 2)
         for node in global_nodes:
-            self.assertIsInstance(node, _Globals)
+            self.assertIsInstance(node, Global)
 
         # Finally, should be a total of 8 UtteranceProperties nodes
         self.assertEqual(len(up_nodes), 8)
         for node in up_nodes:
-            self.assertIsInstance(node, _UtteranceProperties)
+            self.assertIsInstance(node, UtteranceProperty)
 
         # Utterances should be numbered properly and in the proper order
         for expected_id, expected_enum, node in zip([14050895, 14050896, 14051135, 14051250], range(1, 5), utt_nodes):
