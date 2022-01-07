@@ -45,7 +45,6 @@ def parse_interview(interview_name, fragments) -> DataSet:
     utterances = []
     utterance_properties = []
     coding_system_id = None
-    coding_system_id = None
     interview = None
 
     # Construct the et.XSLT object required to perform the transformations on the data
