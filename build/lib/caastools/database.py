@@ -221,6 +221,23 @@ class GlobalStaging(BaseModel):
     gv_value = TextField(null=False, index=True)
 
 
+class PropertyValueTranslation(BaseModel):
+    translation_id = AutoField()
+    source_coding_system_id = IntegerField(null=False, index=True, unique=False)
+    source_coding_property_id = IntegerField(null=False, index=True, unique=False)
+    source_property_value_id = ForeignKeyField(PropertyValue, backref="translation_target",
+                                               index=False, column_name="source_property_value_id",
+                                               on_delete="CASCADE", on_update="CASCADE")
+    target_coding_system_id = IntegerField(null=False, index=True, unique=False)
+    target_coding_property_id = IntegerField(null=False, index=True, unique=False)
+    target_property_value_id = ForeignKeyField(PropertyValue, backref="translation_source",
+                                               index=False, column_name="target_property_value_id",
+                                               on_delete="CASCADE", on_update="CASCADE")
+
+    class Meta:
+        constraints = [SQL('CONSTRAINT x_unique_translation UNIQUE (source_property_value_id, target_property_value_id)')]
+
+
 def init_database(path=":memory:", use_memory_on_failure=True):
     """
     Establish the connecction to the database at path.
@@ -247,7 +264,7 @@ def init_database(path=":memory:", use_memory_on_failure=True):
 
     db.create_tables([CodingSystem, Interview, CodingProperty, GlobalProperty, PropertyValue,
                       GlobalValue, Utterance, UtteranceCode, GlobalRating, UtteranceStaging,
-                      GlobalStaging])
+                      GlobalStaging, PropertyValueTranslation])
 
 
 def close_database():

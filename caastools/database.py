@@ -221,21 +221,27 @@ class GlobalStaging(BaseModel):
     gv_value = TextField(null=False, index=True)
 
 
-class PropertyValueTranslation(BaseModel):
-    translation_id = AutoField()
-    source_coding_system_id = IntegerField(null=False, index=True, unique=False)
-    source_coding_property_id = IntegerField(null=False, index=True, unique=False)
-    source_property_value_id = ForeignKeyField(PropertyValue, backref="translation_target",
-                                               index=False, column_name="source_property_value_id",
-                                               on_delete="CASCADE", on_update="CASCADE")
-    target_coding_system_id = IntegerField(null=False, index=True, unique=False)
-    target_coding_property_id = IntegerField(null=False, index=True, unique=False)
-    target_property_value_id = ForeignKeyField(PropertyValue, backref="translation_source",
-                                               index=False, column_name="target_property_value_id",
-                                               on_delete="CASCADE", on_update="CASCADE")
+class TranslationResult(BaseModel):
+    result_id = AutoField()
+    target_cs_name = ForeignKeyField(CodingSystem, field='cs_name', index=True, null=False, on_update='CASCADE',
+                                     on_delete='CASCADE')
+    target_cp_id = ForeignKeyField(CodingProperty, null=False, index=True, on_delete='CASCADE', on_update='CASCADE')
+    target_pv_id = ForeignKeyField(PropertyValue, null=False, index=True, on_update='CASCADE', on_delete='CASCADE')
+
+
+class TranslationRule(BaseModel):
+    rule_id = AutoField()
+    result_id = ForeignKeyField(TranslationResult, null=False, index=True, on_delete='CASCADE', on_update='CASCADE')
+    property_table_name = TextField(index=True, choices=['GlobalProperty', 'CodingProperty'])
+    parent_table_name = TextField(index=True, choices=['GlobalValue', 'PropertyValue'])
+    parent_primary_key = IntegerField(index=True, null=False)
 
     class Meta:
-        constraints = [SQL('CONSTRAINT x_unique_translation UNIQUE (source_property_value_id, target_property_value_id)')]
+        constraints = [
+            SQL("CONSTRAINT x_table_names CHECK " +
+                "((LOWER(property_table_name) = 'globalproperty' AND LOWER(parent_table_name) = 'globalvalue') OR " +
+                "(LOWER(property_table_name) = 'codingproperty' AND LOWER(parent_table_name) = 'propertyvalue'))")
+        ]
 
 
 def init_database(path=":memory:", use_memory_on_failure=True):
@@ -264,7 +270,7 @@ def init_database(path=":memory:", use_memory_on_failure=True):
 
     db.create_tables([CodingSystem, Interview, CodingProperty, GlobalProperty, PropertyValue,
                       GlobalValue, Utterance, UtteranceCode, GlobalRating, UtteranceStaging,
-                      GlobalStaging, PropertyValueTranslation])
+                      GlobalStaging, TranslationResult, TranslationRule])
 
 
 def close_database():
