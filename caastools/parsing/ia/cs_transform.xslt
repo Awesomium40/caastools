@@ -282,7 +282,7 @@ Transforms an IA XML file into something a little easier to digest via SPSS and 
                                                 <xsl:value-of select="$property_description"/>
                                             </xsl:attribute>
                                             <xsl:attribute name="OriginalDescription">
-                                                <xsl:value-of select="$property_description"/>
+                                                <xsl:value-of select="concat('Strength Rating: ', $abs_value)"/>
                                             </xsl:attribute>
                                         </xsl:when>
                                         <xsl:otherwise>
@@ -296,7 +296,7 @@ Transforms an IA XML file into something a little easier to digest via SPSS and 
                                                 <xsl:value-of select="$property_value"/>
                                             </xsl:attribute>
                                             <xsl:attribute name="Description">
-                                                <xsl:value-of select="$property_description"/>
+                                                <xsl:value-of select="concat($property_description, ': ', .)"/>
                                             </xsl:attribute>
                                         </xsl:otherwise>
                                     </xsl:choose>
@@ -313,7 +313,6 @@ Transforms an IA XML file into something a little easier to digest via SPSS and 
                                         <xsl:for-each select="$valence_node_set/array/item">
                                             <xsl:variable name="inner_pv_position" select="position()"/>
                                             <PropertyValue>
-
                                                 <xsl:attribute name="PropertyID">
                                                     <xsl:value-of select="$id"/>
                                                 </xsl:attribute>

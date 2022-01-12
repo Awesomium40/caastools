@@ -24,11 +24,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/cs_transform.xslt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/cs_transform.xslt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/caastools-1.1.7.1-py3-none-any.whl" beforeDir="false" afterPath="$PROJECT_DIR$/dist/caastools-1.1.7.1-py3-none-any.whl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -430,14 +427,9 @@
       <workItem from="1641296450079" duration="2505000" />
       <workItem from="1641377652580" duration="5379000" />
       <workItem from="1641810800119" duration="8111000" />
-      <workItem from="1641892745412" duration="7877000" />
-    </task>
-    <task id="LOCAL-00075" summary="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities">
-      <created>1630714334177</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1630714334177</updated>
+      <workItem from="1641892745412" duration="11962000" />
+      <workItem from="1641980094734" duration="1366000" />
+      <workItem from="1641981627323" duration="2895000" />
     </task>
     <task id="LOCAL-00076" summary="minor update to stats.sequence.joint_frequencies">
       <created>1630750243470</created>
@@ -775,7 +767,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641899702752</updated>
     </task>
-    <option name="localTasksCounter" value="124" />
+    <task id="LOCAL-00124" summary="Update to Version 1.1.7.1">
+      <created>1641900790497</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1641900790497</updated>
+    </task>
+    <option name="localTasksCounter" value="125" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -798,7 +797,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update to Version 1.1.0" />
     <MESSAGE value="Add type hints to userconfiguration.py" />
     <MESSAGE value="Update Interview.language to be a text field" />
     <MESSAGE value="Remove unique constraint on Interview.interview_name" />
@@ -823,7 +821,8 @@
     <MESSAGE value="Update to 1.1.5.3" />
     <MESSAGE value="Add PropertyValueTranslation table to database" />
     <MESSAGE value="Add TranslationResult and TranslationRule tables to database" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add TranslationResult and TranslationRule tables to database" />
+    <MESSAGE value="Update to Version 1.1.7.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to Version 1.1.7.1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
