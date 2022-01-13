@@ -24,14 +24,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/cs_transform.xslt" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/cs_transform.xslt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/cs_transform.xslt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/cs_transform.xslt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -248,11 +242,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_parsing.ia" />
         <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
         <item itemvalue="Python tests.Unittests in test_database.py" />
         <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats" />
         <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_matrix" />
+        <item itemvalue="Python.test_parsing.ia" />
       </list>
     </recent_temporary>
   </component>
