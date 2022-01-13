@@ -71,16 +71,8 @@ Transforms an IA XML file into something a little easier to digest via SPSS and 
                 <!--
                     Make the names of the 'Valence' property uniform for all versions of UCHAT coding system
                 -->
-                <xsl:variable name="true_prop_name" select="./PropertyName"/>
                 <xsl:variable name="property_name">
-                    <xsl:choose>
-                        <xsl:when test="./PropertyName='Valence'">
-                            <xsl:value-of select="'Strength Rating'"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="./PropertyName"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:value-of select="./PropertyName"/>
                 </xsl:variable>
                 <xsl:variable name="short_name">
                     <xsl:choose>
@@ -263,7 +255,7 @@ Transforms an IA XML file into something a little easier to digest via SPSS and 
                                         <xsl:value-of select="$property_value"/>
                                     </xsl:attribute>
                                     <xsl:attribute name="Description">
-                                        <xsl:value-of select="concat($property_description, ': ', .)"/>
+                                        <xsl:value-of select="$property_description"/>
                                     </xsl:attribute>
                                 </PropertyValue>
                             </xsl:for-each>

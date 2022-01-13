@@ -24,8 +24,14 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/cs_transform.xslt" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/cs_transform.xslt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/cs_transform.xslt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/cs_transform.xslt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -429,14 +435,8 @@
       <workItem from="1641810800119" duration="8111000" />
       <workItem from="1641892745412" duration="11962000" />
       <workItem from="1641980094734" duration="1366000" />
-      <workItem from="1641981627323" duration="3143000" />
-    </task>
-    <task id="LOCAL-00077" summary="minor update to stats.sequence.joint_frequencies">
-      <created>1630750506095</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1630750506096</updated>
+      <workItem from="1641981627323" duration="11440000" />
+      <workItem from="1642084155078" duration="607000" />
     </task>
     <task id="LOCAL-00078" summary="minor update to stats.sequence.joint_frequencies">
       <created>1630750544476</created>
@@ -774,7 +774,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641984686168</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="Remove all translations from UCHAT 3.31 to UCHAT 3.4">
+      <created>1641984953941</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1641984953941</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -797,7 +804,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update Interview.language to be a text field" />
     <MESSAGE value="Remove unique constraint on Interview.interview_name" />
     <MESSAGE value="Add interview_type to all datasets created by datasets.py" />
     <MESSAGE value="change UtteranceStaging.pv_value to be nullable" />
@@ -822,7 +828,8 @@
     <MESSAGE value="Add TranslationResult and TranslationRule tables to database" />
     <MESSAGE value="Update to Version 1.1.7.1" />
     <MESSAGE value="Update cs_transform.xslt to correct some incorrect translations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update cs_transform.xslt to correct some incorrect translations" />
+    <MESSAGE value="Remove all translations from UCHAT 3.31 to UCHAT 3.4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove all translations from UCHAT 3.31 to UCHAT 3.4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
