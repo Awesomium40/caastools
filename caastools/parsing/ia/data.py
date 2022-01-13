@@ -49,7 +49,6 @@ def parse_interview(interview_name, fragments) -> DataSet:
 
     # Construct the et.XSLT object required to perform the transformations on the data
     script_dir = os.path.dirname(os.path.realpath(__file__))
-    update_transform = et.XSLT(et.parse(os.path.join(script_dir, CONVERT_XFORM)))
     final_transform = et.XSLT(et.parse(os.path.join(script_dir, IV_XFORM)))
 
     schema_element_path = "{0}schema/{0}element/{0}complexType/{0}choice/{0}element".format('{' + ns['xs'] + '}')
@@ -61,12 +60,6 @@ def parse_interview(interview_name, fragments) -> DataSet:
     for i, file in enumerate(fragments):
         document = et.parse(file)
         root = document.getroot()
-        version = int(root.find(f"./{IaNodes.CODING_SETS}/{IaAttributes.CODING_SYSTEM_ID}").text)
-
-        if version < 138:
-            raise ValueError("Interviews scored with UCHAT versions below 3.31 are not compatible")
-        if version == 138:
-            document = update_transform(document)
 
         # Once the initial parsing and transformation has occurred,
         # can transform into something a bit more digestible
