@@ -23,19 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/caastools/database/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/caastools/database/database.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/caastools/database/translation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/caastools/tests/test_database/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/caastools/tests/test_database/test_translation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/cs_transform.xslt" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/ia/cs_transform.xslt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/tests/test_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/tests/test_database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/tests/test_database/test_translation.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/tests/test_database/test_translation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,10 +232,10 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.test_translation" />
       <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats" />
       <item itemvalue="Python tests.Unittests in test_database.py" />
       <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
-      <item itemvalue="Python.test_translation" />
       <item itemvalue="Python tests.Python tests for test_translation.TranslationTest.test_add_translation" />
     </list>
     <recent_temporary>
@@ -441,13 +429,6 @@
       <workItem from="1641980094734" duration="1366000" />
       <workItem from="1641981627323" duration="11440000" />
       <workItem from="1642084155078" duration="607000" />
-    </task>
-    <task id="LOCAL-00079" summary="Fix a bug in datasets._global_query_">
-      <created>1630752205821</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1630752205821</updated>
     </task>
     <task id="LOCAL-00080" summary="Fix a bug in datasets._global_query_">
       <created>1630752263718</created>
@@ -785,7 +766,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642087738996</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="Restructure database module into package. Add unit tests for translation module">
+      <created>1642195494908</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1642195494908</updated>
+    </task>
+    <option name="localTasksCounter" value="129" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -808,7 +796,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Add interview_type to all datasets created by datasets.py" />
     <MESSAGE value="change UtteranceStaging.pv_value to be nullable" />
     <MESSAGE value="Change datasets.py to allow included_properties argument to use strings for cp_display_name rather than integers for coding_property_id" />
     <MESSAGE value="Update to 1.1.3.1" />
@@ -833,7 +820,8 @@
     <MESSAGE value="Update cs_transform.xslt to correct some incorrect translations" />
     <MESSAGE value="Remove all translations from UCHAT 3.31 to UCHAT 3.4" />
     <MESSAGE value="Fix minor bug in cs_transform.xslt. Minor updates to translation model" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix minor bug in cs_transform.xslt. Minor updates to translation model" />
+    <MESSAGE value="Restructure database module into package. Add unit tests for translation module" />
+    <option name="LAST_COMMIT_MESSAGE" value="Restructure database module into package. Add unit tests for translation module" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -884,6 +872,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/caastools$test_translation.coverage" NAME="test_translation Coverage Results" MODIFIED="1642191216617" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
     <SUITE FILE_PATH="coverage/setup_py$test_parsing_ia.coverage" NAME="test_parsing.ia Coverage Results" MODIFIED="1641467127058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests" />
-    <SUITE FILE_PATH="coverage/caastools$.coverage" NAME=" Coverage Results" MODIFIED="1642195198715" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
+    <SUITE FILE_PATH="coverage/caastools$.coverage" NAME=" Coverage Results" MODIFIED="1642195576065" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
   </component>
 </project>

@@ -59,12 +59,13 @@ class TranslationTest(unittest.TestCase):
         self.assertIsNotNone(translation)
 
         # Test that source and targets were also inserted successfully
-        target = (
+        target: TranslationTarget = (
             TranslationTarget
             .select()
             .where(TranslationTarget.parent_primary_key == target_misc_value.property_value_id)
             .get()
         )
+        self.assertEqual(target.translation.translation_id, translation.translation_id)
 
         source = list(
             TranslationSource
@@ -74,4 +75,6 @@ class TranslationTest(unittest.TestCase):
             .execute()
         )
         self.assertEqual(len(source), 2)
+        for s in source:
+            self.assertEqual(s.translation.translation_id, translation.translation_id)
 
