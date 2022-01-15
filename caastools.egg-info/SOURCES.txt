@@ -3,7 +3,6 @@ README.md
 setup.py
 caastools/__init__.py
 caastools/constants.py
-caastools/database.py
 caastools/datasets.py
 caastools/exceptions.py
 caastools/log.py
@@ -14,6 +13,10 @@ caastools.egg-info/SOURCES.txt
 caastools.egg-info/dependency_links.txt
 caastools.egg-info/requires.txt
 caastools.egg-info/top_level.txt
+caastools/database/__init__.py
+caastools/database/database.py
+caastools/database/model.py
+caastools/database/translation.py
 caastools/parsing/__init__.py
 caastools/parsing/common.py
 caastools/parsing/cacti/__init__.py
@@ -35,3 +38,5 @@ caastools/tests/test_parsing.ia.py
 caastools/tests/test_plots.py
 caastools/tests/test_stats.py
 caastools/tests/test_utils.py
+caastools/tests/test_database/__init__.py
+caastools/tests/test_database/test_translation.py
