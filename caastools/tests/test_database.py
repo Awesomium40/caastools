@@ -18,7 +18,7 @@ class TestDatabase(unittest.TestCase):
                                                      gp_description="MISC 2.5 Collaboration", gp_data_type="numeric",
                                                      )
         self.global_value = GlobalValue.create(global_property=self.global_property, gv_value="5",
-                                               gv_description = "Collaboration 5")
+                                               gv_description="Collaboration 5")
 
     def tearDown(self) -> None:
         close_database()

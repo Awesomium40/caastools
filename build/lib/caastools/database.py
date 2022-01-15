@@ -229,7 +229,7 @@ class Translation(BaseModel):
 
 
 class TranslationTarget(BaseModel):
-    target_id = AutoField()
+    translation_target_id = AutoField()
     translation = ForeignKeyField(Translation, null=False, index=True, unique=True,
                                   on_update='CASCADE', on_delete='CASCADE')
     property_table_name = TextField(index=True, choices=['GlobalProperty', 'CodingProperty'])
@@ -245,7 +245,7 @@ class TranslationTarget(BaseModel):
 
 
 class TranslationSource(BaseModel):
-    source_id = AutoField()
+    translation_source_id = AutoField()
     translation = ForeignKeyField(Translation, null=False, index=True, on_delete='CASCADE', on_update='CASCADE')
     property_table_name = TextField(index=True, choices=['GlobalProperty', 'CodingProperty'])
     parent_table_name = TextField(index=True, choices=['GlobalValue', 'PropertyValue'])
