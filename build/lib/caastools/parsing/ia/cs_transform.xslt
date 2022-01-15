@@ -48,7 +48,6 @@ Transforms an IA XML file into something a little easier to digest via SPSS and 
             <item>-</item>
         </array>
     </xsl:variable>
-    <xsl:variable name="valence_node_set" select="ext:node-set($valences)"/>
     <xsl:variable name="version" select="number(/NewDataSet/CodingSystem/CodingSystemID)"/>
 
     <xsl:template match="/">
@@ -66,23 +65,12 @@ Transforms an IA XML file into something a little easier to digest via SPSS and 
                 <!--
                 Declare some variables to make constructing the transform easier
                 -->
-
                 <xsl:variable name="id" select="./PropertyID"/>
-                <!--
-                    Make the names of the 'Valence' property uniform for all versions of UCHAT coding system
-                -->
                 <xsl:variable name="property_name">
                     <xsl:value-of select="./PropertyName"/>
                 </xsl:variable>
                 <xsl:variable name="short_name">
-                    <xsl:choose>
-                        <xsl:when test="./PropertyName='Valence'">
-                            <xsl:value-of select="'Strength'"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="./DisplayName"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:value-of select="./DisplayName"/>
                 </xsl:variable>
                 <xsl:variable name="abbreviation">
                     <xsl:choose>
