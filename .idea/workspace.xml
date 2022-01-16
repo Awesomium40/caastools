@@ -23,7 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/caastools/tests/test_database/test_translator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/translation.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/translation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +99,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="V1.2_remove_translations" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -147,7 +149,7 @@
       <recent name="D:\SyncThing\caastools\caastools\parsing\ia" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for test_translation.TranslationTest.test_add_translation">
+  <component name="RunManager" selected="Python.test_translator">
     <configuration name="test_translation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="caastools" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -170,6 +172,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_translator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="caastools" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/caastools/tests/test_database" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/caastools/tests/test_database/test_translator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests for test_translation.TranslationTest.test_add_translation" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="caastools" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -182,21 +206,6 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_translation.TranslationTest.test_add_translation&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="caastools" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;caastools.tests.test_stats.SequenceTest.test_transition_stats&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -232,18 +241,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.test_translation" />
-      <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats" />
       <item itemvalue="Python tests.Unittests in test_database.py" />
       <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
       <item itemvalue="Python tests.Python tests for test_translation.TranslationTest.test_add_translation" />
+      <item itemvalue="Python.test_translator" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_translator" />
         <item itemvalue="Python tests.Python tests for test_translation.TranslationTest.test_add_translation" />
         <item itemvalue="Python.test_translation" />
         <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
         <item itemvalue="Python tests.Unittests in test_database.py" />
-        <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats" />
       </list>
     </recent_temporary>
   </component>
@@ -428,13 +437,7 @@
       <workItem from="1641980094734" duration="1366000" />
       <workItem from="1641981627323" duration="11440000" />
       <workItem from="1642084155078" duration="607000" />
-    </task>
-    <task id="LOCAL-00079" summary="Fix a bug in datasets._global_query_">
-      <created>1630752205821</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1630752205821</updated>
+      <workItem from="1642258220423" duration="6983000" />
     </task>
     <task id="LOCAL-00080" summary="Fix a bug in datasets._global_query_">
       <created>1630752263718</created>
@@ -772,7 +775,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642087738996</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="update to 1.1.8.1">
+      <created>1642257617712</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1642257617712</updated>
+    </task>
+    <option name="localTasksCounter" value="129" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -795,7 +805,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Add interview_type to all datasets created by datasets.py" />
     <MESSAGE value="change UtteranceStaging.pv_value to be nullable" />
     <MESSAGE value="Change datasets.py to allow included_properties argument to use strings for cp_display_name rather than integers for coding_property_id" />
     <MESSAGE value="Update to 1.1.3.1" />
@@ -820,7 +829,8 @@
     <MESSAGE value="Update cs_transform.xslt to correct some incorrect translations" />
     <MESSAGE value="Remove all translations from UCHAT 3.31 to UCHAT 3.4" />
     <MESSAGE value="Fix minor bug in cs_transform.xslt. Minor updates to translation model" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix minor bug in cs_transform.xslt. Minor updates to translation model" />
+    <MESSAGE value="update to 1.1.8.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="update to 1.1.8.1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -855,12 +865,23 @@
           <line>56</line>
           <option name="timeStamp" value="123" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/caastools/database/translation.py</url>
+          <line>71</line>
+          <option name="timeStamp" value="125" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/caastools/database/translation.py</url>
+          <line>84</line>
+          <option name="timeStamp" value="126" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/caastools$test_translator.coverage" NAME="test_translator Coverage Results" MODIFIED="1642271035975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
     <SUITE FILE_PATH="coverage/caastools$test_translation.coverage" NAME="test_translation Coverage Results" MODIFIED="1642191216617" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
     <SUITE FILE_PATH="coverage/setup_py$test_parsing_ia.coverage" NAME="test_parsing.ia Coverage Results" MODIFIED="1641467127058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests" />
-    <SUITE FILE_PATH="coverage/caastools$.coverage" NAME=" Coverage Results" MODIFIED="1642256619236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
+    <SUITE FILE_PATH="coverage/caastools$.coverage" NAME=" Coverage Results" MODIFIED="1642269070488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
   </component>
 </project>
