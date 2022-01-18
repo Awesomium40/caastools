@@ -23,7 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/caastools/tests/test_database/test_translator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/database/translation.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/translation.py" afterDir="false" />
     </list>
@@ -241,10 +240,10 @@
     </configuration>
     <list>
       <item itemvalue="Python.test_translation" />
+      <item itemvalue="Python.test_translator" />
       <item itemvalue="Python tests.Unittests in test_database.py" />
       <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
       <item itemvalue="Python tests.Python tests for test_translation.TranslationTest.test_add_translation" />
-      <item itemvalue="Python.test_translator" />
     </list>
     <recent_temporary>
       <list>
@@ -437,14 +436,7 @@
       <workItem from="1641980094734" duration="1366000" />
       <workItem from="1641981627323" duration="11440000" />
       <workItem from="1642084155078" duration="607000" />
-      <workItem from="1642258220423" duration="6983000" />
-    </task>
-    <task id="LOCAL-00080" summary="Fix a bug in datasets._global_query_">
-      <created>1630752263718</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1630752263718</updated>
+      <workItem from="1642258220423" duration="8846000" />
     </task>
     <task id="LOCAL-00081" summary="Fix a bug in datasets._global_query_">
       <created>1630754590927</created>
@@ -782,7 +774,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642257617712</updated>
     </task>
-    <option name="localTasksCounter" value="129" />
+    <task id="LOCAL-00129" summary="Add Skeleton of tests for Translator class">
+      <created>1642375375472</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1642375375472</updated>
+    </task>
+    <option name="localTasksCounter" value="130" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -805,7 +804,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="change UtteranceStaging.pv_value to be nullable" />
     <MESSAGE value="Change datasets.py to allow included_properties argument to use strings for cp_display_name rather than integers for coding_property_id" />
     <MESSAGE value="Update to 1.1.3.1" />
     <MESSAGE value="update database.py to include interview_type on staging tables" />
@@ -830,7 +828,8 @@
     <MESSAGE value="Remove all translations from UCHAT 3.31 to UCHAT 3.4" />
     <MESSAGE value="Fix minor bug in cs_transform.xslt. Minor updates to translation model" />
     <MESSAGE value="update to 1.1.8.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="update to 1.1.8.1" />
+    <MESSAGE value="Add Skeleton of tests for Translator class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Skeleton of tests for Translator class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -866,20 +865,15 @@
           <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/caastools/database/translation.py</url>
-          <line>71</line>
-          <option name="timeStamp" value="125" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/caastools/database/translation.py</url>
-          <line>84</line>
-          <option name="timeStamp" value="126" />
+          <url>file://$PROJECT_DIR$/caastools/tests/test_database/test_translator.py</url>
+          <line>21</line>
+          <option name="timeStamp" value="127" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/caastools$test_translator.coverage" NAME="test_translator Coverage Results" MODIFIED="1642271035975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
+    <SUITE FILE_PATH="coverage/caastools$test_translator.coverage" NAME="test_translator Coverage Results" MODIFIED="1642375330429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
     <SUITE FILE_PATH="coverage/caastools$test_translation.coverage" NAME="test_translation Coverage Results" MODIFIED="1642191216617" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
     <SUITE FILE_PATH="coverage/setup_py$test_parsing_ia.coverage" NAME="test_parsing.ia Coverage Results" MODIFIED="1641467127058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests" />
     <SUITE FILE_PATH="coverage/caastools$.coverage" NAME=" Coverage Results" MODIFIED="1642269070488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
