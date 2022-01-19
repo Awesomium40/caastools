@@ -248,11 +248,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_translator" />
         <item itemvalue="Python tests.Python tests for test_translation.TranslationTest.test_add_translation" />
-        <item itemvalue="Python.test_translation" />
         <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
         <item itemvalue="Python tests.Unittests in test_database.py" />
+        <item itemvalue="Python.test_translator" />
+        <item itemvalue="Python.test_translation" />
       </list>
     </recent_temporary>
   </component>
