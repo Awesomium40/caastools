@@ -253,6 +253,7 @@ class TranslationSource(BaseModel):
             SQL("CONSTRAINT x_source_unique UNIQUE (translation_id, parent_table_name, parent_primary_key)")
         ]
 
+
 class TranslationSourceRoot(BaseModel):
     translation_source_root_id = AutoField()
     translation_source = ForeignKeyField(TranslationSource, null=False, index=True, unique=True, on_update='CASCADE',
