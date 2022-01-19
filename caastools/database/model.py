@@ -11,7 +11,7 @@ logging.getLogger('database.models').addHandler(logging.NullHandler())
 
 __all__ = ['CodingSystem', 'CodingProperty', 'PropertyValue', 'Interview', 'Utterance',
            'UtteranceCode', 'GlobalProperty', 'GlobalValue', 'GlobalRating', 'UtteranceStaging',
-           'GlobalStaging', 'Translation', 'TranslationSource', 'TranslationTarget']
+           'GlobalStaging', 'Translation', 'TranslationSource', 'TranslationTarget', 'TranslationSourceRoot']
 
 
 class BaseModel(Model):
