@@ -9,7 +9,7 @@ import logging
 __all__ = __all__ = ['atomic', 'db', 'init_database', 'close_database', 'CodingSystem', 'CodingProperty',
                      'PropertyValue', 'Interview', 'Utterance', 'UtteranceCode', 'GlobalProperty', 'GlobalValue',
                      'GlobalRating', 'UtteranceStaging', 'GlobalStaging', 'Translation', 'TranslationSource',
-                     'TranslationTarget', TranslationSourceRoot]
+                     'TranslationTarget', 'TranslationSourceRoot']
 
 logging.getLogger('database').addHandler(logging.NullHandler())
 
