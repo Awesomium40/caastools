@@ -245,6 +245,7 @@ class TranslationSource(BaseModel):
     translation = ForeignKeyField(Translation, null=False, index=True, on_delete='CASCADE', on_update='CASCADE')
     parent_table_name = TextField(index=True, choices=['GlobalValue', 'PropertyValue'])
     parent_primary_key = IntegerField(index=True, null=False)
+    is_root = BooleanField(index=True, null=False, default=False)
 
     class Meta:
         constraints = [
