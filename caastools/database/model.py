@@ -219,25 +219,6 @@ class GlobalStaging(BaseModel):
     gv_value = TextField(null=False, index=True)
 
 
-class CodingSystemTranslation(BaseModel):
-    coding_system_translation_id = AutoField()
-    source_coding_system = ForeignKeyField(CodingSystem, index=True, null=False, on_update='CASCADE',
-                                           on_delete='CASCADE')
-    target_coding_system = ForeignKeyField(CodingSystem, index=True, null=False, on_update='CASCADE',
-                                           on_delete='CASCADE')
-
-    class Meta:
-        table_name = 'coding_system_translation'
-
-
-class CodingPropertyTarget(BaseModel):
-    coding_property_target_id = AutoField()
-    coding_system_translation = ForeignKeyField()
-
-    class Meta:
-        table_name = 'coding_property_target'
-
-
 class Translation(BaseModel):
     translation_id = AutoField()
     description = TextField(null=False, unique=True, index=True)
