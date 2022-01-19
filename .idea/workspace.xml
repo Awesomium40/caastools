@@ -23,8 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +98,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="V1.2-add_translation_class" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -440,27 +440,6 @@
       <workItem from="1642500070671" duration="4444000" />
       <workItem from="1642586702938" duration="1855000" />
     </task>
-    <task id="LOCAL-00082" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
-      <created>1630804124654</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1630804124655</updated>
-    </task>
-    <task id="LOCAL-00083" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
-      <created>1630804154262</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1630804154262</updated>
-    </task>
-    <task id="LOCAL-00084" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
-      <created>1630804260865</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1630804260865</updated>
-    </task>
     <task id="LOCAL-00085" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
       <created>1630804289740</created>
       <option name="number" value="00085" />
@@ -783,7 +762,28 @@
       <option name="project" value="LOCAL" />
       <updated>1642500094270</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="Add table to denote translation roots">
+      <created>1642589272384</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1642589272384</updated>
+    </task>
+    <task id="LOCAL-00132" summary="Add table to denote translation roots">
+      <created>1642589440738</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1642589440738</updated>
+    </task>
+    <task id="LOCAL-00133" summary="Add table to denote translation roots">
+      <created>1642589471042</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1642589471042</updated>
+    </task>
+    <option name="localTasksCounter" value="134" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -806,7 +806,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Change datasets.py to allow included_properties argument to use strings for cp_display_name rather than integers for coding_property_id" />
     <MESSAGE value="Update to 1.1.3.1" />
     <MESSAGE value="update database.py to include interview_type on staging tables" />
     <MESSAGE value="Update to version 1.1.3.2" />
@@ -831,7 +830,8 @@
     <MESSAGE value="Fix minor bug in cs_transform.xslt. Minor updates to translation model" />
     <MESSAGE value="update to 1.1.8.1" />
     <MESSAGE value="Add Skeleton of tests for Translator class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Skeleton of tests for Translator class" />
+    <MESSAGE value="Add table to denote translation roots" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add table to denote translation roots" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -40,3 +40,4 @@ caastools/tests/test_stats.py
 caastools/tests/test_utils.py
 caastools/tests/test_database/__init__.py
 caastools/tests/test_database/test_translation.py
+caastools/tests/test_database/test_translator.py
