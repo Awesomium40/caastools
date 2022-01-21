@@ -11,7 +11,7 @@ logging.getLogger('database.models').addHandler(logging.NullHandler())
 
 __all__ = ['CodingSystem', 'CodingProperty', 'PropertyValue', 'Interview', 'Utterance',
            'UtteranceCode', 'GlobalProperty', 'GlobalValue', 'GlobalRating', 'UtteranceStaging',
-           'GlobalStaging', 'Translation', 'TranslationSource', 'TranslationTarget', 'TranslationSourceRoot']
+           'GlobalStaging']
 
 
 class BaseModel(Model):
@@ -217,46 +217,3 @@ class GlobalStaging(BaseModel):
     cs_name = TextField(null=False, index=True)
     gp_name = TextField(null=False, index=True)
     gv_value = TextField(null=False, index=True)
-
-
-class Translation(BaseModel):
-    translation_id = AutoField()
-    description = TextField(null=False, unique=True, index=True)
-    source_cs = ForeignKeyField(CodingSystem, index=True, null=False, on_update='CASCADE', on_delete='CASCADE')
-    target_cs = ForeignKeyField(CodingSystem, index=True, null=False, on_update='CASCADE', on_delete='CASCADE')
-
-
-class TranslationTarget(BaseModel):
-    translation_target_id = AutoField()
-    translation = ForeignKeyField(Translation, null=False, index=True, unique=True,
-                                  on_update='CASCADE', on_delete='CASCADE')
-    parent_table_name = TextField(index=True, choices=['GlobalValue', 'PropertyValue'])
-    parent_primary_key = IntegerField(index=True, null=False)
-
-    class Meta:
-        constraints = [
-            SQL("CONSTRAINT x_table_names CHECK (LOWER(parent_table_name) IN ('globalvalue', 'propertyvalue'))"),
-            SQL("CONSTRAINT x_target_unique UNIQUE (translation_id, parent_table_name, parent_primary_key)")
-        ]
-
-
-class TranslationSource(BaseModel):
-    translation_source_id = AutoField()
-    translation = ForeignKeyField(Translation, null=False, index=True, on_delete='CASCADE', on_update='CASCADE')
-    parent_table_name = TextField(index=True, choices=['GlobalValue', 'PropertyValue'])
-    parent_primary_key = IntegerField(index=True, null=False)
-
-    class Meta:
-        constraints = [
-            SQL("CONSTRAINT x_table_names CHECK (LOWER(parent_table_name) IN ('globalvalue', 'propertyvalue'))"),
-            SQL("CONSTRAINT x_source_unique UNIQUE (translation_id, parent_table_name, parent_primary_key)")
-        ]
-
-
-class TranslationSourceRoot(BaseModel):
-    translation_source_root_id = AutoField()
-    translation_source = ForeignKeyField(TranslationSource, null=False, index=True, unique=True, on_update='CASCADE',
-                                         on_delete='CASCADE')
-
-    class Meta:
-        table_name = 'translation_source_root'
