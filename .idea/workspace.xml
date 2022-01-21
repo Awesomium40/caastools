@@ -24,6 +24,11 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/translation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/translate_u331_interview_to_u34.xslt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +102,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="V1.2-add_translation_class" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
