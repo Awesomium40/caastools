@@ -344,13 +344,6 @@ def session_level(included_interviews=None, included_properties=None, included_g
     if included_properties is not None:
         predicate = predicate & CodingProperty.cp_display_name.in_(included_properties)
 
-    """
-    # Replace this logic with more readable logic, immediately above
-    predicate = ((p1) & (p2) & (type_predicate)) if included_interviews is not None and included_properties is not None \
-        else ((p1) & (type_predicate)) if included_interviews is not None \
-        else ((p2) & (type_predicate)) if included_properties is not None \
-        else (type_predicate)
-    """
     # Construct the global query and associated CTE
     full_global_query, global_cte = _global_query_(included_interviews=included_interviews,
                                                    included_globals=included_globals,

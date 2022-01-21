@@ -49,7 +49,6 @@ def parse_interview(interview_name, fragments) -> DataSet:
 
     # Construct the et.XSLT object required to perform the transformations on the data
     script_dir = os.path.dirname(os.path.realpath(__file__))
-    update_transform = et.XSLT(et.parse(os.path.join(script_dir, CONVERT_XFORM)))
     final_transform = et.XSLT(et.parse(os.path.join(script_dir, IV_XFORM)))
 
     schema_element_path = "{0}schema/{0}element/{0}complexType/{0}choice/{0}element".format('{' + ns['xs'] + '}')
@@ -61,12 +60,6 @@ def parse_interview(interview_name, fragments) -> DataSet:
     for i, file in enumerate(fragments):
         document = et.parse(file)
         root = document.getroot()
-        version = int(root.find(f"./{IaNodes.CODING_SETS}/{IaAttributes.CODING_SYSTEM_ID}").text)
-
-        if version < 138:
-            raise ValueError("Interviews scored with UCHAT versions below 3.31 are not compatible")
-        if version == 138:
-            document = update_transform(document)
 
         # Once the initial parsing and transformation has occurred,
         # can transform into something a bit more digestible
@@ -77,6 +70,7 @@ def parse_interview(interview_name, fragments) -> DataSet:
         # These will need to be made uniform, so extract values from the initial fragment
         if i == 0:
             coding_system_id = int(root.find("./CodingSets/CodingSystemID").text)
+            coding_system_name = root.find("./CodingSets/CodingSystemName").text
             interview = Interview(interview_name, root.find("./Interviews/ModifiedBy").text)
 
         # Ensure that all nodes are in the proper order
@@ -119,6 +113,6 @@ def parse_interview(interview_name, fragments) -> DataSet:
         )
 
     # Once all the data in the various fragments has been parsed, can construct the DataSet object
-    dataset = DataSet(globals, interview, utterances, utterance_properties, coding_system_id)
+    dataset = DataSet(globals, interview, utterances, utterance_properties, coding_system_id, coding_system_name)
 
     return dataset

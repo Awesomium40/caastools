@@ -22,9 +22,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Update to V 1.9.1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/ia/translate_u331_interview_to_u34.xslt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/ia/translate_u331_interview_to_u34.xslt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,14 +102,13 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="V1.2-ia_parsing_data-fix_version_bug" />
+        <entry key="$PROJECT_DIR$" value="V1.2-add_translation_class" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/caastools/database.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/stats/sequence.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1aBAbRBdXRzNaYir55cAuIdgBKm" />
@@ -122,7 +125,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="XML" />
     <property name="ignore.virus.scanning.warn.message" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/caastools/tests/test_database" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -131,26 +134,26 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.project" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\SyncThing\caastools\caastools\tests\test_database" />
       <recent name="D:\SyncThing\caastools\tests\test_data\ia" />
       <recent name="D:\SyncThing\caastools\tests" />
       <recent name="D:\SyncThing\caastools\caastools\parsing\cacti" />
       <recent name="H:\Lee Magill MOBC\Data Management\Syntax" />
-      <recent name="D:\SyncThing\caastools\tests\test_data\cacti\invalid" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\SyncThing\caastools\caastools\database" />
       <recent name="D:\SyncThing\caastools\caastools" />
       <recent name="D:\SyncThing\caastools\tests" />
       <recent name="D:\SyncThing\caastools\caastools\parsing\stats" />
       <recent name="D:\SyncThing\caastools\caastools\parsing\ia" />
-      <recent name="D:\SyncThing\caastools\parsing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_parsing.ia">
-    <configuration name="test_parsing.ia" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.test_translator">
+    <configuration name="test_translation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="caastools" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -158,12 +161,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/caastools/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/caastools/tests/test_database" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/caastools/tests/test_parsing.ia.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/caastools/tests/test_database/test_translation.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -172,33 +175,40 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for caastools.tests.test_stats.SequenceTest.test_transition_matrix" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="test_translator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="caastools" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/caastools/tests/test_database" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;caastools.tests.test_stats.SequenceTest.test_transition_matrix&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/caastools/tests/test_database/test_translator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for test_translation.TranslationTest.test_add_translation" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="caastools" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/caastools/tests/test_database" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;caastools.tests.test_stats.SequenceTest.test_transition_stats&quot;" />
+      <option name="_new_target" value="&quot;test_translation.TranslationTest.test_add_translation&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -233,19 +243,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.test_parsing.ia" />
-      <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_matrix" />
-      <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats" />
+      <item itemvalue="Python.test_translation" />
+      <item itemvalue="Python.test_translator" />
+      <item itemvalue="Python tests.Python tests for test_translation.TranslationTest.test_add_translation" />
       <item itemvalue="Python tests.Unittests in test_database.py" />
       <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_parsing.ia" />
+        <item itemvalue="Python.test_translator" />
+        <item itemvalue="Python tests.Python tests for test_translation.TranslationTest.test_add_translation" />
+        <item itemvalue="Python.test_translation" />
         <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
         <item itemvalue="Python tests.Unittests in test_database.py" />
-        <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_stats" />
-        <item itemvalue="Python tests.Unittests for caastools.tests.test_stats.SequenceTest.test_transition_matrix" />
       </list>
     </recent_temporary>
   </component>
@@ -425,111 +435,14 @@
       <workItem from="1640081738264" duration="2310000" />
       <workItem from="1641296450079" duration="2505000" />
       <workItem from="1641377652580" duration="5379000" />
-    </task>
-    <task id="LOCAL-00071" summary="add module for sequential analysis">
-      <created>1630702623466</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1630702623466</updated>
-    </task>
-    <task id="LOCAL-00072" summary="add module for sequential analysis">
-      <created>1630702675461</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1630702675461</updated>
-    </task>
-    <task id="LOCAL-00073" summary="Fix a bug in stats">
-      <created>1630713403605</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1630713403605</updated>
-    </task>
-    <task id="LOCAL-00074" summary="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities">
-      <created>1630714227337</created>
-      <option name="number" value="00074" />
-      <option name="presentableId" value="LOCAL-00074" />
-      <option name="project" value="LOCAL" />
-      <updated>1630714227337</updated>
-    </task>
-    <task id="LOCAL-00075" summary="Fix a bug in stats.sequence that caused incorrect reporting of p-values for transition probabilities">
-      <created>1630714334177</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1630714334177</updated>
-    </task>
-    <task id="LOCAL-00076" summary="minor update to stats.sequence.joint_frequencies">
-      <created>1630750243470</created>
-      <option name="number" value="00076" />
-      <option name="presentableId" value="LOCAL-00076" />
-      <option name="project" value="LOCAL" />
-      <updated>1630750243470</updated>
-    </task>
-    <task id="LOCAL-00077" summary="minor update to stats.sequence.joint_frequencies">
-      <created>1630750506095</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1630750506096</updated>
-    </task>
-    <task id="LOCAL-00078" summary="minor update to stats.sequence.joint_frequencies">
-      <created>1630750544476</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1630750544476</updated>
-    </task>
-    <task id="LOCAL-00079" summary="Fix a bug in datasets._global_query_">
-      <created>1630752205821</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1630752205821</updated>
-    </task>
-    <task id="LOCAL-00080" summary="Fix a bug in datasets._global_query_">
-      <created>1630752263718</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1630752263718</updated>
-    </task>
-    <task id="LOCAL-00081" summary="Fix a bug in datasets._global_query_">
-      <created>1630754590927</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1630754590927</updated>
-    </task>
-    <task id="LOCAL-00082" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
-      <created>1630804124654</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1630804124655</updated>
-    </task>
-    <task id="LOCAL-00083" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
-      <created>1630804154262</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1630804154262</updated>
-    </task>
-    <task id="LOCAL-00084" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
-      <created>1630804260865</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1630804260865</updated>
-    </task>
-    <task id="LOCAL-00085" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
-      <created>1630804289740</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1630804289740</updated>
+      <workItem from="1641810800119" duration="8111000" />
+      <workItem from="1641892745412" duration="11962000" />
+      <workItem from="1641980094734" duration="1366000" />
+      <workItem from="1641981627323" duration="11440000" />
+      <workItem from="1642084155078" duration="607000" />
+      <workItem from="1642258220423" duration="8846000" />
+      <workItem from="1642500070671" duration="4444000" />
+      <workItem from="1642586702938" duration="1855000" />
     </task>
     <task id="LOCAL-00086" summary="Change method for computing OR in stats.sequence.sequence_stats to use fishers exact">
       <created>1630804662468</created>
@@ -769,7 +682,112 @@
       <option name="project" value="LOCAL" />
       <updated>1641465324321</updated>
     </task>
-    <option name="localTasksCounter" value="120" />
+    <task id="LOCAL-00120" summary="add coding_system_name property to DataSet class">
+      <created>1641467153718</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1641467153718</updated>
+    </task>
+    <task id="LOCAL-00121" summary="Update to 1.1.5.3">
+      <created>1641467187113</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1641467187113</updated>
+    </task>
+    <task id="LOCAL-00122" summary="Add PropertyValueTranslation table to database">
+      <created>1641574541565</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1641574541565</updated>
+    </task>
+    <task id="LOCAL-00123" summary="Add TranslationResult and TranslationRule tables to database">
+      <created>1641899702752</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1641899702752</updated>
+    </task>
+    <task id="LOCAL-00124" summary="Update to Version 1.1.7.1">
+      <created>1641900790497</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1641900790497</updated>
+    </task>
+    <task id="LOCAL-00125" summary="Update cs_transform.xslt to correct some incorrect translations">
+      <created>1641984686168</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1641984686168</updated>
+    </task>
+    <task id="LOCAL-00126" summary="Remove all translations from UCHAT 3.31 to UCHAT 3.4">
+      <created>1641984953941</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1641984953941</updated>
+    </task>
+    <task id="LOCAL-00127" summary="Fix minor bug in cs_transform.xslt. Minor updates to translation model">
+      <created>1642087738996</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1642087738996</updated>
+    </task>
+    <task id="LOCAL-00128" summary="update to 1.1.8.1">
+      <created>1642257617712</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1642257617712</updated>
+    </task>
+    <task id="LOCAL-00129" summary="Add Skeleton of tests for Translator class">
+      <created>1642375375472</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1642375375472</updated>
+    </task>
+    <task id="LOCAL-00130" summary="Add Skeleton of tests for Translator class">
+      <created>1642500094270</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1642500094270</updated>
+    </task>
+    <task id="LOCAL-00131" summary="Add table to denote translation roots">
+      <created>1642589272384</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1642589272384</updated>
+    </task>
+    <task id="LOCAL-00132" summary="Add table to denote translation roots">
+      <created>1642589440738</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1642589440738</updated>
+    </task>
+    <task id="LOCAL-00133" summary="Add table to denote translation roots">
+      <created>1642589471042</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1642589471042</updated>
+    </task>
+    <task id="LOCAL-00134" summary="Update to V 1.9">
+      <created>1642589612666</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1642589612666</updated>
+    </task>
+    <option name="localTasksCounter" value="135" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -792,18 +810,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets" />
-    <MESSAGE value="Fixed a bug in database that caused incorrect reporting of rows inserted for bulk insertions" />
-    <MESSAGE value="Fixed a bug in datasets.sequential that caused an unhandled exception" />
-    <MESSAGE value="Fixed a bug in iaconfiguration.py that caused some property values to raise an exception from their original_value method" />
-    <MESSAGE value="Update to Version 1.1.0" />
-    <MESSAGE value="Add type hints to userconfiguration.py" />
-    <MESSAGE value="Update Interview.language to be a text field" />
-    <MESSAGE value="Remove unique constraint on Interview.interview_name" />
-    <MESSAGE value="Add interview_type to all datasets created by datasets.py" />
-    <MESSAGE value="change UtteranceStaging.pv_value to be nullable" />
-    <MESSAGE value="Change datasets.py to allow included_properties argument to use strings for cp_display_name rather than integers for coding_property_id" />
-    <MESSAGE value="Update to 1.1.3.1" />
     <MESSAGE value="update database.py to include interview_type on staging tables" />
     <MESSAGE value="Update to version 1.1.3.2" />
     <MESSAGE value="Fix a bug in datasets.py that caused sequential datastets to fail to compile" />
@@ -817,7 +823,19 @@
     <MESSAGE value="Add dataclasses to represent IA/CACTI interview data and implement their usage in parsing.ia.data" />
     <MESSAGE value="Update to 1.1.5.1" />
     <MESSAGE value="Update to 1.1.5.2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to 1.1.5.2" />
+    <MESSAGE value="add coding_system_name property to DataSet class" />
+    <MESSAGE value="Update to 1.1.5.3" />
+    <MESSAGE value="Add PropertyValueTranslation table to database" />
+    <MESSAGE value="Add TranslationResult and TranslationRule tables to database" />
+    <MESSAGE value="Update to Version 1.1.7.1" />
+    <MESSAGE value="Update cs_transform.xslt to correct some incorrect translations" />
+    <MESSAGE value="Remove all translations from UCHAT 3.31 to UCHAT 3.4" />
+    <MESSAGE value="Fix minor bug in cs_transform.xslt. Minor updates to translation model" />
+    <MESSAGE value="update to 1.1.8.1" />
+    <MESSAGE value="Add Skeleton of tests for Translator class" />
+    <MESSAGE value="Add table to denote translation roots" />
+    <MESSAGE value="Update to V 1.9" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to V 1.9" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -853,15 +871,15 @@
           <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/caastools/parsing/ia/data.py</url>
-          <line>77</line>
-          <option name="timeStamp" value="130" />
+          <url>file://$PROJECT_DIR$/caastools/tests/test_database/test_translator.py</url>
+          <line>21</line>
+          <option name="timeStamp" value="127" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/caastools$test_translator.coverage" NAME="test_translator Coverage Results" MODIFIED="1642591424224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
+    <SUITE FILE_PATH="coverage/caastools$test_translator.coverage" NAME="test_translator Coverage Results" MODIFIED="1642375330429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
     <SUITE FILE_PATH="coverage/caastools$test_translation.coverage" NAME="test_translation Coverage Results" MODIFIED="1642191216617" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
     <SUITE FILE_PATH="coverage/setup_py$test_parsing_ia.coverage" NAME="test_parsing.ia Coverage Results" MODIFIED="1641467127058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests" />
     <SUITE FILE_PATH="coverage/caastools$.coverage" NAME=" Coverage Results" MODIFIED="1642269070488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />

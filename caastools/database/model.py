@@ -1,19 +1,17 @@
+from caastools.database.database import db
 from peewee import AutoField, BooleanField, chunked, FloatField, ForeignKeyField, IntegerField, Model, \
-    ModelInsert, OperationalError, SQL, TextField
-from playhouse.sqlite_ext import SqliteExtDatabase
+    ModelInsert, SQL, TextField
+
 from typing import Iterable
 import logging
 
 
 logging.getLogger('database.models').addHandler(logging.NullHandler())
-db = SqliteExtDatabase(None)
-atomic = db.atomic
 
-__all__ = ['atomic', 'close_database', 'CodingSystem', 'CodingProperty', 'PropertyValue', 'Interview', 'Utterance',
-           'UtteranceCode', 'GlobalProperty', 'GlobalValue', 'GlobalRating', 'init_database', 'UtteranceStaging',
-           'GlobalStaging']
 
-MEMORY = ":memory:"
+__all__ = ['CodingSystem', 'CodingProperty', 'PropertyValue', 'Interview', 'Utterance',
+           'UtteranceCode', 'GlobalProperty', 'GlobalValue', 'GlobalRating', 'UtteranceStaging',
+           'GlobalStaging', 'Translation', 'TranslationSource', 'TranslationTarget', 'TranslationSourceRoot']
 
 
 class BaseModel(Model):
@@ -221,34 +219,44 @@ class GlobalStaging(BaseModel):
     gv_value = TextField(null=False, index=True)
 
 
-def init_database(path=":memory:", use_memory_on_failure=True):
-    """
-    Establish the connecction to the database at path.
-    :param path: path to the SQLite database
-    :param use_memory_on_failure: Whether to initialize an in-memory database upon failure to connect. Default True
-    :return: None
-    """
-    pragmas = (('journal_mode', 'wal'),
-               ('cache_size', -1 * 64000),  # 64MB
-               ('foreign_keys', 1),
-               ('ignore_check_constraints', 0))
-    db.init(path, pragmas=pragmas)
-    db.execute_sql("PRAGMA foreign_keys = ON;")
-    if path != MEMORY:
-        try:
-            db.connect(reuse_if_open=True)
-        except OperationalError as err:
-            if use_memory_on_failure:
-                logging.error(f"Unable to connect to the database at {path}.\nDefaulting to :memory:")
-                db.init(MEMORY, pragmas=pragmas)
-                db.connect(reuse_if_open=True)
-            else:
-                raise err
-
-    db.create_tables([CodingSystem, Interview, CodingProperty, GlobalProperty, PropertyValue,
-                      GlobalValue, Utterance, UtteranceCode, GlobalRating, UtteranceStaging,
-                      GlobalStaging])
+class Translation(BaseModel):
+    translation_id = AutoField()
+    description = TextField(null=False, unique=True, index=True)
+    source_cs = ForeignKeyField(CodingSystem, index=True, null=False, on_update='CASCADE', on_delete='CASCADE')
+    target_cs = ForeignKeyField(CodingSystem, index=True, null=False, on_update='CASCADE', on_delete='CASCADE')
 
 
-def close_database():
-    db.close()
+class TranslationTarget(BaseModel):
+    translation_target_id = AutoField()
+    translation = ForeignKeyField(Translation, null=False, index=True, unique=True,
+                                  on_update='CASCADE', on_delete='CASCADE')
+    parent_table_name = TextField(index=True, choices=['GlobalValue', 'PropertyValue'])
+    parent_primary_key = IntegerField(index=True, null=False)
+
+    class Meta:
+        constraints = [
+            SQL("CONSTRAINT x_table_names CHECK (LOWER(parent_table_name) IN ('globalvalue', 'propertyvalue'))"),
+            SQL("CONSTRAINT x_target_unique UNIQUE (translation_id, parent_table_name, parent_primary_key)")
+        ]
+
+
+class TranslationSource(BaseModel):
+    translation_source_id = AutoField()
+    translation = ForeignKeyField(Translation, null=False, index=True, on_delete='CASCADE', on_update='CASCADE')
+    parent_table_name = TextField(index=True, choices=['GlobalValue', 'PropertyValue'])
+    parent_primary_key = IntegerField(index=True, null=False)
+
+    class Meta:
+        constraints = [
+            SQL("CONSTRAINT x_table_names CHECK (LOWER(parent_table_name) IN ('globalvalue', 'propertyvalue'))"),
+            SQL("CONSTRAINT x_source_unique UNIQUE (translation_id, parent_table_name, parent_primary_key)")
+        ]
+
+
+class TranslationSourceRoot(BaseModel):
+    translation_source_root_id = AutoField()
+    translation_source = ForeignKeyField(TranslationSource, null=False, index=True, unique=True, on_update='CASCADE',
+                                         on_delete='CASCADE')
+
+    class Meta:
+        table_name = 'translation_source_root'

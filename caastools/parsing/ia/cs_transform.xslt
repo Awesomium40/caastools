@@ -48,7 +48,6 @@ Transforms an IA XML file into something a little easier to digest via SPSS and 
             <item>-</item>
         </array>
     </xsl:variable>
-    <xsl:variable name="valence_node_set" select="ext:node-set($valences)"/>
     <xsl:variable name="version" select="number(/NewDataSet/CodingSystem/CodingSystemID)"/>
 
     <xsl:template match="/">
@@ -66,31 +65,12 @@ Transforms an IA XML file into something a little easier to digest via SPSS and 
                 <!--
                 Declare some variables to make constructing the transform easier
                 -->
-
                 <xsl:variable name="id" select="./PropertyID"/>
-                <!--
-                    Make the names of the 'Valence' property uniform for all versions of UCHAT coding system
-                -->
-                <xsl:variable name="true_prop_name" select="./PropertyName"/>
                 <xsl:variable name="property_name">
-                    <xsl:choose>
-                        <xsl:when test="./PropertyName='Valence'">
-                            <xsl:value-of select="'Strength Rating'"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="./PropertyName"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:value-of select="./PropertyName"/>
                 </xsl:variable>
                 <xsl:variable name="short_name">
-                    <xsl:choose>
-                        <xsl:when test="./PropertyName='Valence'">
-                            <xsl:value-of select="'Strength'"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="./DisplayName"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:value-of select="./DisplayName"/>
                 </xsl:variable>
                 <xsl:variable name="abbreviation">
                     <xsl:choose>
@@ -247,97 +227,25 @@ Transforms an IA XML file into something a little easier to digest via SPSS and 
                             <xsl:attribute name="Description">
                                 <xsl:value-of select="$description"/>
                             </xsl:attribute>
-
                             <xsl:for-each select="$propertyValues[PropertyID=$id]">
                                 <xsl:sort select="PropertyValue" data-type="number"/>
                                 <xsl:variable name="valueID" select="./PropertyValueID"/>
                                 <xsl:variable name="property_value" select="./PropertyValue"/>
                                 <xsl:variable name="property_description" select="./Description"/>
-                                <xsl:variable name="outer_pv_position" select="position()"/>
                                 <PropertyValue>
-                                    <!--
-                                    The Valence property values of U331 and earlier incorrectly specify both direction and magnitude
-                                    The following transform removes the direction component of those codes
-                                    -->
-                                    <xsl:choose>
-                                        <xsl:when test="$version &lt;= 138 and $true_prop_name = 'Valence' and number($property_value) &lt; 0">
-                                            <xsl:variable name="abs_value" select="translate($property_value, '-', '')"/>
-                                            <xsl:variable name="oid" select="$propertyValues[PropertyID=$id and PropertyValue=$abs_value][1]/PropertyValueID"/>
-                                            <xsl:attribute name="PropertyID">
-                                                <xsl:value-of select="$id"/>
-                                            </xsl:attribute>
-                                            <xsl:attribute name="PropertyValueID">
-                                                <xsl:value-of select="$property_value"/>
-                                            </xsl:attribute>
-                                            <xsl:attribute name="OriginalID">
-                                                <xsl:value-of select="$valueID"/>
-                                            </xsl:attribute>
-                                            <xsl:attribute name="Value">
-                                                <xsl:value-of select="$abs_value"/>
-                                            </xsl:attribute>
-                                            <xsl:attribute name="OriginalValue">
-                                                <xsl:value-of select="$property_value"/>
-                                            </xsl:attribute>
-                                            <xsl:attribute name="Description">
-                                                <xsl:value-of select="$property_description"/>
-                                            </xsl:attribute>
-                                            <xsl:attribute name="OriginalDescription">
-                                                <xsl:value-of select="$property_description"/>
-                                            </xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:attribute name="PropertyID">
-                                                <xsl:value-of select="$id"/>
-                                            </xsl:attribute>
-                                            <xsl:attribute name="PropertyValueID">
-                                                <xsl:value-of select="$valueID"/>
-                                            </xsl:attribute>
-                                            <xsl:attribute name="Value">
-                                                <xsl:value-of select="$property_value"/>
-                                            </xsl:attribute>
-                                            <xsl:attribute name="Description">
-                                                <xsl:value-of select="$property_description"/>
-                                            </xsl:attribute>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
+                                    <xsl:attribute name="PropertyID">
+                                        <xsl:value-of select="$id"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="PropertyValueID">
+                                        <xsl:value-of select="$valueID"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="Value">
+                                        <xsl:value-of select="$property_value"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="Description">
+                                        <xsl:value-of select="$property_description"/>
+                                    </xsl:attribute>
                                 </PropertyValue>
-                                <!--
-                                In UCHAT 3.31 and prior, the MISC property and the Valence property are not properly configured.
-                                Here, the Valence property carries both the direction of the client statement(+/-/neutral)
-                                and it's strength (the numerical value). The proper configuration is to have the MISC
-                                property carry the direction and the Valence property carry the magnitude.
-                                This transform creates the proper configuration. This oversight has been corrected
-                                in UCHAT 3.4
-                                -->
-                                <xsl:if test="$version &lt;= 138 and $property_name = 'MISC' and starts-with($property_description, $valence_kw)">
-                                        <xsl:for-each select="$valence_node_set/array/item">
-                                            <xsl:variable name="inner_pv_position" select="position()"/>
-                                            <PropertyValue>
-
-                                                <xsl:attribute name="PropertyID">
-                                                    <xsl:value-of select="$id"/>
-                                                </xsl:attribute>
-                                                <xsl:attribute name="PropertyValueID">
-                                                    <xsl:value-of select="concat($valueID, $outer_pv_position, $inner_pv_position)"/>
-                                                </xsl:attribute>
-                                                <xsl:attribute name="OriginalID">
-                                                    <xsl:value-of select="$valueID"/>
-                                                </xsl:attribute>
-                                                <xsl:attribute name="OriginalValue">
-                                                    <xsl:value-of select="$property_value"/>
-                                                </xsl:attribute>
-                                                <xsl:attribute name="Value">
-                                                    <xsl:value-of select="concat($property_value, .)"/>
-                                                </xsl:attribute>
-                                                <xsl:attribute name="Description">
-                                                    <xsl:value-of select="concat($property_description, ': ', .)"/>
-                                                </xsl:attribute>
-                                                <xsl:attribute name="OriginalDescription">
-                                                    <xsl:value-of select="$property_description"/>
-                                                </xsl:attribute>
-                                            </PropertyValue>
-                                        </xsl:for-each>
-                                    </xsl:if>
                             </xsl:for-each>
                         </Property>
                     </xsl:otherwise>

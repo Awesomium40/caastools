@@ -11,7 +11,7 @@ atomic = db.atomic
 
 __all__ = ['atomic', 'close_database', 'CodingSystem', 'CodingProperty', 'PropertyValue', 'Interview', 'Utterance',
            'UtteranceCode', 'GlobalProperty', 'GlobalValue', 'GlobalRating', 'init_database', 'UtteranceStaging',
-           'GlobalStaging']
+           'GlobalStaging', 'Translation', 'TranslationSource', 'TranslationTarget']
 
 MEMORY = ":memory:"
 
@@ -221,6 +221,44 @@ class GlobalStaging(BaseModel):
     gv_value = TextField(null=False, index=True)
 
 
+class Translation(BaseModel):
+    translation_id = AutoField()
+    description = TextField(null=False, unique=True, index=True)
+    source_cs = ForeignKeyField(CodingSystem, index=True, null=False, on_update='CASCADE', on_delete='CASCADE')
+    target_cs = ForeignKeyField(CodingSystem, index=True, null=False, on_update='CASCADE', on_delete='CASCADE')
+
+
+class TranslationTarget(BaseModel):
+    translation_target_id = AutoField()
+    translation = ForeignKeyField(Translation, null=False, index=True, unique=True,
+                                  on_update='CASCADE', on_delete='CASCADE')
+    property_table_name = TextField(index=True, choices=['GlobalProperty', 'CodingProperty'])
+    parent_table_name = TextField(index=True, choices=['GlobalValue', 'PropertyValue'])
+    parent_primary_key = IntegerField(index=True, null=False)
+
+    class Meta:
+        constraints = [
+            SQL("CONSTRAINT x_table_names CHECK " +
+                "((LOWER(property_table_name) = 'globalproperty' AND LOWER(parent_table_name) = 'globalvalue') OR " +
+                "(LOWER(property_table_name) = 'codingproperty' AND LOWER(parent_table_name) = 'propertyvalue'))")
+        ]
+
+
+class TranslationSource(BaseModel):
+    translation_source_id = AutoField()
+    translation = ForeignKeyField(Translation, null=False, index=True, on_delete='CASCADE', on_update='CASCADE')
+    property_table_name = TextField(index=True, choices=['GlobalProperty', 'CodingProperty'])
+    parent_table_name = TextField(index=True, choices=['GlobalValue', 'PropertyValue'])
+    parent_primary_key = IntegerField(index=True, null=False)
+
+    class Meta:
+        constraints = [
+            SQL("CONSTRAINT x_table_names CHECK " +
+                "((LOWER(property_table_name) = 'globalproperty' AND LOWER(parent_table_name) = 'globalvalue') OR " +
+                "(LOWER(property_table_name) = 'codingproperty' AND LOWER(parent_table_name) = 'propertyvalue'))")
+        ]
+
+
 def init_database(path=":memory:", use_memory_on_failure=True):
     """
     Establish the connecction to the database at path.
@@ -247,7 +285,7 @@ def init_database(path=":memory:", use_memory_on_failure=True):
 
     db.create_tables([CodingSystem, Interview, CodingProperty, GlobalProperty, PropertyValue,
                       GlobalValue, Utterance, UtteranceCode, GlobalRating, UtteranceStaging,
-                      GlobalStaging])
+                      GlobalStaging, Translation, TranslationSource, TranslationTarget])
 
 
 def close_database():
