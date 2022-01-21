@@ -49,7 +49,8 @@
     </CodingSets>
   </xsl:template>
   <xsl:template match="UtteranceProperties[PropertyValueID = '11143']">
-    <UtteranceProperties>
+    <xsl:variable name="utterance_id" select="./UtteranceID"/>
+    <xsl:variable name="valence" select="number(/NewDataSet/UtteranceProperties[UtteranceID=$utterance_id and PropertyID='335']/PropertyValue)"/>    <UtteranceProperties>
       <xsl:copy-of select="./UtterancePropertyID"/>
       <xsl:copy-of select="./CodingSetID"/>
       <xsl:copy-of select="./UtteranceID"/>
@@ -57,7 +58,14 @@
         <xsl:text>426</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValueID">
-        <xsl:text>15334</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>15334</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>15084</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:copy-of select="./LastModified"/>
       <xsl:copy-of select="./ModifiedBy"/>
@@ -65,7 +73,14 @@
         <xsl:text>MISC</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValue">
-        <xsl:text>c-</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>c-</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>c+</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:element name="PropertyValueDescription">
         <xsl:text>commitment negative</xsl:text>
@@ -73,133 +88,9 @@
       <xsl:copy-of select="./AutoFillScope"/>
     </UtteranceProperties>
   </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11143']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15334</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>c-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>commitment negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11143']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15334</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>c-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>commitment negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11143']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15084</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>c+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>commitment positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11143']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15084</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>c+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>commitment positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11143']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15084</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>c+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>commitment positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
   <xsl:template match="UtteranceProperties[PropertyValueID = '11150']">
-    <UtteranceProperties>
+    <xsl:variable name="utterance_id" select="./UtteranceID"/>
+    <xsl:variable name="valence" select="number(/NewDataSet/UtteranceProperties[UtteranceID=$utterance_id and PropertyID='335']/PropertyValue)"/>    <UtteranceProperties>
       <xsl:copy-of select="./UtterancePropertyID"/>
       <xsl:copy-of select="./CodingSetID"/>
       <xsl:copy-of select="./UtteranceID"/>
@@ -207,7 +98,14 @@
         <xsl:text>426</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValueID">
-        <xsl:text>15340</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>15340</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>15091</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:copy-of select="./LastModified"/>
       <xsl:copy-of select="./ModifiedBy"/>
@@ -215,7 +113,14 @@
         <xsl:text>MISC</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValue">
-        <xsl:text>o-</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>o-</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>o+</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:element name="PropertyValueDescription">
         <xsl:text>other negative</xsl:text>
@@ -223,132 +128,9 @@
       <xsl:copy-of select="./AutoFillScope"/>
     </UtteranceProperties>
   </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11150']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15340</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>o-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>other negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11150']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15340</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>o-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>other negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11150']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15091</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>o+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>other Positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11150']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15091</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>o+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>other Positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11150']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15091</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>o+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>other Positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
   <xsl:template match="UtteranceProperties[PropertyValueID = '11145']">
+    <xsl:variable name="utterance_id" select="./UtteranceID"/>
+    <xsl:variable name="valence" select="number(/NewDataSet/UtteranceProperties[UtteranceID=$utterance_id and PropertyID='335']/PropertyValue)"/>
     <UtteranceProperties>
       <xsl:copy-of select="./UtterancePropertyID"/>
       <xsl:copy-of select="./CodingSetID"/>
@@ -357,7 +139,14 @@
         <xsl:text>426</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValueID">
-        <xsl:text>15335</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>15335</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>15086</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:copy-of select="./LastModified"/>
       <xsl:copy-of select="./ModifiedBy"/>
@@ -365,7 +154,14 @@
         <xsl:text>MISC</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValue">
-        <xsl:text>r-</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>r-</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>r+</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:element name="PropertyValueDescription">
         <xsl:text>reason negative</xsl:text>
@@ -373,133 +169,9 @@
       <xsl:copy-of select="./AutoFillScope"/>
     </UtteranceProperties>
   </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11145']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15335</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>r-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11145']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15335</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>r-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11145']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15086</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>r+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11145']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15086</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>r+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11145']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15086</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>r+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
   <xsl:template match="UtteranceProperties[PropertyValueID = '11147']">
-    <UtteranceProperties>
+    <xsl:variable name="utterance_id" select="./UtteranceID"/>
+    <xsl:variable name="valence" select="number(/NewDataSet/UtteranceProperties[UtteranceID=$utterance_id and PropertyID='335']/PropertyValue)"/>    <UtteranceProperties>
       <xsl:copy-of select="./UtterancePropertyID"/>
       <xsl:copy-of select="./CodingSetID"/>
       <xsl:copy-of select="./UtteranceID"/>
@@ -507,7 +179,14 @@
         <xsl:text>426</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValueID">
-        <xsl:text>15336</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>15336</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>15088</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:copy-of select="./LastModified"/>
       <xsl:copy-of select="./ModifiedBy"/>
@@ -515,7 +194,14 @@
         <xsl:text>MISC</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValue">
-        <xsl:text>ra-</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>ra-</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>ra+</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:element name="PropertyValueDescription">
         <xsl:text>reason - ability negative</xsl:text>
@@ -523,133 +209,9 @@
       <xsl:copy-of select="./AutoFillScope"/>
     </UtteranceProperties>
   </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11147']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15336</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>ra-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - ability negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11147']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15336</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>ra-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - ability negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11147']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15088</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>ra+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - ability positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11147']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15088</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>ra+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - ability positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11147']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15088</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>ra+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - ability positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
   <xsl:template match="UtteranceProperties[PropertyValueID = '11146']">
-    <UtteranceProperties>
+    <xsl:variable name="utterance_id" select="./UtteranceID"/>
+    <xsl:variable name="valence" select="number(/NewDataSet/UtteranceProperties[UtteranceID=$utterance_id and PropertyID='335']/PropertyValue)"/>    <UtteranceProperties>
       <xsl:copy-of select="./UtterancePropertyID"/>
       <xsl:copy-of select="./CodingSetID"/>
       <xsl:copy-of select="./UtteranceID"/>
@@ -657,7 +219,14 @@
         <xsl:text>426</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValueID">
-        <xsl:text>15337</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>15337</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>15087</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:copy-of select="./LastModified"/>
       <xsl:copy-of select="./ModifiedBy"/>
@@ -665,7 +234,14 @@
         <xsl:text>MISC</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValue">
-        <xsl:text>rd-</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>rd-</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>rd+</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:element name="PropertyValueDescription">
         <xsl:text>reason - desire negative</xsl:text>
@@ -673,133 +249,9 @@
       <xsl:copy-of select="./AutoFillScope"/>
     </UtteranceProperties>
   </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11146']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15337</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>rd-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - desire negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11146']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15337</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>rd-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - desire negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11146']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15087</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>rd+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - desire positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11146']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15087</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>rd+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - desire positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11146']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15087</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>rd+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - desire positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
   <xsl:template match="UtteranceProperties[PropertyValueID = '11148']">
-    <UtteranceProperties>
+    <xsl:variable name="utterance_id" select="./UtteranceID"/>
+    <xsl:variable name="valence" select="number(/NewDataSet/UtteranceProperties[UtteranceID=$utterance_id and PropertyID='335']/PropertyValue)"/>    <UtteranceProperties>
       <xsl:copy-of select="./UtterancePropertyID"/>
       <xsl:copy-of select="./CodingSetID"/>
       <xsl:copy-of select="./UtteranceID"/>
@@ -807,7 +259,14 @@
         <xsl:text>426</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValueID">
-        <xsl:text>15338</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>15338</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>15089</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:copy-of select="./LastModified"/>
       <xsl:copy-of select="./ModifiedBy"/>
@@ -815,7 +274,14 @@
         <xsl:text>MISC</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValue">
-        <xsl:text>rn-</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>rn-</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>rn+</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:element name="PropertyValueDescription">
         <xsl:text>reason - need negative</xsl:text>
@@ -823,133 +289,9 @@
       <xsl:copy-of select="./AutoFillScope"/>
     </UtteranceProperties>
   </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11148']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15338</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>rn-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - need negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11148']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15338</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>rn-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - need negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11148']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15089</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>rn+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - need positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11148']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15089</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>rn+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - need positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11148']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15089</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>rn+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>reason - need positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
   <xsl:template match="UtteranceProperties[PropertyValueID = '11149']">
-    <UtteranceProperties>
+    <xsl:variable name="utterance_id" select="./UtteranceID"/>
+    <xsl:variable name="valence" select="number(/NewDataSet/UtteranceProperties[UtteranceID=$utterance_id and PropertyID='335']/PropertyValue)"/>    <UtteranceProperties>
       <xsl:copy-of select="./UtterancePropertyID"/>
       <xsl:copy-of select="./CodingSetID"/>
       <xsl:copy-of select="./UtteranceID"/>
@@ -957,7 +299,14 @@
         <xsl:text>426</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValueID">
-        <xsl:text>15339</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>15339</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>15090</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:copy-of select="./LastModified"/>
       <xsl:copy-of select="./ModifiedBy"/>
@@ -965,135 +314,17 @@
         <xsl:text>MISC</xsl:text>
       </xsl:element>
       <xsl:element name="PropertyValue">
-        <xsl:text>ts-</xsl:text>
+        <xsl:choose>
+          <xsl:when test="$valence &lt; 0">
+            <xsl:text>ts-</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>ts+</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
       <xsl:element name="PropertyValueDescription">
         <xsl:text>taking steps negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11149']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15339</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>ts-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>taking steps negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11149']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15339</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>ts-</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>taking steps negative</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11149']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15090</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>ts+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>taking steps positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11149']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15090</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>ts+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>taking steps positive</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./AutoFillScope"/>
-    </UtteranceProperties>
-  </xsl:template>
-  <xsl:template match="UtteranceProperties[PropertyValueID = '11149']">
-    <UtteranceProperties>
-      <xsl:copy-of select="./UtterancePropertyID"/>
-      <xsl:copy-of select="./CodingSetID"/>
-      <xsl:copy-of select="./UtteranceID"/>
-      <xsl:element name="PropertyID">
-        <xsl:text>426</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueID">
-        <xsl:text>15090</xsl:text>
-      </xsl:element>
-      <xsl:copy-of select="./LastModified"/>
-      <xsl:copy-of select="./ModifiedBy"/>
-      <xsl:element name="PropertyName">
-        <xsl:text>MISC</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValue">
-        <xsl:text>ts+</xsl:text>
-      </xsl:element>
-      <xsl:element name="PropertyValueDescription">
-        <xsl:text>taking steps positive</xsl:text>
       </xsl:element>
       <xsl:copy-of select="./AutoFillScope"/>
     </UtteranceProperties>
