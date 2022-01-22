@@ -65,8 +65,6 @@ def parse_interview(interview_name, fragments, **kwargs) -> DataSet:
         if translate is not None:
             document = translate(document)
 
-        root = document.getroot()
-
         # Once the initial parsing and transformation has occurred,
         # can transform into something a bit more digestible
         document = final_transform(document)
