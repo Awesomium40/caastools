@@ -1,5 +1,5 @@
 from caastools.database.database import db
-from peewee import AutoField, BooleanField, chunked, FloatField, ForeignKeyField, IntegerField, Model, \
+from peewee import AutoField, BooleanField, BlobField, chunked, FloatField, ForeignKeyField, IntegerField, Model, \
     ModelInsert, SQL, TextField
 
 from typing import Iterable
@@ -217,3 +217,10 @@ class GlobalStaging(BaseModel):
     cs_name = TextField(null=False, index=True)
     gp_name = TextField(null=False, index=True)
     gv_value = TextField(null=False, index=True)
+
+
+class Translation(BaseModel):
+    translation_id = AutoField()
+    source_cs = ForeignKeyField(CodingSystem, index=True, null=False, on_delete='CASCADE', on_update='CASCADE')
+    target_cs = ForeignKeyField(CodingSystem, index=True, null=False, on_delete='CASCADE', on_update='CASCADE')
+    xsl = TextField(index=False, null=False)

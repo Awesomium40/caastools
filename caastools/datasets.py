@@ -347,7 +347,8 @@ def session_level(included_interviews=None, included_properties=None, included_g
     # Construct the global query and associated CTE
     full_global_query, global_cte = _global_query_(included_interviews=included_interviews,
                                                    included_globals=included_globals,
-                                                   client_as_numeric=client_as_numeric)
+                                                   client_as_numeric=client_as_numeric,
+                                                   exclude_reliability=exclude_reliability)
 
     # Below constructs the code frequency part of the UNION ALL
     # inner_query is the CTE that selects the existing count data. Is later joined with an outer
