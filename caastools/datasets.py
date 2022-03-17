@@ -170,8 +170,9 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     df['decile_var_name'] = df['var_name'] + "_q" + df['quantile'].astype(str).apply(lambda x: x.zfill(2))
 
     # Reshape the dataframe and index on client_id
-    df = df.loc[:, ['interview_name', 'client_id', 'rater_id', 'session_number', 'decile_var_name', 'var_value']] \
-        .set_index(['interview_name', 'client_id', 'rater_id', 'session_number', 'decile_var_name']) \
+    df = df.loc[:, ['interview_name', 'interview_type' 'client_id', 'rater_id', 'session_number', 'decile_var_name',
+                    'var_value']] \
+        .set_index(['interview_name', 'interview_type' 'client_id', 'rater_id', 'session_number', 'decile_var_name']) \
         .unstack('decile_var_name').loc[:, 'var_value'].reset_index().set_index('client_id')
 
     # To add the globals data, first get the appropriate query
@@ -185,7 +186,7 @@ def quantile_level(quantiles=10, included_interviews=None, included_properties=N
     gdf = (
         DataFrame.from_records(
             global_query.tuples().execute(),
-            columns=['interview_name', 'client_id', 'rater_id', 'session_number', 'var_name', 'var_value']
+            columns=['interview_name', 'interview_type' 'client_id', 'rater_id', 'session_number', 'var_name', 'var_value']
         )
         .loc[:, ['client_id', 'var_name', 'var_value']].set_index(['client_id', 'var_name'])
         .unstack('var_name').loc[:, 'var_value'])
