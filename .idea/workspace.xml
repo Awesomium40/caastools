@@ -23,7 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -251,11 +250,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_translator" />
-        <item itemvalue="Python tests.Python tests for test_translation.TranslationTest.test_add_translation" />
-        <item itemvalue="Python.test_translation" />
         <item itemvalue="Python tests.Unittests in test_parsing.ia.py" />
         <item itemvalue="Python tests.Unittests in test_database.py" />
+        <item itemvalue="Python tests.Python tests for test_translation.TranslationTest.test_add_translation" />
+        <item itemvalue="Python.test_translator" />
+        <item itemvalue="Python.test_translation" />
       </list>
     </recent_temporary>
   </component>
@@ -813,7 +812,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="update datasets.sequential to accommodate field Interview.interview_type" />
     <MESSAGE value="Update to 1.1.3.5" />
     <MESSAGE value="Fix a bug in datasets.session-level that caused function to fail" />
     <MESSAGE value="Update datasets.py to allow specifying exclusion of reliability type interviews for all dataset types" />
@@ -838,7 +836,8 @@
     <MESSAGE value="Update to V 1.9.2" />
     <MESSAGE value="Update to V 1.9.3" />
     <MESSAGE value="Remove ability to translate between U331 and U34. Update parsing.ia.data.parse_interview to accept translation XSLT as argument" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove ability to translate between U331 and U34. Update parsing.ia.data.parse_interview to accept translation XSLT as argument" />
+    <MESSAGE value="Remove ORM from some dataset methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove ORM from some dataset methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

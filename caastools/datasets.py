@@ -238,9 +238,14 @@ def sequential(included_interviews, included_properties, client_as_numeric=True,
     )
 
     # For each included property, need a CTE to join on
+    # property_query = UtteranceCode.select(UtteranceCode.utterance_id, PropertyValue.pv_value,
+    #                                           CodingProperty.cp_data_type) \
     for cp_display_name in included_properties:
         property_cte = (
-
+            f"cte_{cp_display_name}(utterance_id, pv_value, cp_data_type) AS (" +
+            "SELECT UtteranceCode.utterance_id, PropertyValue.pv_value, CodingProperty.cp_data_type " +
+            "FROM UtteranceCode "
+            ")\n"
         )
 
     # The dataset construction needs to be atomic to avoid race conditions
