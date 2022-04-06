@@ -22,50 +22,51 @@ def _global_query_(included_interviews=None, included_globals=None, client_as_nu
     :param exclude_reliability: Whether to exclude (True, default) or include (False) interviews of type 'reliability'
     :return: ModelSelect, Cte - The full query for global ratings and the CTE associated object
     """
-    client_column = Cast(Interview.client_id, "INT").alias('client_id') if client_as_numeric else Interview.client_id
+    placeholder = '?'
+    client_column_str = "CAST(Interview.client_id AS INTEGER)" if client_as_numeric else 'Interview.client_id'
+    args = []
 
     # May want only certain interviews included or certain properties included,
     # so construct some predicates for where clauses, if necessary
     types = ['general'] if exclude_reliability else ['general', 'reliability']
+    type_predicate = f"WHERE interview.interview_type IN ({','.join(placeholder* len(types))})"
+    args.extend(types)
 
-    predicate = Interview.interview_type.in_(types)
-    if included_interviews is not None:
-        predicate = predicate & Interview.interview_name.in_(included_interviews)
-    if included_globals is not None:
-        predicate = predicate & GlobalProperty.gp_name.in_(included_globals)
+    # if specified to include certain interviews, add predicate
+    interview_predicate = (f" AND interview.interview_name IN ({','.join(placeholder * len(included_interviews))}) "
+                           if included_interviews is not None else '')
+    args.extend([] if included_interviews is None else included_interviews)
 
-    """
-    Logic above replaces this
-    global_predicate = ((p1) & (p2) & (p3)) if included_interviews is not None and included_globals is not None else \
-        ((p1) & (p3)) if included_interviews is not None else \
-            ((p2) & (p3)) if included_globals is not None else \
-                p3
-    """
+    # create predicate for specifying globals
+    global_predicate = (f" AND globalproperty.gp_name IN ({','.join(placeholder * len(included_globals))}) "
+                        if included_globals is not None else '')
+    args.extend([] if included_globals is None else included_globals)
 
-    # For any session-level/decile dataset, we want scores for all session-level globals.
-    # Thus, there will need to be either a UNION ALL of counts and global ratings
-    # or a separate query for globals.
-    # Below constructs the global ratings part of the UNION ALL
-    global_query = (GlobalRating.select(GlobalRating.interview_id,  GlobalProperty.gp_name,
-                                        Cast(GlobalValue.gv_value, "INT"), GlobalValue.global_property_id)
-                    .join(GlobalValue).join(GlobalProperty, JOIN.LEFT_OUTER))
-    global_cte = global_query.cte("global_cte", columns=['interview_id', 'gp_name', 'gv_value', 'global_property_id'])
+    full_predicate = f"{type_predicate}{interview_predicate}{global_predicate}"
 
-    outer_global_query = (Interview
-                          .select(Interview.interview_name, Interview.interview_type, client_column, Interview.rater_id,
-                                  Interview.session_number, GlobalProperty.gp_name, global_cte.c.gv_value)
-                          .join(CodingSystem)
-                          .join(GlobalProperty))
-
-    full_global_query = outer_global_query.join(
-        global_cte, JOIN.LEFT_OUTER, on=((Interview.interview_id == global_cte.c.interview_id) &
-                                         (GlobalProperty.global_property_id == global_cte.c.global_property_id))
+    global_cte = (
+            "WITH global_cte(interview_id, gp_name, gv_value, global_property_id) AS (\n" +
+            "SELECT GlobalRating.interview_id, GlobalProperty.gp_name, CAST(GlobalValue.gv_value AS INTEGER), " +
+            "GlobalValue.global_property_id \n" +
+            "FROM GlobalRating \n" +
+            "INNER JOIN GlobalValue on GlobalRating.global_value_id = GlobalValue.global_value_id \n" +
+            "LEFT OUTER JOIN GlobalProperty ON GlobalValue.global_property_id = GlobalProperty.global_property_id\n" +
+            ")\n"
     )
 
-    # Append the predicate
-    full_global_query = full_global_query.where(predicate)
+    interview_select = (
+        global_cte +
+        f"SELECT Interview.interview_name, Interview.interview_type, {client_column_str}, " +
+        "Interview.rater_id, Interview.session_number, GlobalProperty.gp_name, global_cte.gv_value " +
+        "FROM Interview " +
+        "INNER JOIN CodingSystem ON Interview.coding_system_id = CodingSystem.coding_system_id " +
+        "INNER JOIN GlobalProperty ON GlobalProperty.coding_system_id = CodingSystem.coding_system_id " +
+        "LEFT OUTER JOIN global_cte ON Interview.interview_id = global_cte.interview_id AND " +
+        "GlobalProperty.global_property_id = global_cte.global_property_id " +
+        full_predicate
+    )
 
-    return full_global_query, global_cte
+    return interview_select, args
 
 
 def quantile_level(quantiles=10, included_interviews=None, included_properties=None, included_globals=None,
@@ -208,24 +209,39 @@ def sequential(included_interviews, included_properties, client_as_numeric=True,
     :return: pandas.DataFrame
     """
 
+    placeholder = '?'
+
     included_types = ['general'] if exclude_reliability else ['general', 'reliability']
     type_predicate = Interview.interview_type.in_(included_types)
 
-    # No need to include properties twice
-    included_properties = sorted(set(included_properties))
-    table_expressions = []
-    display_names = []
-    property_cases = []
-    cast_columns = []
-    property_query = UtteranceCode.select(UtteranceCode.utterance_id, PropertyValue.pv_value,
-                                          CodingProperty.cp_data_type) \
-        .join(PropertyValue) \
-        .join(CodingProperty)
+    type_predicate = f"interview.interview_id IN ({','.join(placeholder * len(included_types))})"
 
     STR_MSNG = '-999999999999999'
     NUM_MSNG = -999999999999999
+    property_cte = ''
 
     client_column = Cast(Interview.client_id, "INT").alias('client_id') if client_as_numeric else Interview.client_id
+
+    client_column = 'CAST(interview.client_id AS INTEGER)' if client_as_numeric else 'interview.client_id'
+
+    quantile_cte = (
+        "WITH quantile_lens(interview_id, start_time, end_time, length) AS (" +
+        "SELECT utterance.interview_id, MIN(utterance.utt_start_time) + 0.5, MAX(utterance.utt_end_time) + 0.5, " +
+        f"(MAX(utterance.utt_end_time) - MIN(utterance.utt_start_time) + 0.5)) / {quantiles} " +
+        "FROM utterance "
+        "GROUP BY utterance.interview_id),\n" +
+        "utt_deciles(interview_id, utterance_id, quantile) AS ( " +
+        "SELECT utterance.interview_id, utterance.utterance_id, " +
+        "CAST(((utterance.utt_start_time - quantile_lens.start_time) / quantile_lens.length) + 1 AS INTEGER) " +
+        "FROM utterance " +
+        "LEFT OUTER JOIN quantile_lens ON utterance.interview_id = quantile_lens.interview_id)\n "
+    )
+
+    # For each included property, need a CTE to join on
+    for cp_display_name in included_properties:
+        property_cte = (
+
+        )
 
     # The dataset construction needs to be atomic to avoid race conditions
     with UtteranceCode._meta.database.atomic() as transaction:
