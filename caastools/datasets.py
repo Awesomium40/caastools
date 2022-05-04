@@ -1,3 +1,5 @@
+import pandas
+
 from caastools.database.database import _con as con
 from .database import CodingSystem, CodingProperty, GlobalProperty, GlobalRating, GlobalValue, Interview, \
     PropertyValue, Utterance, UtteranceCode
@@ -218,30 +220,60 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
     return df
 
 
-def sequential(client_as_numeric=True, exclude_reliability=True, quantiles=1):
+def sequential(
+        included_interviews=None,
+        included_properties=None,
+        client_as_numeric=True,
+        exclude_reliability=True,
+        quantiles=1
+) -> pandas.DataFrame:
     """
     datasets.sequential(included_interviews, included_properties) -> pandas.DataFrame
     Builds a sequential dataset with including those interviews specified in included_interviews and the
     properties specified in included_properties
+    :param included_interviews: list-like of interview_name of interviews to include
     :param client_as_numeric: Whether client_id should be a numeric variable (default True)
     :param exclude_reliability: Whether to exclude (True, default) or include (False) interviews of type 'reliability'
+    :param included_properties: list-like of coding_property.name specifying properties to include in the dataset
     :param quantiles: Number of quantiles per interview. Default 1
     :return: pandas.DataFrame
     """
 
+    iv_predicate = ''
+    property_predicate = ''
     placeholder = '?'
     args = []
 
     included_types = ['general'] if exclude_reliability else ['general', 'reliability']
     type_predicate = f"interview.interview_type IN ({','.join(placeholder * len(included_types))})"
 
+    if included_interviews is not None:
+        iv_predicate = f"AND interview.interview_name IN ({','.join(placeholder * len(included_interviews))})"
+        args.extend(included_interviews)
+
+    if included_properties is not None:
+        property_predicate = f"AND coding_property.name IN ({','.join(placeholder * len(included_properties))})"
+        args.extend(included_properties)
+
     args.extend(included_types)
 
     # Cast the client ID to numeric if desired
-    client_column = 'CAST(interview.client_id AS INTEGER) AS client_id' if client_as_numeric else 'interview.client_id'
+    client_column = 'CAST(interview.client_id AS INTEGER) AS "client_id"' if client_as_numeric else 'interview.client_id'
 
     query = (
         f"""
+        WITH interview_lens(interview_id, start_time, end_time, length) AS (
+            SELECT utterance.interview_id, MIN(utterance.start_time), MAX(utterance.end_time), 
+            (MAX(utterance.end_time) - MIN(utterance.start_time) + 0.5) / {quantiles} AS "length"
+            FROM utterance
+            GROUP BY utterance.interview_id
+        ),
+        utt_quantiles(interview_id, utterance_id, quantile) AS (
+        SELECT utterance.interview_id, utterance.utterance_id, 
+        CAST((utterance.start_time - interview_lens.start_time) / interview_lens.length + 1 AS INTEGER) AS "quantile"
+        FROM utterance
+        LEFT OUTER JOIN interview_lens ON utterance.interview_id = interview_lens.interview_id
+        )
         SELECT 
             interview.interview_name, 
             interview.interview_type, 
@@ -253,7 +285,7 @@ def sequential(client_as_numeric=True, exclude_reliability=True, quantiles=1):
             utterance.speaker_role, 
             coding_property.display_name,
             coding_property.data_type, 
-            property_value.pv_value, 
+            property_value.value, 
             utterance.utt_text, 
             utterance.start_time,
             utterance.end_time
@@ -262,30 +294,69 @@ def sequential(client_as_numeric=True, exclude_reliability=True, quantiles=1):
         LEFT OUTER JOIN utterance_code ON utterance.utterance_id = utterance_code.utterance_id
         INNER JOIN property_value ON utterance_code.property_value_id = property_value.property_value_id
         INNER JOIN coding_property ON property_value.coding_property_id = coding_property.coding_property_id
-        WHERE {type_predicate}
+        WHERE {type_predicate} {iv_predicate} {property_predicate}
         ORDER BY interview.client_id, interview.session_number, utterance.utt_number
         """
     )
+    cursor = con.execute(query, args)
+    df = pandas.DataFrame.from_records(
+        con.execute(query, args), columns=['interview_name', 'interview_type', 'rater_id', 'client_id',
+                                           'session_number', 'line_number', 'utt_number', 'role', ])
 
 
-def session_level(included_globals=None, client_as_numeric=True, exclude_reliability=True):
+def session_level(
+        included_interviews=None,
+        included_properties=None,
+        included_globals=None,
+        client_as_numeric=True,
+        exclude_reliability=True
+):
     """
     session_level(interview_names) -> pandas.DataFrame
     Builds a session-level DataFrame with counts for interviews named in interview_names
+    :param included_interviews: list-like of interview_name of interviews to include in dataset
+    :param included_properties: list-like of name of coding properties whose data to include in dataset
     :param included_globals: iterable of GlobalProperty.global_property_id to be included
     :param client_as_numeric: Whether to cast client_id as a numeric variable. Default True
     :param exclude_reliability: Whether to exclude (True, default) or include (False) interviews of type 'reliability'
     :return: pandas.DataFrame
     """
 
+    iv_predicate = ''
+    cp_predicate = ''
+    gp_predicate = ''
+    args = []
+
     # Used to create a predicate to exclude reliability interviews, if specified
     included_types = ['general'] if exclude_reliability else ['general', 'reliability']
     placeholder = '?'
+    args.extend(included_types)
 
     # may want the client_id cast as numeric
     client_column = (
         'CAST (interview.client_id AS integer) AS "client_id"' if client_as_numeric else 'interview.client_id'
     )
+
+    # Create predicate for included interviews
+    if included_interviews is not None:
+        iv_predicate = f"AND interview.interview_name IN ({','.join(placeholder * len(included_interviews))})"
+        args.extend(included_interviews)
+
+    # Create predicate for included properties
+    if included_properties is not None:
+        cp_predicate = f"AND coding_property.name IN ({','.join(placeholder * len(included_properties))})"
+        args.extend(included_properties)
+
+    # Need to include args for the UNION ALL part of the query
+    args.extend(included_types)
+    if included_interviews is not None:
+        args.extend(included_interviews)
+
+    # Create predicate for included globals
+    if included_globals is not None:
+        gp_predicate = f"AND global_property.name IN ({','.join(placeholder * len(included_globals))})"
+        args.extend(included_globals)
+
 
     query = f"""
     WITH count_cte(interview_id, property_value_id, var_count) AS (
@@ -310,7 +381,7 @@ def session_level(included_globals=None, client_as_numeric=True, exclude_reliabi
     INNER JOIN property_value pv ON cp.coding_property_id = pv.coding_property_id
     LEFT OUTER JOIN count_cte ON interview.interview_id = count_cte.interview_id 
         AND pv.property_value_id = count_cte.property_value_id
-    WHERE interview.interview_type IN ({','.join(placeholder * len(included_types))})
+    WHERE interview.interview_type IN ({','.join(placeholder * len(included_types))}) {iv_predicate} {cp_predicate}
     UNION ALL
     SELECT interview.interview_name, interview.interview_type, {client_column}
     interview.rater_id, Interview.session_number, global_property.display_name, global_cte.value
@@ -319,12 +390,12 @@ def session_level(included_globals=None, client_as_numeric=True, exclude_reliabi
     INNER JOIN global_property ON global_property.coding_system_id = coding_system.coding_system_id
     LEFT OUTER JOIN global_cte ON interview.interview_id = global_cte.interview_id AND
     global_property.global_property_id = global_cte.global_property_id
-    WHERE interview.interview_type IN ({','.join(placeholder * len(included_types))}) 
+    WHERE interview.interview_type IN ({','.join(placeholder * len(included_types))}) {iv_predicate} {gp_predicate}
     """
 
     # pull the query results into a dataframe, then reshape it
     # Some DBMS lack the pivot function so reshaping the DataFrame itself rather than the query is necessary
-    df = DataFrame.from_records(con.execute(query, included_types * 2),
+    df = DataFrame.from_records(con.execute(query, args),
                                 columns=['interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number',
                                          'var_name', 'var_value'])
 
