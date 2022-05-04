@@ -1,219 +1,186 @@
-from caastools.database.database import db
-from peewee import AutoField, BooleanField, chunked, FloatField, ForeignKeyField, IntegerField, Model, \
-    ModelInsert, SQL, TextField
 
-from typing import Iterable
-import logging
+TBL_SCRIPT = """
+    CREATE TABLE IF NOT EXISTS CODING_SYSTEM (
+        CODING_SYSTEM_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        SOURCE_ID INTEGER UNIQUE,
+        NAME VARCHAR2(255) NOT NULL UNIQUE,
+        PATH VARCHAR2(32767) NOT NULL UNIQUE
+    );
+    CREATE TABLE IF NOT EXISTS INTERVIEW (
+        INTERVIEW_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        SOURCE_ID INTEGER UNIQUE,
+        INTERVIEW_NAME VARCHAR2(100) NOT NULL,
+        INTERVIEW_TYPE VARCHAR2(20) NOT NULL,
+        CODING_SYSTEM_ID INTEGER NOT NULL,
+        SESSION_NUMBER INTEGER NOT NULL DEFAULT 1,
+        STUDY_ID INTEGER,
+        CLIENT_ID VARCHAR2(100) NOT NULL,
+        THERAPIST_ID INTEGER(100) NOT NULL,
+        RATER_ID VARCHAR2(100) NOT NULL,
+        LANGUAGE VARCHAR2(5) NOT NULL DEFAULT 'en',
+        CONDITION VARCHAR2(100) NOT NULL,
+        FOREIGN KEY(CODING_SYSTEM_ID) REFERENCES CODING_SYSTEM(CODING_SYSTEM_ID) ON UPDATE CASCADE ON DELETE RESTRICT 
+    );
+    CREATE TABLE IF NOT EXISTS CODING_PROPERTY (
+        CODING_PROPERTY_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        SOURCE_ID INTEGER,
+        CODING_SYSTEM_ID INTEGER NOT NULL,
+        NAME VARCHAR2(100) NOT NULL,
+        DISPLAY_NAME VARCHAR2(10) NOT NULL,
+        ABBREVIATION VARCHAR2(5) NOT NULL,
+        SORT_ORDER INTEGER NOT NULL DEFAULT 0,
+        DATA_TYPE VARCHAR2(10) NOT NULL DEFAULT 'str',
+        DECIMAL_DIGITS INTEGER NOT NULL DEFAULT 0,
+        ZERO_PAD INTEGER NOT NULL DEFAULT 0,
+        DESCRIPTION VARCHAR2(500) NOT NULL,
+        VARIABLE_NAME VARCHAR2(20),
+        FOREIGN KEY(CODING_SYSTEM_ID) REFERENCES CODING_SYSTEM(CODING_SYSTEM_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+        CONSTRAINT cp_name_cs_id_unique UNIQUE(NAME, CODING_SYSTEM_ID),
+        CONSTRAINT cp_name_cs_id_unique UNIQUE(DISPLAY_NAME,CODING_SYSTEM_ID),
+        CONSTRAINT cp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id),
+        CONSTRAINT cp_data_type CHECK (DATA_TYPE IN ('str', 'numeric'))
+    );
+    CREATE TABLE IF NOT EXISTS GLOBAL_PROPERTY (
+        GLOBAL_PROPERTY_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        SOURCE_ID INTEGER,
+        CODING_SYSTEM_ID INTEGER NOT NULL,
+        NAME VARCHAR2(100) NOT NULL,
+        DISPLAY_NAME VARCHAR2(10) NOT NULL,
+        DESCRIPTION VARCHAR2(500) NOT NULL,
+        DATA_TYPE VARCHAR2(10) NOT NULL DEFAULT 'numeric',
+        VARIABLE_NAME VARCHAR2(20),
+        FOREIGN KEY(CODING_SYSTEM_ID) REFERENCES CODING_SYSTEM(CODING_SYSTEM_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+        CONSTRAINT cp_data_type CHECK (DATA_TYPE IN ('string', 'numeric')),
+        CONSTRAINT gp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id),
+        CONSTRAINT gp_name_cs_id_unique UNIQUE(name, coding_system_id)
+    );
+    CREATE TABLE IF NOT EXISTS GLOBAL_VALUE (
+        GLOBAL_VALUE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        SOURCE_ID INTEGER,
+        GLOBAL_PROPERTY_ID INTEGER NOT NULL,
+        VALUE VARCHAR2(50) NOT NULL,
+        DESCRIPTION VARCHAR2(500) NOT NULL,
+        VARIABLE_NAME VARCHAR2(32),
+        FOREIGN KEY(GLOBAL_PROPERTY_ID) REFERENCES GLOBAL_PROPERTY(GLOBAL_PROPERTY_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+        CONSTRAINT gv_value_gp_id_unique UNIQUE(value, global_property_id),
+        CONSTRAINT gv_source_id_gp_id_unique UNIQUE(source_id, global_property_id)
+    );
+    CREATE TABLE IF NOT EXISTS PROPERTY_VALUE (
+        PROPERTY_VALUE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
+        SOURCE_ID INTEGER,
+        CODING_PROPERTY_ID INTEGER NOT NULL,
+        VALUE VARCHAR2(50) NOT NULL,
+        DESCRIPTION VARCHAR2(500) NOT NULL,
+        VARIABLE_NAME VARCHAR2(32),
+        FOREIGN KEY(CODING_PROPERTY_ID) REFERENCES CODING_PROPERTY(CODING_PROPERTY_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+        CONSTRAINT pv_value_cp_id_unique UNIQUE(value, coding_property_id),
+        CONSTRAINT pv_source_id_cp_id_unique UNIQUE(source_id, coding_property_id)
+    );
+    CREATE TABLE IF NOT EXISTS UTTERANCE (
+        UTTERANCE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        SOURCE_ID INTEGER,
+        INTERVIEW_ID INTEGER NOT NULL,
+        LINE_NUMBER INTEGER,
+        UTT_NUMBER INTEGER NOT NULL,
+        SPEAKER_ROLE VARCHAR2(5),
+        UTT_TEXT VARCHAR2(32767),
+        WORD_COUNT INTEGER,
+        START_TIME REAL,
+        END_TIME REAL,
+        FOREIGN KEY(INTERVIEW_ID) REFERENCES INTERVIEW(INTERVIEW_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+        CONSTRAINT utt_enum_iv_id_unique UNIQUE (UTT_NUMBER, interview_id),
+        CONSTRAINT source_id_iv_id_unique UNIQUE (source_id, interview_id)
+    );
+    CREATE TABLE IF NOT EXISTS UTTERANCE_CODE(
+        UTTERANCE_CODE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        SOURCE_ID INTEGER,
+        UTTERANCE_ID INTEGER NOT NULL,
+        PROPERTY_VALUE_ID INTEGER NOT NULL,
+        FOREIGN KEY(UTTERANCE_ID) REFERENCES UTTERANCE(UTTERANCE_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY(PROPERTY_VALUE_ID) REFERENCES PROPERTY_VALUE(PROPERTY_VALUE_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+        CONSTRAINT utt_id_pv_iq_unique UNIQUE(utterance_id, property_value_id)
+    );
+    CREATE TABLE IF NOT EXISTS GLOBAL_RATING (
+        GLOBAL_RATING_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        SOURCE_ID INTEGER,
+        INTERVIEW_ID INTEGER NOT NULL,
+        GLOBAL_VALUE_ID INTEGER NOT NULL,
+        FOREIGN KEY(INTERVIEW_ID) REFERENCES INTERVIEW(INTERVIEW_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY(GLOBAL_VALUE_ID) REFERENCES GLOBAL_VALUE(GLOBAL_VALUE_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+        CONSTRAINT gv_id_iv_id_unique UNIQUE (global_value_id, interview_id)
+    );
+    CREATE TABLE IF NOT EXISTS UTTERANCE_STAGING (
+        INTERVIEW_NAME VARCHAR2(100) NOT NULL,
+        INTERVIEW_TYPE VARCHAR2(20) NOT NULL,
+        CS_NAME VARCHAR2(255) NOT NULL,
+        CP_NAME VARCHAR2(100) NOT NULL,
+        LINE_NUMBER INTEGER,
+        UTT_NUMBER INTEGER NOT NULL,
+        SPEAKER_ROLE VARCHAR2(5),
+        UTT_TEXT VARCHAR2(32767),
+        START_TIME REAL,
+        END_TIME REAL,
+        PV_VALUE VARCHAR2(50)
+    );
+    CREATE TABLE IF NOT EXISTS GLOBAL_STAGING (
+        INTERVIEW_NAME VARCHAR2(100) NOT NULL,
+        INTERVIEW_TYPE VARCHAR2(20) NOT NULL,
+        CS_NAME VARCHAR2(255) NOT NULL,
+        GP_NAME VARCHAR2(100) NOT NULL,
+        GV_VALUE VARCHAR2(50) NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS XFKINTERVIEW ON INTERVIEW(CODING_SYSTEM_ID);
+    CREATE INDEX IF NOT EXISTS XNMINTERVIEW ON INTERVIEW(INTERVIEW_NAME);
+    CREATE INDEX IF NOT EXISTS XCIDINTERVIEW ON INTERVIEW(CLIENT_ID);
+    CREATE INDEX IF NOT EXISTS XTXIDINTERVIEW ON INTERVIEW(THERAPIST_ID);
+    
+    CREATE INDEX IF NOT EXISTS XNMCODINGSYSTEM ON CODING_SYSTEM(NAME);
+    
+    CREATE INDEX IF NOT EXISTS XSRCIDCODINGPROPERTY ON CODING_PROPERTY(SOURCE_ID);
+    CREATE INDEX IF NOT EXISTS XNMCODINGPROPERTY ON CODING_PROPERTY(NAME); 
+    CREATE INDEX IF NOT EXISTS XDSPNMCODINGPROPERTY ON CODING_PROPERTY(DISPLAY_NAME); 
+    CREATE INDEX IF NOT EXISTS XFKCODINGPROPERTY ON CODING_PROPERTY(CODING_SYSTEM_ID);
+    
+    CREATE INDEX IF NOT EXISTS XSRCIDGLOBALPROPERTY ON GLOBAL_PROPERTY(SOURCE_ID);
+    CREATE INDEX IF NOT EXISTS XNMGLOBALPROPERTY ON GLOBAL_PROPERTY(NAME); 
+    CREATE INDEX IF NOT EXISTS XDSPNMGLOBALPROPERTY ON GLOBAL_PROPERTY(DISPLAY_NAME); 
+    CREATE INDEX IF NOT EXISTS XFKGLOBALPROPERTY ON GLOBAL_PROPERTY(CODING_SYSTEM_ID); 
+    
+    CREATE INDEX IF NOT EXISTS XSRCIDGLOBALVALUE ON GLOBAL_VALUE(SOURCE_ID);
+    CREATE INDEX IF NOT EXISTS XVALGLOBALVALUE ON GLOBAL_VALUE(VALUE);
+    CREATE INDEX IF NOT EXISTS XFKGLOBALVALUE ON GLOBAL_VALUE(GLOBAL_PROPERTY_ID);
+    
+    CREATE INDEX IF NOT EXISTS XSRCIDPROPVALUE ON PROPERTY_VALUE(SOURCE_ID);
+    CREATE INDEX IF NOT EXISTS XVALPROPVALUE ON PROPERTY_VALUE(VALUE);
+    CREATE INDEX IF NOT EXISTS XFKPROPVALUE ON PROPERTY_VALUE(CODING_PROPERTY_ID);
+    
+    CREATE INDEX IF NOT EXISTS XSRCIDUTTERANCE ON UTTERANCE(SOURCE_ID);
+    CREATE INDEX IF NOT EXISTS XUTTNUMUTTERANCE ON UTTERANCE(UTT_NUMBER);
+    CREATE INDEX IF NOT EXISTS XLINEUTTERANCE ON UTTERANCE(LINE_NUMBER);
+    CREATE INDEX IF NOT EXISTS XROLEUTTERANCE ON UTTERANCE(SPEAKER_ROLE);
+    CREATE INDEX IF NOT EXISTS XFKUTTERANCE ON UTTERANCE(INTERVIEW_ID);
+    
+    CREATE INDEX IF NOT EXISTS XSRCIDUTTCODE ON UTTERANCE_CODE(SOURCE_ID);
+    CREATE INDEX IF NOT EXISTS XFK1UTTCODE ON UTTERANCE_CODE(UTTERANCE_ID);
+    CREATE INDEX IF NOT EXISTS XFK2UTTCODE ON UTTERANCE_CODE(PROPERTY_VALUE_ID);
+    
+    CREATE INDEX IF NOT EXISTS XSRCIDGLBRAT ON GLOBAL_RATING(SOURCE_ID);
+    CREATE INDEX IF NOT EXISTS XFK1GLBRAT ON GLOBAL_RATING(INTERVIEW_ID);
+    CREATE INDEX IF NOT EXISTS XFK2GLBRAT ON GLOBAL_RATING(GLOBAL_VALUE_ID);
+    
+    CREATE INDEX IF NOT EXISTS XIVNMUTTSTG ON UTTERANCE_STAGING(INTERVIEW_NAME);
+    CREATE INDEX IF NOT EXISTS XIVTPUTTSTG ON UTTERANCE_STAGING(INTERVIEW_TYPE);
+    CREATE INDEX IF NOT EXISTS XCSNMUTTSTG ON UTTERANCE_STAGING(CS_NAME);
+    CREATE INDEX IF NOT EXISTS XCPNMUTTSTG ON UTTERANCE_STAGING(CP_NAME);
+    CREATE INDEX IF NOT EXISTS XUTTLNUTTSTG ON UTTERANCE_STAGING(LINE_NUMBER);
+    CREATE INDEX IF NOT EXISTS XUTTNMUTTSTG ON UTTERANCE_STAGING(UTT_NUMBER);
+    CREATE INDEX IF NOT EXISTS XUTTRLUTTSTG ON UTTERANCE_STAGING(SPEAKER_ROLE);
+    CREATE INDEX IF NOT EXISTS XPVALUTTSTG ON UTTERANCE_STAGING(PV_VALUE);
+    
+    CREATE INDEX IF NOT EXISTS XIVNMGLBSTG ON GLOBAL_STAGING(INTERVIEW_NAME);
+    CREATE INDEX IF NOT EXISTS XIVTPMGLBSTG ON GLOBAL_STAGING(INTERVIEW_TYPE);
+    CREATE INDEX IF NOT EXISTS XCSNMGLBSTG ON GLOBAL_STAGING(CS_NAME);
+    CREATE INDEX IF NOT EXISTS XGPNMGLBSTG ON GLOBAL_STAGING(GP_NAME);
+    CREATE INDEX IF NOT EXISTS XGVALGLBSTG ON GLOBAL_STAGING(GV_VALUE);
+    """
 
-
-logging.getLogger('database.models').addHandler(logging.NullHandler())
-
-
-__all__ = ['CodingSystem', 'CodingProperty', 'PropertyValue', 'Interview', 'Utterance',
-           'UtteranceCode', 'GlobalProperty', 'GlobalValue', 'GlobalRating', 'UtteranceStaging',
-           'GlobalStaging']
-
-
-class BaseModel(Model):
-
-    oc_actions = {'ignore': ModelInsert.on_conflict_ignore,
-                  'replace': ModelInsert.on_conflict_replace}
-    source_id = IntegerField(null=True, index=True, unique=False)
-
-    @classmethod
-    def bulk_insert(cls, data: Iterable[dict], on_conflict='replace') -> int:
-        """
-        BaseModel.bulk_insert(row_dict: dict) -> int
-        Performs an atomic bulk insertion of the data provided in row_dicts and returns the number of rows inserted
-        :param data: sequence of dictionary objects mapping field names to values to insert
-        :param on_conflict: How to handle rows with a unique constraint violation ['ignore' | 'replace'] (default 'replace')
-        :return int: The number of rows inserted
-        :raise peewee.PeeweeException: if bulk insertion fails
-        """
-
-        action = cls.oc_actions.get(on_conflict, ModelInsert.on_conflict_replace)
-        rows_inserted = 0
-        with cls._meta.database.atomic() as transaction:
-            for batch in chunked(data, 100):
-                query = cls.insert_many(batch)
-                query = action(query)
-                rows_inserted += query.execute()
-
-        return rows_inserted
-
-    class Meta:
-        database = db
-
-    def __lt__(self, other):
-        pk_name = self._meta.get_primary_keys()[0].name
-        return getattr(self, pk_name) < getattr(other, pk_name)
-
-    def __gt__(self, other):
-        pk_name = self._meta.get_primary_keys()[0].name
-        return getattr(self, pk_name) > getattr(other, pk_name)
-
-    def __int__(self):
-        pk_name = self._meta.get_primary_keys()[0].name
-        return int(getattr(self, pk_name))
-
-
-class CodingSystem(BaseModel):
-    coding_system_id = AutoField()
-    source_id = IntegerField(null=True, index=True, unique=True)
-    cs_name = TextField(null=False, index=True, unique=True)
-    cs_path = TextField(null=False, index=True, unique=True)
-
-
-# Project structures usually maintain two databases because interviews need to be unique.
-# Instead, switching to a single DB structure, so need to think about the ground truth of interviews
-# Add a new field that specifies whether an interview is reliability or not
-class Interview(BaseModel):
-    source_id = IntegerField(null=True, index=True, unique=True)
-    interview_id = AutoField()
-    interview_name = TextField(null=False, index=True, unique=False)
-    interview_type = TextField(null=False, index=True, unique=False, choices=['general', 'reliability'],
-                               default='general')
-    coding_system = ForeignKeyField(CodingSystem, backref="interviews", null=True, index=True, on_delete="SET NULL",
-                                    on_update="CASCADE")
-    session_number = IntegerField(null=False, index=True, unique=False)
-    study_id = IntegerField(null=True, unique=False, index=True)
-    client_id = TextField(null=False, unique=False, index=True)
-    rater_id = TextField(null=False, unique=False, index=True)  # Changed to TextField for V1.2
-    therapist_id = IntegerField(null=True, unique=False, index=False)
-    language = TextField(null=True, unique=False, index=False, default='en')
-    treatment_condition_id = IntegerField(null=True, unique=False, index=False)
-
-    class Meta:
-        constraints = [SQL('CONSTRAINT iv_name_iv_type UNIQUE(interview_name, interview_type)')]
-
-
-class CodingProperty(BaseModel):
-    coding_property_id = AutoField()
-    coding_system = ForeignKeyField(CodingSystem, backref="coding_properties", on_update="CASCADE",
-                                    on_delete="CASCADE", null=False, index=True, unique=False,
-                                    column_name="coding_system_id")
-    cp_name = TextField(null=False, index=False, unique=False)
-    cp_display_name = TextField(null=False, index=False, unique=False)
-    cp_abbreviation = TextField(null=True, index=False, unique=False)
-    cp_sort_order = IntegerField(null=False, index=False, unique=False, default=0)
-    cp_data_type = TextField(null=False, index=False, unique=False, default="string", choices=['string', 'numeric'])
-    cp_decimal_digits = IntegerField(null=False, default=0)
-    cp_zero_pad = BooleanField(null=False, default=False)
-    cp_description = TextField(null=False, index=False, unique=False)
-
-    class Meta:
-        constraints = [SQL('CONSTRAINT cp_name_cs_id_unique UNIQUE(cp_name, coding_system_id)'),
-                       SQL('CONSTRAINT cp_name_cs_id_unique UNIQUE(cp_display_name, coding_system_id)'),
-                       SQL('CONSTRAINT cp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id)')]
-
-
-class GlobalProperty(BaseModel):
-    global_property_id = AutoField()
-    coding_system = ForeignKeyField(CodingSystem, backref="globals", on_delete="CASCADE", on_update="CASCADE",
-                                    column_name="coding_system_id", index=True, null=False)
-    gp_name = TextField(null=False, unique=False)
-    gp_description = TextField(null=False, unique=False)
-    gp_data_type = TextField(null=False, index=False, unique=False, default="string")
-    gp_parent = ForeignKeyField('self', null=True, backref='children', on_update='CASCADE', on_delete="SET NULL",
-                                index=True, unique=False)
-    gp_summary_mode = TextField(null=True, unique=False, index=False)
-
-    class Meta:
-        constraints = [SQL('CONSTRAINT gp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id)')]
-
-    def __repr__(self):
-        return "<GlobalProperty: {0} | {1}>".format(self.global_property_id, self.gp_name)
-
-
-class GlobalValue(BaseModel):
-    global_value_id = AutoField()
-    global_property = ForeignKeyField(GlobalProperty, backref="global_values", index=True, null=False,
-                                      column_name="global_property_id", on_update="CASCADE", on_delete="CASCADE")
-    gv_value = TextField(null=False, column_name="gv_value")
-    gv_description = TextField(null=False, unique=False)
-
-    class Meta:
-        constraints = [SQL('CONSTRAINT gv_value_gp_id_unique UNIQUE(gv_value, global_property_id)'),
-                       SQL('CONSTRAINT gv_source_id_gp_id_unique UNIQUE(source_id, global_property_id)')]
-
-    def __repr__(self):
-        return "<GlobalValue: {0} | {1}>".format(self.global_value_id, self.gv_value)
-
-
-class PropertyValue(BaseModel):
-    property_value_id = AutoField()
-    coding_property = ForeignKeyField(CodingProperty, backref="property_values", null=False, index=True,
-                                      column_name="coding_property_id", on_delete="CASCADE", on_update="CASCADE")
-    pv_value = TextField(null=False, index=True, unique=False, column_name="pv_value")
-    pv_description = TextField(null=False, index=False, unique=False)
-    pv_summary_mode = TextField(null=True)
-    pv_parent = ForeignKeyField('self', null=True, backref='children', on_update="CASCADE", on_delete="SET NULL")
-
-    class Meta:
-        constraints = [SQL('CONSTRAINT pv_value_cp_id_unique UNIQUE (coding_property_id, pv_value)'),
-                       SQL('CONSTRAINT source_id_cp_id_unique UNIQUE (source_id, coding_property_id)')]
-
-    def __repr__(self):
-        return "<PropertyValue: {0} | {1}>".format(self.property_value_id, self.pv_value)
-
-
-class Utterance(BaseModel):
-    utterance_id = AutoField()
-    interview = ForeignKeyField(Interview, backref="utterances", column_name='interview_id',
-                                index=True, null=False, unique=False, on_delete="CASCADE", on_update="CASCADE")
-    utt_line = IntegerField(null=True)
-    utt_enum = IntegerField(null=False)
-    utt_role = TextField(null=True)
-    utt_text = TextField(null=True)
-    utt_word_count = IntegerField(null=True)
-    utt_start_time = FloatField(null=True)
-    utt_end_time = FloatField(null=True)
-
-    class Meta:
-        constraints = [SQL('CONSTRAINT utt_enum_iv_id_unique UNIQUE (utt_enum, interview_id)'),
-                       SQL('CONSTRAINT source_id_iv_id_unique UNIQUE (source_id, interview_id)')]
-
-
-class UtteranceCode(BaseModel):
-    utterance_code_id = AutoField()
-    utterance = ForeignKeyField(Utterance, index=True, null=False, backref="codes", on_update="CASCADE",
-                                on_delete="CASCADE", column_name='utterance_id')
-    property_value = ForeignKeyField(PropertyValue, index=True, null=False, backref="codes", on_update="CASCADE",
-                                     on_delete="CASCADE", column_name='property_value_id')
-
-    class Meta:
-        constraints = [SQL('CONSTRAINT utt_id_pv_iq_unique UNIQUE(utterance_id, property_value_id)')]
-
-
-class GlobalRating(BaseModel):
-    global_rating_id = AutoField()
-    global_value = ForeignKeyField(GlobalValue, index=True, null=False, column_name="global_value_id",
-                                   on_delete="CASCADE", on_update="CASCADE")
-    interview = ForeignKeyField(Interview, backref="globals", index=True, column_name="interview_id",
-                                on_delete="CASCADE", on_update="CASCADE")
-
-    class Meta:
-        constraints = [SQL('CONSTRAINT gv_id_iv_id_unique UNIQUE (global_value_id, interview_id)')]
-
-
-class UtteranceStaging(BaseModel):
-    interview_name = TextField(null=False, index=True)
-    interview_type = TextField(null=False, index=True, choices=['general', 'reliability'], default='general')
-    cs_name = TextField(null=False, index=True)
-    cp_name = TextField(null=False, index=True)
-    utt_line = IntegerField(null=True, index=True)
-    utt_enum = IntegerField(null=False, index=True)
-    utt_role = TextField(null=True)
-    utt_text = TextField(null=True)
-    utt_word_count = IntegerField(null=True)
-    utt_start_time = FloatField(null=True)
-    utt_end_time = FloatField(null=True)
-    pv_value = TextField(null=True, index=True)
-
-
-class GlobalStaging(BaseModel):
-    interview_name = TextField(null=False, index=True)
-    interview_type = TextField(null=False, index=True, choices=['general', 'reliability'], default='general')
-    cs_name = TextField(null=False, index=True)
-    gp_name = TextField(null=False, index=True)
-    gv_value = TextField(null=False, index=True)

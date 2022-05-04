@@ -23,6 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -103,6 +106,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/caastools/database/model.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/data.py" root0="FORCE_HIGHLIGHTING" />
@@ -118,13 +129,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="sqlite" />
     <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="XML" />
     <property name="ignore.virus.scanning.warn.message" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/caastools/tests/test_database" />
+    <property name="last_opened_file_path" value="H:/P-NAV/Data Processing/bin" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -445,6 +457,18 @@
       <workItem from="1642757443496" duration="2627000" />
       <workItem from="1648991062934" duration="1195000" />
       <workItem from="1649149945998" duration="6713000" />
+      <workItem from="1649325685800" duration="16357000" />
+      <workItem from="1649414959539" duration="4484000" />
+      <workItem from="1649755359291" duration="787000" />
+      <workItem from="1649823047649" duration="1838000" />
+      <workItem from="1649845016180" duration="14000" />
+      <workItem from="1649850111577" duration="1554000" />
+      <workItem from="1649930220615" duration="7784000" />
+      <workItem from="1650973582962" duration="26000" />
+      <workItem from="1651229045366" duration="6901000" />
+      <workItem from="1651251902536" duration="1919000" />
+      <workItem from="1651481778356" duration="16041000" />
+      <workItem from="1651655376014" duration="548000" />
     </task>
     <task id="LOCAL-00090" summary="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets">
       <created>1634223823623</created>
