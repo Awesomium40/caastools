@@ -23,8 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/caastools/database/connection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caastools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caastools.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/SOURCES.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/database.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +124,7 @@
     <setting file="file://$PROJECT_DIR$/caastools/database/model.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/data.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/datasets.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/caastools/database/database.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/database/connection.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/stats/sequence.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1aBAbRBdXRzNaYir55cAuIdgBKm" />
@@ -467,6 +475,10 @@
       <workItem from="1651251902536" duration="1919000" />
       <workItem from="1651481778356" duration="16041000" />
       <workItem from="1651655376014" duration="548000" />
+      <workItem from="1652350655418" duration="7515000" />
+      <workItem from="1652432828703" duration="3747000" />
+      <workItem from="1652701588444" duration="1576000" />
+      <workItem from="1652782036083" duration="2052000" />
     </task>
     <task id="LOCAL-00090" summary="Fixed a bug that occasionally caused datasets.sequential to incorrectly quantize utterances in sequential datasets">
       <created>1634223823623</created>

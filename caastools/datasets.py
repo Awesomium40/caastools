@@ -1,6 +1,6 @@
 import pandas
 
-from caastools.database.database import _con as con
+from caastools.database.connection import _con as con
 from .database import CodingSystem, CodingProperty, GlobalProperty, GlobalRating, GlobalValue, Interview, \
     PropertyValue, Utterance, UtteranceCode
 from .utils import sanitize_for_spss
@@ -310,7 +310,7 @@ def session_level(
         included_globals=None,
         client_as_numeric=True,
         exclude_reliability=True
-):
+) -> pandas.DataFrame:
     """
     session_level(interview_names) -> pandas.DataFrame
     Builds a session-level DataFrame with counts for interviews named in interview_names
@@ -357,24 +357,34 @@ def session_level(
         gp_predicate = f"AND global_property.name IN ({','.join(placeholder * len(included_globals))})"
         args.extend(included_globals)
 
-
     query = f"""
     WITH count_cte(interview_id, property_value_id, var_count) AS (
-        SELECT u.interview_id, uc.property_value_id, COUNT(uc.property_value_id)
+        SELECT 
+            u.interview_id, 
+            uc.property_value_id, 
+            COUNT(uc.property_value_id)
         FROM utterance_code uc
         INNER JOIN utterance u ON uc.utterance_id = u.utterance_id
         GROUP BY u.interview_id, uc.property_value_id
     ),
-    global_cte(interview_id, gp_name, gv_value, global_property_id) AS (
-    SELECT GlobalRating.interview_id, GlobalProperty.gp_name, CAST(GlobalValue.gv_value AS INTEGER),
-    GlobalValue.global_property_id
-    FROM GlobalRating
-    INNER JOIN GlobalValue on GlobalRating.global_value_id = GlobalValue.global_value_id
-    LEFT OUTER JOIN GlobalProperty ON GlobalValue.global_property_id = GlobalProperty.global_property_id
+    global_cte(interview_id, name, value, global_property_id) AS (
+    SELECT 
+        global_rating.interview_id, 
+        global_property.variable_name, 
+        global_value.value,
+        global_value.global_property_id
+    FROM global_rating
+    INNER JOIN global_value on global_rating.global_value_id = global_value.global_value_id
+    LEFT OUTER JOIN global_property ON global_value.global_property_id = global_property.global_property_id
     )
-    SELECT interview.interview_name, interview.interview_type, {client_column}, interview.rater_id, 
-            interview.session_number, coding_property.display_name || '_' || property_value.value AS "property", 
-            CASE WHEN count_cte.var_count IS NULL THEN 0 ELSE count_cte.var_count END AS "var_count"
+    SELECT 
+        interview.interview_name, 
+        interview.interview_type, 
+        {client_column}, 
+        interview.rater_id, 
+        interview.session_number, 
+        property_value.variable_name AS "property", 
+        CASE WHEN count_cte.var_count IS NULL THEN 0 ELSE count_cte.var_count END AS "var_count"
     FROM interview
     INNER JOIN coding_system cs ON interview.coding_system_id = cs.coding_system_id
     INNER JOIN coding_property cp ON cs.coding_system_id = cp.coding_system_id
@@ -383,13 +393,19 @@ def session_level(
         AND pv.property_value_id = count_cte.property_value_id
     WHERE interview.interview_type IN ({','.join(placeholder * len(included_types))}) {iv_predicate} {cp_predicate}
     UNION ALL
-    SELECT interview.interview_name, interview.interview_type, {client_column}
-    interview.rater_id, Interview.session_number, global_property.display_name, global_cte.value
+    SELECT 
+        interview.interview_name, 
+        interview.interview_type, 
+        {client_column}
+        interview.rater_id, 
+        Interview.session_number, 
+        global_cte.name, 
+        global_cte.value
     FROM interview
     INNER JOIN coding_system ON interview.coding_system_id = coding_system.coding_system_id 
     INNER JOIN global_property ON global_property.coding_system_id = coding_system.coding_system_id
     LEFT OUTER JOIN global_cte ON interview.interview_id = global_cte.interview_id AND
-    global_property.global_property_id = global_cte.global_property_id
+        global_property.global_property_id = global_cte.global_property_id
     WHERE interview.interview_type IN ({','.join(placeholder * len(included_types))}) {iv_predicate} {gp_predicate}
     """
 
@@ -419,7 +435,7 @@ def create_sequential_variable_labels(coding_system_id, find, replace):
     """
 
     query = """
-    SELECT coding_property.name, coding_property.description
+    SELECT coding_property.variable_name, coding_property.description
     FROM coding_property
     WHERE coding_property.coding_system_id = ?
     """

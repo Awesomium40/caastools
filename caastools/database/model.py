@@ -1,4 +1,3 @@
-
 TBL_SCRIPT = """
     CREATE TABLE IF NOT EXISTS CODING_SYSTEM (
         CODING_SYSTEM_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -29,7 +28,7 @@ TBL_SCRIPT = """
         DISPLAY_NAME VARCHAR2(10) NOT NULL,
         ABBREVIATION VARCHAR2(5) NOT NULL,
         SORT_ORDER INTEGER NOT NULL DEFAULT 0,
-        DATA_TYPE VARCHAR2(10) NOT NULL DEFAULT 'str',
+        DATA_TYPE VARCHAR2(10) NOT NULL DEFAULT 'string',
         DECIMAL_DIGITS INTEGER NOT NULL DEFAULT 0,
         ZERO_PAD INTEGER NOT NULL DEFAULT 0,
         DESCRIPTION VARCHAR2(500) NOT NULL,
@@ -38,7 +37,8 @@ TBL_SCRIPT = """
         CONSTRAINT cp_name_cs_id_unique UNIQUE(NAME, CODING_SYSTEM_ID),
         CONSTRAINT cp_name_cs_id_unique UNIQUE(DISPLAY_NAME,CODING_SYSTEM_ID),
         CONSTRAINT cp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id),
-        CONSTRAINT cp_data_type CHECK (DATA_TYPE IN ('str', 'numeric'))
+        CONSTRAINT cp_data_type CHECK (DATA_TYPE IN ('string', 'numeric')),
+        CONSTRAINT cp_var_name_chk CHECK (vn_validate(variable_name))
     );
     CREATE TABLE IF NOT EXISTS GLOBAL_PROPERTY (
         GLOBAL_PROPERTY_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -52,7 +52,8 @@ TBL_SCRIPT = """
         FOREIGN KEY(CODING_SYSTEM_ID) REFERENCES CODING_SYSTEM(CODING_SYSTEM_ID) ON UPDATE CASCADE ON DELETE CASCADE,
         CONSTRAINT cp_data_type CHECK (DATA_TYPE IN ('string', 'numeric')),
         CONSTRAINT gp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id),
-        CONSTRAINT gp_name_cs_id_unique UNIQUE(name, coding_system_id)
+        CONSTRAINT gp_name_cs_id_unique UNIQUE(name, coding_system_id),
+        CONSTRAINT gp_var_name_chk CHECK (vn_validate(variable_name))
     );
     CREATE TABLE IF NOT EXISTS GLOBAL_VALUE (
         GLOBAL_VALUE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -63,7 +64,8 @@ TBL_SCRIPT = """
         VARIABLE_NAME VARCHAR2(32),
         FOREIGN KEY(GLOBAL_PROPERTY_ID) REFERENCES GLOBAL_PROPERTY(GLOBAL_PROPERTY_ID) ON UPDATE CASCADE ON DELETE CASCADE,
         CONSTRAINT gv_value_gp_id_unique UNIQUE(value, global_property_id),
-        CONSTRAINT gv_source_id_gp_id_unique UNIQUE(source_id, global_property_id)
+        CONSTRAINT gv_source_id_gp_id_unique UNIQUE(source_id, global_property_id),
+        CONSTRAINT gv_var_name_chk CHECK (vn_validate(variable_name))
     );
     CREATE TABLE IF NOT EXISTS PROPERTY_VALUE (
         PROPERTY_VALUE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
@@ -74,7 +76,8 @@ TBL_SCRIPT = """
         VARIABLE_NAME VARCHAR2(32),
         FOREIGN KEY(CODING_PROPERTY_ID) REFERENCES CODING_PROPERTY(CODING_PROPERTY_ID) ON UPDATE CASCADE ON DELETE CASCADE,
         CONSTRAINT pv_value_cp_id_unique UNIQUE(value, coding_property_id),
-        CONSTRAINT pv_source_id_cp_id_unique UNIQUE(source_id, coding_property_id)
+        CONSTRAINT pv_source_id_cp_id_unique UNIQUE(source_id, coding_property_id),
+        CONSTRAINT pv_var_name_chk CHECK (vn_validate(variable_name))
     );
     CREATE TABLE IF NOT EXISTS UTTERANCE (
         UTTERANCE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -182,5 +185,33 @@ TBL_SCRIPT = """
     CREATE INDEX IF NOT EXISTS XCSNMGLBSTG ON GLOBAL_STAGING(CS_NAME);
     CREATE INDEX IF NOT EXISTS XGPNMGLBSTG ON GLOBAL_STAGING(GP_NAME);
     CREATE INDEX IF NOT EXISTS XGVALGLBSTG ON GLOBAL_STAGING(GV_VALUE);
+    
+    CREATE TRIGGER IF NOT EXISTS XCPVARNM AFTER INSERT ON CODING_PROPERTY WHEN NEW.VARIABLE_NAME IS NULL
+    BEGIN
+        UPDATE coding_property 
+        SET VARIABLE_NAME = 'CPVAR_' || new.coding_property_id 
+        WHERE CODING_PROPERTY_ID = new.coding_property_id;
+    END;
+    
+    CREATE TRIGGER IF NOT EXISTS XGPVARNM AFTER INSERT ON GLOBAL_PROPERTY WHEN NEW.VARIABLE_NAME IS NULL
+    BEGIN
+        UPDATE global_property 
+        SET variable_name = 'GPVAR_' || new.global_property_id 
+        WHERE global_property_id = new.global_property_id;
+    END;
+    
+    CREATE TRIGGER IF NOT EXISTS XPVVARNM AFTER INSERT ON PROPERTY_VALUE WHEN NEW.VARIABLE_NAME IS NULL
+    BEGIN
+        UPDATE property_value 
+        SET variable_name = (SELECT variable_name FROM coding_property WHERE coding_property_id = new.coding_property_id) || '_' || new.property_value_id
+        WHERE property_value_id = new.property_value_id;
+    END;
+    
+    CREATE TRIGGER IF NOT EXISTS XGVVARNM AFTER INSERT ON GLOBAL_VALUE WHEN NEW.VARIABLE_NAME IS NULL
+    BEGIN
+        UPDATE global_value 
+        SET variable_name = (SELECT variable_name FROM global_property WHERE global_property_id = new.global_property_id) || '_' || new.global_value_id
+        WHERE global_value_id = new.global_value_id;
+    END;
     """
 
