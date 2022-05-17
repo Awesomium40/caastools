@@ -26,14 +26,15 @@ def _renumber_(nodes, tag, scalar):
         child.text = str(int(child.text) + scalar)
 
 
-def parse_interview(interview_name, fragments) -> DataSet:
+def parse_interview(interview_name, fragments, **kwargs) -> DataSet:
     """
     Reconstructs the interview represented by fragments into an XML document
     :param interview_name: the name of the interview
     :param fragments: collection listing the paths to the interview fragment files
-    :param parser: et._Parser to parse the XML
     :return: caastools.parsing.common.DataSet
     """
+    translate_path = kwargs.get('translate_path', None)
+    translate = et.XSLT(et.parse(translate_path)) if translate_path is not None else None
 
     ns = {"xs": "http://www.w3.org/2001/XMLSchema",
           "msdata": "urn:schemas-microsoft-com:xml-msdata"}
@@ -59,7 +60,10 @@ def parse_interview(interview_name, fragments) -> DataSet:
 
     for i, file in enumerate(fragments):
         document = et.parse(file)
-        root = document.getroot()
+
+        # if a translation was specified, parse it into XLST and use it to perform the translation
+        if translate is not None:
+            document = translate(document)
 
         # Once the initial parsing and transformation has occurred,
         # can transform into something a bit more digestible
