@@ -61,6 +61,13 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="var-attribute">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="sum"/>
+            <xs:enumeration value="mean"/>
+        </xs:restriction>
+    </xs:simpleType>
+
 
 
     <!--The element type definition for 'code' and containing 'codes' elements-->
@@ -73,6 +80,7 @@
         <xs:attribute name="isSummary" type="isSummary-attribute" use="required"/>
         <xs:attribute name="summaryMode" type="summaryMode-attribute"/>
         <xs:attribute name="parent" type="xs:positiveInteger"/>
+        <xs:attribute name="var" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="codes">
@@ -98,6 +106,7 @@
         <xs:attribute name="type" type="globalType-attribute" use="required"/>
         <xs:attribute name="scale" type="xs:string"/>
         <xs:attribute name="parent" type="xs:positiveInteger"/>
+        <xs:attribute name="var" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="globals">

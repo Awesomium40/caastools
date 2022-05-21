@@ -100,6 +100,7 @@ class CodingProperty(BaseModel):
     cp_decimal_digits = IntegerField(null=False, default=0)
     cp_zero_pad = BooleanField(null=False, default=False)
     cp_description = TextField(null=False, index=False, unique=False)
+    cp_var_name = TextField(null=False, unique=True, index=True)
 
     class Meta:
         constraints = [SQL('CONSTRAINT cp_name_cs_id_unique UNIQUE(cp_name, coding_system_id)'),
@@ -117,6 +118,7 @@ class GlobalProperty(BaseModel):
     gp_parent = ForeignKeyField('self', null=True, backref='children', on_update='CASCADE', on_delete="SET NULL",
                                 index=True, unique=False)
     gp_summary_mode = TextField(null=True, unique=False, index=False)
+    gp_var_name = TextField(null=False, unique=True, index=True)
 
     class Meta:
         constraints = [SQL('CONSTRAINT gp_source_id_cs_id_unique UNIQUE(source_id, coding_system_id)')]
@@ -148,6 +150,7 @@ class PropertyValue(BaseModel):
     pv_description = TextField(null=False, index=False, unique=False)
     pv_summary_mode = TextField(null=True)
     pv_parent = ForeignKeyField('self', null=True, backref='children', on_update="CASCADE", on_delete="SET NULL")
+    pv_var_name = TextField(null=False, unique=False, index=True)
 
     class Meta:
         constraints = [SQL('CONSTRAINT pv_value_cp_id_unique UNIQUE (coding_property_id, pv_value)'),

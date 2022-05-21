@@ -16,7 +16,6 @@ caastools.egg-info/top_level.txt
 caastools/database/__init__.py
 caastools/database/database.py
 caastools/database/model.py
-caastools/database/translation.py
 caastools/parsing/__init__.py
 caastools/parsing/common.py
 caastools/parsing/cacti/__init__.py

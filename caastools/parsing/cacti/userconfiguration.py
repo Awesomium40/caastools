@@ -44,6 +44,10 @@ class _CodeElementBase(_ElementBase):
     def description(self):
         return self.get(CactiAttributes.DESCRIPTION)
 
+    @property
+    def var_name(self):
+        return self.get('var')
+
 
 class _HasParentElementBase(_ElementBase):
 
