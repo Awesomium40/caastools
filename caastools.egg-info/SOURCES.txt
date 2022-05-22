@@ -14,7 +14,7 @@ caastools.egg-info/dependency_links.txt
 caastools.egg-info/requires.txt
 caastools.egg-info/top_level.txt
 caastools/database/__init__.py
-caastools/database/database.py
+caastools/database/connection.py
 caastools/database/model.py
 caastools/parsing/__init__.py
 caastools/parsing/common.py
