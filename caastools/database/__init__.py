@@ -2,7 +2,7 @@ import logging
 from caastools.database.connection import _Connection
 
 
-connection = None
+connection: _Connection = None
 __all__ = ['close_database', 'connection', 'init_database']
 
 logging.getLogger('database').addHandler(logging.NullHandler())

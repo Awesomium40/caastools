@@ -19,7 +19,7 @@ class _Connection(object):
         self._connection.create_function('vn_validate', 1, self.vn_validate)
         for key, value in pragmas:
             self._connection.execute(f"PRAGMA {key}={value};")
-        self._connection.execute(TBL_SCRIPT)
+        self._connection.executescript(TBL_SCRIPT)
         self._connection.commit()
 
     def __del__(self):
@@ -28,6 +28,21 @@ class _Connection(object):
     def close(self):
         self._connection.close()
 
+    def commit(self):
+        return self._connection.commit()
+
+    def execute(self, query, args=None):
+        return self._connection.execute(query, args) if args is not None else self._connection.execute(query)
+
+    def executemany(self, query, params):
+        return self._connection.executemany(query, params)
+
+    def executescript(self, script):
+        return self._connection.executescript(script)
+
+    def rollback(self):
+        return self._connection.rollback()
+
     @staticmethod
     def vn_validate(var_name):
-        return _Connection._vn_re.fullmatch(var_name) is not None
+        return _Connection._vn_re.fullmatch(var_name) is not None and len(var_name) < 33

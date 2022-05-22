@@ -17,7 +17,7 @@ TBL_SCRIPT = """
         THERAPIST_ID INTEGER(100) NOT NULL,
         RATER_ID VARCHAR2(100) NOT NULL,
         LANGUAGE VARCHAR2(5) NOT NULL DEFAULT 'en',
-        CONDITION VARCHAR2(100) NOT NULL,
+        CONDITION INTEGER NOT NULL,
         FOREIGN KEY(CODING_SYSTEM_ID) REFERENCES CODING_SYSTEM(CODING_SYSTEM_ID) ON UPDATE CASCADE ON DELETE RESTRICT 
     );
     CREATE TABLE IF NOT EXISTS CODING_PROPERTY (
@@ -61,7 +61,6 @@ TBL_SCRIPT = """
         GLOBAL_PROPERTY_ID INTEGER NOT NULL,
         VALUE VARCHAR2(50) NOT NULL,
         DESCRIPTION VARCHAR2(500) NOT NULL,
-        VARIABLE_NAME VARCHAR2(32),
         FOREIGN KEY(GLOBAL_PROPERTY_ID) REFERENCES GLOBAL_PROPERTY(GLOBAL_PROPERTY_ID) ON UPDATE CASCADE ON DELETE CASCADE,
         CONSTRAINT gv_value_gp_id_unique UNIQUE(value, global_property_id),
         CONSTRAINT gv_source_id_gp_id_unique UNIQUE(source_id, global_property_id),
@@ -205,13 +204,6 @@ TBL_SCRIPT = """
         UPDATE property_value 
         SET variable_name = (SELECT variable_name FROM coding_property WHERE coding_property_id = new.coding_property_id) || '_' || new.property_value_id
         WHERE property_value_id = new.property_value_id;
-    END;
-    
-    CREATE TRIGGER IF NOT EXISTS XGVVARNM AFTER INSERT ON GLOBAL_VALUE WHEN NEW.VARIABLE_NAME IS NULL
-    BEGIN
-        UPDATE global_value 
-        SET variable_name = (SELECT variable_name FROM global_property WHERE global_property_id = new.global_property_id) || '_' || new.global_value_id
-        WHERE global_value_id = new.global_value_id;
     END;
     """
 
