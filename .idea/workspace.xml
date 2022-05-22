@@ -22,16 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/cacti/cacti_schema.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/cacti/cacti_schema.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/lib/caastools/parsing/cacti/userconfiguration.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/lib/caastools/parsing/cacti/userconfiguration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/SOURCES.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/cacti_schema.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/cacti/cacti_schema.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/userconfiguration.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/cacti/userconfiguration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/caastools-1.1.9.3-py3-none-any.whl" beforeDir="false" afterPath="$PROJECT_DIR$/dist/caastools-1.1.9.3-py3-none-any.whl" afterDir="false" />
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Remove ability to translate between U331 and U34. Update parsing.ia.data.parse_interview to accept translation XSLT as argument">
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -76,6 +67,9 @@
         <option value="Python Script" />
       </list>
     </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="V1.2_remove_ORM" />
   </component>
   <component name="Git.Settings">
     <excluded-from-favorite>

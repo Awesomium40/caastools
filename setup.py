@@ -6,14 +6,14 @@ with open(os.path.join(os.path.dirname(__file__), "README.md"), "r") as fh:
 
 setuptools.setup(
     name="caastools",
-    version="1.1.9.4",
+    version="1.2",
     author="Jay Walthers",
     author_email="justin_walthers@brown.edu",
     description="A package for managing and analyzing Interview data at CAAS",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Awesomium40/caastools",
-    install_requires=['lxml >= 4.3.3', 'peewee >= 3.0', 'numpy >= 1.16.0', 'scipy >= 1.3.0',
+    install_requires=['lxml >= 4.3.3', 'numpy >= 1.16.0', 'scipy >= 1.3.0',
                       'pandas >= 1.0.0', 'matplotlib >= 3.1.0', 'savReaderWriter >= 3.4.0'],
     packages=setuptools.find_packages(),
     package_data={'': ['*.xml', '*.xsd', '*.xslt']},
