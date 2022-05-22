@@ -1,4 +1,3 @@
-from .database import Utterance
 from matplotlib import pyplot as plt
 import numpy
 import pandas
@@ -47,8 +46,8 @@ def _plot_parsing_axis_(results, category_names, ax, pad_first=False, enum_every
 
 def _compile_parsing_quantile(data, start_time, cutoff, rater_names, ax):
 
-    STIME = Utterance.utt_start_time.name
-    ETIME = Utterance.utt_end_time.name
+    STIME = 'start_time'
+    ETIME = 'end_time'
     UL = 'utt_length'
 
     rater_data = []
@@ -132,8 +131,8 @@ def parsing_alignment_plot(data: typing.Sequence[pandas.DataFrame], title="Parsi
     UL = 'utt_length'
     data = list(data)
 
-    STIME = Utterance.utt_start_time.name
-    ETIME = Utterance.utt_end_time.name
+    STIME = 'start_time'
+    ETIME = 'end_time'
     rater_names = list(rater_names) if rater_names is not None else [f"R{i + 1}" for i, f in enumerate(data)]
 
     quantiles = int(quantiles) if quantiles >= 1 else 1
