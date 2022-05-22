@@ -23,10 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/cacti/data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
@@ -452,13 +449,6 @@
       <workItem from="1642757443496" duration="2627000" />
       <workItem from="1653142644721" duration="1034000" />
     </task>
-    <task id="LOCAL-00093" summary="Fixed a bug in database that caused incorrect reporting of rows inserted for bulk insertions">
-      <created>1634664251721</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1634664251721</updated>
-    </task>
     <task id="LOCAL-00094" summary="Fixed a bug in datasets.sequential that caused an unhandled exception">
       <created>1634906802923</created>
       <option name="number" value="00094" />
@@ -795,7 +785,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653242501512</updated>
     </task>
-    <option name="localTasksCounter" value="142" />
+    <task id="LOCAL-00142" summary="Add dataclasses to parsing.cacti">
+      <created>1653262974515</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1653262974515</updated>
+    </task>
+    <option name="localTasksCounter" value="143" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -818,7 +815,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update datasets.py to allow specifying exclusion of reliability type interviews for all dataset types" />
     <MESSAGE value="Update to 1.1.4" />
     <MESSAGE value="Update to 1.1.4.1" />
     <MESSAGE value="add reference to utterance for parsing.ia.data._UtteranceProperties" />
@@ -843,7 +839,8 @@
     <MESSAGE value="Update to Version 1.2" />
     <MESSAGE value="Update to Version 1.2.1" />
     <MESSAGE value="Add method to fetch db connection" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add method to fetch db connection" />
+    <MESSAGE value="Add dataclasses to parsing.cacti" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add dataclasses to parsing.cacti" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

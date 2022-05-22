@@ -12,8 +12,8 @@ class CactiUtterance:
     end_time: float
     start_bit: int
     end_bit: int
-    code_number: int
-    code_name: str
+    code_id: int
+    code_value: str
 
 
 @dataclass
@@ -145,8 +145,8 @@ def read_casaa(file, read_codes=False, read_components=False) -> typing.Tuple[st
                         bit_to_time(split_row[4]),
                         int(split_row[3]),
                         int(split_row[4]),
-                        split_row[5],
-                        None
+                        None,
+                        split_row[5]
                     )
                 )
             else:
