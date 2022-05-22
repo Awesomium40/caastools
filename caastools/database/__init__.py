@@ -3,7 +3,7 @@ from caastools.database.connection import _Connection
 
 
 connection: _Connection = None
-__all__ = ['close_database', 'connection', 'init_database']
+__all__ = ['close_database', 'connection', 'init_database', 'get_connection']
 
 logging.getLogger('database').addHandler(logging.NullHandler())
 
@@ -20,3 +20,8 @@ def init_database(path=":memory:"):
 
 def close_database():
     connection.close()
+
+
+def get_connection():
+    global connection
+    return connection

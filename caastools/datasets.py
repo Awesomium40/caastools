@@ -1,5 +1,5 @@
-from caastools.database import connection as con
 from .utils import sanitize_for_spss
+from caastools.database import get_connection
 from pandas import DataFrame, notna
 from pandas.api.types import is_string_dtype, is_object_dtype
 from savReaderWriter.savWriter import SavWriter
@@ -23,6 +23,8 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
     :param include_reliability: Whether to include (False) or exclude (False, default) interviews of type 'reliability'
     :return: DataFrame
     """
+    con = get_connection()
+
     included_types = ['general'] if not include_reliability else ['general', 'reliability']
     args = included_types
     placeholder = '?'
@@ -153,6 +155,8 @@ def sequential(
     placeholder = '?'
     args = []
 
+    con = get_connection()
+
     included_types = ['general'] if exclude_reliability else ['general', 'reliability']
     type_predicate = f"interview.interview_type IN ({','.join(placeholder * len(included_types))})"
 
@@ -266,6 +270,8 @@ def session_level(
     cp_predicate = ''
     gp_predicate = ''
     args = []
+
+    con = get_connection()
 
     # Used to create a predicate to exclude reliability interviews, if specified
     included_types = ['general'] if exclude_reliability else ['general', 'reliability']
