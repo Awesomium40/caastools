@@ -1,7 +1,25 @@
 import logging
 import typing
+from dataclasses import dataclass, field
 
 logging.getLogger('caastools.parsing.cacti.data').addHandler(logging.NullHandler())
+
+
+@dataclass
+class CactiUtterance:
+    utt_number: int
+    start_time: float
+    end_time: float
+    start_bit: int
+    end_bit: int
+    code_number: int
+    code_name: str
+
+
+@dataclass
+class CactiGlobal:
+    global_name: str
+    global_value: str
 
 
 def _read_file_(file):
@@ -52,7 +70,7 @@ def read_globals(file):
         if len(split_line) < 2:
             continue
 
-        global_data.append((split_line[0], split_line[1]),)
+        global_data.append(CactiGlobal(split_line[0], split_line[1]))
 
     return audio_file, global_data
 
@@ -92,21 +110,71 @@ def read_casaa(file, read_codes=False, read_components=False) -> typing.Tuple[st
         if read_codes:
             # Expect 7 columns for reading in codes. If less than that found, enter None for value and desc
             if len(split_row) >= 7:
-                row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]),
-                                int(split_row[5]), split_row[6],))
+                row_data.append(
+                    CactiUtterance(
+                        int(split_row[0]),
+                        bit_to_time(split_row[3]),
+                        bit_to_time(split_row[4]),
+                        int(split_row[3]),
+                        int(split_row[4]),
+                        int(split_row[5]),
+                        split_row[6],
+                    )
+                )
             else:
                 has_missing += 1
-                row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None, None,))
+                row_data.append(
+                    CactiUtterance(
+                        int(split_row[0]),
+                        bit_to_time(split_row[3]),
+                        bit_to_time(split_row[4]),
+                        int(split_row[3]),
+                        int(split_row[4]),
+                        None,
+                        None
+                    )
+                )
 
         elif read_components:
             # Expect 6 columns for reading in components. Anything else, enter None for value and desc
             if len(split_row) >= 6:
-                row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), split_row[5],))
+                row_data.append(
+                    CactiUtterance(
+                        int(split_row[0]),
+                        bit_to_time(split_row[3]),
+                        bit_to_time(split_row[4]),
+                        int(split_row[3]),
+                        int(split_row[4]),
+                        split_row[5],
+                        None
+                    )
+                )
             else:
                 has_missing += 1
+                row_data.append(
+                    CactiUtterance(
+                        int(split_row[0]),
+                        bit_to_time(split_row[3]),
+                        bit_to_time(split_row[4]),
+                        int(split_row[3]),
+                        int(split_row[4]),
+                        None,
+                        None
+                    )
+                )
                 row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]), None,))
         else:
-            row_data.append((int(split_row[0]), bit_to_time(split_row[3]), bit_to_time(split_row[4]),))
+            row_data.append(
+                CactiUtterance(
+                    int(split_row[0]),
+                    bit_to_time(split_row[3]),
+                    bit_to_time(split_row[4]),
+                    int(split_row[3]),
+                    int(split_row[4]),
+                    None,
+                    None
+                )
+            )
 
     if has_missing > 0: logging.info(f"File {file.name if hasattr(file, 'name') else repr(file)} had {has_missing} " +
                                      "rows with missing data.")

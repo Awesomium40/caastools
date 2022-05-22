@@ -24,8 +24,11 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/cacti/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -449,13 +452,6 @@
       <workItem from="1642757443496" duration="2627000" />
       <workItem from="1653142644721" duration="1034000" />
     </task>
-    <task id="LOCAL-00092" summary="Fixed a bug in database that caused incorrect reporting of rows inserted for bulk insertions">
-      <created>1634664193420</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1634664193421</updated>
-    </task>
     <task id="LOCAL-00093" summary="Fixed a bug in database that caused incorrect reporting of rows inserted for bulk insertions">
       <created>1634664251721</created>
       <option name="number" value="00093" />
@@ -792,7 +788,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653242151710</updated>
     </task>
-    <option name="localTasksCounter" value="141" />
+    <task id="LOCAL-00141" summary="Add method to fetch db connection">
+      <created>1653242501512</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1653242501512</updated>
+    </task>
+    <option name="localTasksCounter" value="142" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -815,7 +818,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Fix a bug in datasets.session-level that caused function to fail" />
     <MESSAGE value="Update datasets.py to allow specifying exclusion of reliability type interviews for all dataset types" />
     <MESSAGE value="Update to 1.1.4" />
     <MESSAGE value="Update to 1.1.4.1" />
@@ -840,7 +842,8 @@
     <MESSAGE value="Remove ability to translate between U331 and U34. Update parsing.ia.data.parse_interview to accept translation XSLT as argument" />
     <MESSAGE value="Update to Version 1.2" />
     <MESSAGE value="Update to Version 1.2.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to Version 1.2.1" />
+    <MESSAGE value="Add method to fetch db connection" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add method to fetch db connection" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -864,11 +867,6 @@
           <url>file://$PROJECT_DIR$/caastools/tests/test_parsing.cacti.data.py</url>
           <line>194</line>
           <option name="timeStamp" value="119" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/caastools/parsing/cacti/data.py</url>
-          <line>41</line>
-          <option name="timeStamp" value="122" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/tests/test_parsing.ia.py</url>
