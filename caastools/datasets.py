@@ -382,16 +382,61 @@ def session_level(
     return df
 
 
-def create_sequential_variable_labels(coding_system_id, find, replace):
+def create_quantile_variable_labels(coding_system_id, num_quantiles):
+    """
+    Creates variable labels for quantile-level dataset
+    :param coding_system_id: Id of coding system from which to derive labels
+    :param num_quantiles: number of quantiles in the dataset
+    :return: dict
+    """
+    query = f"""
+    WITH quantile_cte (variable_name, qv_name, description, qv_desc, quantile) AS (
+        SELECT 
+            pv.variable_name, 
+            pv.variable_name || '_Q{num_quantiles}', 
+            pv.description, 
+            pv.description || ' quantile {num_quantiles}', 
+            {num_quantiles} AS "quantile"
+        FROM property_value pv
+        INNER JOIN coding_property cp ON pv.coding_property_id = cp.coding_property_id
+        WHERE cp.coding_system_id = ?
+        UNION ALL
+        SELECT 
+            quantile_cte.variable_name, 
+            quantile_cte.variable_name || '_Q' || CAST(quantile_cte.quantile - 1 AS TEXT) AS "qv_name", 
+            quantile_cte.description, 
+            quantile_cte.description || ' quantile ' || CAST(quantile_cte.quantile - 1 AS TEXT) AS "qv_desc", 
+            quantile_cte.quantile - 1 AS "quantile"
+        FROM quantile_cte
+        WHERE quantile > 1
+    )
+    SELECT * 
+    FROM quantile_cte
+    UNION ALL
+    SELECT 
+        NULL, 
+        variable_name, 
+        NULL, 
+        description, 
+        NULL
+    FROM global_property
+    WHERE global_property.coding_system_id = ?
+    """
+
+    con = get_connection()
+    labels = {row[1]: row[3] for row in con.execute(query, [coding_system_id, coding_system_id])}
+
+    return labels
+
+
+def create_sequential_variable_labels(coding_system_id):
     """
     datasets.create_sequential_variable_labels(coding_system_id, find, replace) -> dict
     Creates a dictionary of variable labels suitable for building an SPSS sequential dataset
     :param coding_system_id: the ID of the coding system for which to create labels
-    :param find: sequence of strings to be replaced in the variable names
-    :param replace: sequence of strings with which to replace corresponding entries in find. May also be a
-    callable which determines the appropriate replacement values
     :return: dict
     """
+    con = get_connection()
 
     query = """
     SELECT coding_property.variable_name, coding_property.description
@@ -424,6 +469,8 @@ def create_sl_variable_labels(coding_system_id):
     FROM global_property gp
     WHERE gp.coding_system_id = ?
     """
+
+    con = get_connection()
 
     labels = {row[0]: row[1] for row in con.execute(query, [coding_system_id, coding_system_id])}
 

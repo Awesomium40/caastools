@@ -24,9 +24,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/cacti/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,6 +122,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="sqlite" />
     <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -449,13 +449,6 @@
       <workItem from="1642586702938" duration="1855000" />
       <workItem from="1642757443496" duration="2627000" />
       <workItem from="1653142644721" duration="1034000" />
-    </task>
-    <task id="LOCAL-00096" summary="Update to Version 1.1.0">
-      <created>1639312752203</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1639312752203</updated>
     </task>
     <task id="LOCAL-00097" summary="Add type hints to userconfiguration.py">
       <created>1639312887890</created>
@@ -793,7 +786,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653269067893</updated>
     </task>
-    <option name="localTasksCounter" value="145" />
+    <task id="LOCAL-00145" summary="Update to version 1.2.6">
+      <created>1653270754195</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1653270754195</updated>
+    </task>
+    <option name="localTasksCounter" value="146" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -816,7 +816,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="add reference to utterance for parsing.ia.data._UtteranceProperties" />
     <MESSAGE value="Add dataclasses to represent IA/CACTI interview data and implement their usage in parsing.ia.data" />
     <MESSAGE value="Update to 1.1.5.1" />
     <MESSAGE value="Update to 1.1.5.2" />
@@ -841,7 +840,8 @@
     <MESSAGE value="Add dataclasses to parsing.cacti" />
     <MESSAGE value="Update to version 1.2.4" />
     <MESSAGE value="Update to version 1.2.5" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.2.5" />
+    <MESSAGE value="Update to version 1.2.6" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.2.6" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
