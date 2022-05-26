@@ -22,10 +22,18 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+    <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="Minor updates to CACTI schema">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/SOURCES.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/parsing/cacti/cacti_schema.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/parsing/cacti/cacti_schema.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/tests/test_database/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/tests/test_database/test_translation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/tests/test_database/test_translator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,8 +118,16 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/caastools/database/model.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/parsing/cacti/cacti_schema.xsd" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/data.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/constants.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/datasets.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/database/connection.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/setup.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/parsing/cacti/data.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/interview_transform.xslt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/plots.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/cs_transform.xslt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/stats/sequence.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1aBAbRBdXRzNaYir55cAuIdgBKm" />
@@ -449,13 +465,7 @@
       <workItem from="1642586702938" duration="1855000" />
       <workItem from="1642757443496" duration="2627000" />
       <workItem from="1653142644721" duration="1034000" />
-    </task>
-    <task id="LOCAL-00097" summary="Add type hints to userconfiguration.py">
-      <created>1639312887890</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1639312887890</updated>
+      <workItem from="1653556341403" duration="1005000" />
     </task>
     <task id="LOCAL-00098" summary="Update Interview.language to be a text field">
       <created>1639316338952</created>
@@ -793,7 +803,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653270754195</updated>
     </task>
-    <option name="localTasksCounter" value="146" />
+    <task id="LOCAL-00146" summary="Add procedure to create quantile-level variable labels">
+      <created>1653275379052</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1653275379052</updated>
+    </task>
+    <option name="localTasksCounter" value="147" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -816,7 +833,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Add dataclasses to represent IA/CACTI interview data and implement their usage in parsing.ia.data" />
     <MESSAGE value="Update to 1.1.5.1" />
     <MESSAGE value="Update to 1.1.5.2" />
     <MESSAGE value="add coding_system_name property to DataSet class" />
@@ -841,7 +857,8 @@
     <MESSAGE value="Update to version 1.2.4" />
     <MESSAGE value="Update to version 1.2.5" />
     <MESSAGE value="Update to version 1.2.6" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to version 1.2.6" />
+    <MESSAGE value="Add procedure to create quantile-level variable labels" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add procedure to create quantile-level variable labels" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -870,11 +887,6 @@
           <url>file://$PROJECT_DIR$/caastools/tests/test_parsing.ia.py</url>
           <line>56</line>
           <option name="timeStamp" value="123" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/caastools/tests/test_database/test_translator.py</url>
-          <line>21</line>
-          <option name="timeStamp" value="127" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/caastools/database/__init__.py</url>

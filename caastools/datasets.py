@@ -99,6 +99,13 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
     df = pandas.DataFrame.from_records(q_csr, columns=[itm[0].lower() for itm in q_csr.description])
     gdf = pandas.DataFrame.from_records(g_csr, columns=[itm[0].lower() for itm in g_csr.description])
 
+    meta = (
+        df
+        .loc[:, ['interview_id', 'interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number']]
+        .drop_duplicates()
+        .set_index('interview_id')
+    )
+
     # Reshape the count data to be a cross-section
     counts = (
         df
@@ -109,21 +116,13 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
 
     counts.columns = [f"{c[1]}_Q{c[2]}" for c in counts.columns]
 
-    meta = (
-        df
-        .loc[:, ['interview_id', 'interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number']]
-        .drop_duplicates()
-        .set_index('interview_id')
-    )
-
     # Reshape the global ratings and cast to the appropriate type for each global
     gr = gdf.pivot(index='interview_id', columns='variable_name', values='value')
-    global_types = {
-        row['variable_name']: float if row['data_type'] == 'numeric' else str
-        for idx, row in gdf.iterrows()
-    }
-    for column, col_type in global_types.items():
-        gr[column] = gr[column].astype(col_type)
+
+    for idx, row in gdf.iterrows():
+        tp = float if row['data_type'] == 'numeric' else str
+        column = row['variable_name']
+        gr[column] = gr[column].astype(tp)
 
     # join together all of the data
     data = meta.join(counts).join(gr).reset_index(drop=True)
