@@ -114,7 +114,9 @@ TBL_SCRIPT = """
         SUMMARY_VARIABLE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         VARIABLE_NAME VARCHAR2(32) NOT NULL,
         PARENT_TABLE_NAME VARCHAR2(100) NOT NULL,
-        CONSTRAINT SV_PTBL_NM CHECK (LOWER(PARENT_TABLE_NAME) IN ('property_value', 'global_value')),
+        SUMMARY_FUNC VARCHAR2(100) NOT NULL DEFAULT 'sum',
+        CONSTRAINT sv_ptbl_nm CHECK (LOWER(PARENT_TABLE_NAME) IN ('property_value', 'global_value')),
+        CONSTRAINT sv_sum_func CHECK (LOWER(SUMMARY_FUNC) IN ('sum', 'mean')),
         CONSTRAINT sv_var_name_chk CHECK (vn_validate(variable_name))
     );
     CREATE TABLE IF NOT EXISTS SUMMARY_VARIABLE_LINK (

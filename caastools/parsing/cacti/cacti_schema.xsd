@@ -180,15 +180,46 @@
         <xs:attribute name="var" type="xs:string" use="required"/>
     </xs:complexType>
 
+    <xs:complexType name="summary">
+        <xs:sequence>
+            <xs:element name="variable" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="type" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="code"/>
+                    <xs:enumeration value="global"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="label" type="xs:string" use="required"/>
+        <xs:attribute name="method" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="sum"/>
+                    <xs:enumeration value="mean"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    
+    <xs:complexType name="summaries">
+        <xs:sequence>
+            <xs:element name="summary" type="summary" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <!--This complexType represents the structure of the document at the root level-->
     <xs:complexType name="userConfiguration">
-        <xs:choice minOccurs="6" maxOccurs="8">
+        <xs:choice minOccurs="6" maxOccurs="9">
             <xs:element name="codes" type="codes" minOccurs="1" maxOccurs="1"/>
             <xs:element name="codeControls" type="codeControls" minOccurs="1" maxOccurs="2"/>
             <xs:element name="globals" type="globals" minOccurs="1" maxOccurs="1"/>
             <xs:element name="globalControls" type="globalControls" maxOccurs="2"/>
             <xs:element name="globalsBorder" type="globalsBorder" minOccurs="1" maxOccurs="1"/>
             <xs:element name="components" type="components" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="summaries" type="summaries" minOccurs="0" maxOccurs="1"/>
         </xs:choice>
         <xs:attribute name="name" use="required"/>
     </xs:complexType>
