@@ -112,9 +112,11 @@ TBL_SCRIPT = """
     );
     CREATE TABLE IF NOT EXISTS SUMMARY_VARIABLE (
         SUMMARY_VARIABLE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        CODING_SYSTEM_ID INTEGER NOT NULL,
         VARIABLE_NAME VARCHAR2(32) NOT NULL,
         PARENT_TABLE_NAME VARCHAR2(100) NOT NULL,
         SUMMARY_FUNC VARCHAR2(100) NOT NULL DEFAULT 'sum',
+        FOREIGN KEY (CODING_SYSTEM_ID) REFERENCES CODING_SYSTEM(CODING_SYSTEM_ID) ON UPDATE CASCADE ON DELETE CASCADE,
         CONSTRAINT sv_ptbl_nm CHECK (LOWER(PARENT_TABLE_NAME) IN ('property_value', 'global_value')),
         CONSTRAINT sv_sum_func CHECK (LOWER(SUMMARY_FUNC) IN ('sum', 'mean')),
         CONSTRAINT sv_var_name_chk CHECK (vn_validate(variable_name))
@@ -184,6 +186,13 @@ TBL_SCRIPT = """
     CREATE INDEX IF NOT EXISTS XFK1GLBRAT ON GLOBAL_RATING(INTERVIEW_ID);
     CREATE INDEX IF NOT EXISTS XFK2GLBRAT ON GLOBAL_RATING(GLOBAL_VALUE_ID);
     
+    CREATE INDEX IF NOT EXISTS XSVCSID ON SUMMARY_VARIABLE (CODING_SYSTEM_ID);
+    CREATE INDEX IF NOT EXISTS XSVVNM ON SUMMARY_VARIABLE (VARIABLE_NAME);
+    CREATE INDEX IF NOT EXISTS XSVPTN ON SUMMARY_VARIABLE (PARENT_TABLE_NAME);
+    
+    CREATE INDEX IF NOT EXISTS XSVLPPK ON SUMMARY_VARIABLE_LINK (PARENT_PRIMARY_KEY);
+    CREATE INDEX IF NOT EXISTS XFKSVL ON SUMMARY_VARIABLE_LINK (SUMMARY_VARIABLE_ID);
+    
     CREATE INDEX IF NOT EXISTS XIVNMUTTSTG ON UTTERANCE_STAGING(INTERVIEW_NAME);
     CREATE INDEX IF NOT EXISTS XIVTPUTTSTG ON UTTERANCE_STAGING(INTERVIEW_TYPE);
     CREATE INDEX IF NOT EXISTS XCSNMUTTSTG ON UTTERANCE_STAGING(CS_NAME);
@@ -219,5 +228,155 @@ TBL_SCRIPT = """
         SET variable_name = (SELECT variable_name FROM coding_property WHERE coding_property_id = new.coding_property_id) || '_' || new.property_value_id
         WHERE property_value_id = new.property_value_id;
     END;
+    CREATE VIEW IF NOT EXISTS SEQUENTIAL_DATASET(utterance_id, interview_name, interview_type, rater_id, client_id,
+            session_number, language, condition, line_number, utt_number, speaker_role, variable_name, data_type,
+            value, utt_text, start_time, end_time) AS 
+        SELECT 
+        utterance.utterance_id,
+        interview.interview_name, 
+        interview.interview_type, 
+        interview.rater_id, 
+        interview.client_id, 
+        interview.session_number, 
+        interview.language,
+        interview.condition,
+        utterance.line_number, 
+        utterance.utt_number, 
+        utterance.speaker_role, 
+        coding_property.variable_name,
+        coding_property.data_type, 
+        property_value.value, 
+        utterance.utt_text, 
+        utterance.start_time,
+        utterance.end_time
+        FROM utterance 
+        INNER JOIN interview ON utterance.interview_id = interview.interview_id
+        LEFT OUTER JOIN utterance_code ON utterance.utterance_id = utterance_code.utterance_id
+        INNER JOIN property_value ON utterance_code.property_value_id = property_value.property_value_id
+        INNER JOIN coding_property ON property_value.coding_property_id = coding_property.coding_property_id
+    ;
+    CREATE VIEW IF NOT EXISTS SESSION_DATASET(interview_name, interview_type, client_id, rater_id, session_number,
+            language, condition, data_type, variable_name, var_count) AS 
+        WITH count_cte(interview_id, property_value_id, var_count) AS (
+            SELECT 
+                u.interview_id, 
+                uc.property_value_id, 
+                COUNT(uc.property_value_id)
+            FROM utterance_code uc
+            INNER JOIN utterance u ON uc.utterance_id = u.utterance_id
+            GROUP BY u.interview_id, uc.property_value_id
+        ),
+        summary_cte(interview_id, summary_variable_id, var_count) AS (
+            SELECT 
+                u.interview_id, 
+                svl.summary_variable_id,
+                CASE 
+                    WHEN sv.summary_func = 'sum' THEN COUNT(uc.property_value_id) 
+                    ELSE AVG(CAST(pv.value AS REAL))
+                END AS "var_count"
+                FROM utterance_code uc
+                INNER JOIN utterance u ON uc.utterance_id = u.utterance_id
+                INNER JOIN property_value pv ON uc.property_value_id = pv.property_value_id
+                INNER JOIN interview iv ON u.interview_id = iv.interview_id 
+                INNER JOIN summary_variable_link svl ON uc.property_value_id = svl.parent_primary_key
+                INNER JOIN summary_variable sv ON svl.summary_variable_id = sv.summary_variable_id
+                    AND iv.coding_system_id = sv.coding_system_id
+                WHERE sv.parent_table_name = 'property_value' 
+                GROUP BY u.interview_id, svl.summary_variable_id
+        ),
+        global_summary_cte(interview_id, summary_variable_id, var_count) AS (
+            SELECT
+                gr.interview_id,
+                sv.summary_variable_id,
+                CASE
+                    WHEN sv.summary_func = 'sum' then SUM(CAST(gv.value AS REAL))
+                    ELSE AVG(CAST(gv.value AS REAL))
+                END AS "var_count"
+            FROM global_rating gr
+            INNER JOIN global_value gv ON gr.global_value_id = gv.global_value_id
+            INNER JOIN interview iv ON gr.interview_id = iv.interview_id
+            INNER JOIN summary_variable_link svl ON gr.global_value_id = svl.parent_primary_key
+            INNER JOIN summary_variable sv ON svl.summary_variable_id = sv.summary_variable_id
+                AND iv.coding_system_id = sv.coding_system_id
+            WHERE sv.parent_table_name = 'global_value'
+                
+        ),
+        global_cte(interview_id, variable_name, value, global_property_id) AS (
+        SELECT 
+            global_rating.interview_id, 
+            global_property.variable_name, 
+            global_value.value,
+            global_value.global_property_id
+        FROM global_rating
+        INNER JOIN global_value on global_rating.global_value_id = global_value.global_value_id
+        LEFT OUTER JOIN global_property ON global_value.global_property_id = global_property.global_property_id
+        )
+        SELECT 
+            interview.interview_name, 
+            interview.interview_type, 
+            interview.client_id, 
+            interview.rater_id, 
+            interview.session_number, 
+            interview.language, 
+            interview.condition,
+            'numeric' AS "data_type",
+            pv.variable_name, 
+            CASE WHEN count_cte.var_count IS NULL THEN 0 ELSE count_cte.var_count END AS "var_count"
+        FROM interview
+        INNER JOIN coding_system cs ON interview.coding_system_id = cs.coding_system_id
+        INNER JOIN coding_property cp ON cs.coding_system_id = cp.coding_system_id
+        INNER JOIN property_value pv ON cp.coding_property_id = pv.coding_property_id
+        LEFT OUTER JOIN count_cte ON interview.interview_id = count_cte.interview_id 
+            AND pv.property_value_id = count_cte.property_value_id
+        UNION ALL
+        SELECT 
+            interview.interview_name, 
+            interview.interview_type, 
+            interview.client_id,
+            interview.rater_id, 
+            Interview.session_number,
+            interview.language, 
+            interview.condition, 
+            global_property.data_type,
+            global_cte.variable_name, 
+            global_cte.value
+        FROM interview
+        INNER JOIN coding_system ON interview.coding_system_id = coding_system.coding_system_id 
+        INNER JOIN global_property ON global_property.coding_system_id = coding_system.coding_system_id
+        LEFT OUTER JOIN global_cte ON interview.interview_id = global_cte.interview_id AND
+            global_property.global_property_id = global_cte.global_property_id
+        UNION ALL
+        SELECT
+            interview.interview_name,
+            interview.interview_type, 
+            interview.client_id, 
+            interview.rater_id,
+            interview.session_number,
+            interview.language, 
+            interview.condition,
+            'numeric' AS "data_type",
+            summary_variable.variable_name,
+            CASE WHEN summary_cte.var_count IS NULL THEN 0 ELSE summary_cte.var_count END AS "var_count"
+        FROM interview
+        INNER JOIN summary_variable ON interview.coding_system_id = summary_variable.coding_system_id
+        LEFT OUTER JOIN summary_cte ON interview.interview_id = summary_cte.interview_id
+            AND summary_variable.summary_variable_id = summary_cte.summary_variable_id
+        UNION ALL
+        SELECT
+            interview.interview_name, 
+            interview.interview_type,
+            interview.client_id,
+            interview.rater_id,
+            interview.session_number,
+            interview.language,
+            interview.condition,
+            'numeric' AS "data_type",
+            summary_variable.variable_name,
+            CASE WHEN global_summary_cte.var_count IS NULL THEN 0 ELSE global_summary_cte.var_count END AS "var_count"
+        FROM interview
+        INNER JOIN summary_variable ON interview.coding_system_id = summary_variable.coding_system_id
+        LEFT OUTER JOIN global_summary_cte ON interview.interview_id
+            AND summary_variable.summary_variable_id = global_summary_cte.summary_variable_id
+    ;
     """
 

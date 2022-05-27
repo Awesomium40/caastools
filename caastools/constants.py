@@ -35,6 +35,8 @@ class CactiNodes(object):
     COMPONENT = 'component'
     COMPONENTS = 'components'
     USER_CONFIG = 'userConfiguration'
+    SUMMARY = 'summary'
+
 
 
 class IaAttributes(object):

@@ -16,10 +16,19 @@ class _CactiLookup(et.CustomElementClassLookup):
         :return: a subclass of lxml.etree.ElementBase
         """
 
-        return _UserConfiguration if name == CactiNodes.USER_CONFIG else \
-            _Code if name == CactiNodes.CODE else \
-            _Component if name == CactiNodes.COMPONENT else \
-            _Global if name == CactiNodes.GLOBAL else None
+        element = None
+        if name == CactiNodes.USER_CONFIG:
+            element = _UserConfiguration
+        elif name == CactiNodes.CODE:
+            element = _Code
+        elif name == CactiNodes.COMPONENT:
+            element = _Component
+        elif name == CactiNodes.GLOBAL:
+            element = _Global
+        elif name == CactiNodes.SUMMARY:
+            element = _Summary
+
+        return element
 
 
 """
@@ -90,6 +99,21 @@ class _Global(_CodeElementBase, _HasParentElementBase):
     @property
     def summary_mode(self):
         return self.get(CactiAttributes.SUM_MODE)
+
+
+class _Summary(_ElementBase):
+
+    @property
+    def label(self):
+        return self.get('label')
+
+    @property
+    def type(self):
+        return self.get('type')
+
+    @property
+    def method(self):
+        return self.get('method')
 
 
 class _UserConfiguration(_ElementBase):
