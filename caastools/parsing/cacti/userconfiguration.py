@@ -27,6 +27,8 @@ class _CactiLookup(et.CustomElementClassLookup):
             element = _Global
         elif name == CactiNodes.SUMMARY:
             element = _Summary
+        elif name == CactiNodes.VARIABLE:
+            element = _SummaryVariable
 
         return element
 
@@ -115,6 +117,14 @@ class _Summary(_ElementBase):
     def method(self):
         return self.get('method')
 
+    @property
+    def variables(self):
+        return self.get('variable')
+
+
+class _SummaryVariable(_ElementBase):
+    pass
+
 
 class _UserConfiguration(_ElementBase):
     """
@@ -137,6 +147,10 @@ class _UserConfiguration(_ElementBase):
     @property
     def globals(self):
         return self.find(CactiNodes.GLOBALS)
+
+    @property
+    def summaries(self):
+        return self.find('summaries')
 
     @property
     def original_path(self):

@@ -180,9 +180,13 @@
         <xs:attribute name="var" type="xs:string" use="required"/>
     </xs:complexType>
 
+    <xs:complexType name="summaryVariable">
+        <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+
     <xs:complexType name="summary">
         <xs:sequence>
-            <xs:element name="variable" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="variable" type="summaryVariable" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="type" use="required">
             <xs:simpleType>

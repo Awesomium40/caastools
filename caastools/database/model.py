@@ -114,12 +114,14 @@ TBL_SCRIPT = """
         SUMMARY_VARIABLE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         CODING_SYSTEM_ID INTEGER NOT NULL,
         VARIABLE_NAME VARCHAR2(32) NOT NULL,
+        VARIABLE_LABEL VARCHAR2(128),
         PARENT_TABLE_NAME VARCHAR2(100) NOT NULL,
         SUMMARY_FUNC VARCHAR2(100) NOT NULL DEFAULT 'sum',
         FOREIGN KEY (CODING_SYSTEM_ID) REFERENCES CODING_SYSTEM(CODING_SYSTEM_ID) ON UPDATE CASCADE ON DELETE CASCADE,
-        CONSTRAINT sv_ptbl_nm CHECK (LOWER(PARENT_TABLE_NAME) IN ('property_value', 'global_value')),
+        CONSTRAINT sv_ptbl_nm CHECK (LOWER(PARENT_TABLE_NAME) IN ('property_value', 'global_property')),
         CONSTRAINT sv_sum_func CHECK (LOWER(SUMMARY_FUNC) IN ('sum', 'mean')),
         CONSTRAINT sv_var_name_chk CHECK (vn_validate(variable_name))
+        CONSTRAINT sv_csid_vn_unique UNIQUE (coding_system_id, variable_name)
     );
     CREATE TABLE IF NOT EXISTS SUMMARY_VARIABLE_LINK (
         SUMMARY_VARIABLE_LINK_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -146,6 +148,12 @@ TBL_SCRIPT = """
         CS_NAME VARCHAR2(255) NOT NULL,
         GP_NAME VARCHAR2(100) NOT NULL,
         GV_VALUE VARCHAR2(50) NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS SUMMARY_STAGING (
+        CODING_SYSTEM_NAME VARCHAR2(255) NOT NULL
+        PARENT_TABLE_NAME VARCHAR2(255) NOT NULL,
+        PARENT_VALUE_NAME VARCHAR2(255),
+        PARENT_PROPERTY_NAME VARCHAR2(255)
     );
     CREATE INDEX IF NOT EXISTS XFKINTERVIEW ON INTERVIEW(CODING_SYSTEM_ID);
     CREATE INDEX IF NOT EXISTS XNMINTERVIEW ON INTERVIEW(INTERVIEW_NAME);
@@ -293,12 +301,13 @@ TBL_SCRIPT = """
                     ELSE AVG(CAST(gv.value AS REAL))
                 END AS "var_count"
             FROM global_rating gr
-            INNER JOIN global_value gv ON gr.global_value_id = gv.global_value_id
             INNER JOIN interview iv ON gr.interview_id = iv.interview_id
-            INNER JOIN summary_variable_link svl ON gr.global_value_id = svl.parent_primary_key
+            INNER JOIN global_value gv ON gr.global_value_id = gv.global_value_id
+            INNER JOIN summary_variable_link svl ON gv.global_property_id = svl.parent_primary_key
             INNER JOIN summary_variable sv ON svl.summary_variable_id = sv.summary_variable_id
                 AND iv.coding_system_id = sv.coding_system_id
             WHERE sv.parent_table_name = 'global_value'
+            GROUP BY interview.interview_id, sv.summary_variable_id
                 
         ),
         global_cte(interview_id, variable_name, value, global_property_id) AS (
