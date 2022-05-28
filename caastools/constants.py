@@ -25,7 +25,7 @@ class CactiAttributes(object):
     SUM_MODE = 'summaryMode'
     USER_CONFIG_ID = 'userConfigurationID'
     VALUE = 'value'
-    CODE = 'code'
+    TYPE = 'type'
     LABEL = 'label'
     METHOD = 'method'
 

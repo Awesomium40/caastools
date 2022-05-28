@@ -107,19 +107,19 @@ class _Summary(_ElementBase):
 
     @property
     def label(self):
-        return self.get('label')
+        return self.get(CactiAttributes.LABEL)
 
     @property
     def type(self):
-        return self.get('type')
+        return self.get(CactiAttributes.TYPE)
 
     @property
     def method(self):
-        return self.get('method')
+        return self.get(CactiAttributes.METHOD)
 
     @property
     def variables(self):
-        return self.get('variable')
+        return self.findall('variable')
 
 
 class _SummaryVariable(_ElementBase):
