@@ -149,12 +149,7 @@ TBL_SCRIPT = """
         GP_NAME VARCHAR2(100) NOT NULL,
         GV_VALUE VARCHAR2(50) NOT NULL
     );
-    CREATE TABLE IF NOT EXISTS SUMMARY_STAGING (
-        CODING_SYSTEM_NAME VARCHAR2(255) NOT NULL
-        PARENT_TABLE_NAME VARCHAR2(255) NOT NULL,
-        PARENT_VALUE_NAME VARCHAR2(255),
-        PARENT_PROPERTY_NAME VARCHAR2(255)
-    );
+
     CREATE INDEX IF NOT EXISTS XFKINTERVIEW ON INTERVIEW(CODING_SYSTEM_ID);
     CREATE INDEX IF NOT EXISTS XNMINTERVIEW ON INTERVIEW(INTERVIEW_NAME);
     CREATE INDEX IF NOT EXISTS XCIDINTERVIEW ON INTERVIEW(CLIENT_ID);
@@ -307,8 +302,7 @@ TBL_SCRIPT = """
             INNER JOIN summary_variable sv ON svl.summary_variable_id = sv.summary_variable_id
                 AND iv.coding_system_id = sv.coding_system_id
             WHERE sv.parent_table_name = 'global_value'
-            GROUP BY interview.interview_id, sv.summary_variable_id
-                
+            GROUP BY iv.interview_id, sv.summary_variable_id     
         ),
         global_cte(interview_id, variable_name, value, global_property_id) AS (
         SELECT 
