@@ -206,6 +206,7 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
+        <xs:attribute name="property" type="xs:string"/>
     </xs:complexType>
     
     <xs:complexType name="summaries">
