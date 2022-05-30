@@ -23,12 +23,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dist/caastools-1.3.4-py3-none-any.whl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/caastools-1.3.5-py3-none-any.whl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -463,14 +461,8 @@
       <workItem from="1653142644721" duration="1034000" />
       <workItem from="1653556341403" duration="8016000" />
       <workItem from="1653648018886" duration="4230000" />
-      <workItem from="1653652331187" duration="10845000" />
-    </task>
-    <task id="LOCAL-00104" summary="update database.py to include interview_type on staging tables">
-      <created>1639507218386</created>
-      <option name="number" value="00104" />
-      <option name="presentableId" value="LOCAL-00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1639507218386</updated>
+      <workItem from="1653652331187" duration="12642000" />
+      <workItem from="1653908085419" duration="15137000" />
     </task>
     <task id="LOCAL-00105" summary="Update to version 1.1.3.2">
       <created>1639507364048</created>
@@ -808,7 +800,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653839907977</updated>
     </task>
-    <option name="localTasksCounter" value="153" />
+    <task id="LOCAL-00153" summary="Fix syntax error in table script">
+      <created>1653842716018</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1653842716018</updated>
+    </task>
+    <option name="localTasksCounter" value="154" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -831,7 +830,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update to Version 1.1.7.1" />
     <MESSAGE value="Update cs_transform.xslt to correct some incorrect translations" />
     <MESSAGE value="Remove all translations from UCHAT 3.31 to UCHAT 3.4" />
     <MESSAGE value="Fix minor bug in cs_transform.xslt. Minor updates to translation model" />
@@ -856,7 +854,8 @@
     <MESSAGE value="Fix bug in session-level dataset view. &#10;Add new element to cacti schema for summaries&#10;Update to version 1.3.2" />
     <MESSAGE value="Minor updates to cacti Summary object" />
     <MESSAGE value="Update cacti schema to include property attribute" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update cacti schema to include property attribute" />
+    <MESSAGE value="Fix syntax error in table script" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix syntax error in table script" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

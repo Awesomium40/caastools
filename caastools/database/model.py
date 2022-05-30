@@ -231,11 +231,12 @@ TBL_SCRIPT = """
         SET variable_name = (SELECT variable_name FROM coding_property WHERE coding_property_id = new.coding_property_id) || '_' || new.property_value_id
         WHERE property_value_id = new.property_value_id;
     END;
-    CREATE VIEW IF NOT EXISTS SEQUENTIAL_DATASET(utterance_id, interview_name, interview_type, rater_id, client_id,
+    CREATE VIEW IF NOT EXISTS SEQUENTIAL_DATASET(utterance_id, interview_id, interview_name, interview_type, rater_id, client_id,
             session_number, language, condition, line_number, utt_number, speaker_role, variable_name, data_type,
-            value, utt_text, start_time, end_time) AS 
+            value, utt_text, start_time, end_time) AS
         SELECT 
         utterance.utterance_id,
+        utterance.interview_id,
         interview.interview_name, 
         interview.interview_type, 
         interview.rater_id, 
@@ -269,14 +270,15 @@ TBL_SCRIPT = """
             INNER JOIN utterance u ON uc.utterance_id = u.utterance_id
             GROUP BY u.interview_id, uc.property_value_id
         ),
-        summary_cte(interview_id, summary_variable_id, var_count) AS (
+        summary_cte(interview_id, summary_variable_id, var_count, parent_table_name) AS (
             SELECT 
                 u.interview_id, 
                 svl.summary_variable_id,
                 CASE 
                     WHEN sv.summary_func = 'sum' THEN COUNT(uc.property_value_id) 
                     ELSE AVG(CAST(pv.value AS REAL))
-                END AS "var_count"
+                END AS "var_count",
+                sv.parent_table_name
                 FROM utterance_code uc
                 INNER JOIN utterance u ON uc.utterance_id = u.utterance_id
                 INNER JOIN property_value pv ON uc.property_value_id = pv.property_value_id
@@ -287,21 +289,22 @@ TBL_SCRIPT = """
                 WHERE sv.parent_table_name = 'property_value' 
                 GROUP BY u.interview_id, svl.summary_variable_id
         ),
-        global_summary_cte(interview_id, summary_variable_id, var_count) AS (
+        global_summary_cte(interview_id, summary_variable_id, var_count, parent_table_name) AS (
             SELECT
                 gr.interview_id,
                 sv.summary_variable_id,
                 CASE
                     WHEN sv.summary_func = 'sum' then SUM(CAST(gv.value AS REAL))
                     ELSE AVG(CAST(gv.value AS REAL))
-                END AS "var_count"
+                END AS "var_count",
+                sv.parent_table_name
             FROM global_rating gr
             INNER JOIN interview iv ON gr.interview_id = iv.interview_id
             INNER JOIN global_value gv ON gr.global_value_id = gv.global_value_id
             INNER JOIN summary_variable_link svl ON gv.global_property_id = svl.parent_primary_key
             INNER JOIN summary_variable sv ON svl.summary_variable_id = sv.summary_variable_id
                 AND iv.coding_system_id = sv.coding_system_id
-            WHERE sv.parent_table_name = 'global_value'
+            WHERE sv.parent_table_name = 'global_property'
             GROUP BY iv.interview_id, sv.summary_variable_id     
         ),
         global_cte(interview_id, variable_name, value, global_property_id) AS (
@@ -312,7 +315,7 @@ TBL_SCRIPT = """
             global_value.global_property_id
         FROM global_rating
         INNER JOIN global_value on global_rating.global_value_id = global_value.global_value_id
-        LEFT OUTER JOIN global_property ON global_value.global_property_id = global_property.global_property_id
+        INNER JOIN global_property ON global_value.global_property_id = global_property.global_property_id
         )
         SELECT 
             interview.interview_name, 
@@ -331,7 +334,7 @@ TBL_SCRIPT = """
         INNER JOIN property_value pv ON cp.coding_property_id = pv.coding_property_id
         LEFT OUTER JOIN count_cte ON interview.interview_id = count_cte.interview_id 
             AND pv.property_value_id = count_cte.property_value_id
-        UNION ALL
+        UNION
         SELECT 
             interview.interview_name, 
             interview.interview_type, 
@@ -348,7 +351,7 @@ TBL_SCRIPT = """
         INNER JOIN global_property ON global_property.coding_system_id = coding_system.coding_system_id
         LEFT OUTER JOIN global_cte ON interview.interview_id = global_cte.interview_id AND
             global_property.global_property_id = global_cte.global_property_id
-        UNION ALL
+        UNION
         SELECT
             interview.interview_name,
             interview.interview_type, 
@@ -364,7 +367,8 @@ TBL_SCRIPT = """
         INNER JOIN summary_variable ON interview.coding_system_id = summary_variable.coding_system_id
         LEFT OUTER JOIN summary_cte ON interview.interview_id = summary_cte.interview_id
             AND summary_variable.summary_variable_id = summary_cte.summary_variable_id
-        UNION ALL
+        WHERE summary_cte.parent_table_name = 'property_value'
+        UNION
         SELECT
             interview.interview_name, 
             interview.interview_type,
@@ -378,8 +382,9 @@ TBL_SCRIPT = """
             CASE WHEN global_summary_cte.var_count IS NULL THEN 0 ELSE global_summary_cte.var_count END AS "var_count"
         FROM interview
         INNER JOIN summary_variable ON interview.coding_system_id = summary_variable.coding_system_id
-        LEFT OUTER JOIN global_summary_cte ON interview.interview_id
+        LEFT OUTER JOIN global_summary_cte ON interview.interview_id = global_summary_cte.interview_id
             AND summary_variable.summary_variable_id = global_summary_cte.summary_variable_id
+        WHERE global_summary_cte.parent_table_name = 'global_property'
     ;
     """
 

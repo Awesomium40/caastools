@@ -132,7 +132,6 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
 
 def sequential(
         included_interviews=None,
-        included_properties=None,
         client_as_numeric=True,
         exclude_reliability=True,
         quantiles=1
@@ -150,32 +149,27 @@ def sequential(
     """
 
     iv_predicate = ''
-    property_predicate = ''
     placeholder = '?'
-    args = []
+    args = [quantiles]
 
     con = get_connection()
 
     included_types = ['general'] if exclude_reliability else ['general', 'reliability']
-    type_predicate = f"interview.interview_type IN ({','.join(placeholder * len(included_types))})"
-
-    if included_interviews is not None:
-        iv_predicate = f"AND interview.interview_name IN ({','.join(placeholder * len(included_interviews))})"
-        args.extend(included_interviews)
-
-    if included_properties is not None:
-        property_predicate = f"AND coding_property.name IN ({','.join(placeholder * len(included_properties))})"
-        args.extend(included_properties)
-
     args.extend(included_types)
 
+    type_predicate = f"sq.interview_type IN ({','.join(placeholder * len(included_types))})"
+
+    if included_interviews is not None:
+        iv_predicate = f"AND sq.interview_name IN ({','.join(placeholder * len(included_interviews))})"
+        args.extend(included_interviews)
+
     # Cast the client ID to numeric if desired
-    client_column = 'CAST(interview.client_id AS INTEGER) AS "client_id"' if client_as_numeric else 'interview.client_id'
+    client_column = 'CAST(sq.client_id AS INTEGER) AS "client_id"' if client_as_numeric else 'sq.client_id'
 
     query = f"""
     WITH interview_lens(interview_id, start_time, end_time, length) AS (
         SELECT utterance.interview_id, MIN(utterance.start_time), MAX(utterance.end_time), 
-        (MAX(utterance.end_time) - MIN(utterance.start_time) + 0.5) / {quantiles} AS "length"
+        (MAX(utterance.end_time) - MIN(utterance.start_time) + 0.5) / ? AS "length"
         FROM utterance
         GROUP BY utterance.interview_id
     ),
@@ -186,39 +180,32 @@ def sequential(
     LEFT OUTER JOIN interview_lens ON utterance.interview_id = interview_lens.interview_id
     )
     SELECT 
-        utterance.utterance_id,
-        interview.interview_name, 
-        interview.interview_type, 
-        interview.rater_id, 
+        sq.utterance_id,
+        sq.interview_name, 
+        sq.interview_type, 
+        sq.rater_id, 
         {client_column}, 
-        interview.session_number, 
-        interview.language,
-        interview.condition,
-        utterance.line_number, 
-        utterance.utt_number, 
-        utterance.speaker_role, 
-        coding_property.variable_name,
-        coding_property.data_type, 
-        property_value.value, 
-        utterance.utt_text, 
-        utterance.start_time,
-        utterance.end_time,
+        sq.session_number, 
+        sq.language,
+        sq.condition,
+        sq.line_number, 
+        sq.utt_number, 
+        sq.speaker_role, 
+        sq.variable_name,
+        sq.data_type, 
+        sq.value, 
+        sq.utt_text, 
+        sq.start_time,
+        sq.end_time,
         uq.quantile
-    FROM utterance 
-    INNER JOIN interview ON utterance.interview_id = interview.interview_id
-    LEFT OUTER JOIN utterance_code ON utterance.utterance_id = utterance_code.utterance_id
-    INNER JOIN property_value ON utterance_code.property_value_id = property_value.property_value_id
-    INNER JOIN coding_property ON property_value.coding_property_id = coding_property.coding_property_id
-    INNER JOIN utt_quantiles uq ON utterance.utterance_id = uq.utterance_id AND utterance.interview_id = uq.interview_id
-    WHERE {type_predicate} {iv_predicate} {property_predicate}
-    ORDER BY interview.client_id, interview.session_number, utterance.utt_number
+    FROM sequential_dataset sq
+    INNER JOIN utt_quantiles uq ON sq.utterance_id = uq.utterance_id AND sq.interview_id = uq.interview_id
+    WHERE {type_predicate} {iv_predicate}
+    ORDER BY sq.client_id, sq.session_number, sq.utt_number
     """
 
     cursor = con.execute(query, args)
-    df = pandas.DataFrame.from_records(
-        con.execute(query, args),
-        columns=[itm[0].lower() for itm in cursor.description]
-    )
+    df = pandas.DataFrame.from_records(cursor, columns=[itm[0].lower() for itm in cursor.description])
 
     # Get the data types so that columns can be converted as necessary
     dtypes = {
@@ -249,8 +236,6 @@ def sequential(
 
 def session_level(
         included_interviews=None,
-        included_properties=None,
-        included_globals=None,
         client_as_numeric=True,
         exclude_reliability=True
 ) -> pandas.DataFrame:
@@ -266,8 +251,6 @@ def session_level(
     """
 
     iv_predicate = ''
-    cp_predicate = ''
-    gp_predicate = ''
     args = []
 
     con = get_connection()
@@ -279,88 +262,34 @@ def session_level(
 
     # may want the client_id cast as numeric
     client_column = (
-        'CAST (interview.client_id AS integer) AS "client_id"' if client_as_numeric else 'interview.client_id'
+        'CAST (client_id AS INTEGER) AS "client_id"' if client_as_numeric else 'client_id'
     )
 
     # Create predicate for included interviews
     if included_interviews is not None:
-        iv_predicate = f"AND interview.interview_name IN ({','.join(placeholder * len(included_interviews))})"
+        iv_predicate = f"AND interview_name IN ({','.join(placeholder * len(included_interviews))})"
         args.extend(included_interviews)
-
-    # Create predicate for included properties
-    if included_properties is not None:
-        cp_predicate = f"AND coding_property.name IN ({','.join(placeholder * len(included_properties))})"
-        args.extend(included_properties)
-
-    # Need to include args for the UNION ALL part of the query
-    args.extend(included_types)
-    if included_interviews is not None:
-        args.extend(included_interviews)
-
-    # Create predicate for included globals
-    if included_globals is not None:
-        gp_predicate = f"AND global_property.name IN ({','.join(placeholder * len(included_globals))})"
-        args.extend(included_globals)
 
     query = f"""
-    WITH count_cte(interview_id, property_value_id, var_count) AS (
-        SELECT 
-            u.interview_id, 
-            uc.property_value_id, 
-            COUNT(uc.property_value_id)
-        FROM utterance_code uc
-        INNER JOIN utterance u ON uc.utterance_id = u.utterance_id
-        GROUP BY u.interview_id, uc.property_value_id
-    ),
-    global_cte(interview_id, variable_name, value, global_property_id) AS (
     SELECT 
-        global_rating.interview_id, 
-        global_property.variable_name, 
-        global_value.value,
-        global_value.global_property_id
-    FROM global_rating
-    INNER JOIN global_value on global_rating.global_value_id = global_value.global_value_id
-    LEFT OUTER JOIN global_property ON global_value.global_property_id = global_property.global_property_id
-    )
-    SELECT 
-        interview.interview_name, 
-        interview.interview_type, 
+        interview_name, 
+        interview_type, 
         {client_column}, 
-        interview.rater_id, 
-        interview.session_number, 
-        interview.language, 
-        interview.condition,
-        'numeric' AS "data_type",
-        pv.variable_name, 
-        CASE WHEN count_cte.var_count IS NULL THEN 0 ELSE count_cte.var_count END AS "var_count"
-    FROM interview
-    INNER JOIN coding_system cs ON interview.coding_system_id = cs.coding_system_id
-    INNER JOIN coding_property cp ON cs.coding_system_id = cp.coding_system_id
-    INNER JOIN property_value pv ON cp.coding_property_id = pv.coding_property_id
-    LEFT OUTER JOIN count_cte ON interview.interview_id = count_cte.interview_id 
-        AND pv.property_value_id = count_cte.property_value_id
-    WHERE interview.interview_type IN ({','.join(placeholder * len(included_types))}) {iv_predicate} {cp_predicate}
-    UNION ALL
-    SELECT 
-        interview.interview_name, 
-        interview.interview_type, 
-        {client_column},
-        interview.rater_id, 
-        Interview.session_number,
-        interview.language, 
-        interview.condition, 
-        global_property.data_type,
-        global_cte.variable_name, 
-        global_cte.value
-    FROM interview
-    INNER JOIN coding_system ON interview.coding_system_id = coding_system.coding_system_id 
-    INNER JOIN global_property ON global_property.coding_system_id = coding_system.coding_system_id
-    LEFT OUTER JOIN global_cte ON interview.interview_id = global_cte.interview_id AND
-        global_property.global_property_id = global_cte.global_property_id
-    WHERE interview.interview_type IN ({','.join(placeholder * len(included_types))}) {iv_predicate} {gp_predicate}
+        rater_id, 
+        session_number,
+        language, 
+        condition, 
+        data_type, 
+        variable_name, 
+        var_count
+    FROM session_dataset
+    WHERE interview_type IN ({','.join(placeholder * len(included_types))}) 
+        {iv_predicate}
+        AND variable_name IS NOT NULL
     """
 
     cursor = con.execute(query, args)
+
     # pull the query results into a dataframe, then reshape it
     # Some DBMS lack the pivot function so reshaping the DataFrame itself rather than the query is necessary
     df = pandas.DataFrame.from_records(cursor, columns=[itm[0].lower() for itm in cursor.description])
@@ -368,8 +297,12 @@ def session_level(
     var_types = {row['variable_name']: float if row['data_type'] == 'numeric' else str for idx, row in df.iterrows()}
 
     df = (
-        df.loc[:, ['interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number',
-                   'language', 'condition', 'variable_name', 'var_count']]
+        df.loc[
+            [
+                'interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number',
+                'language', 'condition', 'variable_name', 'var_count'
+            ]
+        ]
         .set_index(['interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number',
                       'language', 'condition', 'variable_name'])
         .unstack('variable_name').loc[:, 'var_count'].reset_index().sort_index()
