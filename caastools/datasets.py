@@ -297,7 +297,7 @@ def session_level(
     var_types = {row['variable_name']: float if row['data_type'] == 'numeric' else str for idx, row in df.iterrows()}
 
     df = (
-        df.loc[
+        df.loc[:,
             [
                 'interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number',
                 'language', 'condition', 'variable_name', 'var_count'
