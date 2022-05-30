@@ -23,8 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/dist/caastools-1.5-py3-none-any.whl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,6 +111,14 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/caastools/database/model.py" root0="FORCE_HIGHLIGHTING" />
@@ -459,14 +472,7 @@
       <workItem from="1653556341403" duration="8016000" />
       <workItem from="1653648018886" duration="4230000" />
       <workItem from="1653652331187" duration="12642000" />
-      <workItem from="1653908085419" duration="16070000" />
-    </task>
-    <task id="LOCAL-00107" summary="Fix a bug in datasets.py that caused sequential datastets to fail to compile">
-      <created>1639508906611</created>
-      <option name="number" value="00107" />
-      <option name="presentableId" value="LOCAL-00107" />
-      <option name="project" value="LOCAL" />
-      <updated>1639508906611</updated>
+      <workItem from="1653908085419" duration="25691000" />
     </task>
     <task id="LOCAL-00108" summary="update datasets.sequential to accommodate field Interview.interview_type">
       <created>1639509269510</created>
@@ -804,7 +810,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653930408346</updated>
     </task>
-    <option name="localTasksCounter" value="156" />
+    <task id="LOCAL-00156" summary="Update variable label methods to include summary variables">
+      <created>1653930766709</created>
+      <option name="number" value="00156" />
+      <option name="presentableId" value="LOCAL-00156" />
+      <option name="project" value="LOCAL" />
+      <updated>1653930766710</updated>
+    </task>
+    <option name="localTasksCounter" value="157" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -827,7 +840,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Fix minor bug in cs_transform.xslt. Minor updates to translation model" />
     <MESSAGE value="update to 1.1.8.1" />
     <MESSAGE value="Add Skeleton of tests for Translator class" />
     <MESSAGE value="Add table to denote translation roots" />
@@ -852,7 +864,8 @@
     <MESSAGE value="Fix syntax error in table script" />
     <MESSAGE value="Fix minor bugs in dataset views. Update datasets.py to query from views" />
     <MESSAGE value="Fix minor bug in session-level dataset code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix minor bug in session-level dataset code" />
+    <MESSAGE value="Update variable label methods to include summary variables" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update variable label methods to include summary variables" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -890,7 +903,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/caastools$test_translator.coverage" NAME="test_translator Coverage Results" MODIFIED="1647520303431" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
+    <SUITE FILE_PATH="coverage/caastools$test_translator.coverage" NAME="test_translator Coverage Results" MODIFIED="1653932595981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
     <SUITE FILE_PATH="coverage/caastools$test_translation.coverage" NAME="test_translation Coverage Results" MODIFIED="1642191216617" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />
     <SUITE FILE_PATH="coverage/setup_py$test_parsing_ia.coverage" NAME="test_parsing.ia Coverage Results" MODIFIED="1641467127058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests" />
     <SUITE FILE_PATH="coverage/caastools$.coverage" NAME=" Coverage Results" MODIFIED="1642269070488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/caastools/tests/test_database" />

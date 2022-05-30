@@ -270,12 +270,21 @@ TBL_SCRIPT = """
             INNER JOIN utterance u ON uc.utterance_id = u.utterance_id
             GROUP BY u.interview_id, uc.property_value_id
         ),
-        summary_cte(interview_id, summary_variable_id, var_count, parent_table_name) AS (
+        zero_counts(interview_id, summary_variable_id, var_count, parent_table_name) AS (
+            SELECT 
+                iv.interview_id, 
+                sv.summary_variable_id, 
+                0 AS "var_count", 
+                sv.parent_table_name
+            FROM summary_variable sv
+            INNER JOIN interview iv ON sv.coding_system_id = iv.coding_system_id
+        ),
+        basic_counts(interview_id, summary_variable_id, var_count, parent_table_name) AS (
             SELECT 
                 u.interview_id, 
                 svl.summary_variable_id,
                 CASE 
-                    WHEN sv.summary_func = 'sum' THEN COUNT(uc.property_value_id) 
+                    WHEN sv.summary_func = 'sum' THEN COUNT(1) 
                     ELSE AVG(CAST(pv.value AS REAL))
                 END AS "var_count",
                 sv.parent_table_name
@@ -289,7 +298,25 @@ TBL_SCRIPT = """
                 WHERE sv.parent_table_name = 'property_value' 
                 GROUP BY u.interview_id, svl.summary_variable_id
         ),
-        global_summary_cte(interview_id, summary_variable_id, var_count, parent_table_name) AS (
+        all_summary_counts(interview_id, summary_variable_id, var_count, parent_table_name) AS (
+            SELECT
+                zc.interview_id, 
+                zc.summary_variable_id,
+                COALESCE(bc.var_count, zc.var_count) AS "var_count",
+                COALESCE (bc.parent_table_name, zc.parent_table_name) AS "parent_table_name"
+            FROM zero_counts zc
+            LEFT OUTER JOIN basic_counts bc ON zc.interview_id = bc.interview_id 
+                AND zc.summary_variable_id = bc.summary_variable_id
+        ),
+        zero_globals(interview_id, summary_variable_id, var_count, parent_table_name) AS (
+            SELECT iv.interview_id,
+                sv.summary_variable_id, 
+                0 AS "var_count",
+                sv.parent_table_name
+            FROM summary_variable sv
+            INNER JOIN interview iv ON sv.coding_system_id = iv.coding_system_id 
+        ),
+        basic_global_summaries(interview_id, summary_variable_id, var_count, parent_table_name) AS (
             SELECT
                 gr.interview_id,
                 sv.summary_variable_id,
@@ -306,6 +333,16 @@ TBL_SCRIPT = """
                 AND iv.coding_system_id = sv.coding_system_id
             WHERE sv.parent_table_name = 'global_property'
             GROUP BY iv.interview_id, sv.summary_variable_id     
+        ),
+        all_global_summaries(interview_id, summary_variable_id, var_count, parent_table_name) AS (
+            SELECT 
+                zg.interview_id,
+                zg.summary_variable_id,
+                COALESCE(bgs.var_count, zg.var_count) AS "var_count",
+                COALESCE(bgs.parent_table_name, zg.parent_table_name) AS "parent_table_name"
+            FROM zero_globals zg
+            LEFT OUTER JOIN basic_global_summaries bgs ON zg.interview_id = bgs.interview_id
+                AND zg.summary_variable_id = bgs.summary_variable_id
         ),
         global_cte(interview_id, variable_name, value, global_property_id) AS (
         SELECT 
@@ -362,12 +399,12 @@ TBL_SCRIPT = """
             interview.condition,
             'numeric' AS "data_type",
             summary_variable.variable_name,
-            CASE WHEN summary_cte.var_count IS NULL THEN 0 ELSE summary_cte.var_count END AS "var_count"
+            CASE WHEN all_summary_counts.var_count IS NULL THEN 0 ELSE all_summary_counts.var_count END AS "var_count"
         FROM interview
         INNER JOIN summary_variable ON interview.coding_system_id = summary_variable.coding_system_id
-        LEFT OUTER JOIN summary_cte ON interview.interview_id = summary_cte.interview_id
-            AND summary_variable.summary_variable_id = summary_cte.summary_variable_id
-        WHERE summary_cte.parent_table_name = 'property_value'
+        LEFT OUTER JOIN all_summary_counts ON interview.interview_id = all_summary_counts.interview_id
+            AND summary_variable.summary_variable_id = all_summary_counts.summary_variable_id
+        WHERE all_summary_counts.parent_table_name = 'property_value'
         UNION
         SELECT
             interview.interview_name, 
@@ -379,12 +416,12 @@ TBL_SCRIPT = """
             interview.condition,
             'numeric' AS "data_type",
             summary_variable.variable_name,
-            CASE WHEN global_summary_cte.var_count IS NULL THEN 0 ELSE global_summary_cte.var_count END AS "var_count"
+            CASE WHEN all_global_summaries.var_count IS NULL THEN 0 ELSE all_global_summaries.var_count END AS "var_count"
         FROM interview
         INNER JOIN summary_variable ON interview.coding_system_id = summary_variable.coding_system_id
-        LEFT OUTER JOIN global_summary_cte ON interview.interview_id = global_summary_cte.interview_id
-            AND summary_variable.summary_variable_id = global_summary_cte.summary_variable_id
-        WHERE global_summary_cte.parent_table_name = 'global_property'
+        LEFT OUTER JOIN all_global_summaries ON interview.interview_id = all_global_summaries.interview_id
+            AND summary_variable.summary_variable_id = all_global_summaries.summary_variable_id
+        WHERE all_global_summaries.parent_table_name = 'global_property'
     ;
     """
 

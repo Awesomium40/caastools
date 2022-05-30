@@ -281,7 +281,7 @@ def session_level(
         condition, 
         data_type, 
         variable_name, 
-        var_count
+        CASE WHEN var_count IS NULL then 0 ELSE var_count END AS "var_count"
     FROM session_dataset
     WHERE interview_type IN ({','.join(placeholder * len(included_types))}) 
         {iv_predicate}
@@ -417,7 +417,8 @@ def save_as_spss(
         data_frame: DataFrame,
         out_path: str,
         names: list = None,
-        labels: dict = None
+        labels: dict = None,
+        values: dict = None
 ) -> None:
     """
     caastools.utils.save_as_spss(data_frame: pandas.DataFrame, out_path: str) -> None
@@ -426,6 +427,7 @@ def save_as_spss(
     :param out_path: the path at which to save the file
     :param names: Optional list-like of variable names for the resulting dataset. Will use column names if omitted
     :param labels: Optional dict mapping variable names to labels
+    :param values: Optional nested dict mapping variable names to value labels {'var_name': {value: 'label'}}
     :return: None
     :raise ValueError: if either find/repl is None and the other is not
     :raise ValueError: if find and repl are sequences of unequal length
@@ -436,6 +438,7 @@ def save_as_spss(
     var_types = {}
     var_formats = {}
     var_labels = {} if labels is None else labels
+    value_labels = {} if values is None else values
 
     if len(var_names) != len(data_frame.columns):
         raise ValueError("Number of variable names not equal to number of columns in data frame")
@@ -461,6 +464,9 @@ def save_as_spss(
 
     # Sometimes savReaderWriter has trouble writing a whole dataframe in at once,
     # Writing row by row seems to work without issue
-    with SavWriter(out_path, var_names, var_types, formats=var_formats, varLabels=var_labels, ioUtf8=True) as writer:
+    with SavWriter(
+            out_path, var_names, var_types, formats=var_formats, varLabels=var_labels, ioUtf8=True,
+            valueLabels=value_labels,
+    ) as writer:
         for row in data_frame.index:
             writer.writerow(data_frame.loc[row, :].values)
