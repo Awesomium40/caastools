@@ -400,11 +400,15 @@ def create_sl_variable_labels(coding_system_id):
     SELECT gp.variable_name, gp.description
     FROM global_property gp
     WHERE gp.coding_system_id = ?
+    UNION ALL 
+    SELECT variable_name, variable_label
+    FROM summary_variable
+    WHERE coding_system_id = ?
     """
 
     con = get_connection()
 
-    labels = {row[0]: row[1] for row in con.execute(query, [coding_system_id, coding_system_id])}
+    labels = {row[0]: row[1] for row in con.execute(query, [coding_system_id, coding_system_id, coding_system_id])}
 
     return labels
 

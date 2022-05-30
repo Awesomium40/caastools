@@ -23,7 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -458,14 +459,7 @@
       <workItem from="1653556341403" duration="8016000" />
       <workItem from="1653648018886" duration="4230000" />
       <workItem from="1653652331187" duration="12642000" />
-      <workItem from="1653908085419" duration="15639000" />
-    </task>
-    <task id="LOCAL-00106" summary="Fix a bug in datasets.py that caused sequential datastets to fail to compile">
-      <created>1639508702352</created>
-      <option name="number" value="00106" />
-      <option name="presentableId" value="LOCAL-00106" />
-      <option name="project" value="LOCAL" />
-      <updated>1639508702352</updated>
+      <workItem from="1653908085419" duration="16070000" />
     </task>
     <task id="LOCAL-00107" summary="Fix a bug in datasets.py that caused sequential datastets to fail to compile">
       <created>1639508906611</created>
@@ -803,7 +797,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653929773595</updated>
     </task>
-    <option name="localTasksCounter" value="155" />
+    <task id="LOCAL-00155" summary="Fix minor bug in session-level dataset code">
+      <created>1653930408346</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1653930408346</updated>
+    </task>
+    <option name="localTasksCounter" value="156" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -826,7 +827,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Remove all translations from UCHAT 3.31 to UCHAT 3.4" />
     <MESSAGE value="Fix minor bug in cs_transform.xslt. Minor updates to translation model" />
     <MESSAGE value="update to 1.1.8.1" />
     <MESSAGE value="Add Skeleton of tests for Translator class" />
@@ -851,7 +851,8 @@
     <MESSAGE value="Update cacti schema to include property attribute" />
     <MESSAGE value="Fix syntax error in table script" />
     <MESSAGE value="Fix minor bugs in dataset views. Update datasets.py to query from views" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix minor bugs in dataset views. Update datasets.py to query from views" />
+    <MESSAGE value="Fix minor bug in session-level dataset code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix minor bug in session-level dataset code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
