@@ -23,7 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
     </list>
@@ -482,14 +481,7 @@
       <workItem from="1660591290581" duration="2011000" />
       <workItem from="1660641315325" duration="6225000" />
       <workItem from="1661170514705" duration="8115000" />
-      <workItem from="1661513250152" duration="7787000" />
-    </task>
-    <task id="LOCAL-00114" summary="Update to 1.1.4.1">
-      <created>1640257481049</created>
-      <option name="number" value="00114" />
-      <option name="presentableId" value="LOCAL-00114" />
-      <option name="project" value="LOCAL" />
-      <updated>1640257481049</updated>
+      <workItem from="1661513250152" duration="7907000" />
     </task>
     <task id="LOCAL-00115" summary="Implement utterance property on parsing.ia.data._UtteranceProperties">
       <created>1641454053199</created>
@@ -827,7 +819,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661523702745</updated>
     </task>
-    <option name="localTasksCounter" value="163" />
+    <task id="LOCAL-00163" summary="Update quantile dataset process to incldue summary variables for global ratings">
+      <created>1661534881944</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1661534881944</updated>
+    </task>
+    <option name="localTasksCounter" value="164" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -850,7 +849,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Remove ability to translate between U331 and U34. Update parsing.ia.data.parse_interview to accept translation XSLT as argument" />
     <MESSAGE value="Update to Version 1.2" />
     <MESSAGE value="Update to Version 1.2.1" />
     <MESSAGE value="Add method to fetch db connection" />
@@ -875,7 +873,8 @@
     <MESSAGE value="Fix bug in datasets that could cause quantile level dataset process to fail" />
     <MESSAGE value="Update quantile dataset process to include condition" />
     <MESSAGE value="Update to V1.5.3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to V1.5.3" />
+    <MESSAGE value="Update quantile dataset process to incldue summary variables for global ratings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update quantile dataset process to incldue summary variables for global ratings" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

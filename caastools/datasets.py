@@ -242,7 +242,7 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
         FROM zero_globals zg
         LEFT OUTER JOIN basic_global_summaries bgs ON zg.interview_id = bgs.interview_id
             AND zg.summary_variable_id = bgs.summary_variable_id
-    ),
+    )
     SELECT 
         gr.interview_id AS "interview_id", 
         gp.variable_name AS "variable_name", 
