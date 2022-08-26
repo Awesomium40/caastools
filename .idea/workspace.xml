@@ -24,10 +24,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -484,14 +482,7 @@
       <workItem from="1660591290581" duration="2011000" />
       <workItem from="1660641315325" duration="6225000" />
       <workItem from="1661170514705" duration="8115000" />
-      <workItem from="1661513250152" duration="520000" />
-    </task>
-    <task id="LOCAL-00111" summary="Update datasets.py to allow specifying exclusion of reliability type interviews for all dataset types">
-      <created>1639744457699</created>
-      <option name="number" value="00111" />
-      <option name="presentableId" value="LOCAL-00111" />
-      <option name="project" value="LOCAL" />
-      <updated>1639744457699</updated>
+      <workItem from="1661513250152" duration="4077000" />
     </task>
     <task id="LOCAL-00112" summary="Update to 1.1.4">
       <created>1639835998361</created>
@@ -829,7 +820,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661513588985</updated>
     </task>
-    <option name="localTasksCounter" value="160" />
+    <task id="LOCAL-00160" summary="Fix bug in datasets that could cause quantile level dataset process to fail">
+      <created>1661513796368</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1661513796368</updated>
+    </task>
+    <option name="localTasksCounter" value="161" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -852,7 +850,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="Update to V 1.9" />
     <MESSAGE value="Update to V 1.9.2" />
     <MESSAGE value="Update to V 1.9.3" />
     <MESSAGE value="Remove ability to translate between U331 and U34. Update parsing.ia.data.parse_interview to accept translation XSLT as argument" />
@@ -877,7 +874,8 @@
     <MESSAGE value="Fix bug in session-level dataset view that caused summaries with zero count to be missing from result" />
     <MESSAGE value="Update quantile-level dataset process to create summary variables" />
     <MESSAGE value="Update to V 1.5.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to V 1.5.1" />
+    <MESSAGE value="Fix bug in datasets that could cause quantile level dataset process to fail" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix bug in datasets that could cause quantile level dataset process to fail" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

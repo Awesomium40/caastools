@@ -23,16 +23,25 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
     :return: DataFrame
     """
     con = get_connection()
+    args = []
+    global_args = []
 
     included_types = ['general'] if not include_reliability else ['general', 'reliability']
-    args = included_types
+    args.extend(included_types)
+    global_args.extend(included_types)
     placeholder = '?'
 
     if included_interviews is not None:
         iv_filter = f"AND rviq.interview_name IN ({','.join(placeholder * len(included_interviews))})"
+        global_args.extend(included_interviews)
+        args.extend(included_interviews)
+
+        args.extend(included_types)
+
         sum_iv_filter = f"AND sum_rviq.interview_name IN ({','.join(placeholder * len(included_interviews))})"
         args.extend(included_interviews)
     else:
+        args.extend(included_types)
         iv_filter = ''
         sum_iv_filter = ''
 
@@ -72,25 +81,44 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
         WHERE sv.parent_table_name = 'property_value'
         GROUP BY u.interview_id, q.quantile, sv.summary_variable_id
     ),
-    rivq(interview_id, interview_type, property_value_id, interview_name, 
+    rivq(interview_id, interview_type, condition, property_value_id, interview_name, 
            client_id, rater_id, session_number, quantile, property) AS (
-        SELECT iv.interview_id, iv.interview_type, pv.property_value_id, iv.interview_name, {client_column}, 
-            iv.rater_id, iv.session_number, {quantiles} AS "quantile", pv.variable_name
+        SELECT 
+            iv.interview_id, 
+            iv.interview_type, 
+            iv.condition, 
+            pv.property_value_id, 
+            iv.interview_name, 
+            {client_column}, 
+            iv.rater_id, 
+            iv.session_number, 
+            {quantiles} AS "quantile", 
+            pv.variable_name
         FROM interview iv
         INNER JOIN coding_system cs ON iv.coding_system_id = cs.coding_system_id
         INNER JOIN coding_property cp ON cs.coding_system_id = cp.coding_system_id
         INNER JOIN property_value pv ON cp.coding_property_id = pv.coding_property_id
         UNION ALL
-        SELECT rivq.interview_id, rivq.interview_type, rivq.property_value_id, rivq.interview_name, rivq.client_id, 
-                rivq.rater_id, rivq.session_number, rivq.quantile - 1 AS "quantile", rivq.property
+        SELECT 
+            rivq.interview_id, 
+            rivq.interview_type, 
+            rivq.condition, 
+            rivq.property_value_id, 
+            rivq.interview_name, 
+            rivq.client_id, 
+            rivq.rater_id, 
+            rivq.session_number, 
+            rivq.quantile - 1 AS "quantile", 
+            rivq.property
         FROM rivq
         WHERE quantile > 1
     ),
-    sum_rivq(interview_id, interview_type, summary_variable_id, interview_name,
+    sum_rivq(interview_id, interview_type, condition, summary_variable_id, interview_name,
                 client_id, rater_id, session_number, quantile, property) AS (
         SELECT DISTINCT
             iv.interview_id, 
-            iv.interview_type, 
+            iv.interview_type,
+            iv.condition,
             sv.summary_variable_id, 
             iv.interview_name, 
             {client_column},
@@ -110,6 +138,7 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
         SELECT DISTINCT
             sum_rivq.interview_id,
             sum_rivq.interview_type, 
+            sum_rivq.condition,
             sum_rivq.summary_variable_id, 
             sum_rivq.interview_name, 
             sum_rivq.client_id, 
@@ -123,6 +152,7 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
     SELECT 
         rivq.interview_id, 
         rivq.interview_type, 
+        rivq.condition,
         rivq.property_value_id, 
         rivq.interview_name, 
         rivq.client_id, 
@@ -140,6 +170,7 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
     SELECT
         sum_rivq.interview_id, 
         sum_rivq.interview_type,
+        sum_rivq.condition,
         sum_rivq.summary_variable_id,
         sum_rivq.interview_name,
         sum_rivq.client_id,
@@ -177,24 +208,24 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
     """
 
     q_csr = con.execute(query, args)
-    g_csr = con.execute(global_query, args)
+    g_csr = con.execute(global_query, global_args)
 
     df = pandas.DataFrame.from_records(q_csr, columns=[itm[0].lower() for itm in q_csr.description])
     gdf = pandas.DataFrame.from_records(g_csr, columns=[itm[0].lower() for itm in g_csr.description])
 
     meta = (
         df
-        .loc[:, ['interview_id', 'interview_name', 'interview_type', 'client_id', 'rater_id', 'session_number']]
-        .drop_duplicates()
-        .set_index('interview_id')
+            .loc[:, ['interview_id', 'interview_name', 'interview_type', 'condition', 'client_id', 'rater_id', 'session_number']]
+            .drop_duplicates()
+            .set_index('interview_id')
     )
 
     # Reshape the count data to be a cross-section
     counts = (
         df
-        .loc[:, ['interview_id', 'var_name', 'quantile', 'var_count']]
-        .set_index(['interview_id', 'var_name', 'quantile'])
-        .unstack(['var_name', 'quantile'])
+            .loc[:, ['interview_id', 'var_name', 'quantile', 'var_count']]
+            .set_index(['interview_id', 'var_name', 'quantile'])
+            .unstack(['var_name', 'quantile'])
     )
 
     counts.columns = [f"{c[1]}_Q{str(c[2]).zfill(2)}" for c in counts.columns]
@@ -408,7 +439,7 @@ def create_quantile_variable_labels(coding_system_id, num_quantiles):
     WITH quantile_cte (variable_name, qv_name, description, qv_desc, quantile) AS (
         SELECT 
             pv.variable_name, 
-            pv.variable_name || '_Q{num_quantiles}', 
+            pv.variable_name || '_Q' || SUBSTR('00' || {num_quantiles}, -2, 2) AS "qv_name", 
             pv.description, 
             pv.description || ' quantile {num_quantiles}', 
             {num_quantiles} AS "quantile"
@@ -418,15 +449,39 @@ def create_quantile_variable_labels(coding_system_id, num_quantiles):
         UNION ALL
         SELECT 
             quantile_cte.variable_name, 
-            quantile_cte.variable_name || '_Q' || SUBSTR('00', CAST(quantile_cte.quantile - 1 AS TEXT), -2, 2) AS "qv_name", 
+            quantile_cte.variable_name || '_Q' || SUBSTR('00' || CAST(quantile_cte.quantile - 1 AS TEXT), -2, 2) AS "qv_name", 
             quantile_cte.description, 
             quantile_cte.description || ' quantile ' || CAST(quantile_cte.quantile - 1 AS TEXT) AS "qv_desc", 
             quantile_cte.quantile - 1 AS "quantile"
         FROM quantile_cte
         WHERE quantile > 1
+    ),
+    summary_cte(variable_name, qv_name, description, qv_desc, quantile) AS (
+        SELECT
+            sv.variable_name,
+            sv.variable_name || '_Q' || SUBSTR('00' || {num_quantiles}, -2, 2) AS "qv_name",
+            sv.variable_label,
+            sv.variable_label || ' quantile {num_quantiles}', 
+            {num_quantiles} AS "quantile"
+        FROM summary_variable sv
+        WHERE 
+            sv.coding_system_id = ?
+            AND sv.parent_table_name = 'property_value'
+        UNION ALL 
+        SELECT
+            summary_cte.variable_name,
+            summary_cte.variable_name || '_Q' || SUBSTR('00' || CAST(summary_cte.quantile - 1 AS TEXT), -2, 2) AS "qv_name",
+            summary_cte.description,
+            summary_cte.description || ' quantile ' || CAST(summary_cte.quantile - 1 AS TEXT) AS "qv_desc", 
+            summary_cte.quantile - 1 AS "quantile"
+        FROM summary_cte
+        WHERE quantile > 1
     )
     SELECT * 
     FROM quantile_cte
+    UNION ALL
+    SELECT * 
+    FROM summary_cte
     UNION ALL
     SELECT 
         NULL, 
@@ -439,7 +494,7 @@ def create_quantile_variable_labels(coding_system_id, num_quantiles):
     """
 
     con = get_connection()
-    labels = {row[1]: row[3] for row in con.execute(query, [coding_system_id, coding_system_id])}
+    labels = {row[1]: row[3] for row in con.execute(query, [coding_system_id, coding_system_id, coding_system_id])}
 
     return labels
 
