@@ -23,13 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d244f9cb-bd83-42ef-a297-5c6e0f0f7534" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dist/caastools-1.5-py3-none-any.whl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/caastools.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caastools/database/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/database/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caastools/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/caastools/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,16 +118,19 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/caastools/database/model.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/parsing/cacti/cacti_schema.xsd" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/data.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/constants.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/datasets.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/database/connection.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/setup.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/caastools/parsing/cacti/data.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/interview_transform.xslt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/plots.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/data.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/setup.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/parsing/common.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/parsing/cacti/data.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/stats/irr.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/interview_transform.xslt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/cs_transform.xslt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/caastools/stats/sequence.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/caastools/parsing/ia/iaconfiguration.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1aBAbRBdXRzNaYir55cAuIdgBKm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -472,14 +470,17 @@
       <workItem from="1653556341403" duration="8016000" />
       <workItem from="1653648018886" duration="4230000" />
       <workItem from="1653652331187" duration="12642000" />
-      <workItem from="1653908085419" duration="25691000" />
-    </task>
-    <task id="LOCAL-00108" summary="update datasets.sequential to accommodate field Interview.interview_type">
-      <created>1639509269510</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1639509269511</updated>
+      <workItem from="1653908085419" duration="25731000" />
+      <workItem from="1653991915738" duration="2863000" />
+      <workItem from="1655374861691" duration="1334000" />
+      <workItem from="1655805513934" duration="2122000" />
+      <workItem from="1658141121896" duration="1876000" />
+      <workItem from="1658400779158" duration="2563000" />
+      <workItem from="1660298792222" duration="1026000" />
+      <workItem from="1660576533194" duration="1439000" />
+      <workItem from="1660591290581" duration="2011000" />
+      <workItem from="1660641315325" duration="6225000" />
+      <workItem from="1661170514705" duration="8115000" />
     </task>
     <task id="LOCAL-00109" summary="Update to 1.1.3.5">
       <created>1639509314730</created>
@@ -817,7 +818,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653930766710</updated>
     </task>
-    <option name="localTasksCounter" value="157" />
+    <task id="LOCAL-00157" summary="Fix bug in session-level dataset view that caused summaries with zero count to be missing from result">
+      <created>1653951667834</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1653951667834</updated>
+    </task>
+    <option name="localTasksCounter" value="158" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -840,7 +848,6 @@
       <path value="$PROJECT_DIR$" />
       <path value="$PROJECT_DIR$/caastools" />
     </ignored-roots>
-    <MESSAGE value="update to 1.1.8.1" />
     <MESSAGE value="Add Skeleton of tests for Translator class" />
     <MESSAGE value="Add table to denote translation roots" />
     <MESSAGE value="Update to V 1.9" />
@@ -865,7 +872,8 @@
     <MESSAGE value="Fix minor bugs in dataset views. Update datasets.py to query from views" />
     <MESSAGE value="Fix minor bug in session-level dataset code" />
     <MESSAGE value="Update variable label methods to include summary variables" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update variable label methods to include summary variables" />
+    <MESSAGE value="Fix bug in session-level dataset view that caused summaries with zero count to be missing from result" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix bug in session-level dataset view that caused summaries with zero count to be missing from result" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

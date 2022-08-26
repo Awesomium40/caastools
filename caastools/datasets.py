@@ -1,4 +1,3 @@
-from .utils import sanitize_for_spss
 from caastools.database import get_connection
 from pandas import DataFrame, notna
 from pandas.api.types import is_string_dtype, is_object_dtype
@@ -31,6 +30,7 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
 
     if included_interviews is not None:
         iv_filter = f"AND rviq.interview_name IN ({','.join(placeholder * len(included_interviews))})"
+        sum_iv_filter = f"AND sum_rviq.interview_name IN ({','.join(placeholder * len(included_interviews))})"
         args.extend(included_interviews)
     else:
         iv_filter = ''
@@ -56,6 +56,21 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
         LEFT OUTER JOIN utt_quantiles q ON uc.utterance_id = q.utterance_id
         GROUP BY u.interview_id, q.quantile, uc.property_value_id
     ),
+    summary_quantile_counts(interview_id, quantile, summary_variable_id, cnt) AS (
+        SELECT 
+            u.interview_id, 
+            q.quantile, 
+            sv.summary_variable_id, 
+            COUNT(uc.utterance_code_id)
+        FROM 
+            utterance_code uc
+        INNER JOIN utterance u ON uc.utterance_id = u.utterance_id
+        INNER JOIN summary_variable_link svl ON uc.property_value_id = svl.parent_primary_key
+        INNER JOIN summary_variable sv ON svl.summary_variable_id = sv.summary_variable_id
+        LEFT OUTER JOIN utt_quantiles q ON uc.utterance_id = q.utterance_id
+        WHERE sv.parent_table_name = 'property_value'
+        GROUP BY u.interview_id, q.quantile, sv.summary_variable_id
+    ),
     rivq(interview_id, interview_type, property_value_id, interview_name, 
            client_id, rater_id, session_number, quantile, property) AS (
         SELECT iv.interview_id, iv.interview_type, pv.property_value_id, iv.interview_name, {client_column}, 
@@ -69,16 +84,83 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
                 rivq.rater_id, rivq.session_number, rivq.quantile - 1 AS "quantile", rivq.property
         FROM rivq
         WHERE quantile > 1
-    )
-    SELECT rivq.interview_id, rivq.interview_type, rivq.property_value_id, rivq.interview_name, rivq.client_id, 
-            rivq.rater_id, rivq.session_number, rivq.quantile, rivq.property AS "var_name", 
-            CASE WHEN quantile_counts.cnt IS NULL THEN 0 ELSE quantile_counts.cnt END AS "var_count"
+    ),
+    sum_rivq(interview_id, interview_type, summary_variable_id, interview_name,
+                client_id, rater_id, session_number, quantile, property) AS (
+        SELECT DISTINCT
+            iv.interview_id, 
+            iv.interview_type, 
+            sv.summary_variable_id, 
+            iv.interview_name, 
+            {client_column},
+            iv.rater_id, 
+            iv.session_number,
+            {quantiles} as "quantile",
+            sv.variable_name
+        FROM
+            interview iv
+        INNER JOIN coding_system cs ON iv.coding_system_id = cs.coding_system_id
+        INNER JOIN coding_property cp ON cs.coding_system_id = cp.coding_system_id
+        INNER JOIN property_value pv ON cp.coding_property_id = pv.coding_property_id
+        INNER JOIN summary_variable_link svl ON pv.property_value_id = svl.parent_primary_key
+        INNER JOIN summary_variable sv ON svl.summary_variable_id = sv.summary_variable_id
+        WHERE sv.parent_table_name = 'property_value'
+        UNION ALL
+        SELECT DISTINCT
+            sum_rivq.interview_id,
+            sum_rivq.interview_type, 
+            sum_rivq.summary_variable_id, 
+            sum_rivq.interview_name, 
+            sum_rivq.client_id, 
+            sum_rivq.rater_id, 
+            sum_rivq.session_number, 
+            sum_rivq.quantile - 1 AS "quantile", 
+            sum_rivq.property
+        FROM sum_rivq
+        WHERE quantile > 1
+    )   
+    SELECT 
+        rivq.interview_id, 
+        rivq.interview_type, 
+        rivq.property_value_id, 
+        rivq.interview_name, 
+        rivq.client_id, 
+        rivq.rater_id, 
+        rivq.session_number, 
+        rivq.quantile AS "quantile", 
+        rivq.property AS "var_name", 
+        CASE WHEN quantile_counts.cnt IS NULL THEN 0 ELSE quantile_counts.cnt END AS "var_count"
     FROM rivq
     LEFT OUTER JOIN quantile_counts ON rivq.property_value_id = quantile_counts.property_value_id
         AND rivq.interview_id = quantile_counts.interview_id
         AND rivq.quantile = quantile_counts.quantile
     WHERE rivq.interview_type IN ({','.join(placeholder * len(included_types))}) {iv_filter}
-    ORDER BY rivq.client_id, rivq.session_number, rivq.rater_id, rivq.property, rivq.quantile 
+    UNION ALL 
+    SELECT
+        sum_rivq.interview_id, 
+        sum_rivq.interview_type,
+        sum_rivq.summary_variable_id,
+        sum_rivq.interview_name,
+        sum_rivq.client_id,
+        sum_rivq.rater_id,
+        sum_rivq.session_number,
+        sum_rivq.quantile AS "quantile",
+        sum_rivq.property AS "var_name",
+        CASE WHEN summary_quantile_counts.cnt IS NULL THEN 0 ELSE summary_quantile_counts.cnt END AS "var_count"
+    FROM 
+        sum_rivq
+    LEFT OUTER JOIN summary_quantile_counts ON 
+        sum_rivq.summary_variable_id = summary_quantile_counts.summary_variable_id
+        AND sum_rivq.interview_id = summary_quantile_counts.interview_id
+        AND sum_rivq.quantile = summary_quantile_counts.quantile
+    WHERE
+        sum_rivq.interview_type IN ({','.join(placeholder * len(included_types))}) {sum_iv_filter}
+    ORDER BY 
+        client_id, 
+        session_number, 
+        rater_id, 
+        property, 
+        quantile
     """
 
     # Global ratings don't have values by quantile,
@@ -114,7 +196,7 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
         .unstack(['var_name', 'quantile'])
     )
 
-    counts.columns = [f"{c[1]}_Q{c[2]}" for c in counts.columns]
+    counts.columns = [f"{c[1]}_Q{str(c[2]).zfill(2)}" for c in counts.columns]
 
     # Reshape the global ratings and cast to the appropriate type for each global
     gr = gdf.pivot(index='interview_id', columns='variable_name', values='value')
@@ -335,7 +417,7 @@ def create_quantile_variable_labels(coding_system_id, num_quantiles):
         UNION ALL
         SELECT 
             quantile_cte.variable_name, 
-            quantile_cte.variable_name || '_Q' || CAST(quantile_cte.quantile - 1 AS TEXT) AS "qv_name", 
+            quantile_cte.variable_name || '_Q' || SUBSTR('00', CAST(quantile_cte.quantile - 1 AS TEXT), -2, 2) AS "qv_name", 
             quantile_cte.description, 
             quantile_cte.description || ' quantile ' || CAST(quantile_cte.quantile - 1 AS TEXT) AS "qv_desc", 
             quantile_cte.quantile - 1 AS "quantile"
