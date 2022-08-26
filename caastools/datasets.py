@@ -34,6 +34,7 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
         args.extend(included_interviews)
     else:
         iv_filter = ''
+        sum_iv_filter = ''
 
     client_column = 'CAST(iv.client_id AS INTEGER)' if client_as_numeric else 'iv.client_id'
 
