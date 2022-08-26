@@ -37,11 +37,14 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
         args.extend(included_interviews)
 
         args.extend(included_types)
+        global_args.extend(included_types)
 
         sum_iv_filter = f"AND sum_rviq.interview_name IN ({','.join(placeholder * len(included_interviews))})"
         args.extend(included_interviews)
+        global_args.extend(included_interviews)
     else:
         args.extend(included_types)
+        global_args.extend(included_types)
         iv_filter = ''
         sum_iv_filter = ''
 
@@ -198,13 +201,76 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
     # Global ratings don't have values by quantile,
     # so that query will need to be handled separately and incorporated after the fact
     global_query = f"""
-    SELECT gr.interview_id, gp.variable_name, gp.data_type, gv.value
-    FROM global_rating gr
+    WITH zero_globals(interview_id, summary_variable_id, var_count, parent_table_name, variable_name) AS (
+            SELECT iv.interview_id,
+                sv.summary_variable_id, 
+                0 AS "var_count",
+                sv.parent_table_name,
+                sv.variable_name
+            FROM 
+                summary_variable sv
+            INNER JOIN interview iv ON sv.coding_system_id = iv.coding_system_id
+            WHERE 
+                sv.parent_table_name = 'global_property'
+    ),
+    basic_global_summaries(interview_id, summary_variable_id, var_count, parent_table_name, variable_name) AS (
+            SELECT
+                gr.interview_id,
+                sv.summary_variable_id,
+                CASE
+                    WHEN sv.summary_func = 'sum' then SUM(CAST(gv.value AS REAL))
+                    ELSE AVG(CAST(gv.value AS REAL))
+                END AS "var_count",
+                sv.parent_table_name,
+                sv.variable_name
+            FROM global_rating gr
+            INNER JOIN interview iv ON gr.interview_id = iv.interview_id
+            INNER JOIN global_value gv ON gr.global_value_id = gv.global_value_id
+            INNER JOIN summary_variable_link svl ON gv.global_property_id = svl.parent_primary_key
+            INNER JOIN summary_variable sv ON svl.summary_variable_id = sv.summary_variable_id
+                AND iv.coding_system_id = sv.coding_system_id
+            WHERE sv.parent_table_name = 'global_property'
+            GROUP BY iv.interview_id, sv.summary_variable_id     
+    ),
+    all_global_summaries(interview_id, summary_variable_id, var_count, parent_table_name, variable_name) AS (
+        SELECT 
+            zg.interview_id,
+            zg.summary_variable_id,
+            COALESCE(bgs.var_count, zg.var_count) AS "var_count",
+            COALESCE(bgs.parent_table_name, zg.parent_table_name) AS "parent_table_name",
+            COALESCE(bgs.variable_name, zg.variable_name) AS "variable_name"
+        FROM zero_globals zg
+        LEFT OUTER JOIN basic_global_summaries bgs ON zg.interview_id = bgs.interview_id
+            AND zg.summary_variable_id = bgs.summary_variable_id
+    ),
+    SELECT 
+        gr.interview_id AS "interview_id", 
+        gp.variable_name AS "variable_name", 
+        gp.data_type AS "data_type", 
+        gv.value AS "value",
+        iv.client_id AS "client_id",
+        iv.session_number AS "session_number",
+        iv.rater_id AS "rater_id"
+    FROM 
+        global_rating gr
     INNER JOIN global_value gv ON gr.global_value_id = gv.global_value_id
     INNER JOIN global_property gp ON gv.global_property_id = gp.global_property_id
     INNER JOIN interview iv ON gr.interview_id = iv.interview_id
     WHERE iv.interview_type IN ({','.join(placeholder * len(included_types))}) {iv_filter}
-    ORDER BY iv.client_id, iv.session_number, iv.rater_id, gp.variable_name
+    UNION ALL
+    SELECT
+        ags.interview_id AS "interview_id",
+        ags.variable_name AS "variable_name",
+        'numeric' AS "data_type",
+        ags.var_count AS "value",
+        iv.client_id AS "client_id",
+        iv.session_number AS "session_number",
+        iv.rater_id AS "rater_id"
+    FROM
+        all_global_summaries ags
+    INNER JOIN interview iv ON ags.interview_id = iv.interview_id
+    WHERE iv.interview_type IN ({','.join(placeholder * len(included_types))}) {iv_filter}
+    ORDER BY client_id, session_number, rater_id, variable_name    
     """
 
     q_csr = con.execute(query, args)
@@ -231,7 +297,10 @@ def quantile_level(quantiles=10, included_interviews=None, client_as_numeric=Tru
     counts.columns = [f"{c[1]}_Q{str(c[2]).zfill(2)}" for c in counts.columns]
 
     # Reshape the global ratings and cast to the appropriate type for each global
-    gr = gdf.pivot(index='interview_id', columns='variable_name', values='value')
+    gr = (
+        gdf.loc[:, ['interview_id', 'variable_name', 'value']]
+        .pivot(index='interview_id', columns='variable_name', values='value')
+    )
 
     for idx, row in gdf.iterrows():
         tp = float if row['data_type'] == 'numeric' else str
